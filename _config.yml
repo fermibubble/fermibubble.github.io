@@ -5,16 +5,16 @@ plugins:
   - jekyll-paginate
 
 # Permalinks
-permalink:        pretty
+permalink: pretty
 
 # Setup
-title:            'All Things Software Development'
-description:      'Architecture, Design, Coding, Testing, Deployment, Monitoring and more...'
-baseurl:          /
+title: 'All Things Software Development'
+description: 'Architecture, Design, Coding, Testing, Deployment, Monitoring and more...'
+baseurl: ''
 
 author:
-  name:           'Chaitanya Meesala'
+  name: 'Chaitanya Meesala'
 
-paginate:         1
-paginate_path: "page:num"
+paginate: 1
+paginate_path: 'page:num'
 
