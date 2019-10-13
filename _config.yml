@@ -1,0 +1,20 @@
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            'All Things Software Development'
+description:      'Architecture, Design, Coding, Testing, Deployment, Monitoring and more...'
+baseurl:          /
+
+author:
+  name:           'Chaitanya Meesala'
+
+paginate:         1
+paginate_path: "page:num"
+
