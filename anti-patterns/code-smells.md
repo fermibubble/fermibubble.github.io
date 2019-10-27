@@ -2,6 +2,7 @@
 layout: page
 title: Code Smells
 ---
+
 _"Code smells are structural characteristics of software that may indicate a code or design problem that makes software hard to evolve and maintain, and may trigger refactoring of code"_ <sup>[[1]](#references)</sup>  
 <br/>
 #### Code duplication:  
