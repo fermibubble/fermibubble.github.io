@@ -17,6 +17,3 @@ author:
 
 paginate: 1
 paginate_path: 'page:num'
-
-scholar:
-  style: chicago-fullnote-bibliography

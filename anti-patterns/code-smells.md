@@ -316,4 +316,4 @@ public class Motorist {
 ```
 <br/><br/>
 #### <a name="references"></a> References:
-1. {% reference code-smells %}
+1. Francesca FA, Zanoni M, Braione P. _Automatic Detection of Bad Smells in Code: An Experimental Assessment_. Journal of Object Technology, 2012.
