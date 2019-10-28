@@ -266,7 +266,7 @@ public class HashMap extends Map {
 <br/>
 #### Inappropriate Intimacy:  
 Compromising other class' encapsulation, such as by directly accessing instance variables that are not meant to be directly accessed.  
-Consider following code snippet that condains 2 classes - _Licence_ and _Motorist_
+Consider following code snippet that contains 2 classes - _Licence_ and _Motorist_
 ```java
 public class License {
     private int points = 0;
