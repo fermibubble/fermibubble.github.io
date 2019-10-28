@@ -262,6 +262,57 @@ public class HashMap extends Map {
         //Implementation
     }
 }
+```  
+<br/>
+#### Inappropriate Intimacy:  
+Compromising other class' encapsulation, such as by directly accessing instance variables that are not meant to be directly accessed.  
+Consider following code snippet that condains 2 classes - _Licence_ and _Motorist_
+```java
+public class License {
+    private int points = 0;
+    public int getPoints() { return this.points; }
+}
+ 
+public enum RiskFactor { HIGH_RISK, MODERATE_RISK, LOW_RISK }
+ 
+public class Motorist {
+    private License license;
+    private String title;
+    private String firstName;
+    private String lastName;
+    public RiskFactor getRiskFactor() {
+        if(license.getPoints() > 3) 
+            return RiskFactor.HIGH_RISK;
+        else if(license.getPoints() > 0) 
+            return RiskFactor.MODERATE_RISK;
+        return RiskFactor.LOW_RISK;
+    }
+}
+```
+The class Motorist knows too much about License.  
+In the Motorist class, the method getRiskFactor() calculating the RiskFactor entirely based on License.  
+It can be refactored to:
+```java
+public class License {
+    private int points = 0;
+    public RiskFactor getRiskFactor() {
+        if(this.points > 3) 
+            return RiskFactor.HIGH_RISK;
+        else if(this.points > 0) 
+            return RiskFactor.MODERATE_RISK;
+        return RiskFactor.LOW_RISK;
+    }
+}
+ 
+public class Motorist {
+    private License license;
+    private String title;
+    private String firstName;
+    private String lastName;
+    public RiskFactor getRiskFactor() {
+        return license.getRiskFactor();
+    }
+}
 ```
 <br/><br/>
 #### <a name="references"></a> References:
