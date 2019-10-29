@@ -3,7 +3,7 @@ layout: page
 title: Accidental Complexity
 ---
 
-The complexity that not related to the problem.
+The complexity that is not related to the problem.
 Consider the following snippet that computes sum of square root of k prime numbers starting from n.
 
 ```java
