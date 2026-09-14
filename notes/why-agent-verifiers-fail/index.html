@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Why agent verifiers fail — Chaitanya Meesala</title>
+    <meta name="description" content="A second model does not automatically create independent assurance.">
+    <meta name="theme-color" content="#f1efe8">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Why agent verifiers fail — Chaitanya Meesala">
+    <meta property="og:description" content="A second model does not automatically create independent assurance.">
+    <meta property="og:url" content="https://fermibubble.github.io/notes/why-agent-verifiers-fail/">
+    <link rel="canonical" href="https://fermibubble.github.io/notes/why-agent-verifiers-fail/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Chaitanya Meesala" href="/rss.xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+  </head>
+  <body data-path="/notes/why-agent-verifiers-fail/" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Chaitanya Meesala, home">
+          <span class="brand-mark" aria-hidden="true"><span>C</span><span>M</span></span>
+          <span class="brand-name">Chaitanya Meesala</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/">Writing</a><a href="/notes/" aria-current="page">Notes</a><a href="/projects/">Projects</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/notes/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All notes</span></a>
+        <div class="article-type">Note / 05</div>
+        <h1>Why agent verifiers fail</h1>
+        <p class="article-deck">A second model does not automatically create independent assurance.</p>
+        <div class="article-meta"><time datetime="2026-08-07">Aug 07, 2026</time><span>3 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="article-layout shell">
+        <aside class="article-rail"><span>Note</span><div class="rail-line"></div><span>2026</span></aside>
+        <div class="prose" data-article-body><p>“Have another agent verify it” sounds like a clean solution. Sometimes it helps. It is not independence by default.</p>
+<p>The implementer and verifier may share the same blind spots, context, tool failures, or incentive to produce a tidy answer. A verifier can confidently approve evidence it cannot reproduce. Two agents can agree because both inherited the same mistaken premise.</p>
+<p>Stronger verification is heterogeneous:</p>
+<ul><li>deterministic checks for crisp invariants,</li><li>independent queries for important evidence,</li><li>model judgment for semantic quality,</li><li>calibrated evaluation against expert decisions,</li><li>and human review when consequence or uncertainty crosses a threshold.</li></ul>
+<p>The objective is not more votes. It is failure modes that do not all collapse together.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More notes">
+      <a class="pagination-prev" href="/notes/context-vs-harness-engineering/"><span>Previous</span><strong>Context engineering vs. harness engineering</strong></a>
+      <a class="pagination-next" href="/notes/"><span>Continue</span><strong>All Note</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Chaitanya Meesala</a>
+          <p>Systems should earn the authority we give them.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the field notes.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

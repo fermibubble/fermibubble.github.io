@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Principles — Chaitanya Meesala</title>
+    <meta name="description" content="Eight principles for trustworthy autonomous systems.">
+    <meta name="theme-color" content="#f1efe8">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Principles — Chaitanya Meesala">
+    <meta property="og:description" content="Eight principles for trustworthy autonomous systems.">
+    <meta property="og:url" content="https://fermibubble.github.io/principles/">
+    <link rel="canonical" href="https://fermibubble.github.io/principles/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Chaitanya Meesala" href="/rss.xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+  </head>
+  <body data-path="/principles/">
+    
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Chaitanya Meesala, home">
+          <span class="brand-mark" aria-hidden="true"><span>C</span><span>M</span></span>
+          <span class="brand-name">Chaitanya Meesala</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Projects</a><a href="/principles/" aria-current="page">Principles</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <section class="page-intro shell">
+    <div class="page-intro-kicker"><span>A working philosophy</span><span>v0.1 / evolving</span></div>
+    <h1>Principles</h1>
+    <p>Eight propositions for building autonomous systems whose consequential decisions can deserve trust.</p>
+  </section>
+    <section class="shell principle-list">
+      <article class="principle-item"><span>01</span><h2>Evidence before verdicts.</h2><p>A conclusion is only as trustworthy as the evidence beneath it. Preserve what was observed, where it came from, and what remains unknown.</p></article><article class="principle-item"><span>02</span><h2>Authority must have a boundary.</h2><p>Autonomy is not unlimited permission. An agent should know which decisions it owns, which require escalation, and which are mechanically prohibited.</p></article><article class="principle-item"><span>03</span><h2>Uncertainty is information.</h2><p>A system that hides uncertainty is not more decisive; it is less honest. Material ambiguity belongs in the decision, not in a footnote.</p></article><article class="principle-item"><span>04</span><h2>Enforce invariants; do not merely prompt for them.</h2><p>Prompts express intent. Tests, permissions, policies, and runtime boundaries protect the conditions that must always hold.</p></article><article class="principle-item"><span>05</span><h2>Constrain safety, not strategy.</h2><p>Give agents freedom to find better approaches inside a small set of clear, durable boundaries.</p></article><article class="principle-item"><span>06</span><h2>Outcomes are the final evaluator.</h2><p>A plausible decision is not necessarily a good decision. Reconcile recommendations with what production later revealed.</p></article><article class="principle-item"><span>07</span><h2>Disclose context progressively.</h2><p>The right context at the right moment beats a giant instruction manual. Navigation and retrieval are part of the harness.</p></article><article class="principle-item"><span>08</span><h2>Memory should accumulate judgment.</h2><p>Useful memory is not a transcript. It captures precedents, exceptions, outcomes, and the reasons a future decision should differ.</p></article>
+    </section>
+    <section class="shell principles-end"><p>These principles are deliberately unfinished. They should change when production evidence, stronger arguments, or better systems prove them incomplete.</p></section>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Chaitanya Meesala</a>
+          <p>Systems should earn the authority we give them.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the field notes.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

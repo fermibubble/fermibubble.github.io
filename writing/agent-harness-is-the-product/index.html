@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Agent Harness Is the Product — Chaitanya Meesala</title>
+    <meta name="description" content="The model supplies general intelligence. The harness turns that intelligence into dependable work in a particular world.">
+    <meta name="theme-color" content="#f1efe8">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="The Agent Harness Is the Product — Chaitanya Meesala">
+    <meta property="og:description" content="The model supplies general intelligence. The harness turns that intelligence into dependable work in a particular world.">
+    <meta property="og:url" content="https://fermibubble.github.io/writing/agent-harness-is-the-product/">
+    <link rel="canonical" href="https://fermibubble.github.io/writing/agent-harness-is-the-product/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Chaitanya Meesala" href="/rss.xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+  </head>
+  <body data-path="/writing/agent-harness-is-the-product/" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Chaitanya Meesala, home">
+          <span class="brand-mark" aria-hidden="true"><span>C</span><span>M</span></span>
+          <span class="brand-name">Chaitanya Meesala</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Projects</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Writing / 02</div>
+        <h1>The Agent Harness Is the Product</h1>
+        <p class="article-deck">The model supplies general intelligence. The harness turns that intelligence into dependable work in a particular world.</p>
+        <div class="article-meta"><time datetime="2026-08-29">August 29, 2026</time><span>9 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="article-layout shell">
+        <aside class="article-rail"><span>Agent infrastructure</span><div class="rail-line"></div><span>2026</span></aside>
+        <div class="prose" data-article-body><p>A frontier model can write code, inspect logs, critique a design, and decompose an unfamiliar task. Yet the same model can be brilliant in one environment and strangely ineffective in another.</p>
+<p>The difference is often the harness.</p>
+<p>By <em>harness</em>, I mean the system that makes a model operational: context, skills, tools, execution, memory, policy, observability, verification, and the loop that decides what happens next.</p>
+<h2 id="intelligence-needs-a-world">Intelligence needs a world<a class="heading-anchor" href="#intelligence-needs-a-world" aria-label="Link to this section">#</a></h2>
+<p>A model arrives with broad prior knowledge. It does not arrive with a reliable map of your organization.</p>
+<p>It does not automatically know which dashboard is authoritative, which runbook is stale, which service owns a dependency, which apparent error is normal during a migration, or how much risk this rollout may accept. It may know twenty reasonable ways to review a deployment. It does not know which one your organization considers complete.</p>
+<p>That missing context is not a prompt-writing inconvenience. It is product infrastructure.</p>
+<p>The harness answers six practical questions:</p>
+<ol><li><strong>What can the agent perceive?</strong></li><li><strong>What can it do?</strong></li><li><strong>What rules constrain it?</strong></li><li><strong>What state survives between steps?</strong></li><li><strong>How does it know that the work is good?</strong></li><li><strong>What happens when it is uncertain or wrong?</strong></li></ol>
+<p>If any answer is vague, model capability leaks away as confusion, wasted exploration, or unsafe confidence.</p>
+<h2 id="skills-are-navigation-not-the-whole-runtime">Skills are navigation, not the whole runtime<a class="heading-anchor" href="#skills-are-navigation-not-the-whole-runtime" aria-label="Link to this section">#</a></h2>
+<p>Skills are a powerful abstraction when they package a repeatable way of working: when to use a workflow, what evidence it needs, how to select tools, and how to verify completion.</p>
+<p>But a skill is not a substitute for permissions, scheduling, isolation, or policy enforcement. Telling an agent how to inspect production does not decide whether it is permitted to mutate production. Describing a checkpoint loop does not create a durable timer. Writing “keep customer data private” does not create an access boundary.</p>
+<p>Good harnesses separate these concerns:</p>
+<ul><li><strong>Skills</strong> encode reusable procedure and judgment.</li><li><strong>Tools</strong> expose typed capabilities.</li><li><strong>Policies</strong> bound authority.</li><li><strong>Sandboxes</strong> isolate execution.</li><li><strong>State machines</strong> make long-running work durable.</li><li><strong>Evaluators</strong> test outcomes and behavior.</li><li><strong>Memory</strong> carries forward useful precedent.</li></ul>
+<p>The model can compose them dynamically. Their responsibilities should remain distinct.</p>
+<h2 id="progressive-disclosure-beats-encyclopedic-context">Progressive disclosure beats encyclopedic context<a class="heading-anchor" href="#progressive-disclosure-beats-encyclopedic-context" aria-label="Link to this section">#</a></h2>
+<p>The natural response to an underspecified environment is to write a larger instruction file. This works—until it does not.</p>
+<p>As guidance grows, old rules linger, important constraints compete with trivia, and the model spends attention on material irrelevant to the current step. When everything is always loaded, importance loses meaning.</p>
+<p>A better harness exposes a small, stable map and lets the agent retrieve detail when it becomes relevant. This is the same reason good software has interfaces rather than one global namespace.</p>
+<p>Context should be addressable, scoped, fresh, and attributable. The system should know not only what a document says but why it was selected and whether a stronger source supersedes it.</p>
+<h2 id="dynamic-orchestration-static-accountability">Dynamic orchestration, static accountability<a class="heading-anchor" href="#dynamic-orchestration-static-accountability" aria-label="Link to this section">#</a></h2>
+<p>Agents benefit from being able to form a plan, create focused sub-agents, and choose tools based on the work they discover. Hard-coding every future workflow throws away much of their value.</p>
+<p>But dynamic execution does not require dynamic accountability.</p>
+<p>The system can allow an agent to invent a strategy while keeping stable records of delegated goals, granted capabilities, evidence gathered, state transitions, costs, and final authority. Strategy may emerge at runtime; accountability should not.</p>
+<p>This is the balance I want from a universal harness:</p>
+<blockquote><p>Let the model construct the path. Make the system preserve the boundary and the proof.</p></blockquote>
+<h2 id="the-durable-moat">The durable moat<a class="heading-anchor" href="#the-durable-moat" aria-label="Link to this section">#</a></h2>
+<p>Models will continue to improve, and generic orchestration will become easier. That does not make the harness irrelevant. It changes where differentiated value lives.</p>
+<p>The durable advantage is not a clever prompt or a fixed graph of agent calls. It is the accumulated, operational representation of a real environment:</p>
+<ul><li>topology and ownership that stay current,</li><li>tools with safe and useful semantics,</li><li>policies tied to actual authority,</li><li>historical outcomes connected to decisions,</li><li>evaluators calibrated to the domain,</li><li>and workflows that reveal the right context at the right time.</li></ul>
+<p>That infrastructure lets each new model become useful faster. It also survives when the model changes.</p>
+<p>The model is extraordinary leverage. The harness is how an organization converts that leverage into work it can depend on.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Previous</span><strong>Trustworthy Autonomy</strong></a>
+      <a class="pagination-next" href="/writing/rollouts-are-decision-problems/"><span>Next</span><strong>Rollouts Are Decision Problems</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Chaitanya Meesala</a>
+          <p>Systems should earn the authority we give them.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the field notes.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

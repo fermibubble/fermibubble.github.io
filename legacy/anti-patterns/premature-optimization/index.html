@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Premature Optimization &middot; All Things Software Development
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/poole.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <link rel="stylesheet" href="/assets/css/hyde.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico?epoch=1571118465" type="image/x-icon">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <link type="application/atom+xml" rel="alternate" href="https://fermibubble.github.io/feed.xml" title="All Things Software Development" />
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Premature Optimization | All Things Software Development</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Premature Optimization" />
+<meta name="author" content="Chaitanya Meesala" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
+<meta property="og:description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
+<link rel="canonical" href="https://fermibubble.github.io/anti-patterns/premature-optimization/" />
+<meta property="og:url" content="https://fermibubble.github.io/anti-patterns/premature-optimization/" />
+<meta property="og:site_name" content="All Things Software Development" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"https://fermibubble.github.io/anti-patterns/premature-optimization/","headline":"Premature Optimization","author":{"@type":"Person","name":"Chaitanya Meesala"},"description":"Architecture, Design, Coding, Testing, Deployment, Monitoring and more…","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          All Things Software Development
+        </a>
+      </h1>
+      <p class="lead">Architecture, Design, Coding, Testing, Deployment, Monitoring and more...</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/anti-patterns">Programming Anti-Patterns</a>
+      <a class="sidebar-nav-item" href="/design-patterns">Programming Design Patterns</a>
+      <a class="sidebar-nav-item" href="/software-architecture">Software Architecture</a>
+      <a class="sidebar-nav-item" href="/domain-driven-design">Domain Driven Design</a>
+      <a class="sidebar-nav-item" href="/event-sourcing">Event Sourcing</a>
+      <a class="sidebar-nav-item" href="/testing">Testing</a>
+      <a class="sidebar-nav-item" href="/operations">Operations</a>
+      <a class="sidebar-nav-item" href="/security">Security</a>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h5 class="page-title">Premature Optimization</h5>
+  <p><em>“Premature Optimization is root cause of all evil”</em> - Sir Tony Hoare (famous by Knuth).
+<br /><br />
+The most important function of computer code is to communicate the programmer’s intent to a human reader. Any coding practice that makes the code harder to understand in the name of performance can be premature optimization.</p>
+
+<p style="margin-bottom: 0px">Following can be examples of early optimizations that can be premature:</p>
+<ul>
+  <li>Introducing custom libraries rather than using standard/open-source libraries as they might doing more than what needed.</li>
+  <li>Monolithic approach over microservices to prevent network latencies.</li>
+  <li>Micro optimizations like - “Arrays.copyOf(array, array.length) is faster than array.clone()” , “++i is faster than i++”, “for( ; ; ) is faster than while(1) “</li>
+</ul>
+
+<p>The performance problems should be solved top-down rather than bottom-up. The Service Level Agreement (SLA) for each web service has to be fixed and all efforts should be made in order to achieve that SLA. For example, the SLA for a web service can be 100 ms and when we failed to fulfill that we have to think of further optimizations.</p>
+
+<p>The key characteristics of a good software system are - reliability, efficiency, security &amp; maintainability. Trading off these characteristics for the sake of insignificant performance benefits leads to disaster.<br />
+<br /></p>
+<h5 id="note">Note:</h5>
+<p style="margin-bottom: 0px">The premature optimization can be easily misinterpreted. Below are few pointers to be aware of :</p>
+<ul>
+  <li>Only certain micro optimizations and few design considerations are premature. Algorithm choices like using quick sort over bubble sort, lazy evaluations etc are NOT premature optimization, they are essential design choices.</li>
+  <li>It’s misbelief that performance problems will be easy to solve at the end of development cycle</li>
+  <li>It’s misbelief that developer’s time is more valuable than server CPU cycles and hence wasting CPU time to reduce development efforts is always a win. (Client’s time should be of highest priority)</li>
+</ul>
+
+</div>
+
+    </div>
+
+  </body>
+</html>

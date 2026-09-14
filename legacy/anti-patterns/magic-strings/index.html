@@ -11,7 +11,7 @@
 
   <title>
     
-      Operations &middot; All Things Software Development
+      Magic Strings &middot; All Things Software Development
     
   </title>
 
@@ -31,18 +31,18 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://fermibubble.github.io/feed.xml" title="All Things Software Development" />
   <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Operations | All Things Software Development</title>
+<title>Magic Strings | All Things Software Development</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="Operations" />
+<meta property="og:title" content="Magic Strings" />
 <meta name="author" content="Chaitanya Meesala" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
 <meta property="og:description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
-<link rel="canonical" href="https://fermibubble.github.io/operations/" />
-<meta property="og:url" content="https://fermibubble.github.io/operations/" />
+<link rel="canonical" href="https://fermibubble.github.io/anti-patterns/magic-strings/" />
+<meta property="og:url" content="https://fermibubble.github.io/anti-patterns/magic-strings/" />
 <meta property="og:site_name" content="All Things Software Development" />
 <script type="application/ld+json">
-{"@type":"WebPage","url":"https://fermibubble.github.io/operations/","headline":"Operations","author":{"@type":"Person","name":"Chaitanya Meesala"},"description":"Architecture, Design, Coding, Testing, Deployment, Monitoring and more…","@context":"https://schema.org"}</script>
+{"@type":"WebPage","url":"https://fermibubble.github.io/anti-patterns/magic-strings/","headline":"Magic Strings","author":{"@type":"Person","name":"Chaitanya Meesala"},"description":"Architecture, Design, Coding, Testing, Deployment, Monitoring and more…","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -68,7 +68,7 @@
       <a class="sidebar-nav-item" href="/domain-driven-design">Domain Driven Design</a>
       <a class="sidebar-nav-item" href="/event-sourcing">Event Sourcing</a>
       <a class="sidebar-nav-item" href="/testing">Testing</a>
-      <a class="sidebar-nav-item active" href="/operations">Operations</a>
+      <a class="sidebar-nav-item" href="/operations">Operations</a>
       <a class="sidebar-nav-item" href="/security">Security</a>
     </nav>
 
@@ -78,7 +78,20 @@
 
 
     <div class="content container">
-      
+      <div class="page">
+  <h5 class="page-title">Magic Strings</h5>
+  <p>Short circuiting the business logic for certain inputs to get specific responses for debugging purposes or for handling certain scenarios.</p>
+
+<p>Consider the following snippet</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">validateCreditCard</span><span class="o">(</span><span class="nc">String</span> <span class="n">creditCard</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InvalidCreditCardException</span><span class="o">{</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">creditCard</span> <span class="o">==</span> <span class="s">"******"</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+    <span class="c1">// Validation Logic</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>The <em>validateCreditCard</em> function skips the validation if six asterisks are given as input. It can open up a security loophole.</p>
+
+</div>
+
     </div>
 
   </body>

@@ -1,8 +1,190 @@
----
-layout: default
-title: Home
----
-<p><b>Introduction</b></p>
-<p>
-    Memory dump of a scatterbrained developer
-</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chaitanya Meesala — Autonomous systems &amp; reliable software</title>
+    <meta name="description" content="Writing and notes on autonomous systems, agent infrastructure, rollout intelligence, and reliable software.">
+    <meta name="theme-color" content="#f1efe8">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Chaitanya Meesala — Autonomous systems &amp; reliable software">
+    <meta property="og:description" content="Writing and notes on autonomous systems, agent infrastructure, rollout intelligence, and reliable software.">
+    <meta property="og:url" content="https://fermibubble.github.io/">
+    <link rel="canonical" href="https://fermibubble.github.io/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Chaitanya Meesala" href="/rss.xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+  </head>
+  <body data-path="/">
+    
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Chaitanya Meesala, home">
+          <span class="brand-mark" aria-hidden="true"><span>C</span><span>M</span></span>
+          <span class="brand-name">Chaitanya Meesala</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Projects</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    
+    <main id="content">
+      <section class="hero shell">
+        <div class="hero-kicker reveal"><span class="signal-dot"></span> Field notes · Edition 0.1</div>
+        <div class="hero-grid">
+          <div class="hero-copy reveal reveal-delay-1">
+            <h1>Systems should earn the authority we give them.</h1>
+            <p>I work on autonomous systems, agent infrastructure, and reliable software. These are field notes on how agents know what to do, prove what they did, and improve from what happened next.</p>
+            <a class="primary-link" href="/writing/"><span>Read the writing</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+          </div>
+          <div class="decision-map reveal reveal-delay-2" aria-label="A decision cycle from evidence to memory">
+            <div class="map-label">A dependable decision system</div>
+            <div class="map-center"><span>Trust</span><small>is earned</small></div>
+            <div class="map-node node-1"><span>01</span><strong>Evidence</strong><small>What do we know?</small></div>
+            <div class="map-node node-2"><span>02</span><strong>Judgment</strong><small>What does it mean?</small></div>
+            <div class="map-node node-3"><span>03</span><strong>Action</strong><small>What may we do?</small></div>
+            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What changed?</small></div>
+            <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
+          </div>
+        </div>
+        <div class="hero-index reveal reveal-delay-3">
+          <span>Autonomous systems</span><span>Agent infrastructure</span><span>Rollout intelligence</span><span>Reliable software</span>
+        </div>
+      </section>
+
+      <section class="section shell featured-section">
+        <div class="section-heading">
+          <div><span class="section-index">01</span><h2>Featured writing</h2></div>
+          <a class="text-link" href="/writing/"><span>All writing</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card feature-1">
+    <a href="/writing/trustworthy-autonomy/" aria-label="Read Trustworthy Autonomy"></a>
+    <div class="card-topline"><span>Foundations</span><span>01</span></div>
+    <div class="card-copy">
+      <h3>Trustworthy Autonomy</h3>
+      <p>Trust is not a personality trait of the model. It is a property of the system surrounding it.</p>
+    </div>
+    <div class="card-meta"><span>10 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
+  </article><article class="feature-card feature-2">
+    <a href="/writing/agent-harness-is-the-product/" aria-label="Read The Agent Harness Is the Product"></a>
+    <div class="card-topline"><span>Agent infrastructure</span><span>02</span></div>
+    <div class="card-copy">
+      <h3>The Agent Harness Is the Product</h3>
+      <p>The model supplies general intelligence. The harness turns that intelligence into dependable work in a particular world.</p>
+    </div>
+    <div class="card-meta"><span>9 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
+  </article><article class="feature-card feature-3">
+    <a href="/writing/rollouts-are-decision-problems/" aria-label="Read Rollouts Are Decision Problems"></a>
+    <div class="card-topline"><span>Rollout intelligence</span><span>03</span></div>
+    <div class="card-copy">
+      <h3>Rollouts Are Decision Problems</h3>
+      <p>A rollout reviewer should not merely detect anomalies. It should decide what the available evidence justifies doing next.</p>
+    </div>
+    <div class="card-meta"><span>8 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
+  </article>
+        </div>
+      </section>
+
+      <section class="section shell notes-section">
+        <div class="section-heading">
+          <div><span class="section-index">02</span><h2>Recent notes</h2></div>
+          <a class="text-link" href="/notes/"><span>All notes</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+        </div>
+        <div class="notes-table">
+          <a class="note-row" href="/notes/what-does-good-mean-for-an-agent/">
+                <time datetime="2026-09-03">Sep 03</time>
+                <span><strong>What does “good” mean for an agent?</strong><small>AI exposes how much of quality was previously implicit infrastructure.</small></span>
+                <span class="note-time">4 min</span>
+                <span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span>
+              </a><a class="note-row" href="/notes/skills-arent-policies/">
+                <time datetime="2026-08-28">Aug 28</time>
+                <span><strong>Skills aren’t policies</strong><small>Procedure, authority, and enforcement are different concerns.</small></span>
+                <span class="note-time">3 min</span>
+                <span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span>
+              </a><a class="note-row" href="/notes/memory-should-accumulate-judgment/">
+                <time datetime="2026-08-21">Aug 21</time>
+                <span><strong>Memory should accumulate judgment</strong><small>Transcripts preserve history. Useful memory changes the next decision.</small></span>
+                <span class="note-time">3 min</span>
+                <span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span>
+              </a><a class="note-row" href="/notes/context-vs-harness-engineering/">
+                <time datetime="2026-08-14">Aug 14</time>
+                <span><strong>Context engineering vs. harness engineering</strong><small>Context makes the world legible; the harness makes action dependable.</small></span>
+                <span class="note-time">3 min</span>
+                <span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span>
+              </a><a class="note-row" href="/notes/why-agent-verifiers-fail/">
+                <time datetime="2026-08-07">Aug 07</time>
+                <span><strong>Why agent verifiers fail</strong><small>A second model does not automatically create independent assurance.</small></span>
+                <span class="note-time">3 min</span>
+                <span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span>
+              </a>
+        </div>
+      </section>
+
+      <section class="section principle-callout">
+        <div class="shell principle-callout-inner">
+          <div class="callout-copy">
+            <span class="section-index">03 / A working philosophy</span>
+            <blockquote>“Evidence before verdicts. Authority with boundaries. Outcomes as the final evaluator.”</blockquote>
+            <a class="primary-link light-link" href="/principles/"><span>Explore the principles</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+          </div>
+          <div class="callout-numbers" aria-hidden="true"><span>08</span><small>principles<br>for autonomy</small></div>
+        </div>
+      </section>
+
+      <section class="section shell inquiry-section">
+        <div class="section-heading">
+          <div><span class="section-index">04</span><h2>Currently thinking about</h2></div>
+          <a class="text-link" href="/ideas/"><span>Open notebook</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+        </div>
+        <div class="idea-preview">
+          <span class="idea-mark">?</span>
+          <p>Can trustworthy autonomy emerge from the harness instead of a prescribed reasoning schema?</p>
+          <span class="idea-count">01 / 05</span>
+        </div>
+      </section>
+    </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Chaitanya Meesala</a>
+          <p>Systems should earn the authority we give them.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the field notes.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

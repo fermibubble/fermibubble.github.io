@@ -1,0 +1,11 @@
+{
+  "name": "chaitanya-meesala-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "publish:prepare": "node scripts/build.mjs --publish-root",
+    "check": "node scripts/check.mjs"
+  }
+}

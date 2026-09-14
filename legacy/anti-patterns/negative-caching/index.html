@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Negative Caching &middot; All Things Software Development
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/poole.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <link rel="stylesheet" href="/assets/css/hyde.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico?epoch=1571118465" type="image/x-icon">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <link type="application/atom+xml" rel="alternate" href="https://fermibubble.github.io/feed.xml" title="All Things Software Development" />
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Negative Caching | All Things Software Development</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Negative Caching" />
+<meta name="author" content="Chaitanya Meesala" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
+<meta property="og:description" content="Architecture, Design, Coding, Testing, Deployment, Monitoring and more…" />
+<link rel="canonical" href="https://fermibubble.github.io/anti-patterns/negative-caching/" />
+<meta property="og:url" content="https://fermibubble.github.io/anti-patterns/negative-caching/" />
+<meta property="og:site_name" content="All Things Software Development" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"https://fermibubble.github.io/anti-patterns/negative-caching/","headline":"Negative Caching","author":{"@type":"Person","name":"Chaitanya Meesala"},"description":"Architecture, Design, Coding, Testing, Deployment, Monitoring and more…","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          All Things Software Development
+        </a>
+      </h1>
+      <p class="lead">Architecture, Design, Coding, Testing, Deployment, Monitoring and more...</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/anti-patterns">Programming Anti-Patterns</a>
+      <a class="sidebar-nav-item" href="/design-patterns">Programming Design Patterns</a>
+      <a class="sidebar-nav-item" href="/software-architecture">Software Architecture</a>
+      <a class="sidebar-nav-item" href="/domain-driven-design">Domain Driven Design</a>
+      <a class="sidebar-nav-item" href="/event-sourcing">Event Sourcing</a>
+      <a class="sidebar-nav-item" href="/testing">Testing</a>
+      <a class="sidebar-nav-item" href="/operations">Operations</a>
+      <a class="sidebar-nav-item" href="/security">Security</a>
+    </nav>
+
+    <p>&copy; 2020. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <h5 class="page-title">Negative Caching</h5>
+  <p>Caching the negative HTTP responses.<br />
+Consider following snippet that makes api call to a web service</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Cacheable</span>
+<span class="kd">public</span> <span class="nc">HttpResponse</span> <span class="nf">call</span><span class="o">(</span><span class="no">URI</span> <span class="n">uri</span><span class="o">,</span> <span class="nc">HttpRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">HttpResponse</span> <span class="n">response</span><span class="o">;</span>
+    <span class="c1">// Make Call</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>If the web service call fails with 500 response for some internal reasons, we will be still caching it. So, even after the dependent service recovers from its error state, the function returns error response until the cache expiry time.
+In some scenarios, it can be a design choice, but most of the cases it’s an anti-pattern.</p>
+
+<p>It’s advisable to cache individual entities as opposed to higher-order objects that compose them.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Cacheable</span>
+<span class="kd">public</span> <span class="nc">Customer</span> <span class="nf">getCustomerDetails</span><span class="o">(</span><span class="kt">int</span> <span class="n">customerId</span><span class="o">)</span> <span class="o">{</span>
+   <span class="nc">Customer</span> <span class="n">customer</span><span class="o">;</span>
+   <span class="nc">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="nc">RestClient</span><span class="o">.</span><span class="na">makeApiCall</span><span class="o">(...);</span>
+   <span class="c1">// Validate Response and Extract Information</span>
+   <span class="k">return</span> <span class="n">customer</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+</div>
+
+    </div>
+
+  </body>
+</html>
