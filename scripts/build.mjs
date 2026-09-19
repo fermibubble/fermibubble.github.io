@@ -5,7 +5,7 @@ import { ideas, notes, principles, projects, site, writing } from "../src/conten
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
-const siteOrigin = "https://fermibubble.github.io";
+const siteOrigin = "https://oddly.fyi";
 const absoluteUrl = (path) => new URL(path, siteOrigin).href;
 
 const escapeHtml = (value = "") =>
@@ -532,6 +532,7 @@ await Promise.all([
   emit("feed.xml", rss()),
   emit("atom.xml", atom()),
   emit(".nojekyll", ""),
+  emit("CNAME", `${new URL(siteOrigin).hostname}\n`),
   emit("robots.txt", "User-agent: *\nAllow: /\n")
 ]);
 
