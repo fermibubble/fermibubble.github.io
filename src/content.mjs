@@ -1,7 +1,8 @@
 export const site = {
-  name: "Chaitanya Meesala",
-  shortName: "CM",
-  title: "Chaitanya Meesala — Autonomous agents & trustworthiness",
+  name: "Oddly",
+  author: "Chaitanya",
+  shortName: "O",
+  title: "Oddly — Ideas on autonomy & trust",
   description:
     "Ideas on engineering autonomous agents, embedding trustworthiness, and learning from experience.",
   statement: "Systems should earn the authority we give them.",

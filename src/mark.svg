@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CM">
-  <rect width="64" height="64" rx="8" fill="#181a18"/>
-  <path d="M32 8v48" stroke="#f1efe8" stroke-width="1.5"/>
-  <path d="M25.5 39.5c-1.8 2-4 3-6.6 3-6.2 0-10.4-4.6-10.4-10.7s4.2-10.7 10.4-10.7c2.7 0 5 1 6.7 3.1" fill="none" stroke="#f1efe8" stroke-linecap="round" stroke-width="3"/>
-  <path d="M38 42V22l8.5 11.4L55 22v20" fill="none" stroke="#c8d92d" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Oddly">
+  <rect width="64" height="64" rx="12" fill="#181a18"/>
+  <ellipse cx="31" cy="33" rx="15" ry="19" transform="rotate(18 31 33)" fill="none" stroke="#f1efe8" stroke-width="5"/>
+  <circle cx="49" cy="14" r="5" fill="#c8d92d"/>
 </svg>

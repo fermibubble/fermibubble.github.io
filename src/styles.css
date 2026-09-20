@@ -144,18 +144,8 @@
 
   .brand { display: inline-flex; align-items: center; gap: 13px; width: fit-content; }
 
-  .brand-mark {
-    width: 31px;
-    height: 31px;
-    border: 1px solid var(--ink);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font: 600 9px/1 var(--mono);
-    letter-spacing: -0.06em;
-  }
+  .brand-mark { display: block; width: 31px; height: 31px; flex: none; }
 
-  .brand-mark span { display: grid; place-items: center; }
-  .brand-mark span:first-child { border-right: 1px solid var(--ink); background: var(--ink); color: var(--paper); }
   .brand-name { font-weight: 610; font-size: 14px; letter-spacing: -0.01em; }
 
   .site-nav { display: flex; align-items: center; gap: 28px; }
@@ -377,7 +367,9 @@
   .article-type { margin-top: 75px; color: var(--signal); font: 10px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.1em; }
   .article-header h1 { margin-top: 23px; font: 400 clamp(57px, 7.7vw, 108px)/0.92 var(--serif); letter-spacing: -0.06em; }
   .article-deck { max-width: 670px; margin: 30px auto 0; color: var(--ink-soft); font: 400 21px/1.5 var(--serif); }
-  .article-meta { margin-top: 42px; display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--ink-faint); font: 9px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.07em; }
+  .article-byline { margin-top: 20px; text-align: center; color: var(--ink-soft); font-size: 13px; }
+  .article-byline a { text-decoration: underline; text-underline-offset: 3px; }
+  .article-meta { margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 22px; color: var(--ink-faint); font: 9px/1 var(--mono); text-transform: uppercase; letter-spacing: 0.07em; }
   .article-meta > *:not(:last-child)::after { content: "·"; margin-left: 22px; }
   .article-meta button { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; cursor: pointer; color: inherit; text-transform: inherit; letter-spacing: inherit; }
   .article-meta button:hover { color: var(--ink); }
@@ -485,7 +477,7 @@
 @media (max-width: 720px) {
   :root { --shell: calc(100vw - 32px); --narrow: calc(100vw - 32px); --header-height: 70px; }
   .section { padding-block: 80px; }
-  .brand-name { display: none; }
+  .brand-name { display: inline; }
   .header-actions { margin-right: 42px; }
   .search-button span, .search-button kbd { display: none; }
   .search-button { width: 36px; justify-content: center; padding: 0; }

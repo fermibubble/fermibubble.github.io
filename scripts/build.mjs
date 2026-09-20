@@ -138,7 +138,7 @@ function header(active = "") {
     <header class="site-header" data-header>
       <div class="header-inner">
         <a class="brand" href="/" aria-label="${escapeHtml(site.name)}, home">
-          <span class="brand-mark" aria-hidden="true"><span>C</span><span>M</span></span>
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
           <span class="brand-name">${escapeHtml(site.name)}</span>
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
@@ -183,6 +183,7 @@ function footer() {
       <div class="footer-inner">
         <div>
           <a class="footer-name" href="/">${escapeHtml(site.name)}</a>
+          <p>By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
           <p>Systems should earn the authority we give them.</p>
         </div>
         <div class="footer-links">
@@ -205,6 +206,7 @@ function layout({ title, description, active, content, article = false, path = "
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${escapeHtml(pageTitle)}</title>
     <meta name="description" content="${escapeHtml(description || site.description)}">
+    <meta name="author" content="${escapeHtml(site.author)}">
     <meta name="theme-color" content="#f1efe8">
     <meta property="og:type" content="${article ? "article" : "website"}">
     <meta property="og:title" content="${escapeHtml(pageTitle)}">
@@ -248,7 +250,7 @@ function homePage() {
   const content = `
     <main id="content">
       <section class="hero shell">
-        <div class="hero-kicker reveal"><span class="signal-dot"></span> Field notes · Edition 0.1</div>
+        <div class="hero-kicker reveal"><span class="signal-dot"></span> By ${escapeHtml(site.author)} · Field notes</div>
         <div class="hero-grid">
           <div class="hero-copy reveal reveal-delay-1">
             <h1>${escapeHtml(site.statement)}</h1>
@@ -430,7 +432,7 @@ function aboutPage() {
       <div class="about-copy">
         <p>I’m Chaitanya Meesala. I work on engineering autonomous agents and embedding trustworthiness into intelligent systems.</p>
         <p>I’m interested in how these systems reason, act, and learn—and how thoughtful engineering can make them dependable. A recurring question in my work is how growing capability can come with a deeper sense of responsibility.</p>
-        <p>This is a space for ideas about autonomy, trust, and systems engineering. The essays, notes, and open questions reflect how my thinking is evolving.</p>
+        <p>Oddly is my space for ideas about autonomy, trust, and systems engineering. The essays, notes, and open questions reflect how my thinking is evolving.</p>
         <blockquote>I want to build systems that earn trust through the way they understand, act, and learn.</blockquote>
       </div>
     </section>
@@ -455,6 +457,7 @@ function articlePage(item, type, index, collection) {
         <div class="article-type">${escapeHtml(type)} / ${String(index + 1).padStart(2, "0")}</div>
         <h1>${escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
+        <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
         <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
@@ -496,7 +499,7 @@ function searchIndex() {
     { type: "Page", title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", url: "/projects/" },
     { type: "Page", title: "Principles", description: "Eight principles for trustworthy autonomous systems.", url: "/principles/" },
     { type: "Page", title: "Ideas in progress", description: "Open questions about autonomy, trust, learning, and human judgment.", url: "/ideas/" },
-    { type: "Page", title: "About", description: "About Chaitanya Meesala and this technical notebook.", url: "/about/" }
+    { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
   ];
 }
 
@@ -519,7 +522,7 @@ function atom() {
     const url = escapeHtml(absoluteUrl(`/${base}/${item.slug}/`));
     return `<entry><title>${escapeHtml(item.title)}</title><id>${url}</id><link href="${url}"/><updated>${item.date}T12:00:00Z</updated><summary>${escapeHtml(item.description)}</summary></entry>`;
   }).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>${escapeHtml(site.name)}</title><id>${siteOrigin}/</id><link href="${siteOrigin}/"/><link rel="self" href="${siteOrigin}/atom.xml"/><updated>${articles[0].date}T12:00:00Z</updated><author><name>${escapeHtml(site.name)}</name></author>${entries}</feed>`;
+  return `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>${escapeHtml(site.name)}</title><id>${siteOrigin}/</id><link href="${siteOrigin}/"/><link rel="self" href="${siteOrigin}/atom.xml"/><updated>${articles[0].date}T12:00:00Z</updated><author><name>${escapeHtml(site.author)}</name></author>${entries}</feed>`;
 }
 
 await rm(out, { recursive: true, force: true });

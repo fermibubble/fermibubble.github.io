@@ -1,4 +1,6 @@
-# Chaitanya Meesala's website
+# Oddly
+
+A personal publication by Chaitanya. The About page introduces Chaitanya Meesala.
 
 Personal writing on engineering autonomous agents, embedding trustworthiness, and learning from experience.
 
