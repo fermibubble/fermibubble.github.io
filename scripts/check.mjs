@@ -39,7 +39,7 @@ for (const file of htmlFiles) {
   }
 }
 
-const expectedPages = 32;
+const expectedPages = 34;
 if (htmlFiles.length !== expectedPages) failures.push(`expected ${expectedPages} HTML pages, found ${htmlFiles.length}`);
 
 if (failures.length) {

@@ -2,55 +2,55 @@
   {
     "type": "Writing",
     "title": "Trustworthy Autonomy",
-    "description": "Trust is not a personality trait of the model. It is a property of the system surrounding it.",
+    "description": "What does it take for an intelligent system to earn the freedom to act?",
     "url": "/writing/trustworthy-autonomy/"
   },
   {
     "type": "Writing",
-    "title": "The Agent Harness Is the Product",
-    "description": "The model supplies general intelligence. The harness turns that intelligence into dependable work in a particular world.",
-    "url": "/writing/agent-harness-is-the-product/"
+    "title": "Engineering Autonomous Agents",
+    "description": "Connecting intelligence, purpose, and action in systems we can depend on.",
+    "url": "/writing/engineering-autonomous-agents/"
   },
   {
     "type": "Writing",
-    "title": "Rollouts Are Decision Problems",
-    "description": "A rollout reviewer should not merely detect anomalies. It should decide what the available evidence justifies doing next.",
-    "url": "/writing/rollouts-are-decision-problems/"
+    "title": "Judgment Under Uncertainty",
+    "description": "How should an autonomous system act when its understanding is incomplete?",
+    "url": "/writing/judgment-under-uncertainty/"
   },
   {
     "type": "Note",
     "title": "What does “good” mean for an agent?",
-    "description": "AI exposes how much of quality was previously implicit infrastructure.",
+    "description": "Quality begins with a shared understanding of what matters.",
     "url": "/notes/what-does-good-mean-for-an-agent/"
   },
   {
     "type": "Note",
     "title": "Skills aren’t policies",
-    "description": "Procedure, authority, and enforcement are different concerns.",
+    "description": "Knowing how to act and having the authority to act are different things.",
     "url": "/notes/skills-arent-policies/"
   },
   {
     "type": "Note",
     "title": "Memory should accumulate judgment",
-    "description": "Transcripts preserve history. Useful memory changes the next decision.",
+    "description": "Experience becomes useful when it improves the next decision.",
     "url": "/notes/memory-should-accumulate-judgment/"
   },
   {
     "type": "Note",
     "title": "Context engineering vs. harness engineering",
-    "description": "Context makes the world legible; the harness makes action dependable.",
+    "description": "Understanding the world and acting within it are connected engineering problems.",
     "url": "/notes/context-vs-harness-engineering/"
   },
   {
     "type": "Note",
     "title": "Why agent verifiers fail",
-    "description": "A second model does not automatically create independent assurance.",
+    "description": "Agreement is more useful when it comes from independent perspectives.",
     "url": "/notes/why-agent-verifiers-fail/"
   },
   {
     "type": "Page",
-    "title": "Projects",
-    "description": "Selected explorations in autonomous operations and agent infrastructure.",
+    "title": "Focus",
+    "description": "Engineering autonomous agents, embedding trustworthiness, and learning from experience.",
     "url": "/projects/"
   },
   {
@@ -62,7 +62,7 @@
   {
     "type": "Page",
     "title": "Ideas in progress",
-    "description": "Open questions about autonomous systems and agent infrastructure.",
+    "description": "Open questions about autonomy, trust, learning, and human judgment.",
     "url": "/ideas/"
   },
   {

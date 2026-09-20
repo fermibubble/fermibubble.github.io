@@ -1,8 +1,8 @@
 # Chaitanya Meesala's website
 
-Personal writing on autonomous systems, agent infrastructure, rollout intelligence, and reliable software.
+Personal writing on engineering autonomous agents, embedding trustworthiness, and learning from experience.
 
-Target: https://fermibubble.github.io/
+Target: https://oddly.fyi/
 
 This update imports the newer September 3, 2026 website. It preserves the writing, design, search, dark mode, reading progress, and responsive navigation. The build also keeps the existing 16 legacy pages at their original URLs, with their original styles and code examples. The old Markdown sources remain in this repository; their published HTML is preserved in `legacy/`.
 
@@ -31,7 +31,7 @@ npm run check
 
 Push or merge the commit into `master` to publish. The validation workflow checks pages, JavaScript syntax, and agreement between source and the committed static output. Pull requests validate without changing the live site.
 
-The old Markdown files remain as historical source; the build generates the live homepage from the newer site's templates. RSS links and canonical URLs use `https://fermibubble.github.io/`. `/feed.xml` remains available alongside `/rss.xml`, and `/atom.xml` serves an Atom feed for the links in the older pages.
+The old Markdown files remain as historical source; the build generates the live homepage from the newer site's templates. RSS links and canonical URLs use `https://oddly.fyi/`. `/feed.xml` remains available alongside `/rss.xml`, and `/atom.xml` serves an Atom feed for the links in the older pages. Earlier essay URLs redirect to their current versions through aliases declared in `src/content.mjs`.
 
 The private preview remains available at https://chaitanya-meesala.fermibubble.chatgpt.site . Its hosting configuration and credentials are not part of this repository.
 

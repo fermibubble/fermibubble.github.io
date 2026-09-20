@@ -127,7 +127,7 @@ const icon = {
 const navItems = [
   ["Writing", "/writing/", "writing"],
   ["Notes", "/notes/", "notes"],
-  ["Projects", "/projects/", "projects"],
+  ["Focus", "/projects/", "projects"],
   ["Principles", "/principles/", "principles"],
   ["About", "/about/", "about"]
 ];
@@ -266,7 +266,7 @@ function homePage() {
           </div>
         </div>
         <div class="hero-index reveal reveal-delay-3">
-          <span>Autonomous systems</span><span>Agent infrastructure</span><span>Rollout intelligence</span><span>Reliable software</span>
+          <span>Autonomous agents</span><span>Trustworthiness</span><span>Learning &amp; adaptation</span><span>Systems engineering</span>
         </div>
       </section>
 
@@ -303,7 +303,7 @@ function homePage() {
         <div class="shell principle-callout-inner">
           <div class="callout-copy">
             <span class="section-index">03 / A working philosophy</span>
-            <blockquote>“Evidence before verdicts. Authority with boundaries. Outcomes as the final evaluator.”</blockquote>
+            <blockquote>“Build trust into the system. Give autonomy clear boundaries. Learn from consequences.”</blockquote>
             ${arrowLink("Explore the principles", "/principles/", "primary-link light-link")}
           </div>
           <div class="callout-numbers" aria-hidden="true"><span>08</span><small>principles<br>for autonomy</small></div>
@@ -335,7 +335,7 @@ function pageIntro(kicker, title, description, count) {
 
 function writingPage() {
   const content = `<main id="content">
-    ${pageIntro("Long-form essays", "Writing", "Arguments and working frameworks about capable agents, dependable infrastructure, and decisions that survive contact with production.", `${writing.length} essays`)}
+    ${pageIntro("Essays & perspectives", "Writing", "Ideas on autonomous agents, trustworthiness, and the relationship between intelligence and judgment.", `${writing.length} essays`)}
     <section class="shell archive-list">
       ${writing
         .map(
@@ -349,7 +349,7 @@ function writingPage() {
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Writing", description: "Long-form essays on autonomous systems and reliable software.", active: "writing", content, path: "/writing/" });
+  return layout({ title: "Writing", description: "Essays on autonomous agents, trustworthiness, and judgment.", active: "writing", content, path: "/writing/" });
 }
 
 function notesPage() {
@@ -369,31 +369,31 @@ function notesPage() {
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Notes", description: "Short notes about agent systems, harnesses, memory, and verification.", active: "notes", content, path: "/notes/" });
+  return layout({ title: "Notes", description: "Short reflections on intelligence, learning, and dependable systems.", active: "notes", content, path: "/notes/" });
 }
 
 function projectsPage() {
   const content = `<main id="content">
-    ${pageIntro("Selected lines of inquiry", "Projects", "Public explorations of the systems questions I keep returning to. The emphasis is on architecture and lessons, not proprietary implementation.", `${projects.length} inquiries`)}
+    ${pageIntro("Areas of interest", "Focus", "I work on autonomous agents, embedding trustworthiness, and systems that learn from experience.", `${projects.length} themes`)}
     <section class="shell project-list">
       ${projects
         .map(
           (project) => `<article class="project-item">
             <div class="project-side"><span>${project.index}</span><span class="status"><i></i>${escapeHtml(project.status)}</span></div>
             <div class="project-main"><span class="project-label">${escapeHtml(project.label)}</span><h2>${escapeHtml(project.title)}</h2><p>${escapeHtml(project.description)}</p>
-              <div class="project-questions"><h3>Questions under investigation</h3><ul>${project.questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}</ul></div>
+              <div class="project-questions"><h3>Questions I return to</h3><ul>${project.questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}</ul></div>
             </div>
           </article>`
         )
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Projects", description: "Selected explorations in autonomous operations and agent infrastructure.", active: "projects", content, path: "/projects/" });
+  return layout({ title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", active: "projects", content, path: "/projects/" });
 }
 
 function principlesPage() {
   const content = `<main id="content">
-    ${pageIntro("A working philosophy", "Principles", "Eight propositions for building autonomous systems whose consequential decisions can deserve trust.", "v0.1 / evolving")}
+    ${pageIntro("A working philosophy", "Principles", "Eight ideas that shape how I think about intelligence, autonomy, and trust.", "v0.1 / evolving")}
     <section class="shell principle-list">
       ${principles
         .map(
@@ -401,7 +401,7 @@ function principlesPage() {
         )
         .join("")}
     </section>
-    <section class="shell principles-end"><p>These principles are deliberately unfinished. They should change when production evidence, stronger arguments, or better systems prove them incomplete.</p></section>
+    <section class="shell principles-end"><p>These principles are open to revision. Experience, thoughtful questions, and better ideas should help them evolve.</p></section>
   </main>`;
   return layout({ title: "Principles", description: "Eight principles for trustworthy autonomous systems.", active: "principles", content, path: "/principles/" });
 }
@@ -413,7 +413,7 @@ function ideasPage() {
       ${ideas.map((idea, i) => `<article><span>${String(i + 1).padStart(2, "0")}</span><p>${escapeHtml(idea)}</p><div aria-hidden="true">?</div></article>`).join("")}
     </section>
   </main>`;
-  return layout({ title: "Ideas", description: "Open questions about autonomous systems and agent infrastructure.", content, path: "/ideas/" });
+  return layout({ title: "Ideas", description: "Open questions about autonomy, trust, learning, and human judgment.", content, path: "/ideas/" });
 }
 
 function aboutPage() {
@@ -428,16 +428,16 @@ function aboutPage() {
     <section class="about-body shell">
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
-        <p>I’m Chaitanya Meesala, a systems engineer working at the intersection of autonomous agents, site reliability, rollout safety, and agent infrastructure.</p>
-        <p>I care about the parts of intelligent systems that begin after a model produces an answer: evidence, provenance, uncertainty, authority, durable state, verification, recovery, and learning from production outcomes.</p>
-        <p>This site is a public technical notebook. Long-form writing develops arguments; notes capture smaller distinctions; projects collect recurring lines of inquiry; and principles make the underlying philosophy open to challenge.</p>
-        <blockquote>My aim is not to make autonomy look trustworthy. It is to design systems that can earn trust under scrutiny.</blockquote>
+        <p>I’m Chaitanya Meesala. I work on engineering autonomous agents and embedding trustworthiness into intelligent systems.</p>
+        <p>I’m interested in how these systems reason, act, and learn—and how thoughtful engineering can make them dependable. A recurring question in my work is how growing capability can come with a deeper sense of responsibility.</p>
+        <p>This is a space for ideas about autonomy, trust, and systems engineering. The essays, notes, and open questions reflect how my thinking is evolving.</p>
+        <blockquote>I want to build systems that earn trust through the way they understand, act, and learn.</blockquote>
       </div>
     </section>
     <section class="about-now shell">
-      <div><span>Currently exploring</span><strong>Rollout intelligence</strong></div>
-      <div><span>Working medium</span><strong>Systems, essays, experiments</strong></div>
-      <div><span>Recurring question</span><strong>What evidence justifies action?</strong></div>
+      <div><span>Engineering</span><strong>Autonomous agents</strong></div>
+      <div><span>Embedding</span><strong>Trustworthiness</strong></div>
+      <div><span>Exploring</span><strong>Learning &amp; judgment</strong></div>
     </section>
   </main>`;
   return layout({ title: "About", description: "About Chaitanya Meesala and this technical notebook.", active: "about", content, path: "/about/" });
@@ -476,6 +476,13 @@ function notFoundPage() {
   return layout({ title: "Not found", description: "Page not found.", content, path: "/404.html" });
 }
 
+function articleRedirect(item) {
+  const path = `/writing/${item.slug}/`;
+  const content = `<main id="content" class="not-found shell"><h1>${escapeHtml(item.title)}</h1><p>This essay has a new address.</p>${arrowLink("Read the essay", path, "primary-link")}</main>`;
+  return layout({ title: item.title, description: item.description, active: "writing", content, path })
+    .replace("<head>", `<head>\n    <meta http-equiv="refresh" content="0; url=${path}">`);
+}
+
 async function emit(relative, contents) {
   const target = join(out, relative);
   await mkdir(dirname(target), { recursive: true });
@@ -486,9 +493,9 @@ function searchIndex() {
   return [
     ...writing.map((item) => ({ type: "Writing", title: item.title, description: item.description, url: `/writing/${item.slug}/` })),
     ...notes.map((item) => ({ type: "Note", title: item.title, description: item.description, url: `/notes/${item.slug}/` })),
-    { type: "Page", title: "Projects", description: "Selected explorations in autonomous operations and agent infrastructure.", url: "/projects/" },
+    { type: "Page", title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", url: "/projects/" },
     { type: "Page", title: "Principles", description: "Eight principles for trustworthy autonomous systems.", url: "/principles/" },
-    { type: "Page", title: "Ideas in progress", description: "Open questions about autonomous systems and agent infrastructure.", url: "/ideas/" },
+    { type: "Page", title: "Ideas in progress", description: "Open questions about autonomy, trust, learning, and human judgment.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya Meesala and this technical notebook.", url: "/about/" }
   ];
 }
@@ -540,6 +547,7 @@ await Promise.all(
   writing.map((item, index) => emit(`writing/${item.slug}/index.html`, articlePage(item, "Writing", index, writing)))
 );
 await Promise.all(notes.map((item, index) => emit(`notes/${item.slug}/index.html`, articlePage(item, "Note", index, notes))));
+await Promise.all(writing.flatMap((item) => (item.aliases || []).map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
 
 await mkdir(join(out, "assets"), { recursive: true });
 await cp(join(root, "legacy"), out, { recursive: true });

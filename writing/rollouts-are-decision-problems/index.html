@@ -1,24 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/judgment-under-uncertainty/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rollouts Are Decision Problems — Chaitanya Meesala</title>
-    <meta name="description" content="A rollout reviewer should not merely detect anomalies. It should decide what the available evidence justifies doing next.">
+    <title>Judgment Under Uncertainty — Chaitanya Meesala</title>
+    <meta name="description" content="How should an autonomous system act when its understanding is incomplete?">
     <meta name="theme-color" content="#f1efe8">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Rollouts Are Decision Problems — Chaitanya Meesala">
-    <meta property="og:description" content="A rollout reviewer should not merely detect anomalies. It should decide what the available evidence justifies doing next.">
-    <meta property="og:url" content="https://oddly.fyi/writing/rollouts-are-decision-problems/">
-    <link rel="canonical" href="https://oddly.fyi/writing/rollouts-are-decision-problems/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Judgment Under Uncertainty — Chaitanya Meesala">
+    <meta property="og:description" content="How should an autonomous system act when its understanding is incomplete?">
+    <meta property="og:url" content="https://oddly.fyi/writing/judgment-under-uncertainty/">
+    <link rel="canonical" href="https://oddly.fyi/writing/judgment-under-uncertainty/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Chaitanya Meesala" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
   </head>
-  <body data-path="/writing/rollouts-are-decision-problems/" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
+  <body data-path="/writing/judgment-under-uncertainty/">
+    
     
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
@@ -31,7 +32,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Projects</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/principles/">Principles</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -39,60 +40,7 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Writing / 03</div>
-        <h1>Rollouts Are Decision Problems</h1>
-        <p class="article-deck">A rollout reviewer should not merely detect anomalies. It should decide what the available evidence justifies doing next.</p>
-        <div class="article-meta"><time datetime="2026-08-18">August 18, 2026</time><span>8 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="article-layout shell">
-        <aside class="article-rail"><span>Rollout intelligence</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>Most rollout systems are organized around signals: error rate, latency, saturation, logs, alerts, and perhaps a statistical detector.</p>
-<p>That is necessary. It is not the decision.</p>
-<p>A rollout review must answer a more consequential question: <strong>given the evidence, risk, uncertainty, and available actions, what should happen next?</strong></p>
-<h2 id="an-anomaly-is-not-a-verdict">An anomaly is not a verdict<a class="heading-anchor" href="#an-anomaly-is-not-a-verdict" aria-label="Link to this section">#</a></h2>
-<p>A metric can move for many reasons. The candidate may be harmful. The control may have changed. Traffic composition may have shifted. Telemetry may be delayed. A downstream dependency may be failing equally for both populations. The movement may be real but operationally irrelevant.</p>
-<p>Conversely, a dangerous rollout may show no statistically dramatic anomaly because exposure is small, the affected path is rare, or the most relevant signal is not instrumented.</p>
-<p>So the mapping is not:</p>
-<p><strong>anomaly → unhealthy</strong></p>
-<p>It is closer to:</p>
-<p><strong>observations + context + counterfactual + risk + evidence quality → action</strong></p>
-<p>The action might be continue, hold, roll back, gather more evidence, or escalate. A useful reviewer chooses among them rather than decorating a dashboard with adjectives.</p>
-<h2 id="evidence-has-a-shape">Evidence has a shape<a class="heading-anchor" href="#evidence-has-a-shape" aria-label="Link to this section">#</a></h2>
-<p>A metric value alone is not evidence enough. A reviewer needs to reason about:</p>
-<ul><li>the candidate and comparison populations,</li><li>exposure and sample size,</li><li>time windows and seasonality,</li><li>telemetry freshness and coverage,</li><li>changes in dependencies,</li><li>known rollout events,</li><li>and the cost of waiting versus acting.</li></ul>
-<p>This is why a report can be numerically correct and still misleading. If traffic only reached two percent, a green SLO does not prove the remaining population is safe. If telemetry disappeared, “no regression detected” may mean “we stopped seeing.”</p>
-<p>A trustworthy reviewer separates three statements:</p>
-<ol><li><strong>What the evidence supports.</strong></li><li><strong>What the evidence cannot resolve.</strong></li><li><strong>What action the risk policy permits anyway.</strong></li></ol>
-<h2 id="the-reviewer-needs-an-authority-model">The reviewer needs an authority model<a class="heading-anchor" href="#the-reviewer-needs-an-authority-model" aria-label="Link to this section">#</a></h2>
-<p>Not every conclusion should produce the same power.</p>
-<p>An agent may have authority to pause a rollout when a hard invariant is breached, but only authority to recommend a rollback when evidence is ambiguous. It may freely run read-only queries but require approval to change traffic. It may automatically continue a low-risk ramp while escalating an equivalent signal on a critical service.</p>
-<p>This is not a limitation of autonomy. It is the architecture that makes autonomy deployable.</p>
-<h2 id="review-is-a-long-running-process">Review is a long-running process<a class="heading-anchor" href="#review-is-a-long-running-process" aria-label="Link to this section">#</a></h2>
-<p>A rollout is not one task. It is a sequence of changing states.</p>
-<p>At the start, the reviewer establishes the candidate, policy, topology, expected duration, and baseline. At each checkpoint, it updates evidence and tests whether the next action is justified. When new information arrives, it revises the same durable review rather than generating an unrelated report.</p>
-<p>The system therefore needs ownership of time and state: scheduled wake-ups, idempotent checkpoints, versioned artifacts, and a clear terminal condition. “Remember to check again” is not a timer. A prompt is not durable orchestration.</p>
-<h2 id="intelligence-begins-after-the-verdict">Intelligence begins after the verdict<a class="heading-anchor" href="#intelligence-begins-after-the-verdict" aria-label="Link to this section">#</a></h2>
-<p>The most valuable data arrives later.</p>
-<p>Did the rollout succeed? Was it rolled back for a reason the reviewer missed? Did an alert prove noisy? Did the team override the recommendation, and were they right? Which evidence changed the outcome?</p>
-<p>By joining review-time reasoning with eventual production outcomes, the system can measure more than anomaly-detector accuracy. It can learn when evidence was insufficient, when policy was too strict, and which precedents matter for a new service.</p>
-<p>That is rollout intelligence: not a growing pile of reports, but an improving decision system.</p>
-<h2 id="the-standard-to-aim-for">The standard to aim for<a class="heading-anchor" href="#the-standard-to-aim-for" aria-label="Link to this section">#</a></h2>
-<p>A good rollout reviewer does not promise omniscience. It earns the right to make a recommendation.</p>
-<p>It gathers the relevant evidence, preserves provenance, distinguishes absence of harm from absence of visibility, represents material uncertainty, respects its authority, and returns to the decision when the outcome becomes known.</p>
-<p>The verdict is the smallest part of that system.</p>
-<p>What matters is whether the system deserves to say it.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/agent-harness-is-the-product/"><span>Previous</span><strong>The Agent Harness Is the Product</strong></a>
-      <a class="pagination-next" href="/writing/"><span>Continue</span><strong>All Writing</strong></a>
-    </nav>
-  </main>
+    <main id="content" class="not-found shell"><h1>Judgment Under Uncertainty</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/judgment-under-uncertainty/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
     
     <footer class="site-footer">
       <div class="footer-inner">
