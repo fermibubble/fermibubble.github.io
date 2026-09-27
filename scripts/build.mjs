@@ -2,6 +2,7 @@ import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ideas, notes, principles, projects, site, writing } from "../src/content.mjs";
+import { renderIncident } from "./render-incident.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
@@ -197,7 +198,7 @@ function footer() {
     </footer>`;
 }
 
-function layout({ title, description, active, content, article = false, path = "/" }) {
+function layout({ title, description, active, content, article = false, incident = false, path = "/" }) {
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
   return `<!doctype html>
 <html lang="en">
@@ -215,9 +216,9 @@ function layout({ title, description, active, content, article = false, path = "
     <link rel="canonical" href="${escapeHtml(absoluteUrl(path))}">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="${escapeHtml(site.name)}" href="/rss.xml">
-    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
-    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}
   </head>
   <body data-path="${escapeHtml(path)}"${article ? ' class="article-page"' : ""}>
     ${article ? '<div class="reading-progress" data-reading-progress></div>' : ""}
@@ -278,7 +279,7 @@ function homePage() {
           ${arrowLink("All writing", "/writing/")}
         </div>
         <div class="feature-grid">
-          ${writing.filter((item) => item.featured).map(featureCard).join("")}
+          ${writing.filter((item) => item.featured).slice(0, 3).map(featureCard).join("")}
         </div>
       </section>
 
@@ -451,27 +452,31 @@ function articlePage(item, type, index, collection) {
   const next = collection[index + 1];
   const previous = collection[index - 1];
   const content = `<main id="content">
-    <article class="article">
+    <article class="article${item.incident ? " article-epistemics" : ""}">
       <header class="article-header shell-narrow">
         <a class="article-back" href="/${base}/">${icon.arrow}<span>All ${base}</span></a>
         <div class="article-type">${escapeHtml(type)} / ${String(index + 1).padStart(2, "0")}</div>
-        <h1>${escapeHtml(item.title)}</h1>
+        <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
         <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
-      <div class="article-layout shell">
+      ${item.incident ? `<div class="epistemics-body" data-article-body>
+        <div class="prose epistemics-intro">${markdown(item.body)}</div>
+        ${renderIncident(item.incident, escapeHtml)}
+        <div class="prose epistemics-afterword">${markdown(item.afterword)}</div>
+      </div>` : `<div class="article-layout shell">
         <aside class="article-rail"><span>${type === "Writing" ? escapeHtml(item.eyebrow) : "Note"}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
         <div class="prose" data-article-body>${markdown(item.body)}</div>
-      </div>
+      </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
       ${previous ? `<a class="pagination-prev" href="/${base}/${previous.slug}/"><span>Previous</span><strong>${escapeHtml(previous.title)}</strong></a>` : "<span></span>"}
       ${next ? `<a class="pagination-next" href="/${base}/${next.slug}/"><span>Next</span><strong>${escapeHtml(next.title)}</strong></a>` : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
     </nav>
   </main>`;
-  return layout({ title: item.title, description: item.description, active, content, article: true, path: `/${base}/${item.slug}/` });
+  return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, path: `/${base}/${item.slug}/` });
 }
 
 function notFoundPage() {
@@ -560,6 +565,8 @@ await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
   cp(join(root, "src", "site.js"), join(out, "assets", "site.js")),
+  cp(join(root, "src", "epistemics.js"), join(out, "assets", "epistemics.js")),
+  cp(join(root, "src", "epistemics.css"), join(out, "assets", "epistemics.css")),
   cp(join(root, "src", "mark.svg"), join(out, "assets", "mark.svg"))
 ]);
 

@@ -1,3 +1,5 @@
+import { epistemics } from "./epistemics.mjs";
+
 export const site = {
   name: "Oddly",
   author: "Chaitanya",
@@ -54,6 +56,7 @@ export const principles = [
 ];
 
 export const writing = [
+  epistemics,
   {
     slug: "trustworthy-autonomy",
     title: "Trustworthy Autonomy",

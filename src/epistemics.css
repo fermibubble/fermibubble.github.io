@@ -1,0 +1,114 @@
+/* Article layout follows the approved Oddly preview and native theme. */
+.article-epistemics .article-header { padding-top: 58px; }
+.article-epistemics .article-type { margin-top: 48px; }
+.article-epistemics .article-header h1 { font-size: clamp(52px, 7vw, 88px); line-height: .98; }
+.article-epistemics .article-header h1 em { font-weight: 400; }
+.epistemics-body { padding: 55px 0 75px; }
+.epistemics-body > .prose { width: min(690px, calc(100% - 48px)); margin-inline: auto; }
+.epistemics-intro > ul { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 25px; list-style: none; padding: 23px 0; margin: 29px 0; border-block: 1px solid var(--line); counter-reset: questions; }
+.epistemics-intro > ul li { padding: 0; margin: 0; font-size: 19px; line-height: 1.4; counter-increment: questions; }
+.epistemics-intro > ul li::before { content: '0' counter(questions); display: block; margin-bottom: 7px; color: var(--ink-soft); font: 11px/1.5 var(--mono); }
+.epistemics-body .prose h2 { font-size: 40px; margin-top: 46px; }
+.epistemics-afterword > p:last-child { color: var(--ink-soft); font: 12px/1.7 var(--sans); }
+#epistemic-incident {
+  --ei-paper: var(--paper); --ei-deep: var(--paper-deep);
+  --ei-ink: var(--ink); --ei-soft: var(--ink-soft);
+  --ei-faint: light-dark(#66685f, #a2a69c);
+  --ei-line: var(--line); --ei-strong: var(--line-strong);
+  --ei-signal: light-dark(#ae3f29, #ff947c);
+  --ei-good: light-dark(#3b6249, #9cc5a7);
+  --ei-warn-bg: light-dark(#f4e2d9, #38281f);
+  --ei-good-bg: light-dark(#e3eadd, #202e24);
+  --ei-serif: var(--serif); --ei-sans: var(--sans); --ei-mono: var(--mono);
+  font: 16px/1.6 var(--sans); color: var(--ink);
+}
+#epistemic-incident [hidden] { display: none !important; }
+#epistemic-incident button { cursor: pointer; color: inherit; touch-action: manipulation; }
+#epistemic-incident button:disabled { cursor: default; }
+#epistemic-incident :focus-visible { outline: 2px solid var(--ei-signal); outline-offset: 4px; }
+#epistemic-incident summary { cursor: pointer; min-height: 44px; display: list-item; align-content: center; }
+#epistemic-incident .ei-note { color: var(--ei-faint); font: 12px/1.6 var(--sans); }
+#epistemic-incident .ei-record + .ei-record { border-top: 1px solid var(--line); }
+#epistemic-incident .ei-record[hidden] + .ei-record { border-top: 0; }
+#epistemic-incident #ei-records { min-width: 0; }
+#epistemic-incident { width: min(920px, calc(100% - 64px)); margin: 32px auto 38px; border: 1px solid var(--ei-strong); }
+#epistemic-incident .ei-notebook-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--ei-line); }
+#epistemic-incident .ei-notebook-head h2 { font: 400 25px/1.2 var(--ei-serif); letter-spacing: -.025em; }
+#epistemic-incident .ei-notebook-head span { font: 11px/1.4 var(--ei-mono); color: var(--ei-faint); }
+#epistemic-incident .ei-checkpoints { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); padding: 0 16px; gap: 0; background: var(--ei-deep); border-bottom: 1px solid var(--ei-line); }
+#epistemic-incident .ei-checkpoint { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 14px 6px 12px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--ei-soft); font-size: 12px; }
+#epistemic-incident .ei-checkpoint time { font: 11px/1.4 var(--ei-mono); }
+#epistemic-incident .ei-checkpoint[aria-pressed="true"] { background: var(--ei-paper); border-bottom-color: var(--ei-signal); color: var(--ei-ink); }
+#epistemic-incident .ei-case-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); }
+#epistemic-incident .ei-topology-panel { padding: 24px; border-right: 1px solid var(--ei-line); }
+#epistemic-incident .ei-small-label { font: 11px/1.5 var(--ei-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ei-faint); }
+#epistemic-incident .ei-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 15px 0 22px; }
+#epistemic-incident .ei-metric-label { display: block; font-size: 12px; color: var(--ei-soft); }
+#epistemic-incident .ei-metric-value { display: block; font: 400 34px/1.2 var(--ei-serif); letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+#epistemic-incident .ei-metric-value small { font: 12px/1.4 var(--ei-sans); color: var(--ei-faint); letter-spacing: 0; margin-left: 6px; }
+#epistemic-incident .ei-graph { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 30px 22px; }
+#epistemic-incident .ei-edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+#epistemic-incident .ei-edge { fill: none; stroke: var(--ei-strong); stroke-width: 1.2; }
+#epistemic-incident .ei-arrow { fill: var(--ei-strong); }
+#epistemic-incident .ei-node { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 68px; min-width: 0; padding: 9px 5px; background: var(--ei-deep); border: 1px solid var(--ei-line); text-align: center; }
+#epistemic-incident .ei-node strong { font-size: 13px; font-weight: 500; line-height: 1.4; }
+#epistemic-incident .ei-node span { font: 11px/1.4 var(--ei-mono); color: var(--ei-soft); overflow-wrap: anywhere; }
+#epistemic-incident .ei-node[data-health="affected"] { background: var(--ei-warn-bg); }
+#epistemic-incident .ei-node[data-health="nominal"] { background: var(--ei-good-bg); }
+#epistemic-incident .ei-node[data-service="gateway"] { grid-column: 1 / 3; grid-row: 1; width: calc((100% - 22px)/2); justify-self: center; }
+#epistemic-incident .ei-node[data-service="checkout"] { grid-column: 1; grid-row: 2; }
+#epistemic-incident .ei-node[data-service="catalog"] { grid-column: 2; grid-row: 2; }
+#epistemic-incident .ei-node[data-service="payments"] { grid-column: 1; grid-row: 3; }
+#epistemic-incident .ei-node[data-service="inventory"] { grid-column: 2; grid-row: 3; }
+#epistemic-incident .ei-node[data-service="database"] { grid-column: 2; grid-row: 4; }
+#epistemic-incident .ei-legend { display: flex; flex-wrap: wrap; gap: 8px 15px; margin-top: 23px; font-size: 11px; color: var(--ei-soft); }
+#epistemic-incident .ei-legend span { display: inline-flex; gap: 6px; align-items: center; }
+#epistemic-incident .ei-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ei-faint); }
+#epistemic-incident .ei-dot.affected { background: var(--ei-signal); }
+#epistemic-incident .ei-dot.nominal { background: var(--ei-good); }
+#epistemic-incident .ei-topology-caption { margin-top: 12px; font-size: 12px; line-height: 1.5; color: var(--ei-soft); }
+#epistemic-incident .ei-record { padding: 24px 28px; }
+#epistemic-incident .ei-record h3 { margin: 12px 0 13px; font: 400 30px/1.15 var(--ei-serif); letter-spacing: -.035em; }
+#epistemic-incident .ei-confidence { display: block; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--ei-line); font: 12px/1.5 var(--ei-sans); color: var(--ei-soft); }
+#epistemic-incident .ei-record dl { margin: 0; }
+#epistemic-incident .ei-record dt { margin-top: 18px; color: var(--ei-signal); font: 11px/1.5 var(--ei-mono); text-transform: uppercase; letter-spacing: .06em; }
+#epistemic-incident .ei-record dd { margin: 5px 0 0; font: 15px/1.65 var(--ei-sans); }
+#epistemic-incident .ei-evidence-source { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--ei-line); font: 11px/1.6 var(--ei-mono); color: var(--ei-faint); overflow-wrap: anywhere; }
+#epistemic-incident .ei-record details { margin-top: 14px; font: 12px/1.5 var(--ei-sans); }
+#epistemic-incident .ei-record summary { width: fit-content; padding: 5px 0; text-decoration: underline; text-underline-offset: 3px; }
+#epistemic-incident .ei-record pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 11px/1.6 var(--ei-mono); padding: 14px; background: var(--ei-deep); margin: 10px 0 0; }
+#epistemic-incident .ei-notebook-foot { display: flex; justify-content: space-between; align-items: center; gap: 14px; border-top: 1px solid var(--ei-line); padding: 14px 24px; }
+#epistemic-incident .ei-step-controls { display: flex; gap: 10px; }
+#epistemic-incident .ei-step-controls button { background: transparent; border: 1px solid var(--ei-line); padding: 7px 11px; font-size: 12px; min-height: 44px; }
+#epistemic-incident .ei-step-controls button:disabled { opacity: .4; }
+
+@media (max-width: 780px) {
+  #epistemic-incident .ei-case-grid { grid-template-columns: 1fr; }
+  #epistemic-incident .ei-topology-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+  #epistemic-incident .ei-graph, #epistemic-incident .ei-metrics { max-width: 440px; margin-inline: auto; }
+}
+@media (max-width: 600px) {
+  .article-epistemics .article-header { padding-top: 42px; }
+  .article-epistemics .article-type { margin-top: 36px; }
+  .epistemics-body { padding-top: 36px; }
+  .epistemics-body > .prose { width: calc(100% - 40px); }
+  .epistemics-intro > ul { grid-template-columns: 1fr; gap: 16px; }
+  .epistemics-intro > ul li { display: flex; gap: 15px; align-items: baseline; }
+  .epistemics-intro > ul li::before { margin: 0; }
+  .epistemics-body .prose h2 { font-size: 34px; }
+  #epistemic-incident { width: calc(100% - 40px); }
+  #epistemic-incident .ei-notebook-head { padding: 17px; align-items: start; flex-direction: column; gap: 5px; }
+  #epistemic-incident .ei-checkpoints { grid-template-columns: repeat(3,minmax(0,1fr)); padding-inline: 6px; }
+  #epistemic-incident .ei-checkpoint { min-height: 57px; padding-block: 9px; }
+  #epistemic-incident .ei-topology-panel { padding: 18px 16px; }
+  #epistemic-incident .ei-record { padding: 22px 18px; }
+  #epistemic-incident .ei-record h3 { font-size: 28px; }
+  #epistemic-incident .ei-notebook-foot { padding: 14px 16px; flex-wrap: wrap; }
+}
+@media print {
+  #epistemic-incident [data-incident-controls] { display: none !important; }
+  #epistemic-incident .ei-record[hidden] { display: block !important; }
+  #epistemic-incident .ei-case-grid { display: block; }
+  #epistemic-incident .ei-record { break-inside: avoid; border-top: 1px solid var(--line); }
+  #epistemic-incident .ei-topology-panel { border-right: 0; }
+}

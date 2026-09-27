@@ -1,6 +1,12 @@
 [
   {
     "type": "Writing",
+    "title": "Epistemics: How Do We Know?",
+    "description": "An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.",
+    "url": "/writing/epistemics-how-do-we-know/"
+  },
+  {
+    "type": "Writing",
     "title": "Trustworthy Autonomy",
     "description": "What does it take for an intelligent system to earn the freedom to act?",
     "url": "/writing/trustworthy-autonomy/"
