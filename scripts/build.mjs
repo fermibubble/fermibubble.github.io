@@ -3,6 +3,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ideas, notes, principles, projects, site, writing } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
+import { principleEssays } from "../src/principle-series.mjs";
+import { renderCaseStudy, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
@@ -198,7 +200,7 @@ function footer() {
     </footer>`;
 }
 
-function layout({ title, description, active, content, article = false, incident = false, path = "/" }) {
+function layout({ title, description, active, content, article = false, incident = false, series = false, path = "/" }) {
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
   return `<!doctype html>
 <html lang="en">
@@ -216,9 +218,9 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="canonical" href="${escapeHtml(absoluteUrl(path))}">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="${escapeHtml(site.name)}" href="/rss.xml">
-    <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}
+    <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
-    <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}
+    <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
   </head>
   <body data-path="${escapeHtml(path)}"${article ? ' class="article-page"' : ""}>
     ${article ? '<div class="reading-progress" data-reading-progress></div>' : ""}
@@ -306,10 +308,10 @@ function homePage() {
         <div class="shell principle-callout-inner">
           <div class="callout-copy">
             <span class="section-index">03 / A working philosophy</span>
-            <blockquote>“Build trust into the system. Give autonomy clear boundaries. Learn from consequences.”</blockquote>
+            <blockquote>“Verdicts require Epistemics. Evidence requires Provenance. Learning requires Outcomes.”</blockquote>
             ${arrowLink("Explore the principles", "/principles/", "primary-link light-link")}
           </div>
-          <div class="callout-numbers" aria-hidden="true"><span>08</span><small>principles<br>for autonomy</small></div>
+          <div class="callout-numbers" aria-hidden="true"><span>${String(principles.length).padStart(2,"0")}</span><small>principles<br>for autonomy</small></div>
         </div>
       </section>
 
@@ -396,17 +398,12 @@ function projectsPage() {
 
 function principlesPage() {
   const content = `<main id="content">
-    ${pageIntro("A working philosophy", "Principles", "Eight ideas that shape how I think about intelligence, autonomy, and trust.", "v0.1 / evolving")}
-    <section class="shell principle-list">
-      ${principles
-        .map(
-          (principle) => `<article class="principle-item"><span>${principle.number}</span><h2>${escapeHtml(principle.title)}</h2><p>${escapeHtml(principle.text)}</p></article>`
-        )
-        .join("")}
-    </section>
-    <section class="shell principles-end"><p>These principles are open to revision. Experience, thoughtful questions, and better ideas should help them evolve.</p></section>
+    ${pageIntro("Trustworthy Autonomy", "Principles", "Nine commitments for systems that deserve production authority. Each principle connects a philosophical question to a concrete engineering practice.", "09 essays")}
+    <div class="shell principles-overview-link"><a href="/writing/trustworthy-autonomy/">Start with the overview →</a></div>
+    ${renderSeriesMap(principleEssays, escapeHtml)}
+    <section class="shell principles-end"><p>Read these as design commitments. Their value is in what the system still guarantees when evidence is missing, an agent is mistaken, or a human changes their mind.</p></section>
   </main>`;
-  return layout({ title: "Principles", description: "Eight principles for trustworthy autonomous systems.", active: "principles", content, path: "/principles/" });
+  return layout({ title: "Principles", description: "Nine principles of Trustworthy Autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.", active: "principles", content, series: true, path: "/principles/" });
 }
 
 function ideasPage() {
@@ -449,20 +446,25 @@ function aboutPage() {
 function articlePage(item, type, index, collection) {
   const active = type === "Writing" ? "writing" : "notes";
   const base = type === "Writing" ? "writing" : "notes";
-  const next = collection[index + 1];
-  const previous = collection[index - 1];
+  const series = !!(item.seriesNumber || item.seriesOverview);
+  const next = item.seriesNumber ? principleEssays[item.seriesNumber] : collection[index + 1];
+  const previous = item.seriesNumber ? principleEssays[item.seriesNumber - 2] : collection[index - 1];
   const content = `<main id="content">
-    <article class="article${item.incident ? " article-epistemics" : ""}">
+    <article class="article${item.incident ? " article-epistemics" : ""}${series ? " principle-article" : ""}">
       <header class="article-header shell-narrow">
         <a class="article-back" href="/${base}/">${icon.arrow}<span>All ${base}</span></a>
-        <div class="article-type">${escapeHtml(type)} / ${String(index + 1).padStart(2, "0")}</div>
+        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "A working philosophy / Nine principles" : `${escapeHtml(type)} / ${String(index + 1).padStart(2,"0")}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>
+        <div class="article-meta"><time datetime="${item.updatedDate || item.date}">${item.updatedDate ? "Updated September 27, 2026" : item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? '\n        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>' : ""}
       </header>
       <div class="article-rule shell"></div>
-      ${item.incident ? `<div class="epistemics-body" data-article-body>
+      ${series ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, principleEssays, escapeHtml)}` : ""}
+        <div class="prose${item.incident ? " epistemics-intro" : ""}">${markdown(item.body)}</div>
+        ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : renderSeriesMap(principleEssays, escapeHtml)}
+        <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${markdown(item.afterword)}</div>
+      </div>` : item.incident ? `<div class="epistemics-body" data-article-body>
         <div class="prose epistemics-intro">${markdown(item.body)}</div>
         ${renderIncident(item.incident, escapeHtml)}
         <div class="prose epistemics-afterword">${markdown(item.afterword)}</div>
@@ -472,11 +474,11 @@ function articlePage(item, type, index, collection) {
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
-      ${previous ? `<a class="pagination-prev" href="/${base}/${previous.slug}/"><span>Previous</span><strong>${escapeHtml(previous.title)}</strong></a>` : "<span></span>"}
-      ${next ? `<a class="pagination-next" href="/${base}/${next.slug}/"><span>Next</span><strong>${escapeHtml(next.title)}</strong></a>` : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
+      ${previous ? `<a class="pagination-prev" href="/${base}/${previous.slug}/"><span>Previous${item.seriesNumber ? " principle" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Start here</span><strong>Trustworthy Autonomy</strong></a>' : "<span></span>"}
+      ${next ? `<a class="pagination-next" href="/${base}/${next.slug}/"><span>Next${item.seriesNumber ? " principle" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/principles/"><span>Explore the framework</span><strong>All nine principles</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
     </nav>
   </main>`;
-  return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, path: `/${base}/${item.slug}/` });
+  return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series, path: `/${base}/${item.slug}/` });
 }
 
 function notFoundPage() {
@@ -488,6 +490,7 @@ function articleRedirect(item) {
   const path = `/writing/${item.slug}/`;
   const content = `<main id="content" class="not-found shell"><h1>${escapeHtml(item.title)}</h1><p>This essay has a new address.</p>${arrowLink("Read the essay", path, "primary-link")}</main>`;
   return layout({ title: item.title, description: item.description, active: "writing", content, path })
+    .replace(/[ \t]+$/gm, "")
     .replace("<head>", `<head>\n    <meta http-equiv="refresh" content="0; url=${path}">`);
 }
 
@@ -502,7 +505,7 @@ function searchIndex() {
     ...writing.map((item) => ({ type: "Writing", title: item.title, description: item.description, url: `/writing/${item.slug}/` })),
     ...notes.map((item) => ({ type: "Note", title: item.title, description: item.description, url: `/notes/${item.slug}/` })),
     { type: "Page", title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", url: "/projects/" },
-    { type: "Page", title: "Principles", description: "Eight principles for trustworthy autonomous systems.", url: "/principles/" },
+    { type: "Page", title: "Principles", description: "Nine principles of trustworthy autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.", url: "/principles/" },
     { type: "Page", title: "Ideas in progress", description: "Open questions about autonomy, trust, learning, and human judgment.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
   ];
@@ -567,6 +570,8 @@ await Promise.all([
   cp(join(root, "src", "site.js"), join(out, "assets", "site.js")),
   cp(join(root, "src", "epistemics.js"), join(out, "assets", "epistemics.js")),
   cp(join(root, "src", "epistemics.css"), join(out, "assets", "epistemics.css")),
+  cp(join(root, "src", "principles.js"), join(out, "assets", "principles.js")),
+  cp(join(root, "src", "principles.css"), join(out, "assets", "principles.css")),
   cp(join(root, "src", "mark.svg"), join(out, "assets", "mark.svg"))
 ]);
 

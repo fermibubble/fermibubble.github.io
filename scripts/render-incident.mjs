@@ -30,9 +30,12 @@ export function renderIncident(incident, escape) {
         ${incident.steps.map((step, i) => {
           const record = {
             incident: incident.id, revision: i + 1, recorded_at: step.time,
-            supersedes: i || null, scope: step.scope, observations: step.observed,
-            belief: step.belief, confidence: step.confidence,
-            evidence: step.basis, next_action: step.next, revisit_if: step.revisit
+            supersedes: i || null, verdict: step.verdict, scope: step.scope,
+            observations: [{id: `obs-${i+1}`, statement: step.observed, evidence_refs: step.basis}],
+            inferences: [{statement: step.belief, supported_by: [`obs-${i+1}`], alternatives: step.alternatives}],
+            confidence: {level: step.confidenceLevel, basis: step.confidence},
+            unknowns: step.unknowns, discriminating_checks: [step.revisit],
+            next_action: step.next, valid_through: step.validThrough, reassess_if: step.reassessIf
           };
           return `<section class="ei-record" data-record="${i}" aria-labelledby="ei-record-${i}">
             <div class="ei-small-label">Record ${String(i + 1).padStart(2, "0")} / 06 · ${step.time}</div>

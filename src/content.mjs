@@ -1,4 +1,4 @@
-import { epistemics } from "./epistemics.mjs";
+import { autonomyOverview, principleEssays } from "./principle-series.mjs";
 
 export const site = {
   name: "Oddly",
@@ -12,89 +12,14 @@ export const site = {
     "I work on engineering autonomous agents and embedding trustworthiness into intelligent systems. I write about how they reason, act, and learn—and what it takes to earn our trust."
 };
 
-export const principles = [
-  {
-    number: "01",
-    title: "Build trust into the system.",
-    text: "Trustworthiness should shape how a system understands, decides, and acts from the beginning."
-  },
-  {
-    number: "02",
-    title: "Give autonomy clear boundaries.",
-    text: "Useful independence comes with a clear understanding of responsibility, limits, and when to involve people."
-  },
-  {
-    number: "03",
-    title: "Make uncertainty visible.",
-    text: "Recognizing what is unknown is part of good judgment. Confidence should reflect the strength of the evidence."
-  },
-  {
-    number: "04",
-    title: "Make reasoning open to scrutiny.",
-    text: "People should be able to understand the basis of a decision, question its assumptions, and challenge its result."
-  },
-  {
-    number: "05",
-    title: "Leave room for discovery.",
-    text: "Strong engineering creates space for agents to find useful approaches while remaining accountable for their actions."
-  },
-  {
-    number: "06",
-    title: "Learn from consequences.",
-    text: "Experience becomes valuable when outcomes change our understanding and improve the next decision."
-  },
-  {
-    number: "07",
-    title: "Keep people in the picture.",
-    text: "Intelligent systems should extend human judgment and make collaboration easier, including when to ask for help."
-  },
-  {
-    number: "08",
-    title: "Prefer clarity over complexity.",
-    text: "Clear ideas, understandable behavior, and simple interfaces make systems easier to use, question, and improve."
-  }
-];
+export const principles = principleEssays.map((item) => ({
+  number: String(item.seriesNumber).padStart(2, "0"),
+  title: item.title, text: item.summary, slug: item.slug
+}));
 
 export const writing = [
-  epistemics,
-  {
-    slug: "trustworthy-autonomy",
-    title: "Trustworthy Autonomy",
-    eyebrow: "Trustworthiness",
-    date: "2026-09-03",
-    displayDate: "September 3, 2026",
-    readTime: "2 min",
-    description:
-      "What does it take for an intelligent system to earn the freedom to act?",
-    featured: true,
-    body: `
-As intelligent systems become more capable, we give them more responsibility. That makes trustworthiness a central engineering question.
-
-An agent may reason well and still misunderstand its goal. It may act confidently while missing important context. Capability matters, but so does how a system behaves when its understanding is incomplete.
-
-## Trust is a property of the whole system
-
-Trust grows through the relationship between understanding, action, and consequence. It depends on the evidence a system uses, the limits of its authority, and the ways people can question or correct it.
-
-Embedding trustworthiness means treating these qualities as part of the design. They should influence what a system can do, how it communicates, and how it responds when something goes wrong.
-
-## Independence with accountability
-
-Useful autonomy gives an agent room to exercise judgment. It also makes responsibility clear.
-
-An agent should recognize the limits of its understanding and know when to involve a person. Its actions should be open to examination, and mistakes should create opportunities for correction.
-
-Different situations call for different degrees of independence. Trust can grow as a system demonstrates that it understands both the task and the consequences of acting.
-
-## Trust develops through experience
-
-A system earns trust through its behavior over time: acknowledging uncertainty, responding to feedback, and improving when experience challenges its assumptions.
-
-Consistency matters, but so does the ability to change for good reasons. An agent that learns should become easier to rely on without becoming harder to understand.
-
-That is the engineering challenge that interests me: creating autonomous systems whose growing capabilities are matched by a growing capacity for responsible action.
-`
-  },
+  autonomyOverview,
+  ...principleEssays,
   {
     slug: "engineering-autonomous-agents",
     aliases: ["agent-harness-is-the-product"],

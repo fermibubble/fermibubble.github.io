@@ -4,19 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Principles — Oddly</title>
-    <meta name="description" content="Eight principles for trustworthy autonomous systems.">
+    <meta name="description" content="Nine principles of Trustworthy Autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Principles — Oddly">
-    <meta property="og:description" content="Eight principles for trustworthy autonomous systems.">
+    <meta property="og:description" content="Nine principles of Trustworthy Autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.">
     <meta property="og:url" content="https://oddly.fyi/principles/">
     <link rel="canonical" href="https://oddly.fyi/principles/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
   </head>
   <body data-path="/principles/">
     
@@ -42,14 +44,43 @@
     </header>
     <main id="content">
     <section class="page-intro shell">
-    <div class="page-intro-kicker"><span>A working philosophy</span><span>v0.1 / evolving</span></div>
+    <div class="page-intro-kicker"><span>Trustworthy Autonomy</span><span>09 essays</span></div>
     <h1>Principles</h1>
-    <p>Eight ideas that shape how I think about intelligence, autonomy, and trust.</p>
+    <p>Nine commitments for systems that deserve production authority. Each principle connects a philosophical question to a concrete engineering practice.</p>
   </section>
-    <section class="shell principle-list">
-      <article class="principle-item"><span>01</span><h2>Build trust into the system.</h2><p>Trustworthiness should shape how a system understands, decides, and acts from the beginning.</p></article><article class="principle-item"><span>02</span><h2>Give autonomy clear boundaries.</h2><p>Useful independence comes with a clear understanding of responsibility, limits, and when to involve people.</p></article><article class="principle-item"><span>03</span><h2>Make uncertainty visible.</h2><p>Recognizing what is unknown is part of good judgment. Confidence should reflect the strength of the evidence.</p></article><article class="principle-item"><span>04</span><h2>Make reasoning open to scrutiny.</h2><p>People should be able to understand the basis of a decision, question its assumptions, and challenge its result.</p></article><article class="principle-item"><span>05</span><h2>Leave room for discovery.</h2><p>Strong engineering creates space for agents to find useful approaches while remaining accountable for their actions.</p></article><article class="principle-item"><span>06</span><h2>Learn from consequences.</h2><p>Experience becomes valuable when outcomes change our understanding and improve the next decision.</p></article><article class="principle-item"><span>07</span><h2>Keep people in the picture.</h2><p>Intelligent systems should extend human judgment and make collaboration easier, including when to ask for help.</p></article><article class="principle-item"><span>08</span><h2>Prefer clarity over complexity.</h2><p>Clear ideas, understandable behavior, and simple interfaces make systems easier to use, question, and improve.</p></article>
-    </section>
-    <section class="shell principles-end"><p>These principles are open to revision. Experience, thoughtful questions, and better ideas should help them evolve.</p></section>
+    <div class="shell principles-overview-link"><a href="/writing/trustworthy-autonomy/">Start with the overview →</a></div>
+    <nav class="series-map" aria-label="Trustworthy Autonomy principles">
+    <div class="series-map-heading"><span>Nine design commitments</span><h2>The principles</h2></div>
+    <div class="series-map-grid"><a class="series-map-card" href="/writing/verdicts-require-epistemics/">
+      <span class="series-number">01</span>
+      <h3>Verdicts require Epistemics</h3><p>Every conclusion carries its justification, uncertainty, alternatives, and conditions for reassessment.</p><span class="series-read">5 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/evidence-requires-provenance/">
+      <span class="series-number">02</span>
+      <h3>Evidence requires Provenance</h3><p>Every material claim keeps a trail back to its source, transformations, and limitations.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/state-requires-ownership/">
+      <span class="series-number">03</span>
+      <h3>State requires Ownership</h3><p>Every persistent fact has an authoritative owner, a version, and rules for how it can change.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/autonomy-requires-a-dial/">
+      <span class="series-number">04</span>
+      <h3>Autonomy requires a Dial</h3><p>Authority is explicit, specific to each action, proportionate to risk, and revocable.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/inputs-require-a-trust-boundary/">
+      <span class="series-number">05</span>
+      <h3>Inputs require a Trust Boundary</h3><p>Evidence remains data. Permissions and policy arrive through separate, authenticated control paths.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/knowledge-requires-a-clock/">
+      <span class="series-number">06</span>
+      <h3>Knowledge requires a Clock</h3><p>Every decision-relevant fact records when it was true, when it was learned, and when it must be reconsidered.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/delegation-requires-ceilings/">
+      <span class="series-number">07</span>
+      <h3>Delegation requires Ceilings</h3><p>Delegated authority narrows, and shared limits bound the cost and impact of the entire agent tree.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/failure-requires-a-ladder/">
+      <span class="series-number">08</span>
+      <h3>Failure requires a Ladder</h3><p>Partial failures lead to explicit degraded modes that preserve essential safety and expose missing evidence.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/learning-requires-outcomes/">
+      <span class="series-number">09</span>
+      <h3>Learning requires Outcomes</h3><p>Independent outcomes grade decisions over time, and evaluated lessons improve future reviews.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a></div>
+  </nav>
+    <section class="shell principles-end"><p>Read these as design commitments. Their value is in what the system still guarantees when evidence is missing, an agent is mistaken, or a human changes their mind.</p></section>
   </main>
     
     <footer class="site-footer">

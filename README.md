@@ -20,7 +20,9 @@ node --check src/site.js
 
 The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, styling in `src/styles.css`, and page templates in `scripts/build.mjs`.
 
-The epistemics essay lives in `src/epistemics.mjs`. Its illustrative checkpoint data is in `src/epistemics-incident.mjs`; `scripts/render-incident.mjs` renders all six records as readable HTML, and `src/epistemics.js` adds navigation and the topology arrows. Article styling is in `src/epistemics.css`.
+The nine-part Trustworthy Autonomy series and its overview are defined in `src/principle-series.mjs`. `scripts/render-series.mjs` renders the principle directory and example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
+
+“Verdicts require Epistemics” lives in `src/epistemics.mjs`. Its illustrative checkpoint data is in `src/epistemics-incident.mjs`; `scripts/render-incident.mjs` renders all six records as readable HTML, and `src/epistemics.js` adds navigation and the topology arrows. Article styling is in `src/epistemics.css`. The earlier `/writing/epistemics-how-do-we-know/` address redirects to the renamed article.
 
 ## Publish
 

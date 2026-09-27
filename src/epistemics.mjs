@@ -1,10 +1,13 @@
 import { incident } from "./epistemics-incident.mjs";
 
 export const epistemics = {
-  slug: "epistemics-how-do-we-know",
-  title: "Epistemics: How Do We Know?",
-  titleLines: ["Epistemics:", "How do we know?"],
-  eyebrow: "Evidence & autonomy",
+  slug: "verdicts-require-epistemics",
+  aliases: ["epistemics-how-do-we-know"],
+  title: "Verdicts require Epistemics",
+  titleLines: ["Verdicts require", "Epistemics"],
+  seriesNumber: 1,
+  summary: "Every conclusion carries its justification, uncertainty, alternatives, and conditions for reassessment.",
+  eyebrow: "Trustworthy Autonomy",
   date: "2026-09-27",
   displayDate: "September 27, 2026",
   readTime: "5 min",
@@ -34,7 +37,7 @@ The timing makes the deployment a suspect. The agent checks which requests fail 
 
 ## An epistemic record
 
-The agent keeps a versioned record of its evidence, current explanation, uncertainty, and next action. Follow the six checkpoints below to see that explanation change.
+The agent keeps a versioned record of its verdict, observations, inferences, confidence, alternatives, and unknowns. It states what would challenge the explanation and when to reassess it. Follow the six checkpoints below to see that record change.
 
 Two details help: a connection pool is a reusable set of database connections. The agent's approved runbook allows restoring its previous size after checking database capacity, and limiting retries.
 `,
@@ -43,7 +46,11 @@ Two details help: a connection pool is a reusable set of database connections. T
 
 The error surfaced at the gateway. The bottleneck sat downstream in Inventory's connection pool. Slow responses affected upstream callers; their retries sent more load downstream. Several red dashboards described different parts of the same incident.
 
-The record should link to the metrics, traces, and configuration history behind each observation, with timestamps and scope. Earlier versions stay available so another agent can see why the explanation changed.
+The record should link each observation to its evidence and each inference to the observations supporting it. Earlier versions stay available so another agent can see why the explanation changed.
+
+Confidence needs a stated basis. Fluency cannot supply one. “Insufficient evidence” is a legitimate verdict when a required observation is missing. Competing explanations remain visible until discriminating checks rule them out.
+
+A verdict also needs an expiry and an earlier reassessment condition. “Healthy at this load until the next checkpoint” is a claim someone can test. “Healthy,” left indefinitely in a report, invites much more trust than the evidence earned.
 
 A successful intervention strengthens a diagnosis; it does not establish every claim about the system. The reason the configuration changed remains unresolved. Recovery at today's traffic level says little about tomorrow's peak.
 

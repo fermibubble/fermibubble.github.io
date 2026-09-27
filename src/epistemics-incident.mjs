@@ -44,7 +44,18 @@ export const incident = {
         ]
       },
       "label": "Alert",
-      "revisit": "A shared dependency could explain failures beyond Checkout."
+      "revisit": "A shared dependency could explain failures beyond Checkout.",
+      "verdict": "degraded",
+      "confidenceLevel": "low",
+      "unknowns": [
+        "Which routes fail; the cause of the timeouts"
+      ],
+      "alternatives": [
+        "A shared dependency is slow",
+        "The deployment changed request behavior"
+      ],
+      "validThrough": "10:03",
+      "reassessIf": "New evidence contradicts the explanation, or traffic or configuration changes"
     },
     {
       "time": "10:03",
@@ -89,7 +100,18 @@ export const incident = {
         ]
       },
       "label": "Topology",
-      "revisit": "Trace more requests; a shared delay does not identify what started it."
+      "revisit": "Trace more requests; a shared delay does not identify what started it.",
+      "verdict": "degraded",
+      "confidenceLevel": "medium",
+      "unknowns": [
+        "What triggered the shared slowdown"
+      ],
+      "alternatives": [
+        "Checkout is overloading Inventory",
+        "Inventory changed independently"
+      ],
+      "validThrough": "10:06",
+      "reassessIf": "New evidence contradicts the explanation, or traffic or configuration changes"
     },
     {
       "time": "10:06",
@@ -134,7 +156,17 @@ export const incident = {
         ]
       },
       "label": "Bottleneck",
-      "revisit": "If restoring the pool does not reduce waiting, reconsider the diagnosis."
+      "revisit": "If restoring the pool does not reduce waiting, reconsider the diagnosis.",
+      "verdict": "degraded",
+      "confidenceLevel": "medium",
+      "unknowns": [
+        "Whether restoring the pool will relieve the bottleneck; database headroom"
+      ],
+      "alternatives": [
+        "Another bottleneck coexists with pool starvation"
+      ],
+      "validThrough": "10:10",
+      "reassessIf": "New evidence contradicts the explanation, or traffic or configuration changes"
     },
     {
       "time": "10:10",
@@ -179,7 +211,17 @@ export const incident = {
         ]
       },
       "label": "Canary",
-      "revisit": "Check whether the improvement holds across replicas and request types."
+      "revisit": "Check whether the improvement holds across replicas and request types.",
+      "verdict": "degraded",
+      "confidenceLevel": "high",
+      "unknowns": [
+        "Whether other replicas and request types will improve"
+      ],
+      "alternatives": [
+        "Differences in workload may explain part of the canary improvement"
+      ],
+      "validThrough": "10:14",
+      "reassessIf": "New evidence contradicts the explanation, or traffic or configuration changes"
     },
     {
       "time": "10:14",
@@ -224,7 +266,17 @@ export const incident = {
         ]
       },
       "label": "Retries",
-      "revisit": "If queues persist after retries fall, investigate another source of load."
+      "revisit": "If queues persist after retries fall, investigate another source of load.",
+      "verdict": "degraded",
+      "confidenceLevel": "medium",
+      "unknowns": [
+        "Whether reducing retries will drain the remaining queues"
+      ],
+      "alternatives": [
+        "Another source of load may be keeping queues busy"
+      ],
+      "validThrough": "10:30",
+      "reassessIf": "New evidence contradicts the explanation, or traffic or configuration changes"
     },
     {
       "time": "10:30",
@@ -269,7 +321,17 @@ export const incident = {
         ]
       },
       "label": "Recovery",
-      "revisit": "Reopen the incident if errors or queueing return, especially at higher load."
+      "revisit": "Reopen the incident if errors or queueing return, especially at higher load.",
+      "verdict": "recovered-under-observed-load",
+      "confidenceLevel": "high",
+      "unknowns": [
+        "Peak-load behavior; why the configuration changed"
+      ],
+      "alternatives": [
+        "Recovery may not hold at higher load"
+      ],
+      "validThrough": "10:40",
+      "reassessIf": "Errors, queueing, traffic, topology, or configuration materially change"
     }
   ]
 };

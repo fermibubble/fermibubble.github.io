@@ -32,6 +32,7 @@ jobs:
         run: |
           node --check src/site.js
           node --check src/epistemics.js
+          node --check src/principles.js
       - name: Verify published files match source
         run: |
           git diff --exit-code
