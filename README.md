@@ -2,7 +2,7 @@
 
 A personal publication by Chaitanya. The About page introduces Chaitanya Meesala.
 
-Personal writing on engineering autonomous agents, embedding trustworthiness, and learning from experience.
+Personal writing on autonomous agents, data, developer tools, and evaluation.
 
 Target: https://oddly.fyi/
 
@@ -20,7 +20,9 @@ node --check src/site.js
 
 The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, styling in `src/styles.css`, and page templates in `scripts/build.mjs`.
 
-The nine-part Trustworthy Autonomy series and its overview are defined in `src/principle-series.mjs`. `scripts/render-series.mjs` renders the principle directory and example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
+The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
+
+The in-memory time-series database and time-machine essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
 
 “Verdicts require Epistemics” lives in `src/epistemics.mjs`. Its illustrative checkpoint data is in `src/epistemics-incident.mjs`; `scripts/render-incident.mjs` renders all six records as readable HTML, and `src/epistemics.js` adds navigation and the topology arrows. Article styling is in `src/epistemics.css`. The earlier `/writing/epistemics-how-do-we-know/` address redirects to the renamed article.
 

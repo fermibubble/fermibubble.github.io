@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Oddly — Ideas on autonomy &amp; trust</title>
-    <meta name="description" content="Ideas on engineering autonomous agents, embedding trustworthiness, and learning from experience.">
+    <title>Oddly — Agents, systems &amp; experiments</title>
+    <meta name="description" content="A notebook on autonomous agents, data, developer tools, and the engineering that connects them.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Oddly — Ideas on autonomy &amp; trust">
-    <meta property="og:description" content="Ideas on engineering autonomous agents, embedding trustworthiness, and learning from experience.">
+    <meta property="og:title" content="Oddly — Agents, systems &amp; experiments">
+    <meta property="og:description" content="A notebook on autonomous agents, data, developer tools, and the engineering that connects them.">
     <meta property="og:url" content="https://oddly.fyi/">
     <link rel="canonical" href="https://oddly.fyi/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
@@ -32,7 +32,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+          <a href="/writing/">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,22 +46,22 @@
         <div class="hero-kicker reveal"><span class="signal-dot"></span> By Chaitanya · Field notes</div>
         <div class="hero-grid">
           <div class="hero-copy reveal reveal-delay-1">
-            <h1>Systems should earn the authority we give them.</h1>
-            <p>I work on engineering autonomous agents and embedding trustworthiness into intelligent systems. I write about how they reason, act, and learn—and what it takes to earn our trust.</p>
+            <h1>Ideas become useful when they become systems.</h1>
+            <p>I’m Chaitanya. I work on autonomous agents and the data, tools, and environments that make them useful. Oddly brings together the ideas, experiments, and engineering lessons along the way.</p>
             <a class="primary-link" href="/writing/"><span>Read the writing</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
           </div>
-          <div class="decision-map reveal reveal-delay-2" aria-label="A decision cycle from evidence to memory">
-            <div class="map-label">A dependable decision system</div>
-            <div class="map-center"><span>Trust</span><small>is earned</small></div>
-            <div class="map-node node-1"><span>01</span><strong>Evidence</strong><small>What do we know?</small></div>
-            <div class="map-node node-2"><span>02</span><strong>Judgment</strong><small>What does it mean?</small></div>
-            <div class="map-node node-3"><span>03</span><strong>Action</strong><small>What may we do?</small></div>
-            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What changed?</small></div>
+          <div class="decision-map reveal reveal-delay-2" aria-label="An agent supported by context, tools, evaluation, and memory">
+            <div class="map-label">The systems around intelligence</div>
+            <div class="map-center"><span>Agents</span><small>at work</small></div>
+            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>What is available?</small></div>
+            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>What can we do?</small></div>
+            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>What improved?</small></div>
+            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What carries forward?</small></div>
             <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
           </div>
         </div>
         <div class="hero-index reveal reveal-delay-3">
-          <span>Autonomous agents</span><span>Trustworthiness</span><span>Learning &amp; adaptation</span><span>Systems engineering</span>
+          <span>Autonomous agents</span><span>Data &amp; context</span><span>Evaluation &amp; learning</span><span>Systems engineering</span>
         </div>
       </section>
 
@@ -72,29 +72,29 @@
         </div>
         <div class="feature-grid">
           <article class="feature-card feature-1">
-    <a href="/writing/trustworthy-autonomy/" aria-label="Read Trustworthy Autonomy"></a>
-    <div class="card-topline"><span>A working philosophy</span><span>01</span></div>
+    <a href="/writing/in-memory-time-series-for-agents/" aria-label="Read A small database for a curious agent"></a>
+    <div class="card-topline"><span>Data &amp; agent infrastructure</span><span>01</span></div>
     <div class="card-copy">
-      <h3>Trustworthy Autonomy</h3>
-      <p>Nine principles for systems that deserve the authority we give them. A field guide to evidence, boundaries, and learning from consequences.</p>
-    </div>
-    <div class="card-meta"><span>3 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
-  </article><article class="feature-card feature-2">
-    <a href="/writing/verdicts-require-epistemics/" aria-label="Read Verdicts require Epistemics"></a>
-    <div class="card-topline"><span>Trustworthy Autonomy</span><span>02</span></div>
-    <div class="card-copy">
-      <h3>Verdicts require Epistemics</h3>
-      <p>An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.</p>
-    </div>
-    <div class="card-meta"><span>5 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
-  </article><article class="feature-card feature-3">
-    <a href="/writing/evidence-requires-provenance/" aria-label="Read Evidence requires Provenance"></a>
-    <div class="card-topline"><span>Trustworthy Autonomy</span><span>03</span></div>
-    <div class="card-copy">
-      <h3>Evidence requires Provenance</h3>
-      <p>A precise number can tell the wrong story. Follow a claim back through the query, the cohort, and everything the summary left out.</p>
+      <h3>A small database for a curious agent</h3>
+      <p>An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.</p>
     </div>
     <div class="card-meta"><span>4 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
+  </article><article class="feature-card feature-2">
+    <a href="/writing/a-time-machine-for-agents/" aria-label="Read A time machine for agents"></a>
+    <div class="card-topline"><span>Evaluation &amp; developer tools</span><span>02</span></div>
+    <div class="card-copy">
+      <h3>A time machine for agents</h3>
+      <p>Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.</p>
+    </div>
+    <div class="card-meta"><span>4 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
+  </article><article class="feature-card feature-3">
+    <a href="/writing/engineering-autonomous-agents/" aria-label="Read Engineering Autonomous Agents"></a>
+    <div class="card-topline"><span>Autonomous agents</span><span>03</span></div>
+    <div class="card-copy">
+      <h3>Engineering Autonomous Agents</h3>
+      <p>Connecting intelligence, purpose, and action in systems we can depend on.</p>
+    </div>
+    <div class="card-meta"><span>2 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
   </article>
         </div>
       </section>
@@ -137,11 +137,11 @@
       <section class="section principle-callout">
         <div class="shell principle-callout-inner">
           <div class="callout-copy">
-            <span class="section-index">03 / A working philosophy</span>
-            <blockquote>“Verdicts require Epistemics. Evidence requires Provenance. Learning requires Outcomes.”</blockquote>
-            <a class="primary-link light-link" href="/principles/"><span>Explore the principles</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+            <span class="section-index">03 / Connecting the work</span>
+            <blockquote>An agent’s possibilities are shaped by the systems around it.</blockquote>
+            <a class="primary-link light-link" href="/projects/"><span>Explore the focus areas</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
           </div>
-          <div class="callout-numbers" aria-hidden="true"><span>09</span><small>principles<br>for autonomy</small></div>
+          <div class="callout-numbers" aria-hidden="true"><span>03</span><small>connected<br>areas of work</small></div>
         </div>
       </section>
 
@@ -152,7 +152,7 @@
         </div>
         <div class="idea-preview">
           <span class="idea-mark">?</span>
-          <p>What does it mean for an autonomous system to earn trust?</p>
+          <p>What changes when the data an agent needs is already waiting for it?</p>
           <span class="idea-count">01 / 05</span>
         </div>
       </section>
@@ -163,7 +163,7 @@
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Systems should earn the authority we give them.</p>
+          <p>Experiments, ideas, and the engineering between them.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>

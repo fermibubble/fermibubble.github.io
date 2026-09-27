@@ -1,30 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/trustworthy-autonomy/verdicts-require-epistemics/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verdicts require Epistemics — Oddly</title>
     <meta name="description" content="An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Verdicts require Epistemics — Oddly">
     <meta property="og:description" content="An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.">
-    <meta property="og:url" content="https://oddly.fyi/writing/verdicts-require-epistemics/">
-    <link rel="canonical" href="https://oddly.fyi/writing/verdicts-require-epistemics/">
+    <meta property="og:url" content="https://oddly.fyi/writing/trustworthy-autonomy/verdicts-require-epistemics/">
+    <link rel="canonical" href="https://oddly.fyi/writing/trustworthy-autonomy/verdicts-require-epistemics/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/epistemics.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/epistemics.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
   </head>
-  <body data-path="/writing/verdicts-require-epistemics/" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/trustworthy-autonomy/verdicts-require-epistemics/">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -36,7 +33,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -44,406 +41,14 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article article-epistemics principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Trustworthy Autonomy / 01 of 09</div>
-        <h1>Verdicts require<br><em>Epistemics</em></h1>
-        <p class="article-deck">An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-09-27">September 27, 2026</time><span>5 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body epistemics-body" data-article-body>
-        <details class="series-directory"><summary>Explore all nine principles <span>01 / 09</span></summary>
-    <nav aria-label="All principles"><ol><li><a href="/writing/verdicts-require-epistemics/" aria-current="page">Verdicts require Epistemics</a></li><li><a href="/writing/evidence-requires-provenance/">Evidence requires Provenance</a></li><li><a href="/writing/state-requires-ownership/">State requires Ownership</a></li><li><a href="/writing/autonomy-requires-a-dial/">Autonomy requires a Dial</a></li><li><a href="/writing/inputs-require-a-trust-boundary/">Inputs require a Trust Boundary</a></li><li><a href="/writing/knowledge-requires-a-clock/">Knowledge requires a Clock</a></li><li><a href="/writing/delegation-requires-ceilings/">Delegation requires Ceilings</a></li><li><a href="/writing/failure-requires-a-ladder/">Failure requires a Ladder</a></li><li><a href="/writing/learning-requires-outcomes/">Learning requires Outcomes</a></li></ol></nav>
-  </details>
-        <div class="prose epistemics-intro"><p>Epistemics is how we decide what to believe, what supports that belief, and when to change our mind.</p>
-<p>Its roots lie in epistemology: the philosophical study of knowledge. A correct answer can be a lucky guess. Good reasons matter, and new evidence can reveal their limits.</p>
-<p>Three questions make this practical:</p>
-<ul><li>What did I observe?</li><li>What am I assuming?</li><li>What would change my mind?</li></ul>
-<p>“Server errors are rising” is an observation. “The latest deployment caused them” is a hypothesis. The distinction matters when an autonomous agent can act on that diagnosis.</p>
-<h2 id="an-agent-on-call">An agent on call<a class="heading-anchor" href="#an-agent-on-call" aria-label="Link to this section">#</a></h2>
-<p>Imagine an API gateway&#039;s 5XX error rate rises from 0.2% to 12%, mostly 504 timeouts. Its p95 latency jumps from 250 milliseconds to three seconds. A Checkout deployment finished two minutes earlier.</p>
-<p>5XX codes indicate server errors; 504 means the gateway waited too long for a response. The p95 is the response time that 95% of requests meet or beat.</p>
-<p>The timing makes the deployment a suspect. The agent checks which requests fail and follows their dependencies.</p>
-<h2 id="an-epistemic-record">An epistemic record<a class="heading-anchor" href="#an-epistemic-record" aria-label="Link to this section">#</a></h2>
-<p>The agent keeps a versioned record of its verdict, observations, inferences, confidence, alternatives, and unknowns. It states what would challenge the explanation and when to reassess it. Follow the six checkpoints below to see that record change.</p>
-<p>Two details help: a connection pool is a reusable set of database connections. The agent&#039;s approved runbook allows restoring its previous size after checking database capacity, and limiting retries.</p></div>
-        <section id="epistemic-incident" class="ei-notebook" aria-labelledby="ei-title">
-    <div class="ei-notebook-head"><h2 id="ei-title">Follow the evidence</h2><span>INCIDENT 042 / ILLUSTRATIVE</span></div>
-    <nav class="ei-checkpoints" aria-label="Incident checkpoints" data-incident-controls hidden>
-      <button class="ei-checkpoint" type="button" data-step="0" aria-pressed="true" aria-controls="ei-records"><time>10:00</time><span>Alert</span></button><button class="ei-checkpoint" type="button" data-step="1" aria-pressed="false" aria-controls="ei-records"><time>10:03</time><span>Topology</span></button><button class="ei-checkpoint" type="button" data-step="2" aria-pressed="false" aria-controls="ei-records"><time>10:06</time><span>Bottleneck</span></button><button class="ei-checkpoint" type="button" data-step="3" aria-pressed="false" aria-controls="ei-records"><time>10:10</time><span>Canary</span></button><button class="ei-checkpoint" type="button" data-step="4" aria-pressed="false" aria-controls="ei-records"><time>10:14</time><span>Retries</span></button><button class="ei-checkpoint" type="button" data-step="5" aria-pressed="false" aria-controls="ei-records"><time>10:30</time><span>Recovery</span></button>
-    </nav>
-    <div class="ei-case-grid">
-      <figure class="ei-topology-panel" aria-label="Request topology and observed service state">
-        <div class="ei-small-label" data-metric-scope>At the API gateway</div>
-        <div class="ei-metrics">
-          <div><span class="ei-metric-label">5XX error rate</span><span class="ei-metric-value" data-error-rate>12%</span></div>
-          <div><span class="ei-metric-label">p95 latency</span><span class="ei-metric-value" data-latency>3.0 s</span></div>
-        </div>
-        <div class="ei-graph" data-topology>
-          <svg class="ei-edges" aria-hidden="true"><defs><marker id="ei-arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path class="ei-arrow" d="M0 0 L8 4 L0 8 Z"/></marker></defs><g data-edges></g></svg>
-          <div class="ei-node" data-service="gateway" data-health="affected"><strong>API gateway</strong><span>504 timeouts</span></div><div class="ei-node" data-service="checkout" data-health="unknown"><strong>Checkout API</strong><span>Recent deploy</span></div><div class="ei-node" data-service="catalog" data-health="unknown"><strong>Catalog API</strong><span>Not yet checked</span></div><div class="ei-node" data-service="payments" data-health="unknown"><strong>Payments</strong><span>Not yet checked</span></div><div class="ei-node" data-service="inventory" data-health="unknown"><strong>Inventory</strong><span>Not yet checked</span></div><div class="ei-node" data-service="database" data-health="unknown"><strong>PostgreSQL</strong><span>Not yet checked</span></div>
-        </div>
-        <div class="ei-legend"><span><i class="ei-dot affected"></i>Observed impact</span><span><i class="ei-dot nominal"></i>Measured as normal</span><span><i class="ei-dot"></i>Unchecked</span></div>
-        <figcaption class="ei-topology-caption">Arrows follow requests downstream. The gateway calls Checkout and Catalog; both call Inventory. Checkout also calls Payments. Inventory calls PostgreSQL. Colors describe the displayed measurements, not every aspect of service health.</figcaption>
-      </figure>
-      <div id="ei-records">
-        <section class="ei-record" data-record="0" aria-labelledby="ei-record-0">
-            <div class="ei-small-label">Record 01 / 06 · 10:00</div>
-            <h3 id="ei-record-0">The newest deploy is a suspect</h3>
-            <span class="ei-confidence">Low confidence · timing alone</span>
-            <dl>
-              <dt>Observed</dt><dd>Gateway 5XX is 12% and p95 is three seconds. Checkout was deployed two minutes earlier.</dd>
-              <dt>Current belief</dt><dd>The deployment may be involved. There is no causal evidence yet.</dd>
-              <dt>Next action</dt><dd>Compare failing routes and trace their dependencies.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: gateway metrics · deployment history</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 1,
-  &quot;recorded_at&quot;: &quot;10:00&quot;,
-  &quot;supersedes&quot;: null,
-  &quot;verdict&quot;: &quot;degraded&quot;,
-  &quot;scope&quot;: &quot;Gateway symptoms; root cause unverified&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-1&quot;,
-      &quot;statement&quot;: &quot;Gateway 5XX is 12% and p95 is three seconds. Checkout was deployed two minutes earlier.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;gateway metrics&quot;,
-        &quot;deployment history&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;The deployment may be involved. There is no causal evidence yet.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-1&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;A shared dependency is slow&quot;,
-        &quot;The deployment changed request behavior&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;low&quot;,
-    &quot;basis&quot;: &quot;Low confidence · timing alone&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;Which routes fail; the cause of the timeouts&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;A shared dependency could explain failures beyond Checkout.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Compare failing routes and trace their dependencies.&quot;,
-  &quot;valid_through&quot;: &quot;10:03&quot;,
-  &quot;reassess_if&quot;: &quot;New evidence contradicts the explanation, or traffic or configuration changes&quot;
-}</pre></details>
-          </section><section class="ei-record" data-record="1" aria-labelledby="ei-record-1">
-            <div class="ei-small-label">Record 02 / 06 · 10:03</div>
-            <h3 id="ei-record-1">Two APIs, one slow dependency</h3>
-            <span class="ei-confidence">Moderate confidence · traces converge</span>
-            <dl>
-              <dt>Observed</dt><dd>Checkout and Catalog both spend most of their request time waiting on Inventory. Payments stays fast.</dd>
-              <dt>Current belief</dt><dd>Inventory is the shared slow dependency. The trigger is still unknown: Checkout could also be overloading it.</dd>
-              <dt>Next action</dt><dd>Separate Inventory’s queueing time from database execution time.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: Checkout traces · Catalog traces · Payments latency</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 2,
-  &quot;recorded_at&quot;: &quot;10:03&quot;,
-  &quot;supersedes&quot;: 1,
-  &quot;verdict&quot;: &quot;degraded&quot;,
-  &quot;scope&quot;: &quot;Both API routes; sampled request traces&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-2&quot;,
-      &quot;statement&quot;: &quot;Checkout and Catalog both spend most of their request time waiting on Inventory. Payments stays fast.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;Checkout traces&quot;,
-        &quot;Catalog traces&quot;,
-        &quot;Payments latency&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;Inventory is the shared slow dependency. The trigger is still unknown: Checkout could also be overloading it.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-2&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;Checkout is overloading Inventory&quot;,
-        &quot;Inventory changed independently&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;medium&quot;,
-    &quot;basis&quot;: &quot;Moderate confidence · traces converge&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;What triggered the shared slowdown&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;Trace more requests; a shared delay does not identify what started it.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Separate Inventory’s queueing time from database execution time.&quot;,
-  &quot;valid_through&quot;: &quot;10:06&quot;,
-  &quot;reassess_if&quot;: &quot;New evidence contradicts the explanation, or traffic or configuration changes&quot;
-}</pre></details>
-          </section><section class="ei-record" data-record="2" aria-labelledby="ei-record-2">
-            <div class="ei-small-label">Record 03 / 06 · 10:06</div>
-            <h3 id="ei-record-2">The wait happens before the query</h3>
-            <span class="ei-confidence">Leading hypothesis · mechanism and timing fit</span>
-            <dl>
-              <dt>Observed</dt><dd>Inventory waits 2.4 s for a database connection; queries take about 20 ms. At 09:56, its pool limit changed from 40 connections to 4 per replica.</dd>
-              <dt>Current belief</dt><dd>The smaller connection pool is the leading explanation. Requests can queue before reaching an otherwise fast database.</dd>
-              <dt>Next action</dt><dd>Verify database headroom and restore the previous pool setting on one replica.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: pool wait histogram · database spans · 09:56 configuration diff</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 3,
-  &quot;recorded_at&quot;: &quot;10:06&quot;,
-  &quot;supersedes&quot;: 2,
-  &quot;verdict&quot;: &quot;degraded&quot;,
-  &quot;scope&quot;: &quot;Inventory pool; database capacity must be checked&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-3&quot;,
-      &quot;statement&quot;: &quot;Inventory waits 2.4 s for a database connection; queries take about 20 ms. At 09:56, its pool limit changed from 40 connections to 4 per replica.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;pool wait histogram&quot;,
-        &quot;database spans&quot;,
-        &quot;09:56 configuration diff&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;The smaller connection pool is the leading explanation. Requests can queue before reaching an otherwise fast database.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-3&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;Another bottleneck coexists with pool starvation&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;medium&quot;,
-    &quot;basis&quot;: &quot;Leading hypothesis · mechanism and timing fit&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;Whether restoring the pool will relieve the bottleneck; database headroom&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;If restoring the pool does not reduce waiting, reconsider the diagnosis.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Verify database headroom and restore the previous pool setting on one replica.&quot;,
-  &quot;valid_through&quot;: &quot;10:10&quot;,
-  &quot;reassess_if&quot;: &quot;New evidence contradicts the explanation, or traffic or configuration changes&quot;
-}</pre></details>
-          </section><section class="ei-record" data-record="3" aria-labelledby="ei-record-3">
-            <div class="ei-small-label">Record 04 / 06 · 10:10</div>
-            <h3 id="ei-record-3">An intervention tests the belief</h3>
-            <span class="ei-confidence">Strong support · one replica, comparable load</span>
-            <dl>
-              <dt>Observed</dt><dd>With database capacity checked, one replica gets its previous setting back. At comparable load, pool wait falls to 30 ms; unchanged replicas still queue.</dd>
-              <dt>Current belief</dt><dd>Strong evidence that the pool change caused the bottleneck. This canary—a trial on one replica—does not establish overall recovery.</dd>
-              <dt>Next action</dt><dd>Restore the setting across replicas and check end-to-end recovery.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: canary pool metrics · matched request traces · unchanged replicas</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 4,
-  &quot;recorded_at&quot;: &quot;10:10&quot;,
-  &quot;supersedes&quot;: 3,
-  &quot;verdict&quot;: &quot;degraded&quot;,
-  &quot;scope&quot;: &quot;Requests routed through the canary; other replicas still affected&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-4&quot;,
-      &quot;statement&quot;: &quot;With database capacity checked, one replica gets its previous setting back. At comparable load, pool wait falls to 30 ms; unchanged replicas still queue.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;canary pool metrics&quot;,
-        &quot;matched request traces&quot;,
-        &quot;unchanged replicas&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;Strong evidence that the pool change caused the bottleneck. This canary—a trial on one replica—does not establish overall recovery.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-4&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;Differences in workload may explain part of the canary improvement&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;high&quot;,
-    &quot;basis&quot;: &quot;Strong support · one replica, comparable load&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;Whether other replicas and request types will improve&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;Check whether the improvement holds across replicas and request types.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Restore the setting across replicas and check end-to-end recovery.&quot;,
-  &quot;valid_through&quot;: &quot;10:14&quot;,
-  &quot;reassess_if&quot;: &quot;New evidence contradicts the explanation, or traffic or configuration changes&quot;
-}</pre></details>
-          </section><section class="ei-record" data-record="4" aria-labelledby="ei-record-4">
-            <div class="ei-small-label">Record 05 / 06 · 10:14</div>
-            <h3 id="ei-record-4">The trigger and the amplifier differ</h3>
-            <span class="ei-confidence">Retry amplification likely · extra attempts measured</span>
-            <dl>
-              <dt>Observed</dt><dd>After rollout, gateway p95 is 900 ms and 5XX is 2.8%. User traffic is unchanged, but traces show three Inventory attempts per original call on average.</dd>
-              <dt>Current belief</dt><dd>The pool change was a trigger. Upstream retries appear to be sustaining excess load after that trigger is removed.</dd>
-              <dt>Next action</dt><dd>Apply the approved retry budget, which caps extra attempts; watch queues and successful requests.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: gateway latency · attempts per request · Inventory queue depth</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 5,
-  &quot;recorded_at&quot;: &quot;10:14&quot;,
-  &quot;supersedes&quot;: 4,
-  &quot;verdict&quot;: &quot;degraded&quot;,
-  &quot;scope&quot;: &quot;All replicas restored; upstream retries remain&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-5&quot;,
-      &quot;statement&quot;: &quot;After rollout, gateway p95 is 900 ms and 5XX is 2.8%. User traffic is unchanged, but traces show three Inventory attempts per original call on average.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;gateway latency&quot;,
-        &quot;attempts per request&quot;,
-        &quot;Inventory queue depth&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;The pool change was a trigger. Upstream retries appear to be sustaining excess load after that trigger is removed.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-5&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;Another source of load may be keeping queues busy&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;medium&quot;,
-    &quot;basis&quot;: &quot;Retry amplification likely · extra attempts measured&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;Whether reducing retries will drain the remaining queues&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;If queues persist after retries fall, investigate another source of load.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Apply the approved retry budget, which caps extra attempts; watch queues and successful requests.&quot;,
-  &quot;valid_through&quot;: &quot;10:30&quot;,
-  &quot;reassess_if&quot;: &quot;New evidence contradicts the explanation, or traffic or configuration changes&quot;
-}</pre></details>
-          </section><section class="ei-record" data-record="5" aria-labelledby="ei-record-5">
-            <div class="ei-small-label">Record 06 / 06 · 10:30</div>
-            <h3 id="ei-record-5">Verify recovery at the user boundary</h3>
-            <span class="ei-confidence">Recovery observed · current traffic level</span>
-            <dl>
-              <dt>Observed</dt><dd>For ten minutes at comparable incoming load, queues stay drained, p95 is 270 ms, and 5XX is 0.3%.</dd>
-              <dt>Current belief</dt><dd>Recovery is supported for this traffic level. Peak-load behavior and the reason the configuration changed remain unverified.</dd>
-              <dt>Next action</dt><dd>Continue monitoring and investigate how the pool configuration changed.</dd>
-            </dl>
-            <div class="ei-evidence-source">Basis: 10-minute gateway window · queue depth · incoming traffic</div>
-            <details><summary>Inspect the structured record</summary><pre>{
-  &quot;incident&quot;: &quot;042&quot;,
-  &quot;revision&quot;: 6,
-  &quot;recorded_at&quot;: &quot;10:30&quot;,
-  &quot;supersedes&quot;: 5,
-  &quot;verdict&quot;: &quot;recovered-under-observed-load&quot;,
-  &quot;scope&quot;: &quot;Observed load and time window; not a universal guarantee&quot;,
-  &quot;observations&quot;: [
-    {
-      &quot;id&quot;: &quot;obs-6&quot;,
-      &quot;statement&quot;: &quot;For ten minutes at comparable incoming load, queues stay drained, p95 is 270 ms, and 5XX is 0.3%.&quot;,
-      &quot;evidence_refs&quot;: [
-        &quot;10-minute gateway window&quot;,
-        &quot;queue depth&quot;,
-        &quot;incoming traffic&quot;
-      ]
-    }
-  ],
-  &quot;inferences&quot;: [
-    {
-      &quot;statement&quot;: &quot;Recovery is supported for this traffic level. Peak-load behavior and the reason the configuration changed remain unverified.&quot;,
-      &quot;supported_by&quot;: [
-        &quot;obs-6&quot;
-      ],
-      &quot;alternatives&quot;: [
-        &quot;Recovery may not hold at higher load&quot;
-      ]
-    }
-  ],
-  &quot;confidence&quot;: {
-    &quot;level&quot;: &quot;high&quot;,
-    &quot;basis&quot;: &quot;Recovery observed · current traffic level&quot;
-  },
-  &quot;unknowns&quot;: [
-    &quot;Peak-load behavior; why the configuration changed&quot;
-  ],
-  &quot;discriminating_checks&quot;: [
-    &quot;Reopen the incident if errors or queueing return, especially at higher load.&quot;
-  ],
-  &quot;next_action&quot;: &quot;Continue monitoring and investigate how the pool configuration changed.&quot;,
-  &quot;valid_through&quot;: &quot;10:40&quot;,
-  &quot;reassess_if&quot;: &quot;Errors, queueing, traffic, topology, or configuration materially change&quot;
-}</pre></details>
-          </section>
-      </div>
-    </div>
-    <div class="ei-notebook-foot" data-incident-controls hidden>
-      <span class="ei-note" data-revision-note>Initial record · observations and hypotheses stay separate</span>
-      <div class="ei-step-controls"><button type="button" data-previous disabled>Previous</button><button type="button" data-next-step>Next checkpoint</button></div>
-    </div>
-    <p class="sr-only" role="status" data-incident-status></p>
-    <script type="application/json" data-incident-data>{"id":"042","steps":[{"time":"10:00","title":"The newest deploy is a suspect","confidence":"Low confidence · timing alone","observed":"Gateway 5XX is 12% and p95 is three seconds. Checkout was deployed two minutes earlier.","belief":"The deployment may be involved. There is no causal evidence yet.","next":"Compare failing routes and trace their dependencies.","basis":["gateway metrics","deployment history"],"scope":"Gateway symptoms; root cause unverified","metricScope":"At the API gateway","error":"12%","latency":"3.0 s","nodes":{"gateway":["504 timeouts","affected"],"checkout":["Recent deploy","unknown"],"catalog":["Not yet checked","unknown"],"payments":["Not yet checked","unknown"],"inventory":["Not yet checked","unknown"],"database":["Not yet checked","unknown"]},"label":"Alert","revisit":"A shared dependency could explain failures beyond Checkout.","verdict":"degraded","confidenceLevel":"low","unknowns":["Which routes fail; the cause of the timeouts"],"alternatives":["A shared dependency is slow","The deployment changed request behavior"],"validThrough":"10:03","reassessIf":"New evidence contradicts the explanation, or traffic or configuration changes"},{"time":"10:03","title":"Two APIs, one slow dependency","confidence":"Moderate confidence · traces converge","observed":"Checkout and Catalog both spend most of their request time waiting on Inventory. Payments stays fast.","belief":"Inventory is the shared slow dependency. The trigger is still unknown: Checkout could also be overloading it.","next":"Separate Inventory’s queueing time from database execution time.","basis":["Checkout traces","Catalog traces","Payments latency"],"scope":"Both API routes; sampled request traces","metricScope":"At the API gateway","error":"12%","latency":"3.0 s","nodes":{"gateway":["504 timeouts","affected"],"checkout":["Waits on Inventory","affected"],"catalog":["Waits on Inventory","affected"],"payments":["Responses normal","nominal"],"inventory":["Shared delay","affected"],"database":["Not yet checked","unknown"]},"label":"Topology","revisit":"Trace more requests; a shared delay does not identify what started it.","verdict":"degraded","confidenceLevel":"medium","unknowns":["What triggered the shared slowdown"],"alternatives":["Checkout is overloading Inventory","Inventory changed independently"],"validThrough":"10:06","reassessIf":"New evidence contradicts the explanation, or traffic or configuration changes"},{"time":"10:06","title":"The wait happens before the query","confidence":"Leading hypothesis · mechanism and timing fit","observed":"Inventory waits 2.4 s for a database connection; queries take about 20 ms. At 09:56, its pool limit changed from 40 connections to 4 per replica.","belief":"The smaller connection pool is the leading explanation. Requests can queue before reaching an otherwise fast database.","next":"Verify database headroom and restore the previous pool setting on one replica.","basis":["pool wait histogram","database spans","09:56 configuration diff"],"scope":"Inventory pool; database capacity must be checked","metricScope":"At the API gateway","error":"12%","latency":"3.0 s","nodes":{"gateway":["504 timeouts","affected"],"checkout":["Waits on Inventory","affected"],"catalog":["Waits on Inventory","affected"],"payments":["Responses normal","nominal"],"inventory":["Pool wait: 2.4 s","affected"],"database":["Query time: 20 ms","nominal"]},"label":"Bottleneck","revisit":"If restoring the pool does not reduce waiting, reconsider the diagnosis.","verdict":"degraded","confidenceLevel":"medium","unknowns":["Whether restoring the pool will relieve the bottleneck; database headroom"],"alternatives":["Another bottleneck coexists with pool starvation"],"validThrough":"10:10","reassessIf":"New evidence contradicts the explanation, or traffic or configuration changes"},{"time":"10:10","title":"An intervention tests the belief","confidence":"Strong support · one replica, comparable load","observed":"With database capacity checked, one replica gets its previous setting back. At comparable load, pool wait falls to 30 ms; unchanged replicas still queue.","belief":"Strong evidence that the pool change caused the bottleneck. This canary—a trial on one replica—does not establish overall recovery.","next":"Restore the setting across replicas and check end-to-end recovery.","basis":["canary pool metrics","matched request traces","unchanged replicas"],"scope":"Requests routed through the canary; other replicas still affected","metricScope":"Requests through the canary only","error":"0.7%","latency":"320 ms","nodes":{"gateway":["Global impact remains","affected"],"checkout":["Canary improves","affected"],"catalog":["Canary improves","affected"],"payments":["Responses normal","nominal"],"inventory":["One replica improves","affected"],"database":["Query time: 20 ms","nominal"]},"label":"Canary","revisit":"Check whether the improvement holds across replicas and request types.","verdict":"degraded","confidenceLevel":"high","unknowns":["Whether other replicas and request types will improve"],"alternatives":["Differences in workload may explain part of the canary improvement"],"validThrough":"10:14","reassessIf":"New evidence contradicts the explanation, or traffic or configuration changes"},{"time":"10:14","title":"The trigger and the amplifier differ","confidence":"Retry amplification likely · extra attempts measured","observed":"After rollout, gateway p95 is 900 ms and 5XX is 2.8%. User traffic is unchanged, but traces show three Inventory attempts per original call on average.","belief":"The pool change was a trigger. Upstream retries appear to be sustaining excess load after that trigger is removed.","next":"Apply the approved retry budget, which caps extra attempts; watch queues and successful requests.","basis":["gateway latency","attempts per request","Inventory queue depth"],"scope":"All replicas restored; upstream retries remain","metricScope":"At the API gateway","error":"2.8%","latency":"900 ms","nodes":{"gateway":["Some timeouts remain","affected"],"checkout":["Repeated attempts","affected"],"catalog":["Repeated attempts","affected"],"payments":["Responses normal","nominal"],"inventory":["3 attempts per call","affected"],"database":["Query time: 20 ms","nominal"]},"label":"Retries","revisit":"If queues persist after retries fall, investigate another source of load.","verdict":"degraded","confidenceLevel":"medium","unknowns":["Whether reducing retries will drain the remaining queues"],"alternatives":["Another source of load may be keeping queues busy"],"validThrough":"10:30","reassessIf":"New evidence contradicts the explanation, or traffic or configuration changes"},{"time":"10:30","title":"Verify recovery at the user boundary","confidence":"Recovery observed · current traffic level","observed":"For ten minutes at comparable incoming load, queues stay drained, p95 is 270 ms, and 5XX is 0.3%.","belief":"Recovery is supported for this traffic level. Peak-load behavior and the reason the configuration changed remain unverified.","next":"Continue monitoring and investigate how the pool configuration changed.","basis":["10-minute gateway window","queue depth","incoming traffic"],"scope":"Observed load and time window; not a universal guarantee","metricScope":"At the API gateway · 10-minute window","error":"0.3%","latency":"270 ms","nodes":{"gateway":["Near baseline","nominal"],"checkout":["Requests recover","nominal"],"catalog":["Requests recover","nominal"],"payments":["Responses normal","nominal"],"inventory":["Queue drained","nominal"],"database":["Query time: 20 ms","nominal"]},"label":"Recovery","revisit":"Reopen the incident if errors or queueing return, especially at higher load.","verdict":"recovered-under-observed-load","confidenceLevel":"high","unknowns":["Peak-load behavior; why the configuration changed"],"alternatives":["Recovery may not hold at higher load"],"validThrough":"10:40","reassessIf":"Errors, queueing, traffic, topology, or configuration materially change"}]}</script>
-  </section>
-        <div class="prose series-afterword epistemics-afterword"><h2 id="what-changed-the-agents-mind">What changed the agent&#039;s mind?<a class="heading-anchor" href="#what-changed-the-agents-mind" aria-label="Link to this section">#</a></h2>
-<p>The error surfaced at the gateway. The bottleneck sat downstream in Inventory&#039;s connection pool. Slow responses affected upstream callers; their retries sent more load downstream. Several red dashboards described different parts of the same incident.</p>
-<p>The record should link each observation to its evidence and each inference to the observations supporting it. Earlier versions stay available so another agent can see why the explanation changed.</p>
-<p>Confidence needs a stated basis. Fluency cannot supply one. “Insufficient evidence” is a legitimate verdict when a required observation is missing. Competing explanations remain visible until discriminating checks rule them out.</p>
-<p>A verdict also needs an expiry and an earlier reassessment condition. “Healthy at this load until the next checkpoint” is a claim someone can test. “Healthy,” left indefinitely in a report, invites much more trust than the evidence earned.</p>
-<p>A successful intervention strengthens a diagnosis; it does not establish every claim about the system. The reason the configuration changed remains unresolved. Recovery at today&#039;s traffic level says little about tomorrow&#039;s peak.</p>
-<p>The same discipline applies to any autonomous agent: keep observations separate from explanations, choose actions that test those explanations, and carry unresolved questions forward.</p>
-<blockquote><p>A trustworthy agent keeps its conclusions connected to evidence—and makes the limits of those conclusions visible.</p></blockquote>
-<p>The incident and figures are illustrative. Background: Google&#039;s SRE chapters on <a href="https://sre.google/sre-book/effective-troubleshooting/" rel="noreferrer">Effective Troubleshooting</a> and <a href="https://sre.google/sre-book/addressing-cascading-failures/" rel="noreferrer">Addressing Cascading Failures</a>.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Start here</span><strong>Trustworthy Autonomy</strong></a>
-      <a class="pagination-next" href="/writing/evidence-requires-provenance/"><span>Next principle</span><strong>Evidence requires Provenance</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Verdicts require Epistemics</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/trustworthy-autonomy/verdicts-require-epistemics/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Systems should earn the authority we give them.</p>
+          <p>Experiments, ideas, and the engineering between them.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -454,7 +59,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

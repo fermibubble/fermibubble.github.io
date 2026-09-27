@@ -1,10 +1,13 @@
 import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ideas, notes, principles, projects, site, writing } from "../src/content.mjs";
+import { ideas, notes, projects, site, writing } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
-import { principleEssays } from "../src/principle-series.mjs";
+import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { renderCaseStudy, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
+import { autonomyPath, writingPath } from "../src/paths.mjs";
+
+const allWriting = [...writing, ...principleEssays];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
@@ -131,7 +134,6 @@ const navItems = [
   ["Writing", "/writing/", "writing"],
   ["Notes", "/notes/", "notes"],
   ["Focus", "/projects/", "projects"],
-  ["Principles", "/principles/", "principles"],
   ["About", "/about/", "about"]
 ];
 
@@ -187,7 +189,7 @@ function footer() {
         <div>
           <a class="footer-name" href="/">${escapeHtml(site.name)}</a>
           <p>By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-          <p>Systems should earn the authority we give them.</p>
+          <p>Experiments, ideas, and the engineering between them.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -238,7 +240,7 @@ function arrowLink(label, href, className = "text-link") {
 
 function featureCard(article, index) {
   return `<article class="feature-card feature-${index + 1}">
-    <a href="/writing/${article.slug}/" aria-label="Read ${escapeHtml(article.title)}"></a>
+    <a href="${writingPath(article)}" aria-label="Read ${escapeHtml(article.title)}"></a>
     <div class="card-topline"><span>${escapeHtml(article.eyebrow)}</span><span>0${index + 1}</span></div>
     <div class="card-copy">
       <h3>${escapeHtml(article.title)}</h3>
@@ -260,18 +262,18 @@ function homePage() {
             <p>${escapeHtml(site.intro)}</p>
             ${arrowLink("Read the writing", "/writing/", "primary-link")}
           </div>
-          <div class="decision-map reveal reveal-delay-2" aria-label="A decision cycle from evidence to memory">
-            <div class="map-label">A dependable decision system</div>
-            <div class="map-center"><span>Trust</span><small>is earned</small></div>
-            <div class="map-node node-1"><span>01</span><strong>Evidence</strong><small>What do we know?</small></div>
-            <div class="map-node node-2"><span>02</span><strong>Judgment</strong><small>What does it mean?</small></div>
-            <div class="map-node node-3"><span>03</span><strong>Action</strong><small>What may we do?</small></div>
-            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What changed?</small></div>
+          <div class="decision-map reveal reveal-delay-2" aria-label="An agent supported by context, tools, evaluation, and memory">
+            <div class="map-label">The systems around intelligence</div>
+            <div class="map-center"><span>Agents</span><small>at work</small></div>
+            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>What is available?</small></div>
+            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>What can we do?</small></div>
+            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>What improved?</small></div>
+            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What carries forward?</small></div>
             <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
           </div>
         </div>
         <div class="hero-index reveal reveal-delay-3">
-          <span>Autonomous agents</span><span>Trustworthiness</span><span>Learning &amp; adaptation</span><span>Systems engineering</span>
+          <span>Autonomous agents</span><span>Data &amp; context</span><span>Evaluation &amp; learning</span><span>Systems engineering</span>
         </div>
       </section>
 
@@ -307,11 +309,11 @@ function homePage() {
       <section class="section principle-callout">
         <div class="shell principle-callout-inner">
           <div class="callout-copy">
-            <span class="section-index">03 / A working philosophy</span>
-            <blockquote>“Verdicts require Epistemics. Evidence requires Provenance. Learning requires Outcomes.”</blockquote>
-            ${arrowLink("Explore the principles", "/principles/", "primary-link light-link")}
+            <span class="section-index">03 / Connecting the work</span>
+            <blockquote>An agent’s possibilities are shaped by the systems around it.</blockquote>
+            ${arrowLink("Explore the focus areas", "/projects/", "primary-link light-link")}
           </div>
-          <div class="callout-numbers" aria-hidden="true"><span>${String(principles.length).padStart(2,"0")}</span><small>principles<br>for autonomy</small></div>
+          <div class="callout-numbers" aria-hidden="true"><span>${String(projects.length).padStart(2,"0")}</span><small>connected<br>areas of work</small></div>
         </div>
       </section>
 
@@ -340,21 +342,21 @@ function pageIntro(kicker, title, description, count) {
 
 function writingPage() {
   const content = `<main id="content">
-    ${pageIntro("Essays & perspectives", "Writing", "Ideas on autonomous agents, trustworthiness, and the relationship between intelligence and judgment.", `${writing.length} essays`)}
+    ${pageIntro("Essays & collections", "Writing", "Ideas and experiments in agent systems, data, tools, and evaluation. Longer explorations gather their chapters in one place.", `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`)}
     <section class="shell archive-list">
       ${writing
         .map(
           (item, i) => `<article class="archive-item">
-            <a class="archive-link" href="/writing/${item.slug}/" aria-label="Read ${escapeHtml(item.title)}"></a>
-            <div class="archive-index">0${i + 1}</div>
-            <div class="archive-main"><div class="archive-eyebrow">${escapeHtml(item.eyebrow)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
-            <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
+            <a class="archive-link" href="${writingPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
+            <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
+            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? "Collection · 9 chapters" : escapeHtml(item.eyebrow)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
+            <div class="archive-meta"><time datetime="${item.updatedDate || item.date}">${item.updatedDate ? "September 27, 2026" : item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Writing", description: "Essays on autonomous agents, trustworthiness, and judgment.", active: "writing", content, path: "/writing/" });
+  return layout({ title: "Writing", description: "Essays and collections on autonomous agents, data, developer tools, and evaluation.", active: "writing", content, path: "/writing/" });
 }
 
 function notesPage() {
@@ -379,7 +381,7 @@ function notesPage() {
 
 function projectsPage() {
   const content = `<main id="content">
-    ${pageIntro("Areas of interest", "Focus", "I work on autonomous agents, embedding trustworthiness, and systems that learn from experience.", `${projects.length} themes`)}
+    ${pageIntro("Areas of interest", "Focus", "The connected parts of my work: agent systems, the information they use, and the experiments that help them improve.", `${projects.length} themes`)}
     <section class="shell project-list">
       ${projects
         .map(
@@ -387,23 +389,14 @@ function projectsPage() {
             <div class="project-side"><span>${project.index}</span><span class="status"><i></i>${escapeHtml(project.status)}</span></div>
             <div class="project-main"><span class="project-label">${escapeHtml(project.label)}</span><h2>${escapeHtml(project.title)}</h2><p>${escapeHtml(project.description)}</p>
               <div class="project-questions"><h3>Questions I return to</h3><ul>${project.questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}</ul></div>
+              ${arrowLink(`Read: ${escapeHtml(project.reading.title)}`, project.reading.href)}
             </div>
           </article>`
         )
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", active: "projects", content, path: "/projects/" });
-}
-
-function principlesPage() {
-  const content = `<main id="content">
-    ${pageIntro("Trustworthy Autonomy", "Principles", "Nine commitments for systems that deserve production authority. Each principle connects a philosophical question to a concrete engineering practice.", "09 essays")}
-    <div class="shell principles-overview-link"><a href="/writing/trustworthy-autonomy/">Start with the overview →</a></div>
-    ${renderSeriesMap(principleEssays, escapeHtml)}
-    <section class="shell principles-end"><p>Read these as design commitments. Their value is in what the system still guarantees when evidence is missing, an agent is mistaken, or a human changes their mind.</p></section>
-  </main>`;
-  return layout({ title: "Principles", description: "Nine principles of Trustworthy Autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.", active: "principles", content, series: true, path: "/principles/" });
+  return layout({ title: "Focus", description: "Agent systems, data and context, evaluation and learning.", active: "projects", content, path: "/projects/" });
 }
 
 function ideasPage() {
@@ -413,7 +406,7 @@ function ideasPage() {
       ${ideas.map((idea, i) => `<article><span>${String(i + 1).padStart(2, "0")}</span><p>${escapeHtml(idea)}</p><div aria-hidden="true">?</div></article>`).join("")}
     </section>
   </main>`;
-  return layout({ title: "Ideas", description: "Open questions about autonomy, trust, learning, and human judgment.", content, path: "/ideas/" });
+  return layout({ title: "Ideas", description: "Open questions about agent environments, context, replay, and reusable engineering.", content, path: "/ideas/" });
 }
 
 function aboutPage() {
@@ -421,23 +414,23 @@ function aboutPage() {
     <section class="about-hero shell">
       <div class="about-index">About / 2026</div>
       <div class="about-grid">
-        <h1>I am interested in the gap between systems that <em>can act</em> and systems that <em>deserve authority.</em></h1>
+        <h1>I build autonomous agents—and the systems that make their <em>intelligence useful.</em></h1>
         <div class="about-monogram" aria-hidden="true"><span>C</span><span>M</span></div>
       </div>
     </section>
     <section class="about-body shell">
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
-        <p>I’m Chaitanya Meesala. I work on engineering autonomous agents and embedding trustworthiness into intelligent systems.</p>
-        <p>I’m interested in how these systems reason, act, and learn—and how thoughtful engineering can make them dependable. A recurring question in my work is how growing capability can come with a deeper sense of responsibility.</p>
-        <p>Oddly is my space for ideas about autonomy, trust, and systems engineering. The essays, notes, and open questions reflect how my thinking is evolving.</p>
-        <blockquote>I build systems that earn trust through the way they understand, act, and learn.</blockquote>
+        <p>I’m Chaitanya Meesala. My work spans autonomous agents and their supporting systems: data, context, tools, memory, execution, and evaluation.</p>
+        <p>I’m interested in the details that change what an agent can accomplish. Sometimes that means bringing a small database into its workspace. Sometimes it means building a time machine so a slow failure becomes a repeatable experiment.</p>
+        <p>Oddly is where I bring those ideas together. Some become essays, some grow into collections, and others remain questions in a notebook. Trustworthy Autonomy is one such collection within that broader work.</p>
+        <blockquote>I like following an idea all the way down to the system that makes it work.</blockquote>
       </div>
     </section>
     <section class="about-now shell">
       <div><span>Engineering</span><strong>Autonomous agents</strong></div>
-      <div><span>Embedding</span><strong>Trustworthiness</strong></div>
-      <div><span>Exploring</span><strong>Learning &amp; judgment</strong></div>
+      <div><span>Connecting</span><strong>Data &amp; context</strong></div>
+      <div><span>Experimenting</span><strong>Evaluation &amp; learning</strong></div>
     </section>
   </main>`;
   return layout({ title: "About", description: "About Chaitanya Meesala and this technical notebook.", active: "about", content, path: "/about/" });
@@ -447,20 +440,22 @@ function articlePage(item, type, index, collection) {
   const active = type === "Writing" ? "writing" : "notes";
   const base = type === "Writing" ? "writing" : "notes";
   const series = !!(item.seriesNumber || item.seriesOverview);
+  const enhanced = series || !!item.interactiveEssay;
+  const pathFor = (article) => base === "writing" ? writingPath(article) : `/notes/${article.slug}/`;
   const next = item.seriesNumber ? principleEssays[item.seriesNumber] : collection[index + 1];
   const previous = item.seriesNumber ? principleEssays[item.seriesNumber - 2] : collection[index - 1];
   const content = `<main id="content">
-    <article class="article${item.incident ? " article-epistemics" : ""}${series ? " principle-article" : ""}">
+    <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}">
       <header class="article-header shell-narrow">
-        <a class="article-back" href="/${base}/">${icon.arrow}<span>All ${base}</span></a>
-        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "A working philosophy / Nine principles" : `${escapeHtml(type)} / ${String(index + 1).padStart(2,"0")}`}</div>
+        <a class="article-back" href="${item.seriesNumber ? autonomyPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? "Trustworthy Autonomy" : `All ${base}`}</span></a>
+        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / Chapter ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "Collection / Nine chapters" : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)} / ${String(index + 1).padStart(2,"0")}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
         <div class="article-meta"><time datetime="${item.updatedDate || item.date}">${item.updatedDate ? "Updated September 27, 2026" : item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? '\n        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>' : ""}
       </header>
       <div class="article-rule shell"></div>
-      ${series ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, principleEssays, escapeHtml)}` : ""}
+      ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, principleEssays, escapeHtml)}` : ""}
         <div class="prose${item.incident ? " epistemics-intro" : ""}">${markdown(item.body)}</div>
         ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : renderSeriesMap(principleEssays, escapeHtml)}
         <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${markdown(item.afterword)}</div>
@@ -474,11 +469,11 @@ function articlePage(item, type, index, collection) {
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
-      ${previous ? `<a class="pagination-prev" href="/${base}/${previous.slug}/"><span>Previous${item.seriesNumber ? " principle" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Start here</span><strong>Trustworthy Autonomy</strong></a>' : "<span></span>"}
-      ${next ? `<a class="pagination-next" href="/${base}/${next.slug}/"><span>Next${item.seriesNumber ? " principle" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/principles/"><span>Explore the framework</span><strong>All nine principles</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
+      ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Collection overview</span><strong>Trustworthy Autonomy</strong></a>' : "<span></span>"}
+      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Back to the collection</span><strong>Trustworthy Autonomy</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
     </nav>
   </main>`;
-  return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series, path: `/${base}/${item.slug}/` });
+  return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series: enhanced, path: pathFor(item) });
 }
 
 function notFoundPage() {
@@ -487,7 +482,7 @@ function notFoundPage() {
 }
 
 function articleRedirect(item) {
-  const path = `/writing/${item.slug}/`;
+  const path = writingPath(item);
   const content = `<main id="content" class="not-found shell"><h1>${escapeHtml(item.title)}</h1><p>This essay has a new address.</p>${arrowLink("Read the essay", path, "primary-link")}</main>`;
   return layout({ title: item.title, description: item.description, active: "writing", content, path })
     .replace(/[ \t]+$/gm, "")
@@ -502,11 +497,11 @@ async function emit(relative, contents) {
 
 function searchIndex() {
   return [
-    ...writing.map((item) => ({ type: "Writing", title: item.title, description: item.description, url: `/writing/${item.slug}/` })),
+    ...writing.map((item) => ({ type: item.seriesOverview ? "Collection" : "Writing", title: item.title, description: item.description, url: writingPath(item) })),
+    ...principleEssays.map((item) => ({ type: "Chapter", title: item.title, description: `Trustworthy Autonomy · ${item.description}`, url: writingPath(item) })),
     ...notes.map((item) => ({ type: "Note", title: item.title, description: item.description, url: `/notes/${item.slug}/` })),
-    { type: "Page", title: "Focus", description: "Engineering autonomous agents, embedding trustworthiness, and learning from experience.", url: "/projects/" },
-    { type: "Page", title: "Principles", description: "Nine principles of trustworthy autonomy: epistemics, provenance, ownership, authority, trust boundaries, time, delegation, failure, and outcomes.", url: "/principles/" },
-    { type: "Page", title: "Ideas in progress", description: "Open questions about autonomy, trust, learning, and human judgment.", url: "/ideas/" },
+    { type: "Page", title: "Focus", description: "Agent systems, data and context, evaluation and learning.", url: "/projects/" },
+    { type: "Page", title: "Ideas in progress", description: "Open questions about agent environments, context, replay, and reusable engineering.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
   ];
 }
@@ -541,7 +536,7 @@ await Promise.all([
   emit("writing/index.html", writingPage()),
   emit("notes/index.html", notesPage()),
   emit("projects/index.html", projectsPage()),
-  emit("principles/index.html", principlesPage()),
+  emit("principles/index.html", articleRedirect(autonomyOverview)),
   emit("ideas/index.html", ideasPage()),
   emit("about/index.html", aboutPage()),
   emit("404.html", notFoundPage()),
@@ -555,10 +550,11 @@ await Promise.all([
 ]);
 
 await Promise.all(
-  writing.map((item, index) => emit(`writing/${item.slug}/index.html`, articlePage(item, "Writing", index, writing)))
+  writing.map((item, index) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item, "Writing", index, writing)))
 );
+await Promise.all(principleEssays.map((item, index) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item, "Writing", index, principleEssays))));
 await Promise.all(notes.map((item, index) => emit(`notes/${item.slug}/index.html`, articlePage(item, "Note", index, notes))));
-await Promise.all(writing.flatMap((item) => (item.aliases || []).map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
+await Promise.all(allWriting.flatMap((item) => [...(item.aliases || []), ...(item.seriesNumber ? [item.slug] : [])].map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
 
 await mkdir(join(out, "assets"), { recursive: true });
 await cp(join(root, "legacy"), out, { recursive: true });
@@ -575,7 +571,7 @@ await Promise.all([
   cp(join(root, "src", "mark.svg"), join(out, "assets", "mark.svg"))
 ]);
 
-console.log(`Built ${writing.length + notes.length + 8} current pages and preserved the earlier site pages in ${out}`);
+console.log(`Built ${writing.length} writing entries, ${principleEssays.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
 
 if (process.argv.includes("--publish-root")) {
   for (const name of await readdir(out)) {

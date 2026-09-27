@@ -1,25 +1,21 @@
-import { autonomyOverview, principleEssays } from "./principle-series.mjs";
+import { autonomyOverview } from "./principle-series.mjs";
+import { systemsWriting } from "./systems-writing.mjs";
 
 export const site = {
   name: "Oddly",
   author: "Chaitanya",
   shortName: "O",
-  title: "Oddly — Ideas on autonomy & trust",
+  title: "Oddly — Agents, systems & experiments",
   description:
-    "Ideas on engineering autonomous agents, embedding trustworthiness, and learning from experience.",
-  statement: "Systems should earn the authority we give them.",
+    "A notebook on autonomous agents, data, developer tools, and the engineering that connects them.",
+  statement: "Ideas become useful when they become systems.",
   intro:
-    "I work on engineering autonomous agents and embedding trustworthiness into intelligent systems. I write about how they reason, act, and learn—and what it takes to earn our trust."
+    "I’m Chaitanya. I work on autonomous agents and the data, tools, and environments that make them useful. Oddly brings together the ideas, experiments, and engineering lessons along the way."
 };
 
-export const principles = principleEssays.map((item) => ({
-  number: String(item.seriesNumber).padStart(2, "0"),
-  title: item.title, text: item.summary, slug: item.slug
-}));
-
 export const writing = [
+  ...systemsWriting,
   autonomyOverview,
-  ...principleEssays,
   {
     slug: "engineering-autonomous-agents",
     aliases: ["agent-harness-is-the-product"],
@@ -191,46 +187,49 @@ The aim is to make a conclusion easier to challenge and more deserving of confid
 export const projects = [
   {
     index: "01",
-    title: "Engineering Autonomous Agents",
-    label: "Intelligence & action",
+    title: "Agent systems",
+    label: "Reasoning & execution",
     status: "Ongoing focus",
     description:
-      "Building intelligent systems that can reason, act with purpose, and adapt to a changing world.",
+      "Connecting models, tools, memory, and execution so an agent can carry an idea through to useful work.",
     questions: [
-      "What turns intelligence into dependable action?",
-      "How can autonomy extend human judgment?"
-    ]
+      "What belongs in the model, and what belongs in ordinary code?",
+      "What helps an agent keep making progress across a long task?"
+    ],
+    reading: { title: "Engineering Autonomous Agents", href: "/writing/engineering-autonomous-agents/" }
   },
   {
     index: "02",
-    title: "Embedding Trustworthiness",
-    label: "Trust & responsibility",
+    title: "Data & context",
+    label: "Information within reach",
     status: "Ongoing focus",
     description:
-      "Making trustworthiness part of how autonomous systems are designed, how they behave, and how people work with them.",
+      "Giving agents useful information in a form they can explore: local data, temporal context, and interfaces that make the next question cheap.",
     questions: [
-      "What makes a system worthy of trust?",
-      "How should responsibility grow with capability?"
-    ]
+      "Which data should already be waiting when an investigation begins?",
+      "How can deterministic collection support flexible reasoning?"
+    ],
+    reading: { title: "A small database for a curious agent", href: "/writing/in-memory-time-series-for-agents/" }
   },
   {
     index: "03",
-    title: "Learning from Experience",
-    label: "Memory & adaptation",
+    title: "Evaluation & learning",
+    label: "Experiments that teach",
     status: "Ongoing focus",
     description:
-      "Exploring how experience and feedback can deepen understanding and improve judgment over time.",
+      "Making agent behavior observable and repeatable enough to improve, through replay, useful feedback, and experiments that survive beyond a demo.",
     questions: [
-      "What is worth remembering?",
-      "How can learning improve judgment while keeping it open to challenge?"
-    ]
+      "How can we test a slow failure without waiting for it every time?",
+      "What distinguishes an improvement from a lucky run?"
+    ],
+    reading: { title: "A time machine for agents", href: "/writing/a-time-machine-for-agents/" }
   }
 ];
 
 export const ideas = [
-  "What does it mean for an autonomous system to earn trust?",
-  "How can intelligence become better judgment?",
-  "What should an agent learn from experience—and what should it reconsider?",
-  "How can people and agents develop a shared understanding?",
-  "What makes a capable system dependable in an unfamiliar situation?"
+  "What changes when the data an agent needs is already waiting for it?",
+  "Which parts of an investigation benefit from intelligence, and which benefit from predictability?",
+  "How much of a real system can we replay before we need to simulate it?",
+  "What should an agent carry from one task into the next?",
+  "How can a small experiment become a reusable piece of engineering?"
 ];

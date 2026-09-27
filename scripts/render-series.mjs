@@ -1,7 +1,9 @@
+import { writingPath } from "../src/paths.mjs";
+
 export function renderSeriesMap(essays, escape, currentSlug) {
   return `<nav class="series-map" aria-label="Trustworthy Autonomy principles">
-    <div class="series-map-heading"><span>Nine design commitments</span><h2>The principles</h2></div>
-    <div class="series-map-grid">${essays.map((essay) => `<a class="series-map-card" href="/writing/${essay.slug}/"${essay.slug === currentSlug ? ' aria-current="page"' : ""}>
+    <div class="series-map-heading"><span>Inside this collection</span><h2>Nine principles, nine chapters</h2></div>
+    <div class="series-map-grid">${essays.map((essay) => `<a class="series-map-card" href="${writingPath(essay)}"${essay.slug === currentSlug ? ' aria-current="page"' : ""}>
       <span class="series-number">${String(essay.seriesNumber).padStart(2,"0")}</span>
       <h3>${escape(essay.title)}</h3><p>${escape(essay.summary)}</p><span class="series-read">${essay.readTime} read <span aria-hidden="true">↗</span></span>
     </a>`).join("")}</div>
@@ -27,7 +29,7 @@ export function renderCaseStudy(study, escape) {
 }
 
 export function renderSeriesNavigation(item, essays, escape) {
-  return `<details class="series-directory"><summary>Explore all nine principles <span>${String(item.seriesNumber).padStart(2,"0")} / 09</span></summary>
-    <nav aria-label="All principles"><ol>${essays.map((essay) => `<li><a href="/writing/${essay.slug}/"${essay.slug===item.slug?' aria-current="page"':""}>${escape(essay.title)}</a></li>`).join("")}</ol></nav>
+  return `<details class="series-directory"><summary>Chapters in this collection <span>${String(item.seriesNumber).padStart(2,"0")} / 09</span></summary>
+    <nav aria-label="Collection chapters"><ol>${essays.map((essay) => `<li><a href="${writingPath(essay)}"${essay.slug===item.slug?' aria-current="page"':""}>${escape(essay.title)}</a></li>`).join("")}</ol></nav>
   </details>`;
 }

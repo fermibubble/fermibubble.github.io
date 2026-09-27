@@ -1,28 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/trustworthy-autonomy/autonomy-requires-a-dial/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Autonomy requires a Dial — Oddly</title>
     <meta name="description" content="One agent can investigate freely, prepare a rollback, and still need permission to execute it. Authority belongs to the action.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Autonomy requires a Dial — Oddly">
     <meta property="og:description" content="One agent can investigate freely, prepare a rollback, and still need permission to execute it. Authority belongs to the action.">
-    <meta property="og:url" content="https://oddly.fyi/writing/autonomy-requires-a-dial/">
-    <link rel="canonical" href="https://oddly.fyi/writing/autonomy-requires-a-dial/">
+    <meta property="og:url" content="https://oddly.fyi/writing/trustworthy-autonomy/autonomy-requires-a-dial/">
+    <link rel="canonical" href="https://oddly.fyi/writing/trustworthy-autonomy/autonomy-requires-a-dial/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
   </head>
-  <body data-path="/writing/autonomy-requires-a-dial/" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/trustworthy-autonomy/autonomy-requires-a-dial/">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -34,7 +33,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/principles/">Principles</a><a href="/about/">About</a>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -42,152 +41,14 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Trustworthy Autonomy / 04 of 09</div>
-        <h1>Autonomy requires<br><em>a Dial</em></h1>
-        <p class="article-deck">One agent can investigate freely, prepare a rollback, and still need permission to execute it. Authority belongs to the action.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-09-27">September 27, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <details class="series-directory"><summary>Explore all nine principles <span>04 / 09</span></summary>
-    <nav aria-label="All principles"><ol><li><a href="/writing/verdicts-require-epistemics/">Verdicts require Epistemics</a></li><li><a href="/writing/evidence-requires-provenance/">Evidence requires Provenance</a></li><li><a href="/writing/state-requires-ownership/">State requires Ownership</a></li><li><a href="/writing/autonomy-requires-a-dial/" aria-current="page">Autonomy requires a Dial</a></li><li><a href="/writing/inputs-require-a-trust-boundary/">Inputs require a Trust Boundary</a></li><li><a href="/writing/knowledge-requires-a-clock/">Knowledge requires a Clock</a></li><li><a href="/writing/delegation-requires-ceilings/">Delegation requires Ceilings</a></li><li><a href="/writing/failure-requires-a-ladder/">Failure requires a Ladder</a></li><li><a href="/writing/learning-requires-outcomes/">Learning requires Outcomes</a></li></ol></nav>
-  </details>
-        <div class="prose"><p>Autonomy is the freedom to act within a delegated boundary. A useful boundary changes with the action, its consequences, and the conditions around it.</p>
-<p>Imagine an agent finds a regression during a release. It can read another trace, shorten the next review interval, pause a small canary, or roll back every region.</p>
-<p>Those choices do not deserve the same permission. A system that labels the entire agent “autonomous” has skipped the most important question: <strong>autonomous to do what?</strong></p>
-<h2 id="the-same-agent-three-kinds-of-freedom">The same agent, three kinds of freedom<a class="heading-anchor" href="#the-same-agent-three-kinds-of-freedom" aria-label="Link to this section">#</a></h2>
-<p>Reading telemetry may be allowed within an access and query budget. Pausing a small canary may be permitted by an explicit policy. A global rollback may require a named human to approve the exact plan.</p>
-<p>The agent can prepare that plan while it waits: affected services, prerequisites, expected impact, recovery steps. Useful work continues inside the boundary.</p>
-<p>A strong diagnosis does not create a new permission. Confidence is one input to an action decision; authority also depends on scope, reversibility, environment, cost, and who has accepted responsibility.</p>
-<h2 id="delegation-is-conditional">Delegation is conditional<a class="heading-anchor" href="#delegation-is-conditional" aria-label="Link to this section">#</a></h2>
-<p>The underlying philosophical idea is consent. Someone entrusts a system with a purpose and a bounded power to pursue it. That permission can expire or be withdrawn.</p>
-<p>As the system proves itself, particular permissions may expand under agreed criteria. A history of good performance in staging does not automatically authorize production changes.</p>
-<p>Explore the seven levels below. They describe possible grants of authority, not a ladder every agent should climb.</p></div>
-        <section class="case-study" data-case-study aria-labelledby="case-title">
-    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">Set the authority</h2><p>An illustrative policy ladder. Selecting a level explains it; no real action is executed.</p></header>
-    <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
-      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>0 · Observe</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>1 · Analyze</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>2 · Recommend</button><button type="button" data-case-choice="3" aria-controls="case-panel-3" aria-pressed="false"><span>04</span>3 · Prepare</button><button type="button" data-case-choice="4" aria-controls="case-panel-4" aria-pressed="false"><span>05</span>4 · Approval</button><button type="button" data-case-choice="5" aria-controls="case-panel-5" aria-pressed="false"><span>06</span>5 · Policy</button><button type="button" data-case-choice="6" aria-controls="case-panel-6" aria-pressed="false"><span>07</span>6 · Delegated</button>
-    </nav>
-    <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
-      <div class="case-snapshot"><span class="case-kicker">0 · Observe</span><dl><div><dt>Level</dt><dd>0</dd></div><div><dt>Production changes</dt><dd>None</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-0">Collect the facts</h3>
-        <dl><dt>What happens</dt><dd>Collect and present rollout facts without issuing a health judgment.</dd><dt>What it means</dt><dd>The system is a witness at this level.</dd><dt>What the system does</dt><dd>Read within explicit data and cost limits.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 0,
-  &quot;allowed&quot;: [
-    &quot;read telemetry&quot;
-  ],
-  &quot;production_mutation&quot;: false
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
-      <div class="case-snapshot"><span class="case-kicker">1 · Analyze</span><dl><div><dt>Level</dt><dd>1</dd></div><div><dt>Production changes</dt><dd>None</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-1">Interpret what changed</h3>
-        <dl><dt>What happens</dt><dd>Compare the canary with the control and identify anomalies.</dd><dt>What it means</dt><dd>Interpretation is permitted; execution is not.</dd><dt>What the system does</dt><dd>Publish an assessment with its uncertainty.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 1,
-  &quot;allowed&quot;: [
-    &quot;analyze&quot;,
-    &quot;record assessment&quot;
-  ],
-  &quot;production_mutation&quot;: false
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
-      <div class="case-snapshot"><span class="case-kicker">2 · Recommend</span><dl><div><dt>Level</dt><dd>2</dd></div><div><dt>Action status</dt><dd>Proposed</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-2">Make a case for action</h3>
-        <dl><dt>What happens</dt><dd>Recommend pausing the rollout and explain why.</dd><dt>What it means</dt><dd>The recommendation creates no approval of its own.</dd><dt>What the system does</dt><dd>Name the proposed action, evidence, and expected impact.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 2,
-  &quot;action&quot;: &quot;pause rollout&quot;,
-  &quot;status&quot;: &quot;recommendation&quot;
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-3" data-case-panel="3" aria-labelledby="case-heading-3">
-      <div class="case-snapshot"><span class="case-kicker">3 · Prepare</span><dl><div><dt>Level</dt><dd>3</dd></div><div><dt>Action status</dt><dd>Prepared</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-3">Make the plan reviewable</h3>
-        <dl><dt>What happens</dt><dd>Prepare a rollback plan, including prerequisites and affected regions.</dd><dt>What it means</dt><dd>Preparation remains separate from execution.</dd><dt>What the system does</dt><dd>Validate the plan without changing production.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 3,
-  &quot;action&quot;: &quot;global rollback&quot;,
-  &quot;plan_status&quot;: &quot;ready for review&quot;,
-  &quot;executed&quot;: false
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-4" data-case-panel="4" aria-labelledby="case-heading-4">
-      <div class="case-snapshot"><span class="case-kicker">4 · Approval</span><dl><div><dt>Level</dt><dd>4</dd></div><div><dt>Required approver</dt><dd>Service owner</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-4">Execute the approved scope</h3>
-        <dl><dt>What happens</dt><dd>An authorized owner approves a particular plan for a particular rollout.</dd><dt>What it means</dt><dd>An approval for one action does not authorize its larger variations.</dd><dt>What the system does</dt><dd>Check the approval&#039;s identity, scope, expiry, and continued validity before execution.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 4,
-  &quot;action&quot;: &quot;pause rollout&quot;,
-  &quot;approval_required_from&quot;: [
-    &quot;service-owner&quot;
-  ],
-  &quot;if_no_approval&quot;: &quot;continue bounded observation&quot;
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-5" data-case-panel="5" aria-labelledby="case-heading-5">
-      <div class="case-snapshot"><span class="case-kicker">5 · Policy</span><dl><div><dt>Level</dt><dd>5</dd></div><div><dt>Boundary</dt><dd>Small canary</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-5">Act when the policy permits</h3>
-        <dl><dt>What happens</dt><dd>A predefined rule permits pausing this canary when evidence and risk conditions are met.</dd><dt>What it means</dt><dd>Automatic execution still passes through an independent authorization check.</dd><dt>What the system does</dt><dd>Evaluate the policy against current evidence and record the result.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 5,
-  &quot;action&quot;: &quot;pause canary&quot;,
-  &quot;policy&quot;: &quot;bounded-canary-pause&quot;,
-  &quot;required&quot;: [
-    &quot;fresh evidence&quot;,
-    &quot;coverage floor&quot;,
-    &quot;approved traffic limit&quot;
-  ]
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-6" data-case-panel="6" aria-labelledby="case-heading-6">
-      <div class="case-snapshot"><span class="case-kicker">6 · Delegated</span><dl><div><dt>Level</dt><dd>6</dd></div><div><dt>Boundary</dt><dd>Mission contract</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-6">Plan inside a bounded mission</h3>
-        <dl><dt>What happens</dt><dd>The system may plan and execute a sequence within a defined operational mission.</dd><dt>What it means</dt><dd>Tool, time, cost, and impact limits remain enforceable and revocable.</dd><dt>What the system does</dt><dd>Escalate when the plan reaches a policy boundary.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;autonomy_level&quot;: 6,
-  &quot;scope&quot;: &quot;one approved service and region&quot;,
-  &quot;limits&quot;: [
-    &quot;deadline&quot;,
-    &quot;cost&quot;,
-    &quot;blast radius&quot;
-  ],
-  &quot;revocable&quot;: true
-}</pre></details>
-      </div>
-    </section></div>
-    <div class="case-footer" data-case-controls hidden><span data-case-position>1 of 7</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
-    <p class="sr-only" role="status" data-case-status></p>
-  </section>
-        <div class="prose series-afterword"><h2 id="put-the-dial-outside-the-agent">Put the dial outside the agent<a class="heading-anchor" href="#put-the-dial-outside-the-agent" aria-label="Link to this section">#</a></h2>
-<p>Each action should declare its level, permitting policy, affected scope, reversibility, required approvers, and behavior while approval is absent. If authority is ambiguous, execution waits at the boundary.</p>
-<p>The surrounding system enforces these conditions. A model-generated claim that “the user would probably agree” cannot substitute for an approval record.</p>
-<p>The dial also turns down. Stale evidence, exhausted budgets, unusual traffic, or a revoked permission can reduce what is allowed halfway through a task.</p>
-<p>Try the same proposed action in development, a small canary, and global production. A well-designed system can give three different answers, each with a reason someone can inspect.</p>
-<blockquote><p>Give the agent enough freedom to be useful, and make the boundary legible to everyone affected.</p></blockquote>
-<p>Further reading: Saltzer and Schroeder&#039;s <a href="https://web.mit.edu/saltzer/www/publications/protection/Basic.html" rel="noreferrer">principles of information protection</a>, especially least privilege and fail-safe defaults.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/state-requires-ownership/"><span>Previous principle</span><strong>State requires Ownership</strong></a>
-      <a class="pagination-next" href="/writing/inputs-require-a-trust-boundary/"><span>Next principle</span><strong>Inputs require a Trust Boundary</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Autonomy requires a Dial</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/trustworthy-autonomy/autonomy-requires-a-dial/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Systems should earn the authority we give them.</p>
+          <p>Experiments, ideas, and the engineering between them.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -198,7 +59,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

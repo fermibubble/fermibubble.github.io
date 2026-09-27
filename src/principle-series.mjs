@@ -8,7 +8,7 @@ const published = {
 export const principleEssays = [
   epistemics,
   {
-    ...published, featured: true, seriesNumber: 2, slug: "evidence-requires-provenance",
+    ...published, seriesNumber: 2, slug: "evidence-requires-provenance",
     title: "Evidence requires Provenance", titleLines: ["Evidence requires", "Provenance"],
     description: "A precise number can tell the wrong story. Follow a claim back through the query, the cohort, and everything the summary left out.",
     summary: "Every material claim keeps a trail back to its source, transformations, and limitations.",
@@ -429,7 +429,7 @@ Further reading: Google SRE's [Postmortem Culture](https://sre.google/sre-book/p
 export const autonomyOverview = {
   slug: "trustworthy-autonomy", title: "Trustworthy Autonomy", titleLines: ["Trustworthy", "Autonomy"],
   eyebrow: "A working philosophy", date: "2026-09-03", displayDate: "September 3, 2026",
-  updatedDate: "2026-09-27", readTime: "3 min", featured: true, seriesOverview: true,
+  updatedDate: "2026-09-27", readTime: "3 min", featured: false, seriesOverview: true,
   description: "Nine principles for systems that deserve the authority we give them. A field guide to evidence, boundaries, and learning from consequences.",
   body: `
 Trustworthy autonomy is the discipline of building systems whose freedom to act is supported by evidence, explicit authority, and accountability for what follows.
@@ -444,7 +444,7 @@ Trust begins with reasons: what the system knows, how it knows it, and where its
 
 The philosophy becomes practical when each promise has a mechanism. A claim carries its evidence. A state update checks its owner and version. An action passes through a permission boundary. A verdict eventually meets an independent outcome.
 
-The nine principles below describe that architecture. Each essay starts with a concrete situation and follows the principle into a working example.
+This collection develops that architecture through nine principles. Each chapter starts with a concrete situation and follows the principle into a working example.
 `,
   afterword: `
 ## The principles work together

@@ -12,7 +12,7 @@ export const epistemics = {
   displayDate: "September 27, 2026",
   readTime: "5 min",
   description: "An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.",
-  featured: true,
+  featured: false,
   incident,
   body: `
 Epistemics is how we decide what to believe, what supports that belief, and when to change our mind.
