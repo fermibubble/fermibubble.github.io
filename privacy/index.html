@@ -1,27 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta http-equiv="refresh" content="0; url=/writing/judgment-under-uncertainty/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Judgment Under Uncertainty — Oddly</title>
-    <meta name="description" content="A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.">
+    <title>Privacy — Oddly</title>
+    <meta name="description" content="How Oddly handles local preferences and optional analytics.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Judgment Under Uncertainty — Oddly">
-    <meta property="og:description" content="A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.">
-    <meta property="og:url" content="https://oddly.fyi/writing/judgment-under-uncertainty/">
-    <link rel="canonical" href="https://oddly.fyi/writing/judgment-under-uncertainty/">
+    <meta property="og:title" content="Privacy — Oddly">
+    <meta property="og:description" content="How Oddly handles local preferences and optional analytics.">
+    <meta property="og:url" content="https://oddly.fyi/privacy/">
+    <link rel="canonical" href="https://oddly.fyi/privacy/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/judgment-under-uncertainty/">
-
-
+  <body data-path="/privacy/">
+    
+    
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -33,7 +36,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/writing/">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -41,8 +44,15 @@
         </div>
       </div>
     </header>
-    <main id="content" class="not-found shell"><h1>Judgment Under Uncertainty</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/judgment-under-uncertainty/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
-
+    <main id="content"><header class="page-intro shell"><div class="page-kicker">ABOUT THIS SITE</div><h1>Privacy</h1><p>Clear choices about your visit.</p></header><div class="privacy-copy prose"><h2 id="optional-analytics">Optional analytics<a class="heading-anchor" href="#optional-analytics" aria-label="Link to this section">#</a></h2>
+<p>With your permission, Oddly uses PostHog to understand traffic sources, popular pages, clicks, scroll depth, reading time, browser performance, and JavaScript errors. A random browser identifier helps distinguish visits without requiring an account.</p>
+<p>PostHog receives your IP address and can derive an approximate country, region, and city. That location is an estimate; it is not GPS or your street address. The analytics dashboard is private.</p>
+<h2 id="session-replay">Session replay<a class="heading-anchor" href="#session-replay" aria-label="Link to this section">#</a></h2>
+<p>If you allow analytics, a replay may reconstruct your activity on this website, including navigation, clicks, and scrolling. It does not record your desktop or other tabs. Search, form inputs, and elements marked private are blocked or masked. Network request bodies, headers, and console logging are disabled.</p>
+<h2 id="your-choice">Your choice<a class="heading-anchor" href="#your-choice" aria-label="Link to this section">#</a></h2>
+<p>Analytics and replay load only after you choose “Allow analytics.” You can withdraw permission using “Analytics preferences” in the footer. A decline, Global Privacy Control, or Do Not Track keeps collection off. Browser settings, blockers, and consent mean analytics will not represent every visit.</p>
+<p>Your preference is remembered for up to 180 days in this browser. Withdrawing stops future collection; it does not erase previously collected events.</p></div></main>
+    
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -55,11 +65,13 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-
+    
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

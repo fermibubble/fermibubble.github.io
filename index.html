@@ -6,7 +6,7 @@
     <title>Oddly — Engineering autonomous systems</title>
     <meta name="description" content="Technical essays by Chaitanya Meesala on agent infrastructure, local context, observability, and reproducible evaluation.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Oddly — Engineering autonomous systems">
     <meta property="og:description" content="Technical essays by Chaitanya Meesala on agent infrastructure, local context, observability, and reproducible evaluation.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/">
     
@@ -50,15 +54,12 @@
             <p>I’m Chaitanya. I build autonomous agents and the infrastructure around them: local context, reliable execution, and reproducible evaluation. Oddly connects the architecture, experiments, and engineering decisions behind that work.</p>
             <a class="primary-link" href="/writing/"><span>Read the writing</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
           </div>
-          <div class="decision-map reveal reveal-delay-2" aria-label="An agent supported by context, tools, evaluation, and memory">
-            <div class="map-label">An agent’s operating environment</div>
-            <div class="map-center"><span>Agents</span><small>reason &amp; act</small></div>
-            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>Queryable evidence</small></div>
-            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>Reliable execution</small></div>
-            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>Recorded outcomes</small></div>
-            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>State across turns</small></div>
-            <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
-          </div>
+          <aside class="home-directory reveal reveal-delay-2" aria-label="Explore the work">
+            <p class="directory-label">AREAS OF WORK</p>
+            <a href="/writing/engineering-autonomous-agents/"><span>01</span><div><strong>Agent architecture</strong><small>Execution, memory, and the structure around a model.</small></div></a>
+            <a href="/writing/local-context-for-autonomous-agents/"><span>02</span><div><strong>Context systems</strong><small>Data within reach. Evidence worth reasoning with.</small></div></a>
+            <a href="/writing/checkpoint-replay-for-agent-evaluation/"><span>03</span><div><strong>Evaluation</strong><small>Repeatable experiments across long tasks.</small></div></a>
+          </aside>
         </div>
         <div class="hero-index reveal reveal-delay-3">
           <span>Agent infrastructure</span><span>Local context</span><span>Observability</span><span>Reproducible evaluation</span>
@@ -170,6 +171,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

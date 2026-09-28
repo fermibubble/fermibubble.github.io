@@ -4,7 +4,6 @@ const publicationDates = {
   "context-vs-harness-engineering": "2026-07-06",
   "verdicts-require-epistemics": "2026-07-11",
   "what-does-good-mean-for-an-agent": "2026-07-16",
-  "judgment-under-uncertainty": "2026-07-21",
   "evidence-requires-provenance": "2026-07-26",
   "state-requires-ownership": "2026-07-31",
   "skills-arent-policies": "2026-08-05",

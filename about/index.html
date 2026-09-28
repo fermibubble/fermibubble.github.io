@@ -6,7 +6,7 @@
     <title>About — Oddly</title>
     <meta name="description" content="About Chaitanya Meesala and this technical notebook.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="website">
     <meta property="og:title" content="About — Oddly">
     <meta property="og:description" content="About Chaitanya Meesala and this technical notebook.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/about/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/about/">
     
@@ -52,7 +56,7 @@
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
         <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
-        <p>My work on rollout review connects these problems directly: collect telemetry through deterministic pipelines, make it locally queryable, preserve an agent’s state, and replay recorded scenarios to evaluate its decisions.</p>
+        <p>I’m interested in the architecture behind useful agents: how a coding assistant preserves progress, how a research agent keeps evidence traceable, and how a data pipeline turns information into a dependable working context. These questions connect software engineering, experimentation, and the philosophy of knowledge.</p>
         <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. The notes isolate useful distinctions. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
         <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
@@ -76,6 +80,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

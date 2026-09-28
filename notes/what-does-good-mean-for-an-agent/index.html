@@ -6,7 +6,7 @@
     <title>What does “good” mean for an agent? — Oddly</title>
     <meta name="description" content="Define success through outcomes, constraints, and the cost of getting there.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="What does “good” mean for an agent? — Oddly">
     <meta property="og:description" content="Define success through outcomes, constraints, and the cost of getting there.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/notes/what-does-good-mean-for-an-agent/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/notes/what-does-good-mean-for-an-agent/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -53,10 +57,10 @@
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Note</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>An incident agent identifies a connection leak. Another identifies it ten minutes earlier, before customers see errors. A third recommends restarting every service and happens to clear the symptom.</p>
-<p>All three might receive credit from a grader that checks only the final diagnosis. They did not perform equally well.</p>
-<p>Define quality across the dimensions that matter: supported diagnosis, time to detection, unnecessary interventions, and the cost of investigation. Include healthy scenarios to measure false alarms.</p>
-<p>Also distinguish a recommendation from its outcome. “I rolled back the release” is a claim in a transcript. The deployed revision and resulting service health are observations in the environment.</p>
+        <div class="prose" data-article-body><p>A research agent finds ten papers. Another finds three that directly answer the question. A third produces a persuasive synthesis whose citations do not support its central claim.</p>
+<p>A grader that counts sources might prefer the first. A grader that rewards fluent prose might prefer the third. Neither has established which answer is useful.</p>
+<p>Define quality across the dimensions that matter: relevance, coverage of competing explanations, support for material claims, and the cost of investigation. Include questions for which the available sources cannot settle the answer.</p>
+<p>Also distinguish the agent’s report from the delivered outcome. “Every citation was verified” is a claim in a transcript. Opening the sources and checking what they establish is a separate evaluation.</p>
 <p>A useful evaluation makes those expectations explicit before the agent runs. Otherwise, “good” quietly becomes whatever the easiest grader can count.</p></div>
       </div>
     </article>
@@ -78,6 +82,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

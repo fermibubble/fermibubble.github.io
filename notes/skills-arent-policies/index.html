@@ -6,7 +6,7 @@
     <title>Skills aren’t policies — Oddly</title>
     <meta name="description" content="Knowing how to act and having the authority to act are different things.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Skills aren’t policies — Oddly">
     <meta property="og:description" content="Knowing how to act and having the authority to act are different things.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/notes/skills-arent-policies/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/notes/skills-arent-policies/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -53,10 +57,10 @@
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Note</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>A deployment skill can explain how to compare revisions, drain traffic, and roll back a service. Knowing that procedure does not grant permission to execute it in production.</p>
+        <div class="prose" data-article-body><p>A calendar skill can explain how to find a free slot, draft an invitation, and reschedule a meeting. Knowing that procedure does not grant permission to change someone’s calendar.</p>
 <p>Skills package useful methods. Policy determines which resources and actions are available under the current conditions. The runtime must enforce that policy when a tool runs.</p>
-<p>Consider a skill that says “roll back if the error rate rises.” The agent may use it to form a recommendation. Whether it can change the deployment still depends on its granted scope, the environment, and any required approval.</p>
-<p>This separation lets teams improve investigative methods without silently expanding authority. A downloaded playbook can teach the agent a better technique; it cannot give itself production access.</p></div>
+<p>Consider a skill that says “move conflicting meetings to the next available slot.” The agent can propose a schedule. Sending invitations or moving an existing meeting still depends on its granted scope and any required approval.</p>
+<p>This separation lets teams improve investigative methods without silently expanding authority. A downloaded playbook can teach the agent a better technique; it cannot grant access to a private calendar.</p></div>
       </div>
     </article>
     <nav class="article-pagination shell" aria-label="More notes">
@@ -77,6 +81,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

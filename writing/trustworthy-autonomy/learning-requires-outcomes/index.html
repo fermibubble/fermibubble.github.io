@@ -4,21 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Learning requires Outcomes — Oddly</title>
-    <meta name="description" content="The rollout looked healthy at thirty minutes. Four hours later, a queue filled. Who goes back and grades the earlier verdict?">
+    <meta name="description" content="An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Learning requires Outcomes — Oddly">
-    <meta property="og:description" content="The rollout looked healthy at thirty minutes. Four hours later, a queue filled. Who goes back and grades the earlier verdict?">
+    <meta property="og:description" content="An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?">
     <meta property="og:url" content="https://oddly.fyi/writing/trustworthy-autonomy/learning-requires-outcomes/">
     <link rel="canonical" href="https://oddly.fyi/writing/trustworthy-autonomy/learning-requires-outcomes/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/writing/trustworthy-autonomy/learning-requires-outcomes/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -48,7 +52,7 @@
         <a class="article-back" href="/writing/trustworthy-autonomy/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Trustworthy Autonomy</span></a>
         <div class="article-type">Trustworthy Autonomy / Chapter 09 of 09</div>
         <h1>Learning requires<br><em>Outcomes</em></h1>
-        <p class="article-deck">The rollout looked healthy at thirty minutes. Four hours later, a queue filled. Who goes back and grades the earlier verdict?</p>
+        <p class="article-deck">An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
         <div class="article-meta"><time datetime="2026-09-23">September 23, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>
@@ -59,56 +63,55 @@
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/trustworthy-autonomy/verdicts-require-epistemics/">Verdicts require Epistemics</a></li><li><a href="/writing/trustworthy-autonomy/evidence-requires-provenance/">Evidence requires Provenance</a></li><li><a href="/writing/trustworthy-autonomy/state-requires-ownership/">State requires Ownership</a></li><li><a href="/writing/trustworthy-autonomy/autonomy-requires-a-dial/">Autonomy requires a Dial</a></li><li><a href="/writing/trustworthy-autonomy/inputs-require-a-trust-boundary/">Inputs require a Trust Boundary</a></li><li><a href="/writing/trustworthy-autonomy/knowledge-requires-a-clock/">Knowledge requires a Clock</a></li><li><a href="/writing/trustworthy-autonomy/delegation-requires-ceilings/">Delegation requires Ceilings</a></li><li><a href="/writing/trustworthy-autonomy/failure-requires-a-ladder/">Failure requires a Ladder</a></li><li><a href="/writing/trustworthy-autonomy/learning-requires-outcomes/" aria-current="page">Learning requires Outcomes</a></li></ol></nav>
   </details>
         <div class="prose"><p>Learning requires connecting a decision to what actually happened, then using that comparison to improve future decisions.</p>
-<p>An agent reviews a release, declares it healthy, and writes an excellent summary. The summary becomes memory. Next time, the agent retrieves it as a successful precedent.</p>
+<p>An agent updates an invoice extractor, runs a sample batch, and writes an excellent summary. The summary becomes memory. Next time, the agent retrieves it as a successful precedent.</p>
 <p>There is one missing step: nobody checked whether it was a success.</p>
 <h2 id="reality-arrives-after-the-report">Reality arrives after the report<a class="heading-anchor" href="#reality-arrives-after-the-report" aria-label="Link to this section">#</a></h2>
-<p>Imagine a release whose requests finish quickly while a background queue grows. The reviewer checks request latency and errors. At thirty minutes, both look fine. Four hours later, the queue fills and payment processing starts failing.</p>
-<p>The early metrics were real. So was a rising queue-depth signal already present when the agent made its decision. The problem lay in what the review failed to investigate.</p>
-<p>A system that closes the file when the report is written never connects the later incident to that earlier omission. It can become more confident each time it remembers its own ungraded work.</p>
+<p>The sample contains typed English invoices. Totals match, and the agent declares the parser ready. The next morning, reconciliation finds errors in German invoices: the parser treated decimal commas incorrectly.</p>
+<p>Both document types were available during development. The problem lay in which examples the agent chose to test.</p>
+<p>A system that closes the file when the report is written never connects the later discrepancy to that earlier omission. It can become more confident each time it remembers its own ungraded work.</p>
 <h2 id="being-right-being-lucky-and-being-fair">Being right, being lucky, and being fair<a class="heading-anchor" href="#being-right-being-lucky-and-being-fair" aria-label="Link to this section">#</a></h2>
 <p>The philosophical concern is how experience justifies a belief. Repetition alone is weak evidence if every repetition is graded by the same unchecked assumption.</p>
-<p>Outcomes must come from outside the agent&#039;s verdict: observed service behavior, deployment records, incident investigation, and human review where needed.</p>
-<p>Fairness matters too. A later failure does not automatically make an earlier, explicitly limited verdict wrong. We must ask what the agent claimed, what was knowable then, and whether the failure was actually related to the rollout.</p></div>
+<p>Outcomes must come from outside the agent’s verdict: reconciliation results, labeled documents, downstream validation, and human review where needed.</p>
+<p>Fairness matters too. A failure on a newly introduced document format does not automatically invalidate an earlier claim limited to the formats then supported. Ask what the agent claimed, what it could have tested, and whether the later failure bears on that claim.</p></div>
         <section class="case-study" data-case-study aria-labelledby="case-title">
-    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">Grade the verdict over time</h2><p>A fictional release. The horizons are illustrative and should match each system&#039;s failure modes.</p></header>
+    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">Grade the result after delivery</h2><p>An illustrative document-processing workflow. Evaluation follows the artifact into use.</p></header>
     <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
-      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>30 minutes</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>24 hours</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>The next review</button>
+      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>Sample test</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>Next morning</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>Next iteration</button>
     </nav>
     <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
-      <div class="case-snapshot"><span class="case-kicker">30 minutes</span><dl><div><dt>Request errors</dt><dd>Normal</dd></div><div><dt>Queue depth</dt><dd>Rising</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-0">The early checks pass</h3>
-        <dl><dt>What happens</dt><dd>The reviewer marks the rollout healthy using request latency and errors. Queue growth was available in telemetry but omitted from the investigation.</dd><dt>What it means</dt><dd>The verdict&#039;s basis is narrower than the confidence placed in completing the review.</dd><dt>What the system does</dt><dd>Preserve the exact verdict, evidence available at the time, and declared validity horizon.</dd></dl>
+      <div class="case-snapshot"><span class="case-kicker">Sample test</span><dl><div><dt>Tested documents</dt><dd>Typed English invoices</dd></div><div><dt>Claim</dt><dd>Ready for all suppliers</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-0">A narrow test passes</h3>
+        <dl><dt>What happens</dt><dd>The agent validates totals on one document family, although examples from other suppliers were available.</dd><dt>What it means</dt><dd>The claim is broader than the evidence supporting it.</dd><dt>What the system does</dt><dd>Preserve the patch, test set, stated scope, and exact conclusion.</dd></dl>
         <details><summary>Inspect the example record</summary><pre>{
-  &quot;outcome_horizon&quot;: &quot;30m&quot;,
-  &quot;observed_user_impact&quot;: false,
-  &quot;omitted_signal&quot;: &quot;queue growth&quot;,
-  &quot;verdict_snapshot&quot;: &quot;immutable&quot;
+  &quot;outcome_horizon&quot;: &quot;sample test&quot;,
+  &quot;checked&quot;: &quot;one document family&quot;,
+  &quot;omitted&quot;: &quot;decimal-comma formats&quot;,
+  &quot;assessment_snapshot&quot;: &quot;immutable&quot;
 }</pre></details>
       </div>
     </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
-      <div class="case-snapshot"><span class="case-kicker">24 hours</span><dl><div><dt>Failure begins</dt><dd>After 4 hours</dd></div><div><dt>Attribution</dt><dd>Supported by investigation</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-1">A delayed regression changes the grade</h3>
-        <dl><dt>What happens</dt><dd>An outcome collector links the queue saturation to the release using traces and deployment history. A rollback and follow-up observations support that attribution.</dd><dt>What it means</dt><dd>The review missed an available warning. A different incident with no available signal would deserve a different assessment.</dd><dt>What the system does</dt><dd>Label the miss, its causal evidence, and whether the information was knowable at decision time.</dd></dl>
+      <div class="case-snapshot"><span class="case-kicker">Next morning</span><dl><div><dt>Detected issue</dt><dd>Decimal separator</dd></div><div><dt>Evidence</dt><dd>Labeled source documents</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-1">Reconciliation exposes the gap</h3>
+        <dl><dt>What happens</dt><dd>Independent reconciliation finds incorrect totals in German invoices. Comparing the source documents with parsed fields establishes the error.</dd><dt>What it means</dt><dd>An available test case was missed. This is different from a failure on a format the system had never been asked to support.</dd><dt>What the system does</dt><dd>Link the outcome to the original artifact and record what was knowable at decision time.</dd></dl>
         <details><summary>Inspect the example record</summary><pre>{
-  &quot;outcome_horizon&quot;: &quot;24h&quot;,
-  &quot;result&quot;: &quot;rollout-related regression&quot;,
+  &quot;outcome_horizon&quot;: &quot;next-day reconciliation&quot;,
+  &quot;result&quot;: &quot;incorrect numeric extraction&quot;,
   &quot;evidence_available_at_decision&quot;: true,
-  &quot;missed_signal&quot;: &quot;queue growth&quot;,
-  &quot;grade&quot;: &quot;avoidable miss&quot;
+  &quot;grade&quot;: &quot;avoidable coverage gap&quot;
 }</pre></details>
       </div>
     </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
-      <div class="case-snapshot"><span class="case-kicker">The next review</span><dl><div><dt>Candidate check</dt><dd>Queue growth</dd></div><div><dt>Policy status</dt><dd>Under evaluation</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-2">A lesson has to earn adoption</h3>
-        <dl><dt>What happens</dt><dd>The team proposes a queue-depth check and evaluates it on this incident, unrelated incidents, and healthy releases.</dd><dt>What it means</dt><dd>A rule that catches one failure by halting everything has not improved judgment.</dd><dt>What the system does</dt><dd>Measure missed regressions and false alarms, then promote a versioned change through the policy owner.</dd></dl>
+      <div class="case-snapshot"><span class="case-kicker">Next iteration</span><dl><div><dt>Candidate improvement</dt><dd>Locale-aware checks</dd></div><div><dt>Status</dt><dd>Under evaluation</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-2">A lesson must improve held-out results</h3>
+        <dl><dt>What happens</dt><dd>The team adds locale-aware parsing and tests it on held-out suppliers as well as the original failures.</dd><dt>What it means</dt><dd>Fixing one example is not enough if the change breaks previously correct documents.</dd><dt>What the system does</dt><dd>Measure extraction accuracy, rejected documents, and manual-review load before adoption.</dd></dl>
         <details><summary>Inspect the example record</summary><pre>{
-  &quot;candidate&quot;: &quot;queue growth discriminating check&quot;,
+  &quot;candidate&quot;: &quot;locale-aware numeric parsing&quot;,
   &quot;evaluation&quot;: [
-    &quot;known failures&quot;,
-    &quot;healthy releases&quot;,
-    &quot;held-out cases&quot;
+    &quot;known failure&quot;,
+    &quot;held-out suppliers&quot;,
+    &quot;previously correct documents&quot;
   ],
-  &quot;promotion&quot;: &quot;requires quality thresholds and policy approval&quot;,
+  &quot;promotion&quot;: &quot;requires agreed quality thresholds&quot;,
   &quot;autonomy_change&quot;: &quot;not automatic&quot;
 }</pre></details>
       </div>
@@ -117,8 +120,8 @@
     <p class="sr-only" role="status" data-case-status></p>
   </section>
         <div class="prose series-afterword"><h2 id="close-the-loop-without-rewriting-history">Close the loop without rewriting history<a class="heading-anchor" href="#close-the-loop-without-rewriting-history" aria-label="Link to this section">#</a></h2>
-<p>Choose outcome horizons that cover meaningful delayed effects. Preserve the evidence the agent could actually access at decision time. Distinguish a justified decision, a lucky result, an avoidable miss, and an unnecessarily conservative intervention.</p>
-<p>Track both dangerous approvals and needless halts. Record uncertainty in outcome labels when attribution remains contested. Independent collection does not make ground truth magically obvious.</p>
+<p>Choose outcome horizons that cover meaningful delayed effects. Preserve the evidence the agent could actually access at decision time. Distinguish a justified decision, a lucky result, an avoidable miss, and an unnecessary rejection.</p>
+<p>Track both incorrect extractions and unnecessary rejections. Record uncertainty in outcome labels when attribution remains contested. Independent collection does not make ground truth magically obvious.</p>
 <p>Turn misses into candidate checks, better evidence gathering, or policy changes. Evaluate those changes before treating them as lessons. Keep the earlier version so their effect can be measured.</p>
 <p>Only then should demonstrated quality inform a change in autonomy—and the permission should remain specific and revocable.</p>
 <blockquote><p>Experience becomes learning when the world can correct the story the agent tells about its work.</p></blockquote>
@@ -143,6 +146,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

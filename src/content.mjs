@@ -27,15 +27,15 @@ export const writing = [
       "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     featured: true,
     body: `
-An agent notices that checkout latency has doubled. It proposes a rollback. Between that observation and a safe, useful outcome sit several engineering questions: which data did it read, which revision is affected, what can it change, and how will it know whether the change helped?
+A coding agent is asked to replace a deprecated library across a repository. It finds the imports and writes a patch. Completing the job still requires a dependency map, a test environment, permission to change files, and a way to recover if the task stops halfway through.
 
 The model participates in this system. Its surroundings determine whether an investigation can become completed work.
 
 ## Give the task an observable outcome
 
-“Investigate the deployment” leaves success ambiguous. A clearer task asks the agent to compare the new revision with a control, identify supported regressions, and produce a recommendation with evidence.
+“Modernize this repository” leaves success ambiguous. A clearer task asks the agent to replace a specific dependency, preserve public behavior, and produce a patch with passing tests.
 
-Specify the observation window, relevant services, and permitted actions. The agent can then choose its investigative path while the system retains a concrete definition of completion.
+Specify the target version, affected packages, compatibility requirements, and permitted changes. The agent can choose its approach while the system retains a concrete definition of completion.
 
 ## Put repeated mechanics in code
 
@@ -47,48 +47,13 @@ The same applies to execution. A tool result should distinguish success, failure
 
 A long investigation needs more than a transcript. Keep references to evidence, current hypotheses, completed actions, and open questions in explicit state.
 
-After a restart, the agent should know that it already inspected database latency and still needs to check connection acquisition. That continuity reduces repeated work and makes handoffs inspectable.
+After a restart, the agent should know which packages it migrated, which tests failed, and which design question remains open. That continuity reduces repeated work and makes handoffs inspectable.
 
 ## Close the loop with feedback
 
-Record what happened after the recommendation. Did the rollback reduce errors? Was the apparent regression a change in traffic mix? The answer helps separate a plausible explanation from an effective decision.
+Check the resulting artifact. Does the patch build in a clean environment? Do integration tests exercise the changed behavior? Does the new dependency work on every supported runtime? The answers separate a plausible patch from a completed migration.
 
 Evaluate the model together with its data interfaces, execution loop, and state handling. Changing any one of them can change the result. That is the unit of engineering: an agent operating inside a complete system.
-`
-  },
-  {
-    slug: "judgment-under-uncertainty",
-    aliases: ["rollouts-are-decision-problems"],
-    title: "Judgment Under Uncertainty",
-    eyebrow: "Reasoning & judgment",
-    readTime: "2 min",
-    description:
-      "A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.",
-    featured: false,
-    body: `
-A canary release shows a 30% increase in p95 latency. Traffic is also shifting toward a more expensive endpoint. Should the agent stop the rollout?
-
-The aggregate graph establishes a change. It does not yet establish its cause. A useful decision connects the evidence to the consequences of acting or waiting.
-
-## Ask what would change the decision
-
-Compare latency within the same endpoint and traffic class. If both revisions slow down equally, the deployment becomes a weaker explanation. If the new revision alone degrades, the case for intervention strengthens.
-
-This is the value of a discriminating check: its possible results lead to different next steps. Collecting another graph that repeats the same aggregate adds less information.
-
-## Match the action to the uncertainty
-
-Holding the rollout at 5% exposure may buy time to investigate. Expanding to every region increases the consequences of being wrong. Rolling back can be appropriate when harm is growing, even before the root cause is fully established.
-
-The relevant questions are concrete: how much traffic is affected, how quickly is the condition worsening, and which actions are reversible? A fixed confidence threshold cannot express all of that.
-
-## Keep the reason for the decision
-
-An assessment should preserve what was observed, the leading explanation, the unresolved alternative, and the next check. “Hold expansion because latency is worse within comparable traffic; verify dependency timing” is more useful than an unexplained “unsafe.”
-
-When new evidence arrives, the agent can revise a specific claim. Reviewers can also distinguish a reasonable decision under uncertainty from a correct answer reached for the wrong reason.
-
-The outcome closes the loop. If a rollback restores latency, it strengthens some explanations; it does not automatically prove every part of the original diagnosis. Good judgment remains open to that distinction.
 `
   }
 ].map(withPublicationDate).sort(newestFirst);
@@ -100,13 +65,13 @@ export const notes = [
     readTime: "1 min",
     description: "Define success through outcomes, constraints, and the cost of getting there.",
     body: `
-An incident agent identifies a connection leak. Another identifies it ten minutes earlier, before customers see errors. A third recommends restarting every service and happens to clear the symptom.
+A research agent finds ten papers. Another finds three that directly answer the question. A third produces a persuasive synthesis whose citations do not support its central claim.
 
-All three might receive credit from a grader that checks only the final diagnosis. They did not perform equally well.
+A grader that counts sources might prefer the first. A grader that rewards fluent prose might prefer the third. Neither has established which answer is useful.
 
-Define quality across the dimensions that matter: supported diagnosis, time to detection, unnecessary interventions, and the cost of investigation. Include healthy scenarios to measure false alarms.
+Define quality across the dimensions that matter: relevance, coverage of competing explanations, support for material claims, and the cost of investigation. Include questions for which the available sources cannot settle the answer.
 
-Also distinguish a recommendation from its outcome. “I rolled back the release” is a claim in a transcript. The deployed revision and resulting service health are observations in the environment.
+Also distinguish the agent’s report from the delivered outcome. “Every citation was verified” is a claim in a transcript. Opening the sources and checking what they establish is a separate evaluation.
 
 A useful evaluation makes those expectations explicit before the agent runs. Otherwise, “good” quietly becomes whatever the easiest grader can count.
 `
@@ -117,13 +82,13 @@ A useful evaluation makes those expectations explicit before the agent runs. Oth
     readTime: "1 min",
     description: "Knowing how to act and having the authority to act are different things.",
     body: `
-A deployment skill can explain how to compare revisions, drain traffic, and roll back a service. Knowing that procedure does not grant permission to execute it in production.
+A calendar skill can explain how to find a free slot, draft an invitation, and reschedule a meeting. Knowing that procedure does not grant permission to change someone’s calendar.
 
 Skills package useful methods. Policy determines which resources and actions are available under the current conditions. The runtime must enforce that policy when a tool runs.
 
-Consider a skill that says “roll back if the error rate rises.” The agent may use it to form a recommendation. Whether it can change the deployment still depends on its granted scope, the environment, and any required approval.
+Consider a skill that says “move conflicting meetings to the next available slot.” The agent can propose a schedule. Sending invitations or moving an existing meeting still depends on its granted scope and any required approval.
 
-This separation lets teams improve investigative methods without silently expanding authority. A downloaded playbook can teach the agent a better technique; it cannot give itself production access.
+This separation lets teams improve investigative methods without silently expanding authority. A downloaded playbook can teach the agent a better technique; it cannot grant access to a private calendar.
 `
   },
   {
@@ -132,11 +97,11 @@ This separation lets teams improve investigative methods without silently expand
     readTime: "1 min",
     description: "Experience becomes useful when it improves the next decision.",
     body: `
-“Restarting checkout fixed the incident” is a dangerous memory to reuse on its own.
+“This parser works for supplier invoices” is a poor memory to reuse on its own.
 
-A more useful record says that revision B leaked connections during an hourly job, restarting temporarily cleared the pool, and a later patch removed the leak. It links the measurements and records which service version the lesson applies to.
+A more useful record says that the parser handled the supplier’s English PDFs, failed on scanned pages, and required a different decimal separator for its German template. It links representative documents and records which parser version was tested.
 
-That record separates symptom relief from root-cause correction. It also tells the next agent what to check before applying the lesson again.
+That record separates demonstrated coverage from an appealing generalization. It also tells the next agent what to check before applying the lesson again.
 
 Useful memory needs a situation, a decision, an observed outcome, and limits on reuse. Retain evidence references so the lesson can be challenged as systems change.
 
@@ -164,13 +129,13 @@ Design the two together, then inspect them separately. Ask what the model could 
     readTime: "1 min",
     description: "Agreement is more useful when it comes from independent perspectives.",
     body: `
-An agent claims that a deployment caused a latency spike. A verifier reads its summary, finds the explanation coherent, and approves it. Neither checks whether the control revision also slowed down.
+An agent changes a date parser and declares the bug fixed. A verifier reads the diff, finds the explanation coherent, and approves it. Neither runs a test across a daylight-saving transition.
 
 The second opinion inherited the first investigation’s missing evidence. Agreement added little assurance.
 
-Give the verifier access to the underlying measurements and a specific claim to challenge. It can compare equivalent traffic, inspect the deployment timestamp, or check whether the cited query actually returns the reported result.
+Give the verifier the patch, a runnable environment, and a specific claim to challenge. It can test ambiguous timestamps, change the machine’s timezone, or generate a counterexample outside the author’s happy path.
 
-Use direct checks where the claim permits them. A file exists, a test passes, or a deployed revision matches the requested version. Reserve judgment for questions those checks cannot settle.
+Use direct checks where the claim permits them. A file exists, a test passes, or the parsed timestamp matches the expected instant. Reserve judgment for questions those checks cannot settle.
 
 A verifier earns its place by adding evidence or finding counterexamples. Rephrasing the same explanation with a second model is a weak substitute.
 `

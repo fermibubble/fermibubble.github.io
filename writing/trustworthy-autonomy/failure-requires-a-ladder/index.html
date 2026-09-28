@@ -6,7 +6,7 @@
     <title>Failure requires a Ladder — Oddly</title>
     <meta name="description" content="When the agent loses its instruments, what should it give up first? Design the descent before the incident.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Failure requires a Ladder — Oddly">
     <meta property="og:description" content="When the agent loses its instruments, what should it give up first? Design the descent before the incident.">
@@ -14,11 +14,15 @@
     <link rel="canonical" href="https://oddly.fyi/writing/trustworthy-autonomy/failure-requires-a-ladder/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/writing/trustworthy-autonomy/failure-requires-a-ladder/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -59,7 +63,7 @@
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/trustworthy-autonomy/verdicts-require-epistemics/">Verdicts require Epistemics</a></li><li><a href="/writing/trustworthy-autonomy/evidence-requires-provenance/">Evidence requires Provenance</a></li><li><a href="/writing/trustworthy-autonomy/state-requires-ownership/">State requires Ownership</a></li><li><a href="/writing/trustworthy-autonomy/autonomy-requires-a-dial/">Autonomy requires a Dial</a></li><li><a href="/writing/trustworthy-autonomy/inputs-require-a-trust-boundary/">Inputs require a Trust Boundary</a></li><li><a href="/writing/trustworthy-autonomy/knowledge-requires-a-clock/">Knowledge requires a Clock</a></li><li><a href="/writing/trustworthy-autonomy/delegation-requires-ceilings/">Delegation requires Ceilings</a></li><li><a href="/writing/trustworthy-autonomy/failure-requires-a-ladder/" aria-current="page">Failure requires a Ladder</a></li><li><a href="/writing/trustworthy-autonomy/learning-requires-outcomes/">Learning requires Outcomes</a></li></ol></nav>
   </details>
         <div class="prose"><p>A failure ladder defines what a system continues doing—and which capabilities it gives up—as its ability to operate safely deteriorates.</p>
-<p>Imagine a rollout reviewer asks nine servers for metrics. Two respond. Both look healthy.</p>
+<p>Imagine an infrastructure assistant asks nine servers for metrics. Two respond. Both look healthy.</p>
 <p>“No problems found” would be a very efficient answer. It would also hide seven unanswered questions.</p>
 <p>The system has suffered a loss of visibility. That should change its behavior before it changes anyone&#039;s production environment.</p>
 <h2 id="design-the-descent">Design the descent<a class="heading-anchor" href="#design-the-descent" aria-label="Link to this section">#</a></h2>
@@ -153,6 +157,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

@@ -33,6 +33,8 @@ jobs:
           node --check src/site.js
           node --check src/epistemics.js
           node --check src/principles.js
+          node --check src/analytics.js
+          node --check src/analytics-policy.js
       - name: Verify published files match source
         run: |
           git diff --exit-code

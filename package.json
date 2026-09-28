@@ -6,6 +6,6 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "publish:prepare": "node scripts/build.mjs --publish-root",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs && node scripts/check-analytics.mjs"
   }
 }

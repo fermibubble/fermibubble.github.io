@@ -6,7 +6,7 @@
     <title>Local Context for Autonomous Agents — Oddly</title>
     <meta name="description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Local Context for Autonomous Agents — Oddly">
     <meta property="og:description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
@@ -14,11 +14,15 @@
     <link rel="canonical" href="https://oddly.fyi/writing/local-context-for-autonomous-agents/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/writing/local-context-for-autonomous-agents/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -62,9 +66,10 @@
 <p>MCP remains useful for connecting systems. The avoidable cost comes from eagerly presenting the whole integration surface to the model. Tool discovery and programmatic execution already offer ways to reduce it: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" rel="noreferrer">Anthropic’s code-execution approach</a> loads definitions as needed and processes intermediate data outside the prompt. <a href="https://blog.cloudflare.com/code-mode/" rel="noreferrer">Cloudflare’s Code Mode</a> likewise lets an agent compose MCP operations through code.</p>
 <p>Local context takes a complementary step: materialize the working data near the agent, so successive questions can reuse it without successive provider calls.</p>
 <h2 id="collect-once-investigate-repeatedly">Collect once, investigate repeatedly<a class="heading-anchor" href="#collect-once-investigate-repeatedly" aria-label="Link to this section">#</a></h2>
-<p>In my rollout-review work, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.</p>
+<p>In my work on agent infrastructure, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.</p>
 <p>A deterministic collector loads the relevant services and recent time window. Provider adapters own authentication, pagination, retries, and normalization. They preserve metric types, units, and labels. Logs can be partitioned into newline-delimited JSON files; topology and deployment configuration can be captured as versioned JSON.</p>
 <p>“Deterministic” describes the collection procedure: explicit resources, time ranges, and transformations. Live data can still change. Reproducing a query requires a captured dataset and fixed evaluation semantics.</p>
+<p>The same pattern applies beyond observability: a research agent can query a local paper index and read PDFs; a coding agent can search a checked-out repository and inspect test artifacts. The collector changes; the separation between accessible data and selected model context stays useful.</p>
 <p>The agent gets a manifest of coverage and freshness, a catalog of available metrics, and a compact access interface. Our telemetry design uses temporary local chunks, memory mapping, and an embedded PromQL engine. Complete chunks are published atomically for readers; there is no separate database daemon to operate per session.</p>
 <p>The useful contract is small enough to understand at a glance:</p></div>
         <div class="context-table-wrap"><table class="context-table">
@@ -145,6 +150,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

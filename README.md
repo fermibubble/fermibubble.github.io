@@ -18,11 +18,13 @@ npm run check
 node --check src/site.js
 ```
 
-The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, styling in `src/styles.css`, and page templates in `scripts/build.mjs`.
+The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, base styling in `src/styles.css`, the current visual system in `src/editorial.css`, and page templates in `scripts/build.mjs`. Manrope and Inter are served locally from `assets/fonts/`, with their open-font licenses.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
-The in-memory time-series database and time-machine essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
+The local-context and checkpoint-replay essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
+
+PostHog integration, privacy controls, activation status, and the private dashboard are documented in `analytics/README.md`. Tracking is connected to the Oddly project and loads only after reader consent. The retired “Judgment Under Uncertainty” essay and its earlier alias intentionally return 404.
 
 “Verdicts require Epistemics” lives in `src/epistemics.mjs`. Its illustrative checkpoint data is in `src/epistemics-incident.mjs`; `scripts/render-incident.mjs` renders all six records as readable HTML, and `src/epistemics.js` adds navigation and the topology arrows. Article styling is in `src/epistemics.css`. The earlier `/writing/epistemics-how-do-we-know/` address redirects to the renamed article.
 

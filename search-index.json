@@ -19,12 +19,6 @@
   },
   {
     "type": "Writing",
-    "title": "Judgment Under Uncertainty",
-    "description": "A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.",
-    "url": "/writing/judgment-under-uncertainty/"
-  },
-  {
-    "type": "Writing",
     "title": "Engineering Autonomous Agents",
     "description": "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     "url": "/writing/engineering-autonomous-agents/"
@@ -44,13 +38,13 @@
   {
     "type": "Chapter",
     "title": "State requires Ownership",
-    "description": "Trustworthy Autonomy · The human paused the rollout. A late agent report says it is running. Which version of reality gets to win?",
+    "description": "Trustworthy Autonomy · The editor canceled a translation job. A late agent report says it is running. Which version of reality gets to win?",
     "url": "/writing/trustworthy-autonomy/state-requires-ownership/"
   },
   {
     "type": "Chapter",
     "title": "Autonomy requires a Dial",
-    "description": "Trustworthy Autonomy · One agent can investigate freely, prepare a rollback, and still need permission to execute it. Authority belongs to the action.",
+    "description": "Trustworthy Autonomy · A coding agent can inspect a repository, prepare a patch, or merge it. Each action needs its own grant of authority.",
     "url": "/writing/trustworthy-autonomy/autonomy-requires-a-dial/"
   },
   {
@@ -80,7 +74,7 @@
   {
     "type": "Chapter",
     "title": "Learning requires Outcomes",
-    "description": "Trustworthy Autonomy · The rollout looked healthy at thirty minutes. Four hours later, a queue filled. Who goes back and grades the earlier verdict?",
+    "description": "Trustworthy Autonomy · An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?",
     "url": "/writing/trustworthy-autonomy/learning-requires-outcomes/"
   },
   {

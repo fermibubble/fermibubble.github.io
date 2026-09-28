@@ -6,8 +6,11 @@ import { renderIncident } from "./render-incident.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { renderCaseStudy, renderContextTable, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
 import { autonomyPath, writingPath } from "../src/paths.mjs";
+import { analyticsConfig } from "../src/analytics-config.mjs";
+import { analyticsReady } from "../src/analytics-policy.js";
 
 const allWriting = [...writing, ...principleEssays];
+const retiredPaths = ["writing/judgment-under-uncertainty", "writing/rollouts-are-decision-problems"];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
@@ -196,6 +199,8 @@ function footer() {
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
@@ -212,7 +217,7 @@ function layout({ title, description, active, content, article = false, incident
     <title>${escapeHtml(pageTitle)}</title>
     <meta name="description" content="${escapeHtml(description || site.description)}">
     <meta name="author" content="${escapeHtml(site.author)}">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="${article ? "article" : "website"}">
     <meta property="og:title" content="${escapeHtml(pageTitle)}">
     <meta property="og:description" content="${escapeHtml(description || site.description)}">
@@ -220,9 +225,13 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="canonical" href="${escapeHtml(absoluteUrl(path))}">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="${escapeHtml(site.name)}" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="${escapeHtml(path)}"${article ? ' class="article-page"' : ""}>
     ${article ? '<div class="reading-progress" data-reading-progress></div>' : ""}
@@ -262,15 +271,12 @@ function homePage() {
             <p>${escapeHtml(site.intro)}</p>
             ${arrowLink("Read the writing", "/writing/", "primary-link")}
           </div>
-          <div class="decision-map reveal reveal-delay-2" aria-label="An agent supported by context, tools, evaluation, and memory">
-            <div class="map-label">An agent’s operating environment</div>
-            <div class="map-center"><span>Agents</span><small>reason &amp; act</small></div>
-            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>Queryable evidence</small></div>
-            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>Reliable execution</small></div>
-            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>Recorded outcomes</small></div>
-            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>State across turns</small></div>
-            <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
-          </div>
+          <aside class="home-directory reveal reveal-delay-2" aria-label="Explore the work">
+            <p class="directory-label">AREAS OF WORK</p>
+            <a href="/writing/engineering-autonomous-agents/"><span>01</span><div><strong>Agent architecture</strong><small>Execution, memory, and the structure around a model.</small></div></a>
+            <a href="/writing/local-context-for-autonomous-agents/"><span>02</span><div><strong>Context systems</strong><small>Data within reach. Evidence worth reasoning with.</small></div></a>
+            <a href="/writing/checkpoint-replay-for-agent-evaluation/"><span>03</span><div><strong>Evaluation</strong><small>Repeatable experiments across long tasks.</small></div></a>
+          </aside>
         </div>
         <div class="hero-index reveal reveal-delay-3">
           <span>Agent infrastructure</span><span>Local context</span><span>Observability</span><span>Reproducible evaluation</span>
@@ -422,7 +428,7 @@ function aboutPage() {
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
         <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
-        <p>My work on rollout review connects these problems directly: collect telemetry through deterministic pipelines, make it locally queryable, preserve an agent’s state, and replay recorded scenarios to evaluate its decisions.</p>
+        <p>I’m interested in the architecture behind useful agents: how a coding assistant preserves progress, how a research agent keeps evidence traceable, and how a data pipeline turns information into a dependable working context. These questions connect software engineering, experimentation, and the philosophy of knowledge.</p>
         <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. The notes isolate useful distinctions. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
         <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
@@ -479,6 +485,40 @@ function articlePage(item, type, index, collection) {
 function notFoundPage() {
   const content = `<main id="content" class="not-found shell"><span>404</span><h1>This path does not lead anywhere—yet.</h1><p>The notebook may have moved, or the idea may still be unwritten.</p>${arrowLink("Return home", "/", "primary-link")}</main>`;
   return layout({ title: "Not found", description: "Page not found.", content, path: "/404.html" });
+}
+
+function privacyPage() {
+  const active = analyticsReady(analyticsConfig);
+  const copy = active ? `
+## Optional analytics
+
+With your permission, Oddly uses PostHog to understand traffic sources, popular pages, clicks, scroll depth, reading time, browser performance, and JavaScript errors. A random browser identifier helps distinguish visits without requiring an account.
+
+PostHog receives your IP address and can derive an approximate country, region, and city. That location is an estimate; it is not GPS or your street address. The analytics dashboard is private.
+
+## Session replay
+
+If you allow analytics, a replay may reconstruct your activity on this website, including navigation, clicks, and scrolling. It does not record your desktop or other tabs. Search, form inputs, and elements marked private are blocked or masked. Network request bodies, headers, and console logging are disabled.
+
+## Your choice
+
+Analytics and replay load only after you choose “Allow analytics.” You can withdraw permission using “Analytics preferences” in the footer. A decline, Global Privacy Control, or Do Not Track keeps collection off. Browser settings, blockers, and consent mean analytics will not represent every visit.
+
+Your preference is remembered for up to 180 days in this browser. Withdrawing stops future collection; it does not erase previously collected events.
+` : `
+## Your visit
+
+Optional analytics and session replay are currently off. This site does not load PostHog or send visitor events to it.
+
+## Local preferences
+
+Oddly stores your chosen color theme in your browser. Search runs against the site’s own index, without sending your search terms to an analytics service. Fonts are served directly from this website.
+
+## Hosting
+
+GitHub Pages serves this site. Like other web hosts, GitHub may process connection information, including IP addresses, to deliver pages and protect its services. See [GitHub’s privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+`;
+  return layout({ title: "Privacy", description: "How Oddly handles local preferences and optional analytics.", path: "/privacy/", content: `<main id="content"><header class="page-intro shell"><div class="page-kicker">ABOUT THIS SITE</div><h1>Privacy</h1><p>Clear choices about your visit.</p></header><div class="privacy-copy prose">${markdown(copy)}</div></main>` });
 }
 
 function articleRedirect(item) {
@@ -539,6 +579,7 @@ await Promise.all([
   emit("principles/index.html", articleRedirect(autonomyOverview)),
   emit("ideas/index.html", ideasPage()),
   emit("about/index.html", aboutPage()),
+  emit("privacy/index.html", privacyPage()),
   emit("404.html", notFoundPage()),
   emit("search-index.json", `${JSON.stringify(searchIndex(), null, 2)}\n`),
   emit("rss.xml", rss()),
@@ -563,7 +604,11 @@ await cp(join(root, "lnr-code.ico"), join(out, "lnr-code.ico"));
 await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
+  cp(join(root, "src", "editorial.css"), join(out, "assets", "editorial.css")),
   cp(join(root, "src", "site.js"), join(out, "assets", "site.js")),
+  cp(join(root, "src", "analytics.js"), join(out, "assets", "analytics.js")),
+  cp(join(root, "src", "analytics-policy.js"), join(out, "assets", "analytics-policy.js")),
+  cp(join(root, "src", "analytics-config.mjs"), join(out, "assets", "analytics-config.mjs")),
   cp(join(root, "src", "epistemics.js"), join(out, "assets", "epistemics.js")),
   cp(join(root, "src", "epistemics.css"), join(out, "assets", "epistemics.css")),
   cp(join(root, "src", "principles.js"), join(out, "assets", "principles.js")),
@@ -574,6 +619,7 @@ await Promise.all([
 console.log(`Built ${writing.length} writing entries, ${principleEssays.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
 
 if (process.argv.includes("--publish-root")) {
+  for (const retired of retiredPaths) await rm(join(root, retired), { recursive: true, force: true });
   for (const name of await readdir(out)) {
     await cp(join(out, name), join(root, name), { recursive: true });
   }

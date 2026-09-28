@@ -6,7 +6,7 @@
     <title>Engineering Autonomous Agents — Oddly</title>
     <meta name="description" content="An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Engineering Autonomous Agents — Oddly">
     <meta property="og:description" content="An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/writing/engineering-autonomous-agents/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/writing/engineering-autonomous-agents/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -44,7 +48,7 @@
     <article class="article">
       <header class="article-header shell-narrow">
         <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Writing / 05</div>
+        <div class="article-type">Writing / 04</div>
         <h1>Engineering Autonomous Agents</h1>
         <p class="article-deck">An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
@@ -53,24 +57,24 @@
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Autonomous agents</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>An agent notices that checkout latency has doubled. It proposes a rollback. Between that observation and a safe, useful outcome sit several engineering questions: which data did it read, which revision is affected, what can it change, and how will it know whether the change helped?</p>
+        <div class="prose" data-article-body><p>A coding agent is asked to replace a deprecated library across a repository. It finds the imports and writes a patch. Completing the job still requires a dependency map, a test environment, permission to change files, and a way to recover if the task stops halfway through.</p>
 <p>The model participates in this system. Its surroundings determine whether an investigation can become completed work.</p>
 <h2 id="give-the-task-an-observable-outcome">Give the task an observable outcome<a class="heading-anchor" href="#give-the-task-an-observable-outcome" aria-label="Link to this section">#</a></h2>
-<p>“Investigate the deployment” leaves success ambiguous. A clearer task asks the agent to compare the new revision with a control, identify supported regressions, and produce a recommendation with evidence.</p>
-<p>Specify the observation window, relevant services, and permitted actions. The agent can then choose its investigative path while the system retains a concrete definition of completion.</p>
+<p>“Modernize this repository” leaves success ambiguous. A clearer task asks the agent to replace a specific dependency, preserve public behavior, and produce a patch with passing tests.</p>
+<p>Specify the target version, affected packages, compatibility requirements, and permitted changes. The agent can choose its approach while the system retains a concrete definition of completion.</p>
 <h2 id="put-repeated-mechanics-in-code">Put repeated mechanics in code<a class="heading-anchor" href="#put-repeated-mechanics-in-code" aria-label="Link to this section">#</a></h2>
 <p>Authentication, pagination, retries, and unit conversion should not become fresh reasoning problems on every turn. Collect data through ordinary code and expose a stable interface for exploration.</p>
 <p>The same applies to execution. A tool result should distinguish success, failure, and an unknown outcome. If an action times out, check whether it happened before retrying it. Otherwise a network interruption can become a duplicate operation.</p>
 <h2 id="preserve-progress-across-turns">Preserve progress across turns<a class="heading-anchor" href="#preserve-progress-across-turns" aria-label="Link to this section">#</a></h2>
 <p>A long investigation needs more than a transcript. Keep references to evidence, current hypotheses, completed actions, and open questions in explicit state.</p>
-<p>After a restart, the agent should know that it already inspected database latency and still needs to check connection acquisition. That continuity reduces repeated work and makes handoffs inspectable.</p>
+<p>After a restart, the agent should know which packages it migrated, which tests failed, and which design question remains open. That continuity reduces repeated work and makes handoffs inspectable.</p>
 <h2 id="close-the-loop-with-feedback">Close the loop with feedback<a class="heading-anchor" href="#close-the-loop-with-feedback" aria-label="Link to this section">#</a></h2>
-<p>Record what happened after the recommendation. Did the rollback reduce errors? Was the apparent regression a change in traffic mix? The answer helps separate a plausible explanation from an effective decision.</p>
+<p>Check the resulting artifact. Does the patch build in a clean environment? Do integration tests exercise the changed behavior? Does the new dependency work on every supported runtime? The answers separate a plausible patch from a completed migration.</p>
 <p>Evaluate the model together with its data interfaces, execution loop, and state handling. Changing any one of them can change the result. That is the unit of engineering: an agent operating inside a complete system.</p></div>
       </div>
     </article>
     <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/judgment-under-uncertainty/"><span>Previous</span><strong>Judgment Under Uncertainty</strong></a>
+      <a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Previous</span><strong>Trustworthy Autonomy</strong></a>
       <a class="pagination-next" href="/writing/"><span>Continue</span><strong>All Writing</strong></a>
     </nav>
   </main>
@@ -87,6 +91,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

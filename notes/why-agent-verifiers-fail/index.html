@@ -6,7 +6,7 @@
     <title>Why agent verifiers fail — Oddly</title>
     <meta name="description" content="Agreement is more useful when it comes from independent perspectives.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Why agent verifiers fail — Oddly">
     <meta property="og:description" content="Agreement is more useful when it comes from independent perspectives.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/notes/why-agent-verifiers-fail/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/notes/why-agent-verifiers-fail/" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
@@ -53,10 +57,10 @@
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Note</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>An agent claims that a deployment caused a latency spike. A verifier reads its summary, finds the explanation coherent, and approves it. Neither checks whether the control revision also slowed down.</p>
+        <div class="prose" data-article-body><p>An agent changes a date parser and declares the bug fixed. A verifier reads the diff, finds the explanation coherent, and approves it. Neither runs a test across a daylight-saving transition.</p>
 <p>The second opinion inherited the first investigation’s missing evidence. Agreement added little assurance.</p>
-<p>Give the verifier access to the underlying measurements and a specific claim to challenge. It can compare equivalent traffic, inspect the deployment timestamp, or check whether the cited query actually returns the reported result.</p>
-<p>Use direct checks where the claim permits them. A file exists, a test passes, or a deployed revision matches the requested version. Reserve judgment for questions those checks cannot settle.</p>
+<p>Give the verifier the patch, a runnable environment, and a specific claim to challenge. It can test ambiguous timestamps, change the machine’s timezone, or generate a counterexample outside the author’s happy path.</p>
+<p>Use direct checks where the claim permits them. A file exists, a test passes, or the parsed timestamp matches the expected instant. Reserve judgment for questions those checks cannot settle.</p>
 <p>A verifier earns its place by adding evidence or finding counterexamples. Rephrasing the same explanation with a second model is a weak substitute.</p></div>
       </div>
     </article>
@@ -78,6 +82,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>

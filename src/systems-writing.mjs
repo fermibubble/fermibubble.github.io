@@ -26,11 +26,13 @@ Local context takes a complementary step: materialize the working data near the 
 
 ## Collect once, investigate repeatedly
 
-In my rollout-review work, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.
+In my work on agent infrastructure, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.
 
 A deterministic collector loads the relevant services and recent time window. Provider adapters own authentication, pagination, retries, and normalization. They preserve metric types, units, and labels. Logs can be partitioned into newline-delimited JSON files; topology and deployment configuration can be captured as versioned JSON.
 
 “Deterministic” describes the collection procedure: explicit resources, time ranges, and transformations. Live data can still change. Reproducing a query requires a captured dataset and fixed evaluation semantics.
+
+The same pattern applies beyond observability: a research agent can query a local paper index and read PDFs; a coding agent can search a checked-out repository and inspect test artifacts. The collector changes; the separation between accessible data and selected model context stays useful.
 
 The agent gets a manifest of coverage and freshness, a catalog of available metrics, and a compact access interface. Our telemetry design uses temporary local chunks, memory mapping, and an embedded PromQL engine. Complete chunks are published atomically for readers; there is no separate database daemon to operate per session.
 
@@ -104,7 +106,7 @@ The same arrangement supports [checkpoint replay for long-horizon evaluation](ht
     eyebrow: "Evaluation & replay infrastructure",
     description: "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
     body: `
-A release passes its first hour. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.
+An order-processing service passes its first hour under load. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.
 
 Now change one instruction in the reviewing agent. Must the entire soak test run for another day to find out whether that helped?
 
@@ -114,13 +116,15 @@ Ten agent variants, each tested three times against a fresh 24-hour run, require
 
 ## Record the progression, restore the checkpoint
 
-In my rollout-review work, we built replay infrastructure to revisit recorded scenarios. A 24-hour soak is a useful extension of that design: capture the evolving evidence once, then evaluate agents at selected checkpoints.
+In my work on agent evaluation, we built replay infrastructure to revisit recorded scenarios. A 24-hour soak is a useful extension of that design: capture the evolving evidence once, then evaluate agents at selected checkpoints.
 
 At T+6h, reconstruct the workspace as it was available then. Expose the corresponding telemetry, logs, topology, deployment state, and time. Restore the appropriate agent history and scratch state. Let the agent investigate using its usual interfaces, backed by the recording.
 
 The harness then prepares T+12h. **We are taking the agent to a particular point in the scenario.** We are not asking a live database, queue, or connection pool to run twelve hours of behavior in a few seconds. Model inference and tool execution still take real time.
 
 The recording preserves the progression. Replay removes the need to reproduce the waiting period for every comparison.
+
+Other tasks have the same shape. A document-processing agent may wait overnight for a batch to finish. A research agent may revisit a claim when a new source arrives the next day. In each case, the evaluation must restore the information available at the decision point.
 
 ## A checkpoint includes what the agent could know
 
@@ -154,20 +158,20 @@ Consider this illustrative connection leak. An hourly reconciliation job leaves 
           record: { checkpoint: "T+6h", event_time_lte: "T+6h", available_at_lte: "T+6h", agent_state: "this trial’s T+1h history", assessment: "suspected connection leak", next_check: "persistence and acquisition wait" }
         },
         {
-          label: "T + 12 hours", headline: "A resource trend becomes a rollout decision",
+          label: "T + 12 hours", headline: "A resource trend becomes an intervention decision",
           facts: [["Checked-out connections", "760 / 1,000"], ["Pool acquisition p95", "1.2 s"]],
           observation: "Pool occupancy continues rising. Database query latency stays flat, but waiting for a connection now delays checkout requests.",
           implication: "The evidence connects the revision’s resource growth to a downstream access bottleneck. Waiting for a large 5XX spike would miss the earlier decision point.",
-          action: "Explain the escalating risk and recommend intervention under the evaluation’s rollout policy.",
-          record: { checkpoint: "T+12h", agent_state: "this trial’s prior assessments", assessment: "degradation warrants intervention", recommendation: "halt expansion; review rollback", side_effects: "recorded only" }
+          action: "Explain the escalating risk and recommend intervention under the evaluation’s operating policy.",
+          record: { checkpoint: "T+12h", agent_state: "this trial’s prior assessments", assessment: "degradation warrants intervention", recommendation: "pause the reconciliation job; investigate connection handling", side_effects: "recorded only" }
         },
         {
           label: "T + 24 hours", headline: "The final failure does not answer the whole eval",
           facts: [["Checked-out connections", "1,000 / 1,000"], ["Checkout 5XX rate", "9%"]],
-          observation: "Connection acquisition p95 reaches twelve seconds. Checkout fails requests, and storefront timeouts expose the upstream impact. This recording followed the release without an earlier intervention.",
+          observation: "Connection acquisition p95 reaches twelve seconds. Checkout fails requests, and storefront timeouts expose the upstream impact. This recording followed the service without an earlier intervention.",
           implication: "A correct diagnosis now says little about whether the agent recognized the problem at hour six or twelve.",
           action: "Grade the sequence: detection, evidence, revisions, and recommendations at each checkpoint.",
-          record: { checkpoint: "T+24h", agent_state: "this trial’s accumulated history", assessment: "pool exhaustion with upstream impact", grade: ["earliest supported detection", "unsupported alarms", "decision revision"], earlier_rollback_outcome: "not established by this recording" }
+          record: { checkpoint: "T+24h", agent_state: "this trial’s accumulated history", assessment: "pool exhaustion with upstream impact", grade: ["earliest supported detection", "unsupported alarms", "decision revision"], earlier_intervention_outcome: "not established by this recording" }
         }
       ]
     },
@@ -178,13 +182,13 @@ A **checkpoint probe** gives every candidate the same fixed history and world st
 
 A **trajectory replay** starts earlier and lets each candidate carry its own reports, memory, and scratch files through successive checkpoints. It tests whether the agent remembers a concern, seeks discriminating evidence, and changes its assessment. Do not splice one candidate’s earlier conclusions into another’s trajectory.
 
-Repeated trials still matter: reproducible inputs do not make model outputs deterministic. [Anthropic’s evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) emphasizes multiple trials, isolated environments, and the distinction between an agent’s transcript and the outcome it actually achieved. Use healthy recordings too; recommending rollback for every release should not score well.
+Repeated trials still matter: reproducible inputs do not make model outputs deterministic. [Anthropic’s evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) emphasizes multiple trials, isolated environments, and the distinction between an agent’s transcript and the outcome it actually achieved. Use healthy recordings too; recommending intervention in every healthy run should not score well.
 
 ## Know where the recording ends
 
 Captured raw events support more queries than a transcript of fixed API responses. Even then, unrecorded evidence remains unavailable. Keep replay recommendations isolated from production actions.
 
-If a candidate recommends rollback at hour twelve, a recording of the unreverted release cannot prove what happens after that rollback. Evaluating intervention effects requires a suitable simulator or controlled live experiment. Scheduled checkpoints also bound what you can say about detection time.
+If a candidate recommends stopping the reconciliation job at hour twelve, a recording with that job still running cannot prove what happens after the intervention. Evaluating intervention effects requires a suitable simulator or controlled live experiment. Scheduled checkpoints also bound what you can say about detection time.
 
 The point is to make a slow scenario reusable while preserving the information available at each decision. We can then improve the investigation without waiting another day for the same failure to develop.
 

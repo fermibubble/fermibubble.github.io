@@ -6,7 +6,7 @@
     <title>Writing — Oddly</title>
     <meta name="description" content="Technical essays on agent infrastructure, local context, checkpoint replay, and trustworthy autonomy.">
     <meta name="author" content="Chaitanya">
-    <meta name="theme-color" content="#f1efe8">
+    <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Writing — Oddly">
     <meta property="og:description" content="Technical essays on agent infrastructure, local context, checkpoint replay, and trustworthy autonomy.">
@@ -14,9 +14,13 @@
     <link rel="canonical" href="https://oddly.fyi/writing/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
   </head>
   <body data-path="/writing/">
     
@@ -42,7 +46,7 @@
     </header>
     <main id="content">
     <section class="page-intro shell">
-    <div class="page-intro-kicker"><span>Essays &amp; collections</span><span>4 essays · 1 collection</span></div>
+    <div class="page-intro-kicker"><span>Essays &amp; collections</span><span>3 essays · 1 collection</span></div>
     <h1>Writing</h1>
     <p>Architecture and experiments in agent infrastructure, context, and evaluation. Trustworthy Autonomy brings the principles together in one collection.</p>
   </section>
@@ -63,13 +67,8 @@
             <div class="archive-main"><div class="archive-eyebrow">Collection · 9 chapters</div><h2>Trustworthy Autonomy</h2><p>Nine principles for systems that deserve the authority we give them. A field guide to evidence, boundaries, and learning from consequences.</p></div>
             <div class="archive-meta"><time datetime="2026-08-15">August 15, 2026</time><span>Explore the collection</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
           </article><article class="archive-item">
-            <a class="archive-link" href="/writing/judgment-under-uncertainty/" aria-label="Read Judgment Under Uncertainty"></a>
-            <div class="archive-index">04</div>
-            <div class="archive-main"><div class="archive-eyebrow">Reasoning &amp; judgment</div><h2>Judgment Under Uncertainty</h2><p>A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.</p></div>
-            <div class="archive-meta"><time datetime="2026-07-21">July 21, 2026</time><span>2 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
-          </article><article class="archive-item">
             <a class="archive-link" href="/writing/engineering-autonomous-agents/" aria-label="Read Engineering Autonomous Agents"></a>
-            <div class="archive-index">05</div>
+            <div class="archive-index">04</div>
             <div class="archive-main"><div class="archive-eyebrow">Autonomous agents</div><h2>Engineering Autonomous Agents</h2><p>An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.</p></div>
             <div class="archive-meta"><time datetime="2026-07-01">July 1, 2026</time><span>2 min</span><span class="circle-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></div>
           </article>
@@ -88,6 +87,8 @@
           <a href="/ideas/">Ideas</a>
           <a href="/rss.xml">RSS</a>
           <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
