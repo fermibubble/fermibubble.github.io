@@ -50,7 +50,7 @@ function renderResults(query) {
   const normalized = query.trim().toLowerCase();
   activeResult = -1;
   if (!normalized) {
-    searchResults.innerHTML = '<p class="search-hint">Start typing to search the field notes.</p>';
+    searchResults.innerHTML = '<p class="search-hint">Start typing to search the writing.</p>';
     return;
   }
 
@@ -67,7 +67,7 @@ function renderResults(query) {
     .map(({ entry }) => entry);
 
   if (!matches.length) {
-    searchResults.innerHTML = '<p class="search-empty">No matching field notes. Try a broader idea.</p>';
+    searchResults.innerHTML = '<p class="search-empty">No matching writing. Try a broader idea.</p>';
     return;
   }
 
@@ -86,7 +86,7 @@ async function openSearch() {
 function closeSearch() {
   searchDialog?.close();
   if (searchInput) searchInput.value = "";
-  if (searchResults) searchResults.innerHTML = '<p class="search-hint">Start typing to search the field notes.</p>';
+  if (searchResults) searchResults.innerHTML = '<p class="search-hint">Start typing to search the writing.</p>';
 }
 
 document.querySelector("[data-search-open]")?.addEventListener("click", openSearch);

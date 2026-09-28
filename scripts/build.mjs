@@ -10,6 +10,10 @@ import { analyticsConfig } from "../src/analytics-config.mjs";
 import { analyticsReady } from "../src/analytics-policy.js";
 
 const allWriting = [...writing, ...principleEssays];
+const noteItems = new Set(notes);
+const publications = [...writing, ...notes].sort((a, b) => b.date.localeCompare(a.date));
+const publicationPath = (item) => noteItems.has(item) ? `/notes/${item.slug}/` : writingPath(item);
+const publicationFormat = (item) => noteItems.has(item) ? 'Short note' : item.seriesOverview ? 'Collection' : 'Essay';
 const retiredPaths = ["writing/judgment-under-uncertainty", "writing/rollouts-are-decision-problems"];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -135,7 +139,6 @@ const icon = {
 
 const navItems = [
   ["Writing", "/writing/", "writing"],
-  ["Notes", "/notes/", "notes"],
   ["Focus", "/projects/", "projects"],
   ["About", "/about/", "about"]
 ];
@@ -178,7 +181,7 @@ function searchDialog() {
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
         <div class="search-results" data-search-results>
-          <p class="search-hint">Start typing to search the field notes.</p>
+          <p class="search-hint">Start typing to search the writing.</p>
         </div>
         <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
       </div>
@@ -265,7 +268,7 @@ function featureCard(article, index) {
 }
 
 function homePage() {
-  const recentNotes = notes.slice(0, 5);
+  const recentWriting = publications.slice(0, 5);
   const content = `
     <main id="content">
       <section class="hero shell">
@@ -300,16 +303,16 @@ function homePage() {
 
       <section class="section shell notes-section">
         <div class="section-heading">
-          <div><span class="section-index">02</span><h2>Recent notes</h2></div>
-          ${arrowLink("All notes", "/notes/")}
+          <div><span class="section-index">02</span><h2>Recent writing</h2></div>
+          ${arrowLink("All writing", "/writing/")}
         </div>
         <div class="notes-table">
-          ${recentNotes
+          ${recentWriting
             .map(
-              (note) => `<a class="note-row" href="/notes/${note.slug}/">
-                <time datetime="${note.date}">${note.displayDate.replace(", 2026", "")}</time>
-                <span><strong>${escapeHtml(note.title)}</strong><small>${escapeHtml(note.description)}</small></span>
-                <span class="note-time">${note.readTime}</span>
+              (item) => `<a class="note-row" href="${publicationPath(item)}">
+                <span class="recent-meta"><time datetime="${item.date}">${item.displayDate.replace(", 2026", "")}</time><span class="publication-kind">${publicationFormat(item)}</span></span>
+                <span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.description)}</small></span>
+                <span class="note-time">${item.readTime}</span>
                 <span class="note-arrow">${icon.arrow}</span>
               </a>`
             )
@@ -352,42 +355,29 @@ function pageIntro(kicker, title, description, count) {
 }
 
 function writingPage() {
+  const count = `${writing.filter(item => !item.seriesOverview).length} essays · ${notes.length} short notes · 1 collection`;
   const content = `<main id="content">
-    ${pageIntro("Essays & collections", "Writing", "Architecture and experiments in agent infrastructure, context, and evaluation. Trustworthy Autonomy brings the principles together in one collection.", `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`)}
-    <section class="shell archive-list">
-      ${writing
+    ${pageIntro("Essays, short notes & collections", "Writing", "Architecture, experiments, and useful distinctions from building autonomous agents, context systems, and reproducible evaluation.", count)}
+    <section class="shell archive-list" aria-label="All writing">
+      ${publications
         .map(
           (item, i) => `<article class="archive-item">
-            <a class="archive-link" href="${writingPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
+            <a class="archive-link" href="${publicationPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
             <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
-            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? "Collection · 9 chapters" : escapeHtml(item.eyebrow)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
+            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? "Collection · 9 chapters" : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
             <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Writing", description: "Technical essays on agent infrastructure, local context, checkpoint replay, and trustworthy autonomy.", active: "writing", content, path: "/writing/" });
+  return layout({ title: "Writing", description: "Essays, short notes, and collections on autonomous agents, context systems, and evaluation.", active: "writing", content, path: "/writing/" });
 }
 
 function notesPage() {
-  const years = [...new Set(notes.map((item) => item.date.slice(0, 4)))];
-  const content = `<main id="content">
-    ${pageIntro("Short observations", "Notes", "Concrete distinctions from building agents: what to measure, where to enforce policy, and how to preserve useful state.", `${notes.length} notes`)}
-    <section class="shell notes-archive">
-      ${years
-        .map(
-          (year) => `<div class="notes-year"><h2>${year}</h2><div class="notes-table">${notes
-            .filter((item) => item.date.startsWith(year))
-            .map(
-              (note) => `<a class="note-row" href="/notes/${note.slug}/"><time datetime="${note.date}">${note.displayDate.replace(`, ${year}`, "")}</time><span><strong>${escapeHtml(note.title)}</strong><small>${escapeHtml(note.description)}</small></span><span class="note-time">${note.readTime}</span><span class="note-arrow">${icon.arrow}</span></a>`
-            )
-            .join("")}</div></div>`
-        )
-        .join("")}
-    </section>
-  </main>`;
-  return layout({ title: "Notes", description: "Short technical notes on agent quality, execution, memory, and verification.", active: "notes", content, path: "/notes/" });
+  const content = `<main id="content" class="not-found shell"><h1>Writing</h1><p>Essays, short notes, and collections.</p>${arrowLink("All writing", "/writing/", "primary-link")}</main>`;
+  return layout({ title: "Writing", active: "writing", content, path: "/writing/" })
+    .replace("<head>", '<head>\n    <meta http-equiv="refresh" content="0; url=/writing/">');
 }
 
 function projectsPage() {
@@ -447,19 +437,22 @@ function aboutPage() {
   return layout({ title: "About", description: "About Chaitanya Meesala and this technical notebook.", active: "about", content, path: "/about/" });
 }
 
-function articlePage(item, type, index, collection) {
-  const active = type === "Writing" ? "writing" : "notes";
-  const base = type === "Writing" ? "writing" : "notes";
+function articlePage(item) {
+  const active = "writing";
+  const base = "writing";
+  const type = publicationFormat(item);
+  const index = publications.indexOf(item);
+  const collection = publications;
   const series = !!(item.seriesNumber || item.seriesOverview);
   const enhanced = series || !!item.interactiveEssay;
-  const pathFor = (article) => base === "writing" ? writingPath(article) : `/notes/${article.slug}/`;
+  const pathFor = publicationPath;
   const next = item.seriesNumber ? principleEssays[item.seriesNumber] : collection[index + 1];
   const previous = item.seriesNumber ? principleEssays[item.seriesNumber - 2] : collection[index - 1];
   const content = `<main id="content">
     <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}${item.interactiveEssay ? " technical-article" : ""}">
       <header class="article-header shell-narrow">
         <a class="article-back" href="${item.seriesNumber ? autonomyPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? "Trustworthy Autonomy" : `All ${base}`}</span></a>
-        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / Chapter ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "Collection / Nine chapters" : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)} / ${String(index + 1).padStart(2,"0")}`}</div>
+        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / Chapter ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "Collection / Nine chapters" : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)}${item.eyebrow ? ` · ${escapeHtml(item.eyebrow)}` : ""}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
@@ -475,13 +468,13 @@ function articlePage(item, type, index, collection) {
         ${renderIncident(item.incident, escapeHtml)}
         <div class="prose epistemics-afterword">${markdown(item.afterword)}</div>
       </div>` : `<div class="article-layout shell">
-        <aside class="article-rail"><span>${type === "Writing" ? escapeHtml(item.eyebrow) : "Note"}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
+        <aside class="article-rail"><span>${noteItems.has(item) ? "Short note" : escapeHtml(item.eyebrow || publicationFormat(item))}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
         <div class="prose" data-article-body>${markdown(item.body)}</div>
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
       ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Collection overview</span><strong>Trustworthy Autonomy</strong></a>' : "<span></span>"}
-      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Back to the collection</span><strong>Trustworthy Autonomy</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All ${type}</strong></a>`}
+      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Back to the collection</span><strong>Trustworthy Autonomy</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All writing</strong></a>`}
     </nav>
   </main>`;
   return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series: enhanced, path: pathFor(item) });
@@ -542,9 +535,8 @@ async function emit(relative, contents) {
 
 function searchIndex() {
   return [
-    ...writing.map((item) => ({ type: item.seriesOverview ? "Collection" : "Writing", title: item.title, description: item.description, url: writingPath(item) })),
+    ...publications.map((item) => ({ type: publicationFormat(item), title: item.title, description: item.description, url: publicationPath(item) })),
     ...principleEssays.map((item) => ({ type: "Chapter", title: item.title, description: `Trustworthy Autonomy · ${item.description}`, url: writingPath(item) })),
-    ...notes.map((item) => ({ type: "Note", title: item.title, description: item.description, url: `/notes/${item.slug}/` })),
     { type: "Page", title: "Focus", description: "Agent systems, data and context, evaluation and learning.", url: "/projects/" },
     { type: "Page", title: "Ideas in progress", description: "Open questions about agent environments, context, replay, and reusable engineering.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
@@ -595,11 +587,8 @@ await Promise.all([
   emit("robots.txt", "User-agent: *\nAllow: /\n")
 ]);
 
-await Promise.all(
-  writing.map((item, index) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item, "Writing", index, writing)))
-);
-await Promise.all(principleEssays.map((item, index) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item, "Writing", index, principleEssays))));
-await Promise.all(notes.map((item, index) => emit(`notes/${item.slug}/index.html`, articlePage(item, "Note", index, notes))));
+await Promise.all(publications.map((item) => emit(`${publicationPath(item).slice(1)}index.html`, articlePage(item))));
+await Promise.all(principleEssays.map((item) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item))));
 await Promise.all(allWriting.flatMap((item) => [...(item.aliases || []), ...(item.seriesNumber ? [item.slug] : [])].map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
 
 await mkdir(join(out, "assets"), { recursive: true });

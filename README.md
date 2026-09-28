@@ -30,6 +30,8 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 The `data-typography` attribute assigns these roles. The serif face is preloaded only for pages that use it, and both light and dark themes share the same hierarchy.
 
+The Writing index combines essays, short notes, and the collection in date order. Short notes keep their original `/notes/<slug>/` URLs, use Writing in the navigation, and share previous/next links with the essays. `/notes/` redirects to `/writing/`. The homepage shows Recent writing from the same list.
+
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
 The local-context and checkpoint-replay essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.

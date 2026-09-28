@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Notes — Oddly</title>
-    <meta name="description" content="Short technical notes on agent quality, execution, memory, and verification.">
+    <title>Writing — Oddly</title>
+    <meta name="description" content="Technical essays by Chaitanya Meesala on agent infrastructure, local context, observability, and reproducible evaluation.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Notes — Oddly">
-    <meta property="og:description" content="Short technical notes on agent quality, execution, memory, and verification.">
-    <meta property="og:url" content="https://oddly.fyi/notes/">
-    <link rel="canonical" href="https://oddly.fyi/notes/">
+    <meta property="og:title" content="Writing — Oddly">
+    <meta property="og:description" content="Technical essays by Chaitanya Meesala on agent infrastructure, local context, observability, and reproducible evaluation.">
+    <meta property="og:url" content="https://oddly.fyi/writing/">
+    <link rel="canonical" href="https://oddly.fyi/writing/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -19,11 +20,12 @@
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
     <link rel="stylesheet" href="/assets/typography.css?v=20260928">
+    <link rel="preload" href="/assets/fonts/newsreader-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/notes/" data-typography="notes">
+  <body data-path="/writing/" data-typography="writing">
     
     
     <a class="skip-link" href="#content">Skip to content</a>
@@ -37,7 +39,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/notes/" aria-current="page">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -45,16 +47,7 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <section class="page-intro shell">
-    <div class="page-intro-kicker"><span>Short observations</span><span>5 notes</span></div>
-    <h1>Notes</h1>
-    <p>Concrete distinctions from building agents: what to measure, where to enforce policy, and how to preserve useful state.</p>
-  </section>
-    <section class="shell notes-archive">
-      <div class="notes-year"><h2>2026</h2><div class="notes-table"><a class="note-row" href="/notes/why-agent-verifiers-fail/"><time datetime="2026-09-13">September 13</time><span><strong>Why agent verifiers fail</strong><small>Agreement is more useful when it comes from independent perspectives.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/memory-should-accumulate-judgment/"><time datetime="2026-08-24">August 24</time><span><strong>Memory should accumulate judgment</strong><small>Experience becomes useful when it improves the next decision.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/skills-arent-policies/"><time datetime="2026-08-05">August 5</time><span><strong>Skills aren’t policies</strong><small>Knowing how to act and having the authority to act are different things.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/what-does-good-mean-for-an-agent/"><time datetime="2026-07-16">July 16</time><span><strong>What does “good” mean for an agent?</strong><small>Define success through outcomes, constraints, and the cost of getting there.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/context-vs-harness-engineering/"><time datetime="2026-07-06">July 6</time><span><strong>Context engineering vs. harness engineering</strong><small>Context determines what the model can see. The harness determines how work progresses.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a></div></div>
-    </section>
-  </main>
+    <main id="content" class="not-found shell"><h1>Writing</h1><p>Essays, short notes, and collections.</p><a class="primary-link" href="/writing/"><span>All writing</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
     
     <footer class="site-footer">
       <div class="footer-inner">
@@ -83,7 +76,7 @@
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
         <div class="search-results" data-search-results>
-          <p class="search-hint">Start typing to search the field notes.</p>
+          <p class="search-hint">Start typing to search the writing.</p>
         </div>
         <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
       </div>

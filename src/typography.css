@@ -185,3 +185,8 @@ body { font-optical-sizing: auto; }
   .series-map-card { min-height: 0; }
   .prose pre, .prose pre code, .case-story pre, .case-story pre code { font-size: 11px; }
 }
+
+/* Format labels share one chronological writing list. */
+.recent-meta { display: flex; flex-direction: column; gap: 7px; }
+.publication-kind { font: 400 11px/1.4 var(--sans); color: var(--ink-faint); letter-spacing: 0; text-transform: none; }
+@media (max-width: 760px) { .publication-kind { font-size: 10px; } }

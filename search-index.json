@@ -1,15 +1,27 @@
 [
   {
-    "type": "Writing",
+    "type": "Essay",
     "title": "Checkpoint Replay for Long-Horizon Agent Evaluation",
     "description": "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
     "url": "/writing/checkpoint-replay-for-agent-evaluation/"
   },
   {
-    "type": "Writing",
+    "type": "Short note",
+    "title": "Why agent verifiers fail",
+    "description": "Agreement is more useful when it comes from independent perspectives.",
+    "url": "/notes/why-agent-verifiers-fail/"
+  },
+  {
+    "type": "Essay",
     "title": "Local Context for Autonomous Agents",
     "description": "Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.",
     "url": "/writing/local-context-for-autonomous-agents/"
+  },
+  {
+    "type": "Short note",
+    "title": "Memory should accumulate judgment",
+    "description": "Experience becomes useful when it improves the next decision.",
+    "url": "/notes/memory-should-accumulate-judgment/"
   },
   {
     "type": "Collection",
@@ -18,7 +30,25 @@
     "url": "/writing/trustworthy-autonomy/"
   },
   {
-    "type": "Writing",
+    "type": "Short note",
+    "title": "Skills aren’t policies",
+    "description": "Knowing how to act and having the authority to act are different things.",
+    "url": "/notes/skills-arent-policies/"
+  },
+  {
+    "type": "Short note",
+    "title": "What does “good” mean for an agent?",
+    "description": "Define success through outcomes, constraints, and the cost of getting there.",
+    "url": "/notes/what-does-good-mean-for-an-agent/"
+  },
+  {
+    "type": "Short note",
+    "title": "Context engineering vs. harness engineering",
+    "description": "Context determines what the model can see. The harness determines how work progresses.",
+    "url": "/notes/context-vs-harness-engineering/"
+  },
+  {
+    "type": "Essay",
     "title": "Engineering Autonomous Agents",
     "description": "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     "url": "/writing/engineering-autonomous-agents/"
@@ -76,36 +106,6 @@
     "title": "Learning requires Outcomes",
     "description": "Trustworthy Autonomy · An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?",
     "url": "/writing/trustworthy-autonomy/learning-requires-outcomes/"
-  },
-  {
-    "type": "Note",
-    "title": "Why agent verifiers fail",
-    "description": "Agreement is more useful when it comes from independent perspectives.",
-    "url": "/notes/why-agent-verifiers-fail/"
-  },
-  {
-    "type": "Note",
-    "title": "Memory should accumulate judgment",
-    "description": "Experience becomes useful when it improves the next decision.",
-    "url": "/notes/memory-should-accumulate-judgment/"
-  },
-  {
-    "type": "Note",
-    "title": "Skills aren’t policies",
-    "description": "Knowing how to act and having the authority to act are different things.",
-    "url": "/notes/skills-arent-policies/"
-  },
-  {
-    "type": "Note",
-    "title": "What does “good” mean for an agent?",
-    "description": "Define success through outcomes, constraints, and the cost of getting there.",
-    "url": "/notes/what-does-good-mean-for-an-agent/"
-  },
-  {
-    "type": "Note",
-    "title": "Context engineering vs. harness engineering",
-    "description": "Context determines what the model can see. The harness determines how work progresses.",
-    "url": "/notes/context-vs-harness-engineering/"
   },
   {
     "type": "Page",
