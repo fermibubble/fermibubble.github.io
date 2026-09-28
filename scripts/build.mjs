@@ -1,4 +1,4 @@
-import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ideas, notes, projects, site, writing } from "../src/content.mjs";
@@ -498,7 +498,7 @@ PostHog receives your IP address and can derive an approximate country, region, 
 
 ## Session replay
 
-If you allow analytics, a replay may reconstruct your activity on this website, including navigation, clicks, and scrolling. It does not record your desktop or other tabs. Search, form inputs, and elements marked private are blocked or masked. Network request bodies, headers, and console logging are disabled.
+If you allow analytics, a replay may reconstruct your activity on this website, including navigation, clicks, and scrolling. It does not record your desktop or other tabs. Search, form inputs, and elements marked private are blocked or masked. Network request bodies, headers, and console logging are disabled. Recordings are retained for 30 days.
 
 ## Your choice
 
@@ -598,7 +598,29 @@ await Promise.all(notes.map((item, index) => emit(`notes/${item.slug}/index.html
 await Promise.all(allWriting.flatMap((item) => [...(item.aliases || []), ...(item.seriesNumber ? [item.slug] : [])].map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
 
 await mkdir(join(out, "assets"), { recursive: true });
-await cp(join(root, "legacy"), out, { recursive: true });
+// Keep the original archive prose, URLs and code examples inside the current shell.
+const archiveTopics = [
+  ["Anti-patterns", "anti-patterns"], ["Design patterns", "design-patterns"],
+  ["Architecture", "software-architecture"], ["Domain-driven design", "domain-driven-design"],
+  ["Event sourcing", "event-sourcing"], ["Testing", "testing"],
+  ["Operations", "operations"], ["Security", "security"]
+];
+async function renderArchive(directory, relative = "") {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const rel = join(relative, entry.name);
+    if (entry.isDirectory()) { await renderArchive(join(directory, entry.name), rel); continue; }
+    if (!entry.name.endsWith(".html")) { await cp(join(directory, entry.name), join(out, rel)); continue; }
+    const source = await readFile(join(directory, entry.name), "utf8");
+    const title = source.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+    const body = source.match(/<div class="content container">([\s\S]*)<\/div>\s*<\/body>/)?.[1];
+    if (!title || body === undefined) throw new Error(`Cannot preserve archive page: ${rel}`);
+    const path = `/${rel.replace(/index\.html$/, "")}`;
+    const topicLinks = archiveTopics.map(([label, slug]) => `<a href="/${slug}/"${path === `/${slug}/` ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+    const content = `<main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/">${icon.arrow}<span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>${escapeHtml(title)}</h1><p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics">${topicLinks}</nav><div class="prose legacy-prose" data-article-body>${body}</div></article></main>`;
+    await emit(rel, layout({ title, description: `${title}. Earlier software engineering writing by Chaitanya Meesala.`, path, content, article: true }).replace(/^[ \t]+$/gm, ""));
+  }
+}
+await renderArchive(join(root, "legacy"));
 await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
 await cp(join(root, "lnr-code.ico"), join(out, "lnr-code.ico"));
 await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));

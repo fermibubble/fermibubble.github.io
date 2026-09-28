@@ -15,28 +15,27 @@ Replay and heatmaps are enabled for oddly.fyi, with 100% of eligible consenting 
 5. Create the private dashboard below and enable `enabled` in the site config. Rebuild and publish. The privacy page automatically changes to describe active collection.
 6. Validate one consenting session end to end in Live events, Web analytics, Heatmaps, and Session replay. Check that decline and withdrawal stop collection and that search inputs are absent from replay.
 
-## Dashboard: Oddly — readership and experience
+## Dashboard: Oddly — readership & experience
 
-Scope every insight to `site = oddly.fyi`; default to the last 30 days, with comparison to the previous period.
+The private dashboard is pinned and set as the project's default, with a last-30-days filter and all insights scoped to `site = oddly.fyi`. All 16 panels were executed successfully against live collection on September 28, 2026.
 
-| Panel | Data |
+| Panels | Data |
 | --- | --- |
-| Audience | Unique browser IDs, sessions, pageviews; daily trend |
-| New and returning readers | First visit versus returning browser, with consent coverage caveat |
-| Popular writing | `$pageview` and `article_viewed`, grouped by page path |
-| Discovery | Referring domain, UTM source, medium, and campaign |
-| Entry and exit pages | Native Web analytics session entry/exit view |
-| Geography | Country, region, city; approximate GeoIP map |
-| Devices | Browser, OS, device type, viewport sizes |
-| Article depth | `article_scroll` at 25/50/75/90 percent, by page |
-| Engaged reads | `article_engaged`: at least 90% depth and 30 visible seconds; an engagement proxy, not proof of reading |
-| Time on articles | Sum `article_engagement.active_seconds` per session and page |
-| Outbound links | `outbound_link.destination`, without query strings |
-| Friction | Rage clicks, dead clicks, and error-tracking links |
-| Performance | Native Web Vitals: LCP, INP, CLS, FCP |
-| Visits by IP | Private event table: timestamp, `$ip`, GeoIP fields, page path, browser, session ID, when IP retention is enabled |
+| Unique browsers, sessions, pageviews, engaged article sessions | Four headline metrics |
+| Daily readership | Pageviews and unique browsers over time |
+| Popular pages | Pageviews by page path |
+| Traffic sources and campaigns | Referring domains and UTM campaigns |
+| Readers around the world | Event-level country map from approximate GeoIP |
+| Devices and browsers | Device and browser breakdowns |
+| Reading depth | Scroll milestones at 25/50/75/90 percent |
+| Visible reading time by article | Visible seconds grouped by article |
+| Outbound destinations | Link destinations without query strings |
+| Recent visits — IP and location (30 days) | Latest 100 pageviews with IP, country, city, page, browser, and session ID; fixed 30-day window |
+| Errors and interaction friction | Exceptions, rage clicks, and dead clicks |
 
-Use PostHog's native **Heatmaps** for click and scroll hotspots, **Session replay** for individual journeys, and **Error tracking** for JavaScript failures. Link them from the dashboard; recordings are not ordinary chart tiles.
+The dashboard introduction links to native Web analytics, Session replay, Heatmaps, and Web Vitals. These provide entry/exit views, individual journeys, click and scroll hotspots, and performance metrics. No dashboard or recording sharing was enabled.
+
+Three saved heatmaps cover the homepage, local-context article, and checkpoint-replay article. Each has completed snapshots at 375, 768, and 1440 pixels. Replay, IP retention, session IDs, country/city enrichment, consent acceptance, decline, and withdrawal were verified live. This setup creates no historical traffic; initial data includes setup verification visits.
 
 ## Collection behavior
 
@@ -57,4 +56,4 @@ Use PostHog's native **Heatmaps** for click and scroll hotspots, **Session repla
 - https://posthog.com/docs/web-analytics
 - https://posthog.com/docs/product-analytics/dashboards
 
-Run `npm run publish:prepare` and `npm run check` before publishing. The checks cover missing/incorrect project configuration, consent boundaries, unexpected query parameters, and nested event URL sanitization. End-to-end ingestion and replay still require the real connected project.
+Run `npm run publish:prepare` and `npm run check` before publishing. The checks cover missing/incorrect project configuration, consent boundaries, unexpected query parameters, and nested event URL sanitization. Repeat the live consent and ingestion check when changing project settings or the integration.

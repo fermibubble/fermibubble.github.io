@@ -6,7 +6,7 @@ Personal writing on autonomous agents, data, developer tools, and evaluation.
 
 Target: https://oddly.fyi/
 
-This update imports the newer September 3, 2026 website. It preserves the writing, design, search, dark mode, reading progress, and responsive navigation. The build also keeps the existing 16 legacy pages at their original URLs, with their original styles and code examples. The old Markdown sources remain in this repository; their published HTML is preserved in `legacy/`.
+The publication includes search, dark mode, reading progress, and responsive navigation. The build keeps the 16 earlier pages at their original URLs, preserving their prose and code examples inside the current design. Their original HTML remains in `legacy/` as source.
 
 ## Build and check
 
