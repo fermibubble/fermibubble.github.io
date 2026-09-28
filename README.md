@@ -18,7 +18,17 @@ npm run check
 node --check src/site.js
 ```
 
-The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, base styling in `src/styles.css`, the current visual system in `src/editorial.css`, and page templates in `scripts/build.mjs`. IBM Plex Sans (option C) is served locally from `assets/fonts/`, with its open-font license. Headings use medium weight, body text regular, and emphasis semibold; italic text has its own font face.
+The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, base styling in `src/styles.css`, the current visual system in `src/editorial.css`, and page templates in `scripts/build.mjs`. The typography system is in `src/typography.css`. IBM Plex Sans remains the foundation; Newsreader adds an editorial reading face, and IBM Plex Mono handles code and compact data labels. All fonts and their open-font licenses are served locally from `assets/fonts/`.
+
+| Surface | Typography |
+| --- | --- |
+| Homepage, Writing, About, Ideas | Newsreader display titles; Plex Sans navigation and summaries |
+| Technical essays and earlier writing | Plex Sans headings; Newsreader long-form text |
+| Trustworthy Autonomy chapters | Newsreader titles and prose; Plex Sans structure and examples |
+| Notes, Focus, privacy, controls | Plex Sans for concise scanning and interaction |
+| Code, timestamps, labels | Plex Mono; tabular numerals for aligned data |
+
+The `data-typography` attribute assigns these roles. The serif face is preloaded only for pages that use it, and both light and dark themes share the same hierarchy.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 

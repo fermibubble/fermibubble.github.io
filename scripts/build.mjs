@@ -209,6 +209,10 @@ function footer() {
 
 function layout({ title, description, active, content, article = false, incident = false, series = false, path = "/" }) {
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
+  const typography = article
+    ? path.startsWith('/notes/') ? 'note' : path.startsWith('/writing/trustworthy-autonomy/') ? 'principle' : path.startsWith('/writing/') ? 'essay' : 'archive'
+    : ({ '/': 'home', '/writing/': 'writing', '/notes/': 'notes', '/projects/': 'focus', '/ideas/': 'ideas', '/about/': 'about' }[path] || 'utility');
+  const serifPage = ['home', 'writing', 'essay', 'principle', 'archive', 'about', 'ideas'].includes(typography);
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -229,11 +233,12 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20260928">${serifPage ? '\n    <link rel="preload" href="/assets/fonts/newsreader-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>' : ''}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="${escapeHtml(path)}"${article ? ' class="article-page"' : ""}>
+  <body data-path="${escapeHtml(path)}" data-typography="${typography}"${article ? ' class="article-page"' : ""}>
     ${article ? '<div class="reading-progress" data-reading-progress></div>' : ""}
     ${header(active)}
     ${content}
@@ -627,6 +632,7 @@ await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
   cp(join(root, "src", "editorial.css"), join(out, "assets", "editorial.css")),
+  cp(join(root, "src", "typography.css"), join(out, "assets", "typography.css")),
   cp(join(root, "src", "site.js"), join(out, "assets", "site.js")),
   cp(join(root, "src", "analytics.js"), join(out, "assets", "analytics.js")),
   cp(join(root, "src", "analytics-policy.js"), join(out, "assets", "analytics-policy.js")),
