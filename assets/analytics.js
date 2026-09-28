@@ -157,7 +157,7 @@ if (configured && production) {
     button.hidden = false;
     button.addEventListener("click", showChoices);
   });
-  if (choice === "unknown" && !privacySignal) showChoices();
+  // Preferences open only when the reader selects the footer control.
   loadAnalytics();
   window.addEventListener("scroll", measureScroll, { passive: true });
   document.addEventListener("visibilitychange", () => {

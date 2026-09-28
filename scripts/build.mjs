@@ -225,8 +225,8 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="canonical" href="${escapeHtml(absoluteUrl(path))}">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="${escapeHtml(site.name)}" href="/rss.xml">
-    <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
@@ -502,7 +502,7 @@ If you allow analytics, a replay may reconstruct your activity on this website, 
 
 ## Your choice
 
-Analytics and replay load only after you choose “Allow analytics.” You can withdraw permission using “Analytics preferences” in the footer. A decline, Global Privacy Control, or Do Not Track keeps collection off. Browser settings, blockers, and consent mean analytics will not represent every visit.
+There is no automatic analytics popup. Analytics and replay load only after you open “Analytics preferences” in the footer and choose “Allow analytics.” You can withdraw permission using the same control. A decline, Global Privacy Control, or Do Not Track keeps collection off. Browser settings, blockers, and consent mean analytics will not represent every visit.
 
 Your preference is remembered for up to 180 days in this browser. Withdrawing stops future collection; it does not erase previously collected events.
 ` : `

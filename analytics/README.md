@@ -40,6 +40,7 @@ Three saved heatmaps cover the homepage, local-context article, and checkpoint-r
 ## Collection behavior
 
 - The SDK is downloaded only after opt-in, on the production domains. There are no PostHog requests when the project is unconfigured, consent is declined, or DNT/GPC is set.
+- No automatic consent popup is shown. Readers can open Analytics preferences in the footer to opt in or withdraw. New visitors remain untracked until they choose to opt in; existing choices remain valid.
 - Preferences persist for 180 days. Withdrawal stops replay and capture and clears SDK persistence. It does not retroactively delete server data.
 - No reader identification or person profiles. Counts describe browsers and sessions, not verified people. Consent choices, blockers, shared devices, and clearing storage affect counts.
 - Only clicks on links/buttons are autocaptured; element text and attributes are masked. Replay blocks the search dialog, inputs, textareas, selects, editable areas, and `[data-private]` elements.
