@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { ideas, notes, projects, site, writing } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
-import { renderCaseStudy, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
+import { renderCaseStudy, renderContextTable, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
 import { autonomyPath, writingPath } from "../src/paths.mjs";
 
 const allWriting = [...writing, ...principleEssays];
@@ -189,7 +189,7 @@ function footer() {
         <div>
           <a class="footer-name" href="/">${escapeHtml(site.name)}</a>
           <p>By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -255,7 +255,7 @@ function homePage() {
   const content = `
     <main id="content">
       <section class="hero shell">
-        <div class="hero-kicker reveal"><span class="signal-dot"></span> By ${escapeHtml(site.author)} · Field notes</div>
+        <div class="hero-kicker reveal"><span class="signal-dot"></span> By ${escapeHtml(site.author)} · Systems engineering</div>
         <div class="hero-grid">
           <div class="hero-copy reveal reveal-delay-1">
             <h1>${escapeHtml(site.statement)}</h1>
@@ -263,17 +263,17 @@ function homePage() {
             ${arrowLink("Read the writing", "/writing/", "primary-link")}
           </div>
           <div class="decision-map reveal reveal-delay-2" aria-label="An agent supported by context, tools, evaluation, and memory">
-            <div class="map-label">The systems around intelligence</div>
-            <div class="map-center"><span>Agents</span><small>at work</small></div>
-            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>What is available?</small></div>
-            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>What can we do?</small></div>
-            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>What improved?</small></div>
-            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>What carries forward?</small></div>
+            <div class="map-label">An agent’s operating environment</div>
+            <div class="map-center"><span>Agents</span><small>reason &amp; act</small></div>
+            <div class="map-node node-1"><span>01</span><strong>Context</strong><small>Queryable evidence</small></div>
+            <div class="map-node node-2"><span>02</span><strong>Tools</strong><small>Reliable execution</small></div>
+            <div class="map-node node-3"><span>03</span><strong>Evaluation</strong><small>Recorded outcomes</small></div>
+            <div class="map-node node-4"><span>04</span><strong>Memory</strong><small>State across turns</small></div>
             <svg class="map-lines" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="158"/><circle cx="250" cy="250" r="96"/><path d="M250 92a158 158 0 0 1 158 158"/><path d="m398 231 10 19 13-17"/></svg>
           </div>
         </div>
         <div class="hero-index reveal reveal-delay-3">
-          <span>Autonomous agents</span><span>Data &amp; context</span><span>Evaluation &amp; learning</span><span>Systems engineering</span>
+          <span>Agent infrastructure</span><span>Local context</span><span>Observability</span><span>Reproducible evaluation</span>
         </div>
       </section>
 
@@ -310,7 +310,7 @@ function homePage() {
         <div class="shell principle-callout-inner">
           <div class="callout-copy">
             <span class="section-index">03 / Connecting the work</span>
-            <blockquote>An agent’s possibilities are shaped by the systems around it.</blockquote>
+            <blockquote>Make evidence queryable, execution reliable, and decisions reproducible.</blockquote>
             ${arrowLink("Explore the focus areas", "/projects/", "primary-link light-link")}
           </div>
           <div class="callout-numbers" aria-hidden="true"><span>${String(projects.length).padStart(2,"0")}</span><small>connected<br>areas of work</small></div>
@@ -342,7 +342,7 @@ function pageIntro(kicker, title, description, count) {
 
 function writingPage() {
   const content = `<main id="content">
-    ${pageIntro("Essays & collections", "Writing", "Ideas and experiments in agent systems, data, tools, and evaluation. Longer explorations gather their chapters in one place.", `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`)}
+    ${pageIntro("Essays & collections", "Writing", "Architecture and experiments in agent infrastructure, context, and evaluation. Trustworthy Autonomy brings the principles together in one collection.", `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`)}
     <section class="shell archive-list">
       ${writing
         .map(
@@ -350,19 +350,19 @@ function writingPage() {
             <a class="archive-link" href="${writingPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
             <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
             <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? "Collection · 9 chapters" : escapeHtml(item.eyebrow)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
-            <div class="archive-meta"><time datetime="${item.updatedDate || item.date}">${item.updatedDate ? "September 27, 2026" : item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
+            <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Writing", description: "Essays and collections on autonomous agents, data, developer tools, and evaluation.", active: "writing", content, path: "/writing/" });
+  return layout({ title: "Writing", description: "Technical essays on agent infrastructure, local context, checkpoint replay, and trustworthy autonomy.", active: "writing", content, path: "/writing/" });
 }
 
 function notesPage() {
   const years = [...new Set(notes.map((item) => item.date.slice(0, 4)))];
   const content = `<main id="content">
-    ${pageIntro("Short observations", "Notes", "Smaller ideas, distinctions, and questions published before they demand the shape of an essay.", `${notes.length} notes`)}
+    ${pageIntro("Short observations", "Notes", "Concrete distinctions from building agents: what to measure, where to enforce policy, and how to preserve useful state.", `${notes.length} notes`)}
     <section class="shell notes-archive">
       ${years
         .map(
@@ -376,12 +376,12 @@ function notesPage() {
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Notes", description: "Short reflections on intelligence, learning, and dependable systems.", active: "notes", content, path: "/notes/" });
+  return layout({ title: "Notes", description: "Short technical notes on agent quality, execution, memory, and verification.", active: "notes", content, path: "/notes/" });
 }
 
 function projectsPage() {
   const content = `<main id="content">
-    ${pageIntro("Areas of interest", "Focus", "The connected parts of my work: agent systems, the information they use, and the experiments that help them improve.", `${projects.length} themes`)}
+    ${pageIntro("Areas of work", "Focus", "Three connected engineering problems: executing work, making evidence accessible, and measuring decisions across time.", `${projects.length} themes`)}
     <section class="shell project-list">
       ${projects
         .map(
@@ -414,23 +414,23 @@ function aboutPage() {
     <section class="about-hero shell">
       <div class="about-index">About / 2026</div>
       <div class="about-grid">
-        <h1>I build autonomous agents—and the systems that make their <em>intelligence useful.</em></h1>
+        <h1>I build the infrastructure that lets agents <em>investigate, act, and improve.</em></h1>
         <div class="about-monogram" aria-hidden="true"><span>C</span><span>M</span></div>
       </div>
     </section>
     <section class="about-body shell">
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
-        <p>I’m Chaitanya Meesala. My work spans autonomous agents and their supporting systems: data, context, tools, memory, execution, and evaluation.</p>
-        <p>I’m interested in the details that change what an agent can accomplish. Sometimes that means bringing a small database into its workspace. Sometimes it means building a time machine so a slow failure becomes a repeatable experiment.</p>
-        <p>Oddly is where I bring those ideas together. Some become essays, some grow into collections, and others remain questions in a notebook. Trustworthy Autonomy is one such collection within that broader work.</p>
-        <blockquote>I like following an idea all the way down to the system that makes it work.</blockquote>
+        <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
+        <p>My work on rollout review connects these problems directly: collect telemetry through deterministic pipelines, make it locally queryable, preserve an agent’s state, and replay recorded scenarios to evaluate its decisions.</p>
+        <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. The notes isolate useful distinctions. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
+        <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
     </section>
     <section class="about-now shell">
       <div><span>Engineering</span><strong>Autonomous agents</strong></div>
       <div><span>Connecting</span><strong>Data &amp; context</strong></div>
-      <div><span>Experimenting</span><strong>Evaluation &amp; learning</strong></div>
+      <div><span>Evaluating</span><strong>Replay &amp; outcomes</strong></div>
     </section>
   </main>`;
   return layout({ title: "About", description: "About Chaitanya Meesala and this technical notebook.", active: "about", content, path: "/about/" });
@@ -445,18 +445,18 @@ function articlePage(item, type, index, collection) {
   const next = item.seriesNumber ? principleEssays[item.seriesNumber] : collection[index + 1];
   const previous = item.seriesNumber ? principleEssays[item.seriesNumber - 2] : collection[index - 1];
   const content = `<main id="content">
-    <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}">
+    <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}${item.interactiveEssay ? " technical-article" : ""}">
       <header class="article-header shell-narrow">
         <a class="article-back" href="${item.seriesNumber ? autonomyPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? "Trustworthy Autonomy" : `All ${base}`}</span></a>
         <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / Chapter ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "Collection / Nine chapters" : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)} / ${String(index + 1).padStart(2,"0")}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-        <div class="article-meta"><time datetime="${item.updatedDate || item.date}">${item.updatedDate ? "Updated September 27, 2026" : item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? '\n        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>' : ""}
+        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? '\n        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>' : ""}
       </header>
       <div class="article-rule shell"></div>
       ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, principleEssays, escapeHtml)}` : ""}
-        <div class="prose${item.incident ? " epistemics-intro" : ""}">${markdown(item.body)}</div>
+        <div class="prose${item.incident ? " epistemics-intro" : ""}">${markdown(item.body)}</div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
         ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : renderSeriesMap(principleEssays, escapeHtml)}
         <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${markdown(item.afterword)}</div>
       </div>` : item.incident ? `<div class="epistemics-body" data-article-body>

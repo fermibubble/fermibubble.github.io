@@ -1,28 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/local-context-for-autonomous-agents/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>A small database for a curious agent — Oddly</title>
-    <meta name="description" content="An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.">
+    <title>Local Context for Autonomous Agents — Oddly</title>
+    <meta name="description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="A small database for a curious agent — Oddly">
-    <meta property="og:description" content="An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.">
-    <meta property="og:url" content="https://oddly.fyi/writing/in-memory-time-series-for-agents/">
-    <link rel="canonical" href="https://oddly.fyi/writing/in-memory-time-series-for-agents/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Local Context for Autonomous Agents — Oddly">
+    <meta property="og:description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
+    <meta property="og:url" content="https://oddly.fyi/writing/local-context-for-autonomous-agents/">
+    <link rel="canonical" href="https://oddly.fyi/writing/local-context-for-autonomous-agents/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
   </head>
-  <body data-path="/writing/in-memory-time-series-for-agents/" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/local-context-for-autonomous-agents/">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -42,98 +41,14 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Data &amp; agent infrastructure</div>
-        <h1>A small database<br><em>for a curious agent</em></h1>
-        <p class="article-deck">An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-09-27">September 27, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <div class="prose"><p>An agent investigating a memory leak should be able to follow a hunch quickly. Is memory rising only in the new version? Did traffic rise too? Was the same pattern present before the deployment?</p>
-<p>Each question sounds small. Answering it can involve another API call, another response format, another script, and another attempt after an error. The investigation acquires a second job: building its own data pipeline.</p>
-<p>In my work on rollout review, we built a small, local time-series database to make that loop shorter.</p>
-<h2 id="set-the-table-before-the-investigation">Set the table before the investigation<a class="heading-anchor" href="#set-the-table-before-the-investigation" aria-label="Link to this section">#</a></h2>
-<p>A time series is a sequence of measurements with timestamps: memory use, request counts, queue depth. A time-series database makes those measurements easy to select and compare.</p>
-<p>Our design loads a recent window when a session starts, refreshes it while the session is active, and exposes a catalog of the metrics and labels actually present. The agent can discover what exists before composing a query.</p>
-<p>Provider adapters handle authentication, fetching, retries, and normalization. They preserve the difference between a counter and a gauge, convert units, and give the query layer a consistent representation.</p>
-<p>That is the useful role of <strong>deterministic fetching</strong>: ordinary code carries out an explicit request for a defined resource, metric, and time window. The agent chooses what to investigate next; it does not have to reconstruct the collection machinery on every turn.</p>
-<h2 id="a-workbench-beside-the-agent">A workbench beside the agent<a class="heading-anchor" href="#a-workbench-beside-the-agent" aria-label="Link to this section">#</a></h2>
-<p>The working set lives in compact, temporary local chunks, read through memory mapping. An embedded PromQL engine evaluates queries inside the process. There is no separate database server to start for every session.</p>
-<p>PromQL is a language for selecting and calculating over time series. It lets the agent ask for rates, comparisons, and aggregations without writing a new analysis script for each question.</p>
-<p>The collector publishes complete chunks through atomic file replacement. The agent&#039;s sandbox reads them through a read-only mount. These are modest systems choices, but together they make repeated exploration much cheaper.</p>
-<p>Here is a simplified investigation. The measurements and requests are illustrative.</p></div>
-        <section class="case-study" data-case-study aria-labelledby="case-title">
-    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">Three questions, one local workbench</h2><p>Follow an illustrative investigation. Each panel shows the query and the data work it needs.</p></header>
-    <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
-      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>Memory is rising</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>Did traffic rise?</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>Was yesterday similar?</button>
-    </nav>
-    <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
-      <div class="case-snapshot"><span class="case-kicker">Memory is rising</span><dl><div><dt>Local window</dt><dd>09:50–10:05</dd></div><div><dt>New revision</dt><dd>400 → 620 MiB</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-0">Compare the two revisions</h3>
-        <dl><dt>What happens</dt><dd>The collector has loaded fifteen minutes of telemetry. Memory rises in the new revision while the control stays nearly flat.</dd><dt>What it means</dt><dd>The agent has a useful lead, but increased traffic could still explain the growth.</dd><dt>What the system does</dt><dd>Run a range query against the local data, grouped by revision.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;snapshot&quot;: &quot;illustrative-window-01&quot;,
-  &quot;query&quot;: &quot;avg by (revision) (worker_memory_bytes{service=\&quot;checkout\&quot;})&quot;,
-  &quot;start&quot;: &quot;10:00 UTC&quot;,
-  &quot;end&quot;: &quot;10:05 UTC&quot;,
-  &quot;step&quot;: &quot;60s&quot;,
-  &quot;execution&quot;: &quot;local&quot;,
-  &quot;remote_work&quot;: &quot;initial telemetry batch&quot;
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
-      <div class="case-snapshot"><span class="case-kicker">Did traffic rise?</span><dl><div><dt>Control traffic</dt><dd>100 requests/s</dd></div><div><dt>New traffic</dt><dd>100 requests/s</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-1">Ask a different question of the same data</h3>
-        <dl><dt>What happens</dt><dd>The request counters are already indexed. Both revisions show comparable traffic in this window.</dd><dt>What it means</dt><dd>Traffic volume alone looks less convincing as an explanation. The agent can investigate allocations or queues next.</dd><dt>What the system does</dt><dd>Calculate request rates locally, using the same evaluation time.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;snapshot&quot;: &quot;illustrative-window-01&quot;,
-  &quot;query&quot;: &quot;sum by (revision) (rate(worker_requests_total{service=\&quot;checkout\&quot;}[5m]))&quot;,
-  &quot;evaluation_time&quot;: &quot;10:05 UTC&quot;,
-  &quot;execution&quot;: &quot;local&quot;,
-  &quot;additional_remote_fetches&quot;: 0
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
-      <div class="case-snapshot"><span class="case-kicker">Was yesterday similar?</span><dl><div><dt>Requested baseline</dt><dd>Yesterday, 09:50–10:05</dd></div><div><dt>Local coverage</dt><dd>Missing</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-2">Fetch the missing window deliberately</h3>
-        <dl><dt>What happens</dt><dd>Yesterday&#039;s window is outside the local working set.</dd><dt>What it means</dt><dd>A local cache cannot answer a question about data it never received.</dd><dt>What the system does</dt><dd>Fetch the targeted historical range, normalize it, and make it available to the same query engine. Surface a gap if retrieval fails.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;requested_window&quot;: &quot;previous day, 09:50–10:05 UTC&quot;,
-  &quot;local_coverage&quot;: false,
-  &quot;fetch_plan&quot;: &quot;targeted historical range&quot;,
-  &quot;on_success&quot;: &quot;publish baseline chunks and evaluate&quot;,
-  &quot;on_failure&quot;: &quot;return explicit coverage gap&quot;
-}</pre></details>
-      </div>
-    </section></div>
-    <div class="case-footer" data-case-controls hidden><span data-case-position>1 of 3</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
-    <p class="sr-only" role="status" data-case-status></p>
-  </section>
-        <div class="prose series-afterword"><h2 id="repeatable-work-changing-data">Repeatable work, changing data<a class="heading-anchor" href="#repeatable-work-changing-data" aria-label="Link to this section">#</a></h2>
-<p>Deterministic fetching does not mean a live query always returns the same answer. New samples arrive. Late data can change a historical window. Reproducing a result requires the same captured data, query, evaluation time, and engine semantics.</p>
-<p>The database also needs limits: a bounded working set, query budgets, freshness information, and visible gaps. It is a workspace for an investigation; long-term monitoring remains with the observability backend.</p>
-<p>The broader lesson is about where to spend intelligence. Give the agent a well-prepared environment, and its curiosity becomes less expensive to exercise.</p>
-<blockquote><p>A useful agent environment makes the next good question cheap to ask.</p></blockquote>
-<p>Further reading: the <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" rel="noreferrer">Prometheus query guide</a> explains time-series selection and evaluation. The companion essay, <a href="https://oddly.fyi/writing/a-time-machine-for-agents/" rel="noreferrer">A time machine for agents</a>, takes the same idea into testing.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <span></span>
-      <a class="pagination-next" href="/writing/a-time-machine-for-agents/"><span>Next</span><strong>A time machine for agents</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Local Context for Autonomous Agents</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/local-context-for-autonomous-agents/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -144,7 +59,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

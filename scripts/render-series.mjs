@@ -12,7 +12,7 @@ export function renderSeriesMap(essays, escape, currentSlug) {
 
 export function renderCaseStudy(study, escape) {
   return `<section class="case-study" data-case-study aria-labelledby="case-title">
-    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">${escape(study.title)}</h2><p>${escape(study.caption)}</p></header>
+    <header class="case-heading"><span class="case-kicker">${escape(study.kicker || "An idea in practice")}</span><h2 id="case-title">${escape(study.title)}</h2><p>${escape(study.caption)}</p></header>
     <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
       ${study.steps.map((step,i) => `<button type="button" data-case-choice="${i}" aria-controls="case-panel-${i}" aria-pressed="${i===0}"><span>${String(i+1).padStart(2,"0")}</span>${escape(step.label)}</button>`).join("")}
     </nav>
@@ -26,6 +26,14 @@ export function renderCaseStudy(study, escape) {
     <div class="case-footer" data-case-controls hidden><span data-case-position>1 of ${study.steps.length}</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
     <p class="sr-only" role="status" data-case-status></p>
   </section>`;
+}
+
+export function renderContextTable(table, escape) {
+  return `<div class="context-table-wrap"><table class="context-table">
+    <caption>${escape(table.caption)}</caption>
+    <thead><tr>${table.columns.map(column => `<th scope="col">${escape(column)}</th>`).join("")}</tr></thead>
+    <tbody>${table.rows.map(row => `<tr><th scope="row">${escape(row[0])}</th>${row.slice(1).map(cell => `<td>${escape(cell)}</td>`).join("")}</tr>`).join("")}</tbody>
+  </table></div>`;
 }
 
 export function renderSeriesNavigation(item, essays, escape) {

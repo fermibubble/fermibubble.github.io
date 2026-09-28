@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkpoint Replay for Long-Horizon Agent Evaluation — Oddly</title>
+    <meta name="description" content="Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#f1efe8">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Checkpoint Replay for Long-Horizon Agent Evaluation — Oddly">
+    <meta property="og:description" content="Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.">
+    <meta property="og:url" content="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/">
+    <link rel="canonical" href="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
+  </head>
+  <body data-path="/writing/checkpoint-replay-for-agent-evaluation/" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/notes/">Notes</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article principle-article technical-article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Evaluation &amp; replay infrastructure</div>
+        <h1>Checkpoint Replay<br><em>for Long-Horizon Agent Evaluation</em></h1>
+        <p class="article-deck">Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-09-28">September 28, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="series-body" data-article-body>
+        <div class="prose"><p>A release passes its first hour. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.</p>
+<p>Now change one instruction in the reviewing agent. Must the entire soak test run for another day to find out whether that helped?</p>
+<p><strong>Long-horizon evaluation has an environment-time problem.</strong> Some failures need a full traffic cycle, repeated batch jobs, or slow resource accumulation to become visible. The model may reason for only minutes while the scenario takes twenty-four hours to unfold.</p>
+<p>Ten agent variants, each tested three times against a fresh 24-hour run, require 720 scenario-hours. Parallel runs reduce elapsed time, but each still needs its soak period and infrastructure.</p>
+<h2 id="record-the-progression-restore-the-checkpoint">Record the progression, restore the checkpoint<a class="heading-anchor" href="#record-the-progression-restore-the-checkpoint" aria-label="Link to this section">#</a></h2>
+<p>In my rollout-review work, we built replay infrastructure to revisit recorded scenarios. A 24-hour soak is a useful extension of that design: capture the evolving evidence once, then evaluate agents at selected checkpoints.</p>
+<p>At T+6h, reconstruct the workspace as it was available then. Expose the corresponding telemetry, logs, topology, deployment state, and time. Restore the appropriate agent history and scratch state. Let the agent investigate using its usual interfaces, backed by the recording.</p>
+<p>The harness then prepares T+12h. <strong>We are taking the agent to a particular point in the scenario.</strong> We are not asking a live database, queue, or connection pool to run twelve hours of behavior in a few seconds. Model inference and tool execution still take real time.</p>
+<p>The recording preserves the progression. Replay removes the need to reproduce the waiting period for every comparison.</p>
+<h2 id="a-checkpoint-includes-what-the-agent-could-know">A checkpoint includes what the agent could know<a class="heading-anchor" href="#a-checkpoint-includes-what-the-agent-could-know" aria-label="Link to this section">#</a></h2>
+<p>Metrics alone are insufficient. A checkpoint needs the environment view, the agent’s relevant state, and the tool contracts used to read them. <a href="https://arxiv.org/abs/2608.14380" rel="noreferrer">AgentRewind</a> explores aligned checkpoints of agent context and controlled environment state for recovery. Evaluation has a related requirement, with an extra constraint: later knowledge must stay out of an earlier trial.</p>
+<p>For example, an error occurred at 11:58 but its log arrived at 12:04. An agent at noon could not have read it. Faithful replay checks both event time and availability time. Future samples, later topology changes, postmortems, and outcome labels must also remain inaccessible.</p>
+<p>The same cutoff must govern files, query results, service APIs, and the agent’s view of “now.” CLI shims or HTTP proxies can route tool requests to replay services; network isolation prevents an unanswered request from silently reaching live infrastructure. Missing evidence must appear as a coverage gap.</p>
+<p>Consider this illustrative connection leak. An hourly reconciliation job leaves connections checked out in the new checkout revision. Database execution stays fast; obtaining a connection gradually becomes the bottleneck.</p></div>
+        <section class="case-study" data-case-study aria-labelledby="case-title">
+    <header class="case-heading"><span class="case-kicker">24-hour soak / checkpoint inspection</span><h2 id="case-title">Evaluate the decisions before the outage</h2><p>Four illustrative checkpoints from one recorded scenario. Counts describe one instance’s pool; assessment text is an example to evaluate, not measured agent performance.</p></header>
+    <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
+      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>T + 1 hour</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>T + 6 hours</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>T + 12 hours</button><button type="button" data-case-choice="3" aria-controls="case-panel-3" aria-pressed="false"><span>04</span>T + 24 hours</button>
+    </nav>
+    <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
+      <div class="case-snapshot"><span class="case-kicker">T + 1 hour</span><dl><div><dt>Checked-out connections</dt><dd>120 / 1,000</dd></div><div><dt>Checkout p95 latency</dt><dd>240 ms</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-0">Healthy evidence supports a limited conclusion</h3>
+        <dl><dt>What happens</dt><dd>The initial load looks normal. Error rates match the control, and the first reconciliation cycle has completed.</dd><dt>What it means</dt><dd>There is no evidence yet of pool exhaustion. One healthy hour does not establish day-long stability.</dd><dt>What the system does</dt><dd>Record the baseline and continue the planned observation period.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;checkpoint&quot;: &quot;T+1h&quot;,
+  &quot;data_cutoff&quot;: &quot;T+1h&quot;,
+  &quot;agent_state&quot;: &quot;initial review&quot;,
+  &quot;assessment&quot;: &quot;healthy so far; soak incomplete&quot;,
+  &quot;later_events&quot;: &quot;inaccessible&quot;
+}</pre></details>
+      </div>
+    </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
+      <div class="case-snapshot"><span class="case-kicker">T + 6 hours</span><dl><div><dt>Checked-out connections</dt><dd>420 / 1,000</dd></div><div><dt>Request volume</dt><dd>Stable</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-1">The pool no longer returns to baseline</h3>
+        <dl><dt>What happens</dt><dd>Each hourly job leaves more connections checked out. The control revision returns to its baseline; the new revision does not.</dd><dt>What it means</dt><dd>The repeated pattern supports a leak hypothesis before user-facing errors appear.</dd><dt>What the system does</dt><dd>Compare job logs, pool occupancy, and the earlier baseline. Carry the hypothesis forward with its evidence.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;checkpoint&quot;: &quot;T+6h&quot;,
+  &quot;event_time_lte&quot;: &quot;T+6h&quot;,
+  &quot;available_at_lte&quot;: &quot;T+6h&quot;,
+  &quot;agent_state&quot;: &quot;this trial’s T+1h history&quot;,
+  &quot;assessment&quot;: &quot;suspected connection leak&quot;,
+  &quot;next_check&quot;: &quot;persistence and acquisition wait&quot;
+}</pre></details>
+      </div>
+    </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
+      <div class="case-snapshot"><span class="case-kicker">T + 12 hours</span><dl><div><dt>Checked-out connections</dt><dd>760 / 1,000</dd></div><div><dt>Pool acquisition p95</dt><dd>1.2 s</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-2">A resource trend becomes a rollout decision</h3>
+        <dl><dt>What happens</dt><dd>Pool occupancy continues rising. Database query latency stays flat, but waiting for a connection now delays checkout requests.</dd><dt>What it means</dt><dd>The evidence connects the revision’s resource growth to a downstream access bottleneck. Waiting for a large 5XX spike would miss the earlier decision point.</dd><dt>What the system does</dt><dd>Explain the escalating risk and recommend intervention under the evaluation’s rollout policy.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;checkpoint&quot;: &quot;T+12h&quot;,
+  &quot;agent_state&quot;: &quot;this trial’s prior assessments&quot;,
+  &quot;assessment&quot;: &quot;degradation warrants intervention&quot;,
+  &quot;recommendation&quot;: &quot;halt expansion; review rollback&quot;,
+  &quot;side_effects&quot;: &quot;recorded only&quot;
+}</pre></details>
+      </div>
+    </section><section class="case-panel" id="case-panel-3" data-case-panel="3" aria-labelledby="case-heading-3">
+      <div class="case-snapshot"><span class="case-kicker">T + 24 hours</span><dl><div><dt>Checked-out connections</dt><dd>1,000 / 1,000</dd></div><div><dt>Checkout 5XX rate</dt><dd>9%</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-3">The final failure does not answer the whole eval</h3>
+        <dl><dt>What happens</dt><dd>Connection acquisition p95 reaches twelve seconds. Checkout fails requests, and storefront timeouts expose the upstream impact. This recording followed the release without an earlier intervention.</dd><dt>What it means</dt><dd>A correct diagnosis now says little about whether the agent recognized the problem at hour six or twelve.</dd><dt>What the system does</dt><dd>Grade the sequence: detection, evidence, revisions, and recommendations at each checkpoint.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;checkpoint&quot;: &quot;T+24h&quot;,
+  &quot;agent_state&quot;: &quot;this trial’s accumulated history&quot;,
+  &quot;assessment&quot;: &quot;pool exhaustion with upstream impact&quot;,
+  &quot;grade&quot;: [
+    &quot;earliest supported detection&quot;,
+    &quot;unsupported alarms&quot;,
+    &quot;decision revision&quot;
+  ],
+  &quot;earlier_rollback_outcome&quot;: &quot;not established by this recording&quot;
+}</pre></details>
+      </div>
+    </section></div>
+    <div class="case-footer" data-case-controls hidden><span data-case-position>1 of 4</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
+    <p class="sr-only" role="status" data-case-status></p>
+  </section>
+        <div class="prose series-afterword"><h2 id="separate-a-checkpoint-probe-from-a-trajectory-test">Separate a checkpoint probe from a trajectory test<a class="heading-anchor" href="#separate-a-checkpoint-probe-from-a-trajectory-test" aria-label="Link to this section">#</a></h2>
+<p>A <strong>checkpoint probe</strong> gives every candidate the same fixed history and world state at T+12h. It asks which agent makes the better decision from that starting point.</p>
+<p>A <strong>trajectory replay</strong> starts earlier and lets each candidate carry its own reports, memory, and scratch files through successive checkpoints. It tests whether the agent remembers a concern, seeks discriminating evidence, and changes its assessment. Do not splice one candidate’s earlier conclusions into another’s trajectory.</p>
+<p>Repeated trials still matter: reproducible inputs do not make model outputs deterministic. <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" rel="noreferrer">Anthropic’s evaluation guidance</a> emphasizes multiple trials, isolated environments, and the distinction between an agent’s transcript and the outcome it actually achieved. Use healthy recordings too; recommending rollback for every release should not score well.</p>
+<h2 id="know-where-the-recording-ends">Know where the recording ends<a class="heading-anchor" href="#know-where-the-recording-ends" aria-label="Link to this section">#</a></h2>
+<p>Captured raw events support more queries than a transcript of fixed API responses. Even then, unrecorded evidence remains unavailable. Keep replay recommendations isolated from production actions.</p>
+<p>If a candidate recommends rollback at hour twelve, a recording of the unreverted release cannot prove what happens after that rollback. Evaluating intervention effects requires a suitable simulator or controlled live experiment. Scheduled checkpoints also bound what you can say about detection time.</p>
+<p>The point is to make a slow scenario reusable while preserving the information available at each decision. We can then improve the investigation without waiting another day for the same failure to develop.</p>
+<p><a href="https://oddly.fyi/writing/local-context-for-autonomous-agents/" rel="noreferrer">Local context for autonomous agents</a> describes the data layer that makes these reconstructed workspaces practical.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <span></span>
+      <a class="pagination-next" href="/writing/local-context-for-autonomous-agents/"><span>Next</span><strong>Local Context for Autonomous Agents</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the field notes.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

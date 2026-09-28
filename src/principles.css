@@ -1,8 +1,18 @@
 /* Shared editorial treatment for collections and interactive essays. */
+.context-table-wrap { width: min(920px,calc(100% - 40px)); margin: 36px auto 48px; }
+.context-table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 14px/1.6 var(--sans); }
+.context-table caption { padding-bottom: 18px; text-align: left; font: 400 29px/1.2 var(--serif); letter-spacing: -.025em; }
+.context-table th, .context-table td { padding: 18px; text-align: left; vertical-align: top; border-block: 1px solid var(--line); overflow-wrap: anywhere; }
+.context-table thead { background: var(--paper-deep); color: var(--ink-soft); font: 11px/1.5 var(--mono); }
+.context-table th { font-weight: 500; }
+.context-table th:first-child { width: 22%; }
+.context-table td { color: var(--ink-soft); }
 .principle-article .article-header { padding-top: 58px; }
 .principle-article .article-type { margin-top: 44px; }
 .principle-article .article-header h1 { font-size: clamp(48px, 6.8vw, 88px); line-height: 1; letter-spacing: -.05em; }
 .principle-article .article-header h1 em { font-weight: 400; }
+.technical-article .article-header h1 { font-size: clamp(42px,6vw,78px); line-height: 1.04; }
+.technical-article .article-header h1 em { font-size: .7em; letter-spacing: -.035em; }
 .principle-article .article-deck { max-width: 610px; }
 .series-body { padding: 50px 0 70px; }
 .series-body > .prose { width: min(690px, calc(100% - 48px)); margin-inline: auto; }
@@ -74,6 +84,9 @@
   .series-body .prose blockquote { margin-inline: 0; padding-inline: 12px; }
 }
 @media (max-width: 540px) {
+  .context-table { font-size: 12px; }
+  .context-table th, .context-table td { padding: 12px 8px; }
+  .context-table thead { font-size: 10px; }
   .principle-article .article-header { padding-top: 40px; }
   .principle-article .article-type { margin-top: 32px; }
   .principle-article .article-header h1 { font-size: clamp(39px,10.7vw,58px); }

@@ -8,8 +8,6 @@ export const epistemics = {
   seriesNumber: 1,
   summary: "Every conclusion carries its justification, uncertainty, alternatives, and conditions for reassessment.",
   eyebrow: "Trustworthy Autonomy",
-  date: "2026-09-27",
-  displayDate: "September 27, 2026",
   readTime: "5 min",
   description: "An autonomous agent investigates 5XX errors—and learns to separate what it observes, what it believes, and what it can safely do next.",
   featured: false,

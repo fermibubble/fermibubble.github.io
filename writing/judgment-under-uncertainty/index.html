@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Judgment Under Uncertainty — Oddly</title>
-    <meta name="description" content="How should an autonomous system act when its understanding is incomplete?">
+    <meta name="description" content="A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Judgment Under Uncertainty — Oddly">
-    <meta property="og:description" content="How should an autonomous system act when its understanding is incomplete?">
+    <meta property="og:description" content="A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.">
     <meta property="og:url" content="https://oddly.fyi/writing/judgment-under-uncertainty/">
     <link rel="canonical" href="https://oddly.fyi/writing/judgment-under-uncertainty/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
@@ -44,33 +44,32 @@
     <article class="article">
       <header class="article-header shell-narrow">
         <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Writing / 05</div>
+        <div class="article-type">Writing / 04</div>
         <h1>Judgment Under Uncertainty</h1>
-        <p class="article-deck">How should an autonomous system act when its understanding is incomplete?</p>
+        <p class="article-deck">A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-08-18">August 18, 2026</time><span>2 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <div class="article-meta"><time datetime="2026-07-21">July 21, 2026</time><span>2 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Reasoning &amp; judgment</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>Intelligent systems rarely have a complete picture. Information can be missing, evidence can conflict, and the consequences of a decision may take time to become clear.</p>
-<p>Good judgment starts by recognizing those limits. It asks what the available evidence supports, what remains uncertain, and how much that uncertainty matters.</p>
-<h2 id="confidence-should-have-a-basis">Confidence should have a basis<a class="heading-anchor" href="#confidence-should-have-a-basis" aria-label="Link to this section">#</a></h2>
-<p>A clear answer is valuable when its certainty is justified. When it is not, the appearance of confidence can hide the most important part of the decision.</p>
-<p>An agent should make meaningful uncertainty understandable. People need to know which assumptions carry the conclusion and what new information might change it.</p>
-<h2 id="action-has-consequences">Action has consequences<a class="heading-anchor" href="#action-has-consequences" aria-label="Link to this section">#</a></h2>
-<p>The same uncertainty can justify different choices depending on what is at stake. Some decisions are easy to revise. Others create commitments that are difficult to undo.</p>
-<p>Sound judgment connects evidence with consequence. It considers whether to act, seek more information, or involve someone with a different perspective.</p>
-<p>This is part of what makes autonomy useful: the ability to choose a sensible next step without pretending that every question has already been resolved.</p>
-<h2 id="learning-keeps-judgment-open">Learning keeps judgment open<a class="heading-anchor" href="#learning-keeps-judgment-open" aria-label="Link to this section">#</a></h2>
-<p>A decision is made with the understanding available at the time. Its outcome gives us a chance to revisit that understanding.</p>
-<p>Learning requires curiosity about both success and failure. Which assumptions held? What did we overlook? Would the same reasoning still make sense in a different situation?</p>
-<p>An agent that can revise its judgment thoughtfully is better prepared for an unfamiliar world. That capacity for revision is an essential part of trustworthiness.</p></div>
+        <div class="prose" data-article-body><p>A canary release shows a 30% increase in p95 latency. Traffic is also shifting toward a more expensive endpoint. Should the agent stop the rollout?</p>
+<p>The aggregate graph establishes a change. It does not yet establish its cause. A useful decision connects the evidence to the consequences of acting or waiting.</p>
+<h2 id="ask-what-would-change-the-decision">Ask what would change the decision<a class="heading-anchor" href="#ask-what-would-change-the-decision" aria-label="Link to this section">#</a></h2>
+<p>Compare latency within the same endpoint and traffic class. If both revisions slow down equally, the deployment becomes a weaker explanation. If the new revision alone degrades, the case for intervention strengthens.</p>
+<p>This is the value of a discriminating check: its possible results lead to different next steps. Collecting another graph that repeats the same aggregate adds less information.</p>
+<h2 id="match-the-action-to-the-uncertainty">Match the action to the uncertainty<a class="heading-anchor" href="#match-the-action-to-the-uncertainty" aria-label="Link to this section">#</a></h2>
+<p>Holding the rollout at 5% exposure may buy time to investigate. Expanding to every region increases the consequences of being wrong. Rolling back can be appropriate when harm is growing, even before the root cause is fully established.</p>
+<p>The relevant questions are concrete: how much traffic is affected, how quickly is the condition worsening, and which actions are reversible? A fixed confidence threshold cannot express all of that.</p>
+<h2 id="keep-the-reason-for-the-decision">Keep the reason for the decision<a class="heading-anchor" href="#keep-the-reason-for-the-decision" aria-label="Link to this section">#</a></h2>
+<p>An assessment should preserve what was observed, the leading explanation, the unresolved alternative, and the next check. “Hold expansion because latency is worse within comparable traffic; verify dependency timing” is more useful than an unexplained “unsafe.”</p>
+<p>When new evidence arrives, the agent can revise a specific claim. Reviewers can also distinguish a reasonable decision under uncertainty from a correct answer reached for the wrong reason.</p>
+<p>The outcome closes the loop. If a rollback restores latency, it strengthens some explanations; it does not automatically prove every part of the original diagnosis. Good judgment remains open to that distinction.</p></div>
       </div>
     </article>
     <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/engineering-autonomous-agents/"><span>Previous</span><strong>Engineering Autonomous Agents</strong></a>
-      <a class="pagination-next" href="/writing/"><span>Continue</span><strong>All Writing</strong></a>
+      <a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Previous</span><strong>Trustworthy Autonomy</strong></a>
+      <a class="pagination-next" href="/writing/engineering-autonomous-agents/"><span>Next</span><strong>Engineering Autonomous Agents</strong></a>
     </nav>
   </main>
     
@@ -79,7 +78,7 @@
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>

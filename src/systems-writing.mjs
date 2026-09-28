@@ -1,165 +1,194 @@
-const published = {
-  date: "2026-09-27", displayDate: "September 27, 2026", readTime: "4 min",
-  featured: true, interactiveEssay: true
-};
+const published = { featured: true, interactiveEssay: true, readTime: "6 min" };
 
 export const systemsWriting = [
   {
     ...published,
-    slug: "in-memory-time-series-for-agents",
-    title: "A small database for a curious agent",
-    titleLines: ["A small database", "for a curious agent"],
-    eyebrow: "Data & agent infrastructure",
-    description: "An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.",
+    slug: "local-context-for-autonomous-agents",
+    aliases: ["in-memory-time-series-for-agents"],
+    title: "Local Context for Autonomous Agents",
+    titleLines: ["Local Context", "for Autonomous Agents"],
+    eyebrow: "Context & data infrastructure",
+    description: "Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.",
     body: `
-An agent investigating a memory leak should be able to follow a hunch quickly. Is memory rising only in the new version? Did traffic rise too? Was the same pattern present before the deployment?
+Checkout latency is rising. An agent needs to compare revisions, inspect connection errors, and trace the downstream dependency. Before it can investigate, it has to navigate several observability tools, their schemas, and their failure modes.
 
-Each question sounds small. Answering it can involve another API call, another response format, another script, and another attempt after an error. The investigation acquires a second job: building its own data pipeline.
+We can design that environment differently: **make the relevant data locally available, behind a small, stable interface.** Telemetry through PromQL. Logs through files. Topology through a versioned snapshot. Let ordinary code prepare the evidence, so the agent can spend its turns interpreting it.
 
-In my work on rollout review, we built a small, local time-series database to make that loop shorter.
+## Available to the agent does not mean inside the prompt
 
-## Set the table before the investigation
+A workspace can hold millions of log lines while the model reads twenty. The distinction is between **execution context**—data the agent can access—and **model context**—tokens it must process to decide what to do next.
 
-A time series is a sequence of measurements with timestamps: memory use, request counts, queue depth. A time-series database makes those measurements easy to select and compare.
+Loading every tool definition and every intermediate result into model context blurs that distinction. In one published configuration, [Anthropic counted roughly 55,000 tokens across 58 tools from five MCP servers](https://www.anthropic.com/engineering/advanced-tool-use), before the conversation began. Similar tools also increase the opportunities to choose the wrong interface or supply the wrong arguments.
 
-Our design loads a recent window when a session starts, refreshes it while the session is active, and exposes a catalog of the metrics and labels actually present. The agent can discover what exists before composing a query.
+MCP remains useful for connecting systems. The avoidable cost comes from eagerly presenting the whole integration surface to the model. Tool discovery and programmatic execution already offer ways to reduce it: [Anthropic’s code-execution approach](https://www.anthropic.com/engineering/code-execution-with-mcp) loads definitions as needed and processes intermediate data outside the prompt. [Cloudflare’s Code Mode](https://blog.cloudflare.com/code-mode/) likewise lets an agent compose MCP operations through code.
 
-Provider adapters handle authentication, fetching, retries, and normalization. They preserve the difference between a counter and a gauge, convert units, and give the query layer a consistent representation.
+Local context takes a complementary step: materialize the working data near the agent, so successive questions can reuse it without successive provider calls.
 
-That is the useful role of **deterministic fetching**: ordinary code carries out an explicit request for a defined resource, metric, and time window. The agent chooses what to investigate next; it does not have to reconstruct the collection machinery on every turn.
+## Collect once, investigate repeatedly
 
-## A workbench beside the agent
+In my rollout-review work, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.
 
-The working set lives in compact, temporary local chunks, read through memory mapping. An embedded PromQL engine evaluates queries inside the process. There is no separate database server to start for every session.
+A deterministic collector loads the relevant services and recent time window. Provider adapters own authentication, pagination, retries, and normalization. They preserve metric types, units, and labels. Logs can be partitioned into newline-delimited JSON files; topology and deployment configuration can be captured as versioned JSON.
 
-PromQL is a language for selecting and calculating over time series. It lets the agent ask for rates, comparisons, and aggregations without writing a new analysis script for each question.
+“Deterministic” describes the collection procedure: explicit resources, time ranges, and transformations. Live data can still change. Reproducing a query requires a captured dataset and fixed evaluation semantics.
 
-The collector publishes complete chunks through atomic file replacement. The agent's sandbox reads them through a read-only mount. These are modest systems choices, but together they make repeated exploration much cheaper.
+The agent gets a manifest of coverage and freshness, a catalog of available metrics, and a compact access interface. Our telemetry design uses temporary local chunks, memory mapping, and an embedded PromQL engine. Complete chunks are published atomically for readers; there is no separate database daemon to operate per session.
 
-Here is a simplified investigation. The measurements and requests are illustrative.
+The useful contract is small enough to understand at a glance:
 `,
+    contextTable: {
+      caption: "A local context interface",
+      columns: ["Evidence", "Local representation", "How the agent reads it"],
+      rows: [
+        ["Telemetry", "Indexed time series", "PromQL selectors, rates, and aggregates"],
+        ["Logs", "NDJSON files by service and time", "rg / jq, with bounded excerpts"],
+        ["Topology & config", "Versioned JSON snapshots", "Read files and follow dependency edges"],
+        ["Coverage", "Manifest and metric catalog", "Check time windows, labels, freshness, and gaps"]
+      ]
+    },
     caseStudy: {
-      title: "Three questions, one local workbench",
-      caption: "Follow an illustrative investigation. Each panel shows the query and the data work it needs.",
+      kicker: "Investigation trace",
+      title: "From a 5XX spike to a shared dependency",
+      caption: "An illustrative workspace with a fifteen-minute window. Query results and observations are examples, not production measurements.",
       steps: [
         {
-          label: "Memory is rising", headline: "Compare the two revisions",
-          facts: [["Local window", "09:50–10:05"], ["New revision", "400 → 620 MiB"]],
-          observation: "The collector has loaded fifteen minutes of telemetry. Memory rises in the new revision while the control stays nearly flat.",
-          implication: "The agent has a useful lead, but increased traffic could still explain the growth.",
-          action: "Run a range query against the local data, grouped by revision.",
-          record: { snapshot: "illustrative-window-01", query: 'avg by (revision) (worker_memory_bytes{service="checkout"})', start: "10:00 UTC", end: "10:05 UTC", step: "60s", execution: "local", remote_work: "initial telemetry batch" }
+          label: "Query telemetry", headline: "Locate the failing revision",
+          facts: [["New revision", "8 errors/s"], ["Control revision", "0.1 errors/s"]],
+          observation: "A local PromQL query shows that checkout 5XX responses concentrate in the new revision. Its request rate is comparable to the control.",
+          implication: "The deployment is a lead. The error rate alone does not identify the failing dependency.",
+          action: "Return a small aggregate, then inspect matching logs in the same window.",
+          record: { snapshot: "checkout-window-07", evaluation_time: "10:15 UTC", query: 'sum by (revision) (rate(http_requests_total{service="checkout",status=~"5.."}[5m]))', result_unit: "errors/second", result_rows: 2, additional_provider_calls: 0 }
         },
         {
-          label: "Did traffic rise?", headline: "Ask a different question of the same data",
-          facts: [["Control traffic", "100 requests/s"], ["New traffic", "100 requests/s"]],
-          observation: "The request counters are already indexed. Both revisions show comparable traffic in this window.",
-          implication: "Traffic volume alone looks less convincing as an explanation. The agent can investigate allocations or queues next.",
-          action: "Calculate request rates locally, using the same evaluation time.",
-          record: { snapshot: "illustrative-window-01", query: 'sum by (revision) (rate(worker_requests_total{service="checkout"}[5m]))', evaluation_time: "10:05 UTC", execution: "local", additional_remote_fetches: 0 }
+          label: "Read local logs", headline: "Follow the pool timeouts",
+          facts: [["Repeated error", "pool_timeout"], ["Affected dependency", "orders-db"]],
+          observation: "The mounted log file contains connection-pool timeouts for orders-db. The agent reads a bounded excerpt and keeps the path for follow-up queries.",
+          implication: "The bottleneck may be connection acquisition inside checkout. A database-related error does not by itself establish a database outage.",
+          action: "Search the existing file, then compare pool occupancy with database health.",
+          record: { file: "/context/logs/checkout/10-00.ndjson", command: "rg -n -m 20 'pool_timeout' /context/logs/checkout/10-00.ndjson", output_byte_limit: 8192, additional_provider_calls: 0 }
         },
         {
-          label: "Was yesterday similar?", headline: "Fetch the missing window deliberately",
-          facts: [["Requested baseline", "Yesterday, 09:50–10:05"], ["Local coverage", "Missing"]],
-          observation: "Yesterday's window is outside the local working set.",
-          implication: "A local cache cannot answer a question about data it never received.",
-          action: "Fetch the targeted historical range, normalize it, and make it available to the same query engine. Surface a gap if retrieval fails.",
-          record: { requested_window: "previous day, 09:50–10:05 UTC", local_coverage: false, fetch_plan: "targeted historical range", on_success: "publish baseline chunks and evaluate", on_failure: "return explicit coverage gap" }
+          label: "Trace topology", headline: "Separate the cause from its upstream impact",
+          facts: [["Database query latency", "Stable"], ["Checkout pool", "At capacity"]],
+          observation: "The topology snapshot connects storefront to checkout and checkout to orders-db. Database query latency stays flat, while the new checkout revision exhausts its pool. Storefront sees the resulting timeouts.",
+          implication: "Connection handling in checkout is a stronger hypothesis than a slow database. Upstream errors are part of the impact, not independent proof of another failure.",
+          action: "Record the evidence and request a historical baseline only if the local manifest says it is missing.",
+          record: { topology: "/context/topology/services.v42.json", query: 'max by (revision) (db_pool_in_use{service="checkout"})', missing_baseline: "targeted fetch through collector", retrieval_failure: "explicit coverage gap", additional_provider_calls_for_loaded_data: 0 }
         }
       ]
     },
     afterword: `
-## Repeatable work, changing data
+## Remove remote failure modes from the inner loop
 
-Deterministic fetching does not mean a live query always returns the same answer. New samples arrive. Late data can change a historical window. Reproducing a result requires the same captured data, query, evaluation time, and engine semantics.
+Once a window is loaded, querying it cannot fail because a provider token expired, a remote API was rate-limited, or pagination broke halfway through that query. Those concerns belong to ingestion and refresh, where ordinary code can handle them consistently.
 
-The database also needs limits: a bounded working set, query budgets, freshness information, and visible gaps. It is a workspace for an investigation; long-term monitoring remains with the observability backend.
+This removes avoidable tool-call failures from repeated analysis. It does not make every query correct: an agent can still select the wrong metric, misread a counter, or overlook missing coverage. A smaller interface should expose those errors clearly. The [Prometheus query model](https://prometheus.io/docs/prometheus/latest/querying/basics/) provides useful semantics for time selection and evaluation; a local implementation must document the subset it supports.
 
-The broader lesson is about where to spend intelligence. Give the agent a well-prepared environment, and its curiosity becomes less expensive to exercise.
+Keep the working set bounded. Prefetch likely evidence, hydrate missing ranges deliberately, and give queries output and resource limits. A manifest should say what is absent or stale. Read-only source data and separate scratch space keep exploration from altering the evidence.
 
-> A useful agent environment makes the next good question cheap to ask.
+## Measure the whole investigation
 
-Further reading: the [Prometheus query guide](https://prometheus.io/docs/prometheus/latest/querying/basics/) explains time-series selection and evaluation. The companion essay, [A time machine for agents](https://oddly.fyi/writing/a-time-machine-for-agents/), takes the same idea into testing.
+Compare tool-definition tokens, result tokens, failed remote calls, time to first useful evidence, and task success. Include initial hydration and refresh costs. A faster local query is valuable only if the complete investigation improves.
+
+The architectural payoff is a clean separation: collectors handle data movement, local interfaces handle selection, and the model handles interpretation. Rich context can remain within reach without occupying the entire conversation.
+
+The same arrangement supports [checkpoint replay for long-horizon evaluation](https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/): give the agent a workspace reconstructed for a particular moment, then observe what it decides.
 `
   },
   {
     ...published,
-    slug: "a-time-machine-for-agents",
-    title: "A time machine for agents",
-    titleLines: ["A time machine", "for agents"],
-    eyebrow: "Evaluation & developer tools",
-    description: "Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.",
+    slug: "checkpoint-replay-for-agent-evaluation",
+    aliases: ["a-time-machine-for-agents"],
+    title: "Checkpoint Replay for Long-Horizon Agent Evaluation",
+    titleLines: ["Checkpoint Replay", "for Long-Horizon Agent Evaluation"],
+    eyebrow: "Evaluation & replay infrastructure",
+    description: "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
     body: `
-Imagine changing one instruction in an agent, then waiting thirty minutes to discover whether it helped.
+A release passes its first hour. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.
 
-That is a real problem when testing a rollout reviewer. Some failures develop slowly. Memory climbs, queues fill, connections leak. An agent needs to notice the progression across several checks. A single screenshot of the final failure misses the interesting part.
+Now change one instruction in the reviewing agent. Must the entire soak test run for another day to find out whether that helped?
 
-In my rollout-review work, we built a time machine for these investigations: record a scenario once, then let the agent examine it at controlled points in virtual time.
+**Long-horizon evaluation has an environment-time problem.** Some failures need a full traffic cycle, repeated batch jobs, or slow resource accumulation to become visible. The model may reason for only minutes while the scenario takes twenty-four hours to unfold.
 
-## Move the clock, keep the investigation
+Ten agent variants, each tested three times against a fresh 24-hour run, require 720 scenario-hours. Parallel runs reduce elapsed time, but each still needs its soak period and infrastructure.
 
-Start with a recording of metrics, logs, and service snapshots from a test scenario. Set the virtual clock to five minutes after deployment. The agent runs its investigation using the tools it normally uses, but tool requests are intercepted and answered from the recording.
+## Record the progression, restore the checkpoint
 
-Next, advance to fifteen minutes, then thirty. The harness moves directly between checkpoints. Model inference and tool execution still take real time; waiting for the soak period does not.
+In my rollout-review work, we built replay infrastructure to revisit recorded scenarios. A 24-hour soak is a useful extension of that design: capture the evolving evidence once, then evaluate agents at selected checkpoints.
 
-This makes a slow failure practical to revisit while editing a prompt, a skill, or a tool. It also gives different agent versions a common scenario to investigate.
+At T+6h, reconstruct the workspace as it was available then. Expose the corresponding telemetry, logs, topology, deployment state, and time. Restore the appropriate agent history and scratch state. Let the agent investigate using its usual interfaces, backed by the recording.
 
-## The ending must stay out of the room
+The harness then prepares T+12h. **We are taking the agent to a particular point in the scenario.** We are not asking a live database, queue, or connection pool to run twelve hours of behavior in a few seconds. Model inference and tool execution still take real time.
 
-Suppose a container runs out of memory at minute twenty-two. At minute five, that crash must be invisible. Otherwise the agent can appear impressively perceptive by reading the answer early.
+The recording preserves the progression. Replay removes the need to reproduce the waiting period for every comparison.
 
-The replay layer constrains every response to the virtual cutoff. That includes metric samples, log entries, and the service state returned by command-line tools. A request cannot escape to live infrastructure when the recording lacks an answer; the harness must expose the limitation.
+## A checkpoint includes what the agent could know
 
-Read-only execution keeps recommendations inside the experiment. An agent can recommend a rollback, but replaying a test must not roll back a real service.
+Metrics alone are insufficient. A checkpoint needs the environment view, the agent’s relevant state, and the tool contracts used to read them. [AgentRewind](https://arxiv.org/abs/2608.14380) explores aligned checkpoints of agent context and controlled environment state for recovery. Evaluation has a related requirement, with an extra constraint: later knowledge must stay out of an earlier trial.
 
-Move through this fictional memory-leak scenario. Each checkpoint shows what the test agent could observe then.
+For example, an error occurred at 11:58 but its log arrived at 12:04. An agent at noon could not have read it. Faithful replay checks both event time and availability time. Future samples, later topology changes, postmortems, and outcome labels must also remain inaccessible.
+
+The same cutoff must govern files, query results, service APIs, and the agent’s view of “now.” CLI shims or HTTP proxies can route tool requests to replay services; network isolation prevents an unanswered request from silently reaching live infrastructure. Missing evidence must appear as a coverage gap.
+
+Consider this illustrative connection leak. An hourly reconciliation job leaves connections checked out in the new checkout revision. Database execution stays fast; obtaining a connection gradually becomes the bottleneck.
 `,
     caseStudy: {
-      title: "What could the agent know yet?",
-      caption: "Illustrative replay checkpoints. The observations and responses show the shape of a test, not measured agent performance.",
+      kicker: "24-hour soak / checkpoint inspection",
+      title: "Evaluate the decisions before the outage",
+      caption: "Four illustrative checkpoints from one recorded scenario. Counts describe one instance’s pool; assessment text is an example to evaluate, not measured agent performance.",
       steps: [
         {
-          label: "T + 5 minutes", headline: "A trend, before an incident",
-          facts: [["Memory", "450 MiB, rising"], ["Request latency", "270 ms"]],
-          observation: "Memory is climbing in the new revision. Request latency remains close to baseline, and no restarts have occurred.",
-          implication: "The trend warrants a closer look. The available evidence does not yet establish an out-of-memory failure.",
-          action: "Check traffic and memory limits, record the concern, and revisit the trend at the next checkpoint.",
-          record: { virtual_time: "13:05 UTC", visible_through: "13:05 UTC", restart_count: 0, response_to_evaluate: "investigate memory growth", evidence_after_cutoff: "unavailable" }
+          label: "T + 1 hour", headline: "Healthy evidence supports a limited conclusion",
+          facts: [["Checked-out connections", "120 / 1,000"], ["Checkout p95 latency", "240 ms"]],
+          observation: "The initial load looks normal. Error rates match the control, and the first reconciliation cycle has completed.",
+          implication: "There is no evidence yet of pool exhaustion. One healthy hour does not establish day-long stability.",
+          action: "Record the baseline and continue the planned observation period.",
+          record: { checkpoint: "T+1h", data_cutoff: "T+1h", agent_state: "initial review", assessment: "healthy so far; soak incomplete", later_events: "inaccessible" }
         },
         {
-          label: "T + 15 minutes", headline: "The early signal becomes consequential",
-          facts: [["Memory", "900 / 1,024 MiB"], ["Request latency", "1.8 s"]],
-          observation: "Memory continues toward the container limit while latency worsens under comparable traffic. No restart has occurred yet.",
-          implication: "The agent now has stronger evidence of degradation before a crash makes the diagnosis obvious.",
-          action: "Explain the growing risk and recommend intervention under the test's rollout policy.",
-          record: { virtual_time: "13:15 UTC", visible_through: "13:15 UTC", restart_count: 0, response_to_evaluate: "identify degradation before failure", production_action: "blocked in replay" }
+          label: "T + 6 hours", headline: "The pool no longer returns to baseline",
+          facts: [["Checked-out connections", "420 / 1,000"], ["Request volume", "Stable"]],
+          observation: "Each hourly job leaves more connections checked out. The control revision returns to its baseline; the new revision does not.",
+          implication: "The repeated pattern supports a leak hypothesis before user-facing errors appear.",
+          action: "Compare job logs, pool occupancy, and the earlier baseline. Carry the hypothesis forward with its evidence.",
+          record: { checkpoint: "T+6h", event_time_lte: "T+6h", available_at_lte: "T+6h", agent_state: "this trial’s T+1h history", assessment: "suspected connection leak", next_check: "persistence and acquisition wait" }
         },
         {
-          label: "T + 30 minutes", headline: "Now the crash is part of the past",
-          facts: [["Restart at", "T + 22 minutes"], ["Termination reason", "Out of memory"]],
-          observation: "The recording now exposes the restart at minute twenty-two and its termination reason.",
-          implication: "Recognizing the final failure is useful, but it does not show whether the agent recognized the earlier warning.",
-          action: "Grade the sequence of assessments, including evidence use and time to detection.",
-          record: { virtual_time: "13:30 UTC", visible_through: "13:30 UTC", observed_event: "out-of-memory restart at 13:22 UTC", grade_dimensions: ["diagnostic accuracy", "early detection", "unsupported claims", "read-only behavior"] }
+          label: "T + 12 hours", headline: "A resource trend becomes a rollout decision",
+          facts: [["Checked-out connections", "760 / 1,000"], ["Pool acquisition p95", "1.2 s"]],
+          observation: "Pool occupancy continues rising. Database query latency stays flat, but waiting for a connection now delays checkout requests.",
+          implication: "The evidence connects the revision’s resource growth to a downstream access bottleneck. Waiting for a large 5XX spike would miss the earlier decision point.",
+          action: "Explain the escalating risk and recommend intervention under the evaluation’s rollout policy.",
+          record: { checkpoint: "T+12h", agent_state: "this trial’s prior assessments", assessment: "degradation warrants intervention", recommendation: "halt expansion; review rollback", side_effects: "recorded only" }
+        },
+        {
+          label: "T + 24 hours", headline: "The final failure does not answer the whole eval",
+          facts: [["Checked-out connections", "1,000 / 1,000"], ["Checkout 5XX rate", "9%"]],
+          observation: "Connection acquisition p95 reaches twelve seconds. Checkout fails requests, and storefront timeouts expose the upstream impact. This recording followed the release without an earlier intervention.",
+          implication: "A correct diagnosis now says little about whether the agent recognized the problem at hour six or twelve.",
+          action: "Grade the sequence: detection, evidence, revisions, and recommendations at each checkpoint.",
+          record: { checkpoint: "T+24h", agent_state: "this trial’s accumulated history", assessment: "pool exhaustion with upstream impact", grade: ["earliest supported detection", "unsupported alarms", "decision revision"], earlier_rollback_outcome: "not established by this recording" }
         }
       ]
     },
     afterword: `
-## Test the trajectory
+## Separate a checkpoint probe from a trajectory test
 
-A final answer can hide a poor investigation. The useful comparison is the sequence: what the agent checked, what it concluded at each checkpoint, and how quickly it revised that conclusion.
+A **checkpoint probe** gives every candidate the same fixed history and world state at T+12h. It asks which agent makes the better decision from that starting point.
 
-A fixed recording makes the environment repeatable. The model may still vary between runs, so comparisons need repeated trials and healthy scenarios too. An agent that recommends rollback for every release has learned very little.
+A **trajectory replay** starts earlier and lets each candidate carry its own reports, memory, and scratch files through successive checkpoints. It tests whether the agent remembers a concern, seeks discriminating evidence, and changes its assessment. Do not splice one candidate’s earlier conclusions into another’s trajectory.
 
-## A recording has edges
+Repeated trials still matter: reproducible inputs do not make model outputs deterministic. [Anthropic’s evaluation guidance](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) emphasizes multiple trials, isolated environments, and the distinction between an agent’s transcript and the outcome it actually achieved. Use healthy recordings too; recommending rollback for every release should not score well.
 
-Replay cannot supply an unrecorded metric or tell us what would have happened after a different intervention. Those questions need richer recordings, a suitable simulator, or a controlled live experiment.
+## Know where the recording ends
 
-Historical data needs care, too. If a sample arrived late, its event timestamp alone does not prove it was available at an earlier checkpoint. Faithful reconstruction needs availability timing where that distinction matters.
+Captured raw events support more queries than a transcript of fixed API responses. Even then, unrecorded evidence remains unavailable. Keep replay recommendations isolated from production actions.
 
-> A good time machine lets us repeat the investigation without giving away the ending.
+If a candidate recommends rollback at hour twelve, a recording of the unreverted release cannot prove what happens after that rollback. Evaluating intervention effects requires a suitable simulator or controlled live experiment. Scheduled checkpoints also bound what you can say about detection time.
 
-The companion essay, [A small database for a curious agent](https://oddly.fyi/writing/in-memory-time-series-for-agents/), explains how a local data workbench supports the live investigation.
+The point is to make a slow scenario reusable while preserving the information available at each decision. We can then improve the investigation without waiting another day for the same failure to develop.
+
+[Local context for autonomous agents](https://oddly.fyi/writing/local-context-for-autonomous-agents/) describes the data layer that makes these reconstructed workspaces practical.
 `
   }
 ];

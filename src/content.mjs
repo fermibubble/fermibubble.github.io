@@ -1,16 +1,17 @@
 import { autonomyOverview } from "./principle-series.mjs";
 import { systemsWriting } from "./systems-writing.mjs";
+import { newestFirst, withPublicationDate } from "./publication-dates.mjs";
 
 export const site = {
   name: "Oddly",
   author: "Chaitanya",
   shortName: "O",
-  title: "Oddly — Agents, systems & experiments",
+  title: "Oddly — Engineering autonomous systems",
   description:
-    "A notebook on autonomous agents, data, developer tools, and the engineering that connects them.",
-  statement: "Ideas become useful when they become systems.",
+    "Technical essays by Chaitanya Meesala on agent infrastructure, local context, observability, and reproducible evaluation.",
+  statement: "Engineering the systems that make agents work.",
   intro:
-    "I’m Chaitanya. I work on autonomous agents and the data, tools, and environments that make them useful. Oddly brings together the ideas, experiments, and engineering lessons along the way."
+    "I’m Chaitanya. I build autonomous agents and the infrastructure around them: local context, reliable execution, and reproducible evaluation. Oddly connects the architecture, experiments, and engineering decisions behind that work."
 };
 
 export const writing = [
@@ -21,38 +22,38 @@ export const writing = [
     aliases: ["agent-harness-is-the-product"],
     title: "Engineering Autonomous Agents",
     eyebrow: "Autonomous agents",
-    date: "2026-08-29",
-    displayDate: "August 29, 2026",
     readTime: "2 min",
     description:
-      "Connecting intelligence, purpose, and action in systems we can depend on.",
+      "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     featured: true,
     body: `
-Autonomous agents bring together a set of abilities: understanding a goal, making decisions, taking action, and adapting as circumstances change.
+An agent notices that checkout latency has doubled. It proposes a rollback. Between that observation and a safe, useful outcome sit several engineering questions: which data did it read, which revision is affected, what can it change, and how will it know whether the change helped?
 
-Engineering them means thinking about how those abilities work together. A strong answer is useful; carrying an intention through to a meaningful outcome asks more of the system.
+The model participates in this system. Its surroundings determine whether an investigation can become completed work.
 
-## Purpose gives capability direction
+## Give the task an observable outcome
 
-An agent needs a useful understanding of what it is trying to achieve. Goals give its reasoning direction, while context helps it recognize what matters.
+“Investigate the deployment” leaves success ambiguous. A clearer task asks the agent to compare the new revision with a control, identify supported regressions, and produce a recommendation with evidence.
 
-Good engineering makes this relationship clear. The agent should be able to connect its choices to the purpose of the work, and revise its understanding when new information changes the picture.
+Specify the observation window, relevant services, and permitted actions. The agent can then choose its investigative path while the system retains a concrete definition of completion.
 
-## The surrounding system matters
+## Put repeated mechanics in code
 
-Intelligence operates within an environment. The information available to an agent, the actions it can take, and the feedback it receives all influence its behavior.
+Authentication, pagination, retries, and unit conversion should not become fresh reasoning problems on every turn. Collect data through ordinary code and expose a stable interface for exploration.
 
-The design challenge is to make these parts support one another. Understanding should inform action. Action should produce useful feedback. Feedback should improve understanding.
+The same applies to execution. A tool result should distinguish success, failure, and an unknown outcome. If an action times out, check whether it happened before retrying it. Otherwise a network interruption can become a duplicate operation.
 
-This perspective keeps attention on the whole system, including how people participate in it.
+## Preserve progress across turns
 
-## Autonomy is a relationship
+A long investigation needs more than a transcript. Keep references to evidence, current hypotheses, completed actions, and open questions in explicit state.
 
-An agent's independence depends on the responsibilities people are willing to give it. That relationship requires clear expectations, understandable behavior, and room for correction.
+After a restart, the agent should know that it already inspected database latency and still needs to check connection acquisition. That continuity reduces repeated work and makes handoffs inspectable.
 
-The most useful systems can act with initiative while recognizing when a question, a pause, or a human perspective would improve the result.
+## Close the loop with feedback
 
-I see engineering autonomous agents as a continuing effort to connect capability with purpose—and to make that connection dependable enough for people to trust.
+Record what happened after the recommendation. Did the rollback reduce errors? Was the apparent regression a change in traffic mix? The answer helps separate a plausible explanation from an effective decision.
+
+Evaluate the model together with its data interfaces, execution loop, and state handling. Changing any one of them can change the result. That is the unit of engineering: an agent operating inside a complete system.
 `
   },
   {
@@ -60,129 +61,121 @@ I see engineering autonomous agents as a continuing effort to connect capability
     aliases: ["rollouts-are-decision-problems"],
     title: "Judgment Under Uncertainty",
     eyebrow: "Reasoning & judgment",
-    date: "2026-08-18",
-    displayDate: "August 18, 2026",
     readTime: "2 min",
     description:
-      "How should an autonomous system act when its understanding is incomplete?",
-    featured: true,
+      "A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.",
+    featured: false,
     body: `
-Intelligent systems rarely have a complete picture. Information can be missing, evidence can conflict, and the consequences of a decision may take time to become clear.
+A canary release shows a 30% increase in p95 latency. Traffic is also shifting toward a more expensive endpoint. Should the agent stop the rollout?
 
-Good judgment starts by recognizing those limits. It asks what the available evidence supports, what remains uncertain, and how much that uncertainty matters.
+The aggregate graph establishes a change. It does not yet establish its cause. A useful decision connects the evidence to the consequences of acting or waiting.
 
-## Confidence should have a basis
+## Ask what would change the decision
 
-A clear answer is valuable when its certainty is justified. When it is not, the appearance of confidence can hide the most important part of the decision.
+Compare latency within the same endpoint and traffic class. If both revisions slow down equally, the deployment becomes a weaker explanation. If the new revision alone degrades, the case for intervention strengthens.
 
-An agent should make meaningful uncertainty understandable. People need to know which assumptions carry the conclusion and what new information might change it.
+This is the value of a discriminating check: its possible results lead to different next steps. Collecting another graph that repeats the same aggregate adds less information.
 
-## Action has consequences
+## Match the action to the uncertainty
 
-The same uncertainty can justify different choices depending on what is at stake. Some decisions are easy to revise. Others create commitments that are difficult to undo.
+Holding the rollout at 5% exposure may buy time to investigate. Expanding to every region increases the consequences of being wrong. Rolling back can be appropriate when harm is growing, even before the root cause is fully established.
 
-Sound judgment connects evidence with consequence. It considers whether to act, seek more information, or involve someone with a different perspective.
+The relevant questions are concrete: how much traffic is affected, how quickly is the condition worsening, and which actions are reversible? A fixed confidence threshold cannot express all of that.
 
-This is part of what makes autonomy useful: the ability to choose a sensible next step without pretending that every question has already been resolved.
+## Keep the reason for the decision
 
-## Learning keeps judgment open
+An assessment should preserve what was observed, the leading explanation, the unresolved alternative, and the next check. “Hold expansion because latency is worse within comparable traffic; verify dependency timing” is more useful than an unexplained “unsafe.”
 
-A decision is made with the understanding available at the time. Its outcome gives us a chance to revisit that understanding.
+When new evidence arrives, the agent can revise a specific claim. Reviewers can also distinguish a reasonable decision under uncertainty from a correct answer reached for the wrong reason.
 
-Learning requires curiosity about both success and failure. Which assumptions held? What did we overlook? Would the same reasoning still make sense in a different situation?
-
-An agent that can revise its judgment thoughtfully is better prepared for an unfamiliar world. That capacity for revision is an essential part of trustworthiness.
+The outcome closes the loop. If a rollback restores latency, it strengthens some explanations; it does not automatically prove every part of the original diagnosis. Good judgment remains open to that distinction.
 `
   }
-];
+].map(withPublicationDate).sort(newestFirst);
 
 export const notes = [
   {
     slug: "what-does-good-mean-for-an-agent",
     title: "What does “good” mean for an agent?",
-    date: "2026-09-03",
-    displayDate: "Sep 03, 2026",
     readTime: "1 min",
-    description: "Quality begins with a shared understanding of what matters.",
+    description: "Define success through outcomes, constraints, and the cost of getting there.",
     body: `
-Calling an agent capable leaves an important question open: capable of doing what, and to whose standard?
+An incident agent identifies a connection leak. Another identifies it ten minutes earlier, before customers see errors. A third recommends restarting every service and happens to clear the symptom.
 
-A useful system needs a sense of purpose. It should understand the intended outcome, the constraints that matter, and the circumstances in which asking for help is the better choice.
+All three might receive credit from a grader that checks only the final diagnosis. They did not perform equally well.
 
-Quality also depends on the way the work is done. A result should be understandable, appropriate to the situation, and open to correction.
+Define quality across the dimensions that matter: supported diagnosis, time to detection, unnecessary interventions, and the cost of investigation. Include healthy scenarios to measure false alarms.
 
-Making those expectations clear is part of engineering. It gives intelligence direction and gives people a basis for deciding whether the system deserves their trust.
+Also distinguish a recommendation from its outcome. “I rolled back the release” is a claim in a transcript. The deployed revision and resulting service health are observations in the environment.
+
+A useful evaluation makes those expectations explicit before the agent runs. Otherwise, “good” quietly becomes whatever the easiest grader can count.
 `
   },
   {
     slug: "skills-arent-policies",
     title: "Skills aren’t policies",
-    date: "2026-08-28",
-    displayDate: "Aug 28, 2026",
     readTime: "1 min",
     description: "Knowing how to act and having the authority to act are different things.",
     body: `
-A skill gives an agent a way to approach a task. A policy defines the responsibilities and boundaries within which it operates.
+A deployment skill can explain how to compare revisions, drain traffic, and roll back a service. Knowing that procedure does not grant permission to execute it in production.
 
-Both matter. Expertise helps the agent act effectively; boundaries help make that action trustworthy.
+Skills package useful methods. Policy determines which resources and actions are available under the current conditions. The runtime must enforce that policy when a tool runs.
 
-Keeping the distinction clear creates room for useful independence. An agent can discover a better approach while remaining accountable to the same expectations.
+Consider a skill that says “roll back if the error rate rises.” The agent may use it to form a recommendation. Whether it can change the deployment still depends on its granted scope, the environment, and any required approval.
 
-The broader principle is simple: growing capability should come with a clear understanding of responsibility.
+This separation lets teams improve investigative methods without silently expanding authority. A downloaded playbook can teach the agent a better technique; it cannot give itself production access.
 `
   },
   {
     slug: "memory-should-accumulate-judgment",
     title: "Memory should accumulate judgment",
-    date: "2026-08-21",
-    displayDate: "Aug 21, 2026",
     readTime: "1 min",
     description: "Experience becomes useful when it improves the next decision.",
     body: `
-Remembering what happened is a starting point. Learning asks what that experience should change.
+“Restarting checkout fixed the incident” is a dangerous memory to reuse on its own.
 
-Useful memory preserves the relationship between a situation, a decision, and its consequences. It helps an agent recognize when an earlier lesson applies and when the present situation deserves fresh thinking.
+A more useful record says that revision B leaked connections during an hourly job, restarting temporarily cleared the pool, and a later patch removed the leak. It links the measurements and records which service version the lesson applies to.
 
-That requires care. A familiar example can clarify a question, but it can also encourage an assumption that no longer holds.
+That record separates symptom relief from root-cause correction. It also tells the next agent what to check before applying the lesson again.
 
-I am interested in memory that supports better judgment: retaining useful lessons while keeping them open to challenge.
+Useful memory needs a situation, a decision, an observed outcome, and limits on reuse. Retain evidence references so the lesson can be challenged as systems change.
+
+The goal is to improve the next investigation. A growing archive of confident summaries can do the opposite if each one loses the conditions that made it true.
 `
   },
   {
     slug: "context-vs-harness-engineering",
     title: "Context engineering vs. harness engineering",
-    date: "2026-08-14",
-    displayDate: "Aug 14, 2026",
     readTime: "1 min",
-    description: "Understanding the world and acting within it are connected engineering problems.",
+    description: "Context determines what the model can see. The harness determines how work progresses.",
     body: `
-Context shapes what an agent can understand. It brings relevant information into view and helps the system recognize what matters.
+Suppose an agent misses the relevant log entry. Better filtering and retrieval address a context problem. Suppose it finds the entry, issues a command, loses the response, and executes the command again. That is an execution problem.
 
-The harness is the surrounding system that lets the agent turn that understanding into action. It connects capabilities, responsibilities, feedback, and continuity.
+Context engineering determines what information reaches the model, in what form, and at which turn. Harness engineering covers the loop around it: tool execution, permissions, retries, persistent state, and recovery.
 
-The two belong together. Rich context needs a dependable way to act on it, and dependable action needs a sound understanding of the situation.
+The boundary is useful when debugging. A larger prompt will not make a non-idempotent action safe to retry. A more robust runner will not repair a query that consistently selects the wrong evidence.
 
-Thinking about both keeps the engineering focus on the relationship between reasoning and consequence.
+Design the two together, then inspect them separately. Ask what the model could see and what the surrounding system actually did. Those questions often point to different fixes.
 `
   },
   {
     slug: "why-agent-verifiers-fail",
     title: "Why agent verifiers fail",
-    date: "2026-08-07",
-    displayDate: "Aug 07, 2026",
     readTime: "1 min",
     description: "Agreement is more useful when it comes from independent perspectives.",
     body: `
-Asking another agent to check a result can help. The value of that check depends on what it brings to the question.
+An agent claims that a deployment caused a latency spike. A verifier reads its summary, finds the explanation coherent, and approves it. Neither checks whether the control revision also slowed down.
 
-Two agents may agree because they share the same assumptions or overlook the same missing information. Agreement alone tells us little about those blind spots.
+The second opinion inherited the first investigation’s missing evidence. Agreement added little assurance.
 
-Stronger assurance comes from combining different ways of examining a result: evidence, independent perspectives, experience, and human judgment where it matters.
+Give the verifier access to the underlying measurements and a specific claim to challenge. It can compare equivalent traffic, inspect the deployment timestamp, or check whether the cited query actually returns the reported result.
 
-The aim is to make a conclusion easier to challenge and more deserving of confidence.
+Use direct checks where the claim permits them. A file exists, a test passes, or a deployed revision matches the requested version. Reserve judgment for questions those checks cannot settle.
+
+A verifier earns its place by adding evidence or finding counterexamples. Rephrasing the same explanation with a second model is a weak substitute.
 `
   }
-];
+].map(withPublicationDate).sort(newestFirst);
 
 export const projects = [
   {
@@ -191,7 +184,7 @@ export const projects = [
     label: "Reasoning & execution",
     status: "Ongoing focus",
     description:
-      "Connecting models, tools, memory, and execution so an agent can carry an idea through to useful work.",
+      "Execution loops, durable state, tool contracts, and recovery: the infrastructure that lets an agent complete work across many steps.",
     questions: [
       "What belongs in the model, and what belongs in ordinary code?",
       "What helps an agent keep making progress across a long task?"
@@ -201,35 +194,35 @@ export const projects = [
   {
     index: "02",
     title: "Data & context",
-    label: "Information within reach",
+    label: "Local context & observability",
     status: "Ongoing focus",
     description:
-      "Giving agents useful information in a form they can explore: local data, temporal context, and interfaces that make the next question cheap.",
+      "Deterministic collection and local access to telemetry, logs, and topology. Rich evidence stays available while the model receives focused results.",
     questions: [
       "Which data should already be waiting when an investigation begins?",
       "How can deterministic collection support flexible reasoning?"
     ],
-    reading: { title: "A small database for a curious agent", href: "/writing/in-memory-time-series-for-agents/" }
+    reading: { title: "Local Context for Autonomous Agents", href: "/writing/local-context-for-autonomous-agents/" }
   },
   {
     index: "03",
     title: "Evaluation & learning",
-    label: "Experiments that teach",
+    label: "Replay & experimental design",
     status: "Ongoing focus",
     description:
-      "Making agent behavior observable and repeatable enough to improve, through replay, useful feedback, and experiments that survive beyond a demo.",
+      "Recorded scenarios, checkpoint replay, and outcome-based evaluation. Compare decisions across long tasks without reproducing the entire waiting period.",
     questions: [
       "How can we test a slow failure without waiting for it every time?",
       "What distinguishes an improvement from a lucky run?"
     ],
-    reading: { title: "A time machine for agents", href: "/writing/a-time-machine-for-agents/" }
+    reading: { title: "Checkpoint Replay for Long-Horizon Agent Evaluation", href: "/writing/checkpoint-replay-for-agent-evaluation/" }
   }
 ];
 
 export const ideas = [
-  "What changes when the data an agent needs is already waiting for it?",
-  "Which parts of an investigation benefit from intelligence, and which benefit from predictability?",
-  "How much of a real system can we replay before we need to simulate it?",
-  "What should an agent carry from one task into the next?",
-  "How can a small experiment become a reusable piece of engineering?"
+  "Which evidence should already be local when an agent begins an investigation?",
+  "Where should deterministic execution end and model-driven exploration begin?",
+  "How much of a 24-hour incident can a checkpoint preserve without leaking its outcome?",
+  "When does evaluating an intervention require simulation instead of replay?",
+  "What should memory retain so the next agent can verify a lesson before reusing it?"
 ];

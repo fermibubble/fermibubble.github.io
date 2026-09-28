@@ -1,15 +1,15 @@
 [
   {
     "type": "Writing",
-    "title": "A small database for a curious agent",
-    "description": "An in-memory time-series database, deterministic data fetching, and more room for the agent to investigate.",
-    "url": "/writing/in-memory-time-series-for-agents/"
+    "title": "Checkpoint Replay for Long-Horizon Agent Evaluation",
+    "description": "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
+    "url": "/writing/checkpoint-replay-for-agent-evaluation/"
   },
   {
     "type": "Writing",
-    "title": "A time machine for agents",
-    "description": "Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.",
-    "url": "/writing/a-time-machine-for-agents/"
+    "title": "Local Context for Autonomous Agents",
+    "description": "Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.",
+    "url": "/writing/local-context-for-autonomous-agents/"
   },
   {
     "type": "Collection",
@@ -19,15 +19,15 @@
   },
   {
     "type": "Writing",
-    "title": "Engineering Autonomous Agents",
-    "description": "Connecting intelligence, purpose, and action in systems we can depend on.",
-    "url": "/writing/engineering-autonomous-agents/"
+    "title": "Judgment Under Uncertainty",
+    "description": "A rollout decision depends on evidence, the cost of waiting, and the reversibility of the next step.",
+    "url": "/writing/judgment-under-uncertainty/"
   },
   {
     "type": "Writing",
-    "title": "Judgment Under Uncertainty",
-    "description": "How should an autonomous system act when its understanding is incomplete?",
-    "url": "/writing/judgment-under-uncertainty/"
+    "title": "Engineering Autonomous Agents",
+    "description": "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
+    "url": "/writing/engineering-autonomous-agents/"
   },
   {
     "type": "Chapter",
@@ -85,15 +85,9 @@
   },
   {
     "type": "Note",
-    "title": "What does “good” mean for an agent?",
-    "description": "Quality begins with a shared understanding of what matters.",
-    "url": "/notes/what-does-good-mean-for-an-agent/"
-  },
-  {
-    "type": "Note",
-    "title": "Skills aren’t policies",
-    "description": "Knowing how to act and having the authority to act are different things.",
-    "url": "/notes/skills-arent-policies/"
+    "title": "Why agent verifiers fail",
+    "description": "Agreement is more useful when it comes from independent perspectives.",
+    "url": "/notes/why-agent-verifiers-fail/"
   },
   {
     "type": "Note",
@@ -103,15 +97,21 @@
   },
   {
     "type": "Note",
-    "title": "Context engineering vs. harness engineering",
-    "description": "Understanding the world and acting within it are connected engineering problems.",
-    "url": "/notes/context-vs-harness-engineering/"
+    "title": "Skills aren’t policies",
+    "description": "Knowing how to act and having the authority to act are different things.",
+    "url": "/notes/skills-arent-policies/"
   },
   {
     "type": "Note",
-    "title": "Why agent verifiers fail",
-    "description": "Agreement is more useful when it comes from independent perspectives.",
-    "url": "/notes/why-agent-verifiers-fail/"
+    "title": "What does “good” mean for an agent?",
+    "description": "Define success through outcomes, constraints, and the cost of getting there.",
+    "url": "/notes/what-does-good-mean-for-an-agent/"
+  },
+  {
+    "type": "Note",
+    "title": "Context engineering vs. harness engineering",
+    "description": "Context determines what the model can see. The harness determines how work progresses.",
+    "url": "/notes/context-vs-harness-engineering/"
   },
   {
     "type": "Page",

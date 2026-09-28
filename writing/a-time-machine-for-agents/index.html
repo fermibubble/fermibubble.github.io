@@ -1,28 +1,27 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/checkpoint-replay-for-agent-evaluation/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>A time machine for agents — Oddly</title>
-    <meta name="description" content="Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.">
+    <title>Checkpoint Replay for Long-Horizon Agent Evaluation — Oddly</title>
+    <meta name="description" content="Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="A time machine for agents — Oddly">
-    <meta property="og:description" content="Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.">
-    <meta property="og:url" content="https://oddly.fyi/writing/a-time-machine-for-agents/">
-    <link rel="canonical" href="https://oddly.fyi/writing/a-time-machine-for-agents/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Checkpoint Replay for Long-Horizon Agent Evaluation — Oddly">
+    <meta property="og:description" content="Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.">
+    <meta property="og:url" content="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/">
+    <link rel="canonical" href="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
   </head>
-  <body data-path="/writing/a-time-machine-for-agents/" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/checkpoint-replay-for-agent-evaluation/">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -42,101 +41,14 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Evaluation &amp; developer tools</div>
-        <h1>A time machine<br><em>for agents</em></h1>
-        <p class="article-deck">Replay a thirty-minute rollout at virtual checkpoints. Find out what the agent notices before the ending is revealed.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-09-27">September 27, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <div class="prose"><p>Imagine changing one instruction in an agent, then waiting thirty minutes to discover whether it helped.</p>
-<p>That is a real problem when testing a rollout reviewer. Some failures develop slowly. Memory climbs, queues fill, connections leak. An agent needs to notice the progression across several checks. A single screenshot of the final failure misses the interesting part.</p>
-<p>In my rollout-review work, we built a time machine for these investigations: record a scenario once, then let the agent examine it at controlled points in virtual time.</p>
-<h2 id="move-the-clock-keep-the-investigation">Move the clock, keep the investigation<a class="heading-anchor" href="#move-the-clock-keep-the-investigation" aria-label="Link to this section">#</a></h2>
-<p>Start with a recording of metrics, logs, and service snapshots from a test scenario. Set the virtual clock to five minutes after deployment. The agent runs its investigation using the tools it normally uses, but tool requests are intercepted and answered from the recording.</p>
-<p>Next, advance to fifteen minutes, then thirty. The harness moves directly between checkpoints. Model inference and tool execution still take real time; waiting for the soak period does not.</p>
-<p>This makes a slow failure practical to revisit while editing a prompt, a skill, or a tool. It also gives different agent versions a common scenario to investigate.</p>
-<h2 id="the-ending-must-stay-out-of-the-room">The ending must stay out of the room<a class="heading-anchor" href="#the-ending-must-stay-out-of-the-room" aria-label="Link to this section">#</a></h2>
-<p>Suppose a container runs out of memory at minute twenty-two. At minute five, that crash must be invisible. Otherwise the agent can appear impressively perceptive by reading the answer early.</p>
-<p>The replay layer constrains every response to the virtual cutoff. That includes metric samples, log entries, and the service state returned by command-line tools. A request cannot escape to live infrastructure when the recording lacks an answer; the harness must expose the limitation.</p>
-<p>Read-only execution keeps recommendations inside the experiment. An agent can recommend a rollback, but replaying a test must not roll back a real service.</p>
-<p>Move through this fictional memory-leak scenario. Each checkpoint shows what the test agent could observe then.</p></div>
-        <section class="case-study" data-case-study aria-labelledby="case-title">
-    <header class="case-heading"><span class="case-kicker">An idea in practice</span><h2 id="case-title">What could the agent know yet?</h2><p>Illustrative replay checkpoints. The observations and responses show the shape of a test, not measured agent performance.</p></header>
-    <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
-      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>T + 5 minutes</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>T + 15 minutes</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>T + 30 minutes</button>
-    </nav>
-    <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
-      <div class="case-snapshot"><span class="case-kicker">T + 5 minutes</span><dl><div><dt>Memory</dt><dd>450 MiB, rising</dd></div><div><dt>Request latency</dt><dd>270 ms</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-0">A trend, before an incident</h3>
-        <dl><dt>What happens</dt><dd>Memory is climbing in the new revision. Request latency remains close to baseline, and no restarts have occurred.</dd><dt>What it means</dt><dd>The trend warrants a closer look. The available evidence does not yet establish an out-of-memory failure.</dd><dt>What the system does</dt><dd>Check traffic and memory limits, record the concern, and revisit the trend at the next checkpoint.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;virtual_time&quot;: &quot;13:05 UTC&quot;,
-  &quot;visible_through&quot;: &quot;13:05 UTC&quot;,
-  &quot;restart_count&quot;: 0,
-  &quot;response_to_evaluate&quot;: &quot;investigate memory growth&quot;,
-  &quot;evidence_after_cutoff&quot;: &quot;unavailable&quot;
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
-      <div class="case-snapshot"><span class="case-kicker">T + 15 minutes</span><dl><div><dt>Memory</dt><dd>900 / 1,024 MiB</dd></div><div><dt>Request latency</dt><dd>1.8 s</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-1">The early signal becomes consequential</h3>
-        <dl><dt>What happens</dt><dd>Memory continues toward the container limit while latency worsens under comparable traffic. No restart has occurred yet.</dd><dt>What it means</dt><dd>The agent now has stronger evidence of degradation before a crash makes the diagnosis obvious.</dd><dt>What the system does</dt><dd>Explain the growing risk and recommend intervention under the test&#039;s rollout policy.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;virtual_time&quot;: &quot;13:15 UTC&quot;,
-  &quot;visible_through&quot;: &quot;13:15 UTC&quot;,
-  &quot;restart_count&quot;: 0,
-  &quot;response_to_evaluate&quot;: &quot;identify degradation before failure&quot;,
-  &quot;production_action&quot;: &quot;blocked in replay&quot;
-}</pre></details>
-      </div>
-    </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
-      <div class="case-snapshot"><span class="case-kicker">T + 30 minutes</span><dl><div><dt>Restart at</dt><dd>T + 22 minutes</dd></div><div><dt>Termination reason</dt><dd>Out of memory</dd></div></dl></div>
-      <div class="case-story"><h3 id="case-heading-2">Now the crash is part of the past</h3>
-        <dl><dt>What happens</dt><dd>The recording now exposes the restart at minute twenty-two and its termination reason.</dd><dt>What it means</dt><dd>Recognizing the final failure is useful, but it does not show whether the agent recognized the earlier warning.</dd><dt>What the system does</dt><dd>Grade the sequence of assessments, including evidence use and time to detection.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
-  &quot;virtual_time&quot;: &quot;13:30 UTC&quot;,
-  &quot;visible_through&quot;: &quot;13:30 UTC&quot;,
-  &quot;observed_event&quot;: &quot;out-of-memory restart at 13:22 UTC&quot;,
-  &quot;grade_dimensions&quot;: [
-    &quot;diagnostic accuracy&quot;,
-    &quot;early detection&quot;,
-    &quot;unsupported claims&quot;,
-    &quot;read-only behavior&quot;
-  ]
-}</pre></details>
-      </div>
-    </section></div>
-    <div class="case-footer" data-case-controls hidden><span data-case-position>1 of 3</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
-    <p class="sr-only" role="status" data-case-status></p>
-  </section>
-        <div class="prose series-afterword"><h2 id="test-the-trajectory">Test the trajectory<a class="heading-anchor" href="#test-the-trajectory" aria-label="Link to this section">#</a></h2>
-<p>A final answer can hide a poor investigation. The useful comparison is the sequence: what the agent checked, what it concluded at each checkpoint, and how quickly it revised that conclusion.</p>
-<p>A fixed recording makes the environment repeatable. The model may still vary between runs, so comparisons need repeated trials and healthy scenarios too. An agent that recommends rollback for every release has learned very little.</p>
-<h2 id="a-recording-has-edges">A recording has edges<a class="heading-anchor" href="#a-recording-has-edges" aria-label="Link to this section">#</a></h2>
-<p>Replay cannot supply an unrecorded metric or tell us what would have happened after a different intervention. Those questions need richer recordings, a suitable simulator, or a controlled live experiment.</p>
-<p>Historical data needs care, too. If a sample arrived late, its event timestamp alone does not prove it was available at an earlier checkpoint. Faithful reconstruction needs availability timing where that distinction matters.</p>
-<blockquote><p>A good time machine lets us repeat the investigation without giving away the ending.</p></blockquote>
-<p>The companion essay, <a href="https://oddly.fyi/writing/in-memory-time-series-for-agents/" rel="noreferrer">A small database for a curious agent</a>, explains how a local data workbench supports the live investigation.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/in-memory-time-series-for-agents/"><span>Previous</span><strong>A small database for a curious agent</strong></a>
-      <a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Next</span><strong>Trustworthy Autonomy</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Checkpoint Replay for Long-Horizon Agent Evaluation</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
@@ -147,7 +59,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

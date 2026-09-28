@@ -1,7 +1,8 @@
 import { epistemics } from "./epistemics.mjs";
+import { withPublicationDate } from "./publication-dates.mjs";
 
 const published = {
-  date: "2026-09-27", displayDate: "September 27, 2026", readTime: "4 min",
+  readTime: "4 min",
   eyebrow: "Trustworthy Autonomy", featured: false
 };
 
@@ -424,12 +425,12 @@ Only then should demonstrated quality inform a change in autonomy—and the perm
 Further reading: Google SRE's [Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) explains how incidents can lead to concrete, reviewed improvements.
 `
   }
-];
+].map(withPublicationDate);
 
-export const autonomyOverview = {
+export const autonomyOverview = withPublicationDate({
   slug: "trustworthy-autonomy", title: "Trustworthy Autonomy", titleLines: ["Trustworthy", "Autonomy"],
-  eyebrow: "A working philosophy", date: "2026-09-03", displayDate: "September 3, 2026",
-  updatedDate: "2026-09-27", readTime: "3 min", featured: false, seriesOverview: true,
+  eyebrow: "A working philosophy",
+  readTime: "3 min", featured: false, seriesOverview: true,
   description: "Nine principles for systems that deserve the authority we give them. A field guide to evidence, boundaries, and learning from consequences.",
   body: `
 Trustworthy autonomy is the discipline of building systems whose freedom to act is supported by evidence, explicit authority, and accountability for what follows.
@@ -463,4 +464,4 @@ The examples here are illustrative. Their purpose is to make the commitments ins
 
 > Trust grows when a system makes its reasons, limits, and consequences open to examination.
 `
-};
+});

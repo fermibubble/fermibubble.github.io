@@ -44,24 +44,25 @@
     <article class="article">
       <header class="article-header shell-narrow">
         <a class="article-back" href="/notes/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All notes</span></a>
-        <div class="article-type">Note / 05</div>
+        <div class="article-type">Note / 01</div>
         <h1>Why agent verifiers fail</h1>
         <p class="article-deck">Agreement is more useful when it comes from independent perspectives.</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-08-07">Aug 07, 2026</time><span>1 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <div class="article-meta"><time datetime="2026-09-13">September 13, 2026</time><span>1 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
       <div class="article-layout shell">
         <aside class="article-rail"><span>Note</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>Asking another agent to check a result can help. The value of that check depends on what it brings to the question.</p>
-<p>Two agents may agree because they share the same assumptions or overlook the same missing information. Agreement alone tells us little about those blind spots.</p>
-<p>Stronger assurance comes from combining different ways of examining a result: evidence, independent perspectives, experience, and human judgment where it matters.</p>
-<p>The aim is to make a conclusion easier to challenge and more deserving of confidence.</p></div>
+        <div class="prose" data-article-body><p>An agent claims that a deployment caused a latency spike. A verifier reads its summary, finds the explanation coherent, and approves it. Neither checks whether the control revision also slowed down.</p>
+<p>The second opinion inherited the first investigation’s missing evidence. Agreement added little assurance.</p>
+<p>Give the verifier access to the underlying measurements and a specific claim to challenge. It can compare equivalent traffic, inspect the deployment timestamp, or check whether the cited query actually returns the reported result.</p>
+<p>Use direct checks where the claim permits them. A file exists, a test passes, or a deployed revision matches the requested version. Reserve judgment for questions those checks cannot settle.</p>
+<p>A verifier earns its place by adding evidence or finding counterexamples. Rephrasing the same explanation with a second model is a weak substitute.</p></div>
       </div>
     </article>
     <nav class="article-pagination shell" aria-label="More notes">
-      <a class="pagination-prev" href="/notes/context-vs-harness-engineering/"><span>Previous</span><strong>Context engineering vs. harness engineering</strong></a>
-      <a class="pagination-next" href="/notes/"><span>Continue</span><strong>All Note</strong></a>
+      <span></span>
+      <a class="pagination-next" href="/notes/memory-should-accumulate-judgment/"><span>Next</span><strong>Memory should accumulate judgment</strong></a>
     </nav>
   </main>
     
@@ -70,7 +71,7 @@
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>

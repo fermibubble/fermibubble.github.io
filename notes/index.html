@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Notes — Oddly</title>
-    <meta name="description" content="Short reflections on intelligence, learning, and dependable systems.">
+    <meta name="description" content="Short technical notes on agent quality, execution, memory, and verification.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#f1efe8">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Notes — Oddly">
-    <meta property="og:description" content="Short reflections on intelligence, learning, and dependable systems.">
+    <meta property="og:description" content="Short technical notes on agent quality, execution, memory, and verification.">
     <meta property="og:url" content="https://oddly.fyi/notes/">
     <link rel="canonical" href="https://oddly.fyi/notes/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
@@ -44,10 +44,10 @@
     <section class="page-intro shell">
     <div class="page-intro-kicker"><span>Short observations</span><span>5 notes</span></div>
     <h1>Notes</h1>
-    <p>Smaller ideas, distinctions, and questions published before they demand the shape of an essay.</p>
+    <p>Concrete distinctions from building agents: what to measure, where to enforce policy, and how to preserve useful state.</p>
   </section>
     <section class="shell notes-archive">
-      <div class="notes-year"><h2>2026</h2><div class="notes-table"><a class="note-row" href="/notes/what-does-good-mean-for-an-agent/"><time datetime="2026-09-03">Sep 03</time><span><strong>What does “good” mean for an agent?</strong><small>Quality begins with a shared understanding of what matters.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/skills-arent-policies/"><time datetime="2026-08-28">Aug 28</time><span><strong>Skills aren’t policies</strong><small>Knowing how to act and having the authority to act are different things.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/memory-should-accumulate-judgment/"><time datetime="2026-08-21">Aug 21</time><span><strong>Memory should accumulate judgment</strong><small>Experience becomes useful when it improves the next decision.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/context-vs-harness-engineering/"><time datetime="2026-08-14">Aug 14</time><span><strong>Context engineering vs. harness engineering</strong><small>Understanding the world and acting within it are connected engineering problems.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/why-agent-verifiers-fail/"><time datetime="2026-08-07">Aug 07</time><span><strong>Why agent verifiers fail</strong><small>Agreement is more useful when it comes from independent perspectives.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a></div></div>
+      <div class="notes-year"><h2>2026</h2><div class="notes-table"><a class="note-row" href="/notes/why-agent-verifiers-fail/"><time datetime="2026-09-13">September 13</time><span><strong>Why agent verifiers fail</strong><small>Agreement is more useful when it comes from independent perspectives.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/memory-should-accumulate-judgment/"><time datetime="2026-08-24">August 24</time><span><strong>Memory should accumulate judgment</strong><small>Experience becomes useful when it improves the next decision.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/skills-arent-policies/"><time datetime="2026-08-05">August 5</time><span><strong>Skills aren’t policies</strong><small>Knowing how to act and having the authority to act are different things.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/what-does-good-mean-for-an-agent/"><time datetime="2026-07-16">July 16</time><span><strong>What does “good” mean for an agent?</strong><small>Define success through outcomes, constraints, and the cost of getting there.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a><a class="note-row" href="/notes/context-vs-harness-engineering/"><time datetime="2026-07-06">July 6</time><span><strong>Context engineering vs. harness engineering</strong><small>Context determines what the model can see. The harness determines how work progresses.</small></span><span class="note-time">1 min</span><span class="note-arrow"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></span></a></div></div>
     </section>
   </main>
     
@@ -56,7 +56,7 @@
         <div>
           <a class="footer-name" href="/">Oddly</a>
           <p>By <a href="/about/" rel="author">Chaitanya</a></p>
-          <p>Experiments, ideas, and the engineering between them.</p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
         </div>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
