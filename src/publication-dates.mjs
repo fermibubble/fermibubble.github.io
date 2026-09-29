@@ -1,20 +1,15 @@
 // Publication chronology shared by articles, archives, and feeds.
 const publicationDates = {
   "engineering-autonomous-agents": "2026-07-01",
-  "context-vs-harness-engineering": "2026-07-06",
   "verdicts-require-epistemics": "2026-07-11",
-  "what-does-good-mean-for-an-agent": "2026-07-16",
   "evidence-requires-provenance": "2026-07-26",
   "state-requires-ownership": "2026-07-31",
-  "skills-arent-policies": "2026-08-05",
   "autonomy-requires-a-dial": "2026-08-10",
   "trustworthy-autonomy": "2026-08-15",
   "inputs-require-a-trust-boundary": "2026-08-19",
-  "memory-should-accumulate-judgment": "2026-08-24",
   "knowledge-requires-a-clock": "2026-08-29",
   "local-context-for-autonomous-agents": "2026-09-03",
   "delegation-requires-ceilings": "2026-09-08",
-  "why-agent-verifiers-fail": "2026-09-13",
   "failure-requires-a-ladder": "2026-09-18",
   "learning-requires-outcomes": "2026-09-23",
   "checkpoint-replay-for-agent-evaluation": "2026-09-28"
