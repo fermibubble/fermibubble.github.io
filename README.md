@@ -18,17 +18,9 @@ npm run check
 node --check src/site.js
 ```
 
-The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, base styling in `src/styles.css`, the current visual system in `src/editorial.css`, and page templates in `scripts/build.mjs`. The typography system is in `src/typography.css`. IBM Plex Sans remains the foundation; Newsreader adds an editorial reading face, and IBM Plex Mono handles code and compact data labels. All fonts and their open-font licenses are served locally from `assets/fonts/`.
+The complete static website is written to `dist/`. Edit current articles and site copy in `src/content.mjs`, base styling in `src/styles.css`, the current visual system in `src/editorial.css`, and page templates in `scripts/build.mjs`. The typography system is in `src/typography.css`. IBM Plex Sans is used for all headings, prose, navigation, and examples. IBM Plex Mono handles code and compact data labels. All active fonts and their open-font licenses are served locally from `assets/fonts/`.
 
-| Surface | Typography |
-| --- | --- |
-| Homepage, Writing, About, Ideas | Newsreader display titles; Plex Sans navigation and summaries |
-| Technical essays and earlier writing | Plex Sans headings; Newsreader long-form text |
-| Trustworthy Autonomy chapters | Newsreader titles and prose; Plex Sans structure and examples |
-| Notes, Focus, privacy, controls | Plex Sans for concise scanning and interaction |
-| Code, timestamps, labels | Plex Mono; tabular numerals for aligned data |
-
-The `data-typography` attribute assigns these roles. The serif face is preloaded only for pages that use it, and both light and dark themes share the same hierarchy.
+Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
 The Writing index combines essays, short notes, and the collection in date order. Short notes keep their original `/notes/<slug>/` URLs, use Writing in the navigation, and share previous/next links with the essays. `/notes/` redirects to `/writing/`. The homepage shows Recent writing from the same list.
 
@@ -55,6 +47,5 @@ Push or merge the commit into `master` to publish. The validation workflow check
 
 The old Markdown files remain as historical source; the build generates the live homepage from the newer site's templates. RSS links and canonical URLs use `https://oddly.fyi/`. `/feed.xml` remains available alongside `/rss.xml`, and `/atom.xml` serves an Atom feed for the links in the older pages. Earlier essay URLs redirect to their current versions through aliases declared in `src/content.mjs`.
 
-The private preview remains available at https://chaitanya-meesala.fermibubble.chatgpt.site . Its hosting configuration and credentials are not part of this repository.
 
 GitHub Pages publishing reference: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
