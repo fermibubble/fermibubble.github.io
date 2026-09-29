@@ -362,9 +362,9 @@ function pageIntro(kicker, title, description, count) {
 }
 
 function writingPage() {
-  const count = `${writing.filter(item => !item.seriesOverview).length} essays · ${notes.length} short notes · 1 collection`;
+  const count = `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`;
   const content = `<main id="content">
-    ${pageIntro("Essays, short notes & collections", "Writing", "Architecture, experiments, and useful distinctions from building autonomous agents, context systems, and reproducible evaluation.", count)}
+    ${pageIntro("Essays & collections", "Writing", "Architecture, experiments, and useful distinctions from building autonomous agents, context systems, and reproducible evaluation.", count)}
     <section class="shell archive-list" aria-label="All writing">
       ${publications
         .map(
@@ -378,7 +378,7 @@ function writingPage() {
         .join("")}
     </section>
   </main>`;
-  return layout({ title: "Writing", description: "Essays, short notes, and collections on autonomous agents, context systems, and evaluation.", active: "writing", content, path: "/writing/" });
+  return layout({ title: "Writing", description: "Essays and collections on autonomous agents, context systems, and evaluation.", active: "writing", content, path: "/writing/" });
 }
 
 function notesPage() {
