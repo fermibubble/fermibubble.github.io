@@ -26,7 +26,7 @@
     --blue: #304fe8;
     --dark-panel: #171a18;
     --dark-panel-text: #eeece5;
-    --serif: Iowan Old Style, Baskerville, "Times New Roman", Times, serif;
+    --serif: var(--sans);
     --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     --shell: min(1180px, calc(100vw - 64px));
