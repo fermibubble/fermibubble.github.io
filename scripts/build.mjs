@@ -422,7 +422,7 @@ function aboutPage() {
       <div class="about-label">A short introduction</div>
       <div class="about-copy">
         <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
-        <p>I’m interested in the architecture behind useful agents: how a coding assistant preserves progress, how a research agent keeps evidence traceable, and how a data pipeline turns information into a dependable working context. These questions connect software engineering, experimentation, and the philosophy of knowledge.</p>
+        <p>I’m drawn to how intelligence takes shape in systems: how they make sense of the world, carry experience forward, and turn understanding into action. My work sits between engineering and philosophy, exploring how context, memory, and judgment come together—and what changes when a system can act on its own.</p>
         <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. The notes isolate useful distinctions. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
         <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
