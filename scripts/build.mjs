@@ -14,7 +14,15 @@ const noteItems = new Set(notes);
 const publications = [...writing, ...notes].sort((a, b) => b.date.localeCompare(a.date));
 const publicationPath = (item) => noteItems.has(item) ? `/notes/${item.slug}/` : writingPath(item);
 const publicationFormat = (item) => noteItems.has(item) ? 'Short note' : item.seriesOverview ? 'Collection' : 'Essay';
-const retiredPaths = ["writing/judgment-under-uncertainty", "writing/rollouts-are-decision-problems"];
+const retiredPaths = [
+  "writing/judgment-under-uncertainty",
+  "writing/rollouts-are-decision-problems",
+  "notes/why-agent-verifiers-fail",
+  "notes/memory-should-accumulate-judgment",
+  "notes/skills-arent-policies",
+  "notes/what-does-good-mean-for-an-agent",
+  "notes/context-vs-harness-engineering",
+];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "dist");
@@ -374,7 +382,7 @@ function writingPage() {
 }
 
 function notesPage() {
-  const content = `<main id="content" class="not-found shell"><h1>Writing</h1><p>Essays, short notes, and collections.</p>${arrowLink("All writing", "/writing/", "primary-link")}</main>`;
+  const content = `<main id="content" class="not-found shell"><h1>Writing</h1><p>Essays and collections.</p>${arrowLink("All writing", "/writing/", "primary-link")}</main>`;
   return layout({ title: "Writing", active: "writing", content, path: "/writing/" })
     .replace("<head>", '<head>\n    <meta http-equiv="refresh" content="0; url=/writing/">');
 }
@@ -423,7 +431,7 @@ function aboutPage() {
       <div class="about-copy">
         <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
         <p>I’m drawn to how intelligence takes shape in systems: how they make sense of the world, carry experience forward, and turn understanding into action. My work sits between engineering and philosophy, exploring how context, memory, and judgment come together—and what changes when a system can act on its own.</p>
-        <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. The notes isolate useful distinctions. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
+        <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
         <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
     </section>
