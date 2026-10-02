@@ -24,7 +24,7 @@ Reading text uses 19px on desktop and 18px on narrow screens, with generous line
 
 The Writing index contains four essays and the Trustworthy Autonomy collection in date order. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
-“Give Agents Knowledge They Can Explore” lives in `src/knowledge-writing.mjs`. It covers progressive disclosure, examples, skills, search, and verification in plain language.
+“Designing Context for Reliable Agents” lives in `src/knowledge-writing.mjs`. It provides research-informed guidance on context selection, knowledge maintenance, skills, search, working state, and outcome verification in plain language.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 

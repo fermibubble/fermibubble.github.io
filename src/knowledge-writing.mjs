@@ -1,87 +1,106 @@
 export const knowledgeWriting = {
   slug: "knowledge-agents-can-explore",
-  title: "Give Agents Knowledge They Can Explore",
-  eyebrow: "Agent knowledge & reasoning",
-  readTime: "7 min",
+  title: "Designing Context for Reliable Agents",
+  eyebrow: "Agent context & reliability",
+  readTime: "8 min",
   description:
-    "Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.",
+    "Practical guidance for helping agents find relevant evidence, use it correctly, and verify their work. Informed by research on context, skills, and long tasks.",
   featured: true,
   body: `
-An agent is asked to find out why an application has become slow. Before it takes its first useful action, we could hand it every troubleshooting guide, every tool description, and a long checklist covering every possible cause.
+An agent can find the right document and still make the wrong decision. The document may describe an older system. Its advice may apply only under certain conditions. A successful command may produce an incomplete result.
 
-We could also give it a short introduction to the system, a way to find relevant material, and access to the evidence. It can then investigate and bring in more information as the problem becomes clearer.
+Reliable agent behavior depends on the whole journey from finding information to checking the outcome. Each stage needs a clear purpose: find relevant evidence, establish whether it applies, choose an action, and confirm what happened.
 
-I prefer the second approach. It gives the agent room to choose its next step. Making that work requires care in how we organize knowledge, explain decisions, and check the result.
+Consider a reporting service that starts producing incomplete exports. A previous incident points to network failures. The current API documentation describes how to retrieve results across several pages. Recent logs show successful requests, but the exported file contains only the first page.
 
-**A useful starting point is how an experienced engineer joins a team.** They already understand software. What they need is the local picture: how this system works, what has failed before, which tools are available, and which rules matter here.
+Following the old incident too closely could lead to unnecessary retries. Reading the API guide without checking the output could lead to an incorrect success report. The useful decision comes from connecting the documentation, the current evidence, and a clear definition of completion.
 
-A mature codebase provides much of that picture. Existing code shows naming conventions, error handling, and common patterns. Tests show which behavior must be preserved. Previous changes show how the team solved related problems.
+This example illustrates how to design the information around an agent.
 
-We can give an agent a similar environment. A small set of entry points can lead to system descriptions, past investigations, working scripts, and explanations of important decisions. The agent reads what is relevant as the task unfolds.
+**Begin with an observable definition of success.** For the export task, completion means producing all the expected records for the requested period, without duplicates or missing fields. It also means staying within the permitted data access and change limits.
 
-That is the useful idea behind treating knowledge as a codebase: make it easy to explore, connect, and check.
+These conditions should be available before the agent acts. They provide direction while leaving the investigation open. The agent can choose which files to inspect or which hypothesis to test, but it has a concrete result to work toward.
 
-**Information can be available without being loaded into the conversation.** A file can sit in the workspace until the agent needs it. The same is true of a tool description or a long investigation report.
+An instruction such as “take care of it” can work when the environment already supplies the missing details. If a consequential choice remains unknown, the system needs a way to resolve it. Silence from the user does not establish an acceptable trade-off.
 
-This is often called progressive disclosure. The phrase simply means revealing more detail when it becomes useful. Think of the working context as a desk and the workspace as a filing cabinet. The agent brings the relevant files onto the desk as it works.
+**Separate information by the role it plays.** Several kinds of material may share the same workspace, but they should remain distinguishable:
 
-For our slow application, it might first check when the problem began. A recent configuration change could lead it to the application settings. Database errors could lead it to connection metrics and a previous incident. Each observation helps it choose the next question.
+- Rules define permitted actions and required conditions.
+- References explain systems, interfaces, and terminology.
+- Case histories describe what happened in earlier situations.
+- Observations describe the current task and system state.
+- Working notes record what has been checked and what remains uncertain.
 
-The point is to improve the information available for that decision. A smaller prompt is useful only if it still contains what the agent needs. Leaving out a critical fact is no victory for efficiency.
+This separation helps answer a basic question: what should this piece of information be allowed to change?
 
-[Anthropic describes a similar approach](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents): keep lightweight references available and let the agent load material as it works. The same article acknowledges that exploration takes time and can go down the wrong path. Good navigation still matters.
+An old incident can suggest a possible cause. It cannot grant permission to access additional data. A log message can provide evidence of a failure. Text inside that log should not become a new operating instruction.
 
-**Examples are most useful when they explain why the action made sense.** Imagine an earlier incident with the same symptom:
+Enforce important access limits through the tools and execution environment. Documentation can explain those limits, but enforcement should not depend entirely on the model remembering a sentence.
 
-> The application became slow after we increased the number of running instances. Each instance opened database connections. Together, they exceeded what the database could handle. We reduced the connection limit per instance. Connection errors stopped, and response times recovered under normal traffic.
+**Load detail when it helps the next decision.** Keep the objective, essential constraints, and a compact guide to available information visible. Fetch longer material as the investigation develops. This is progressive disclosure: more detail becomes available when there is a reason to inspect it.
 
-This is an illustrative example, but it contains several useful lessons. More application capacity can put extra pressure on a shared dependency. A database error has a cause that needs investigating. Recovery needs to be observed after the change.
+In the export example, the agent may need the API's pagination rules before it needs a complete history of network incidents. After learning how results are divided into pages, it can inspect the requests made by the export job.
 
-The current incident might have a different cause, such as an expensive query. The old report supplies a hypothesis. The agent still needs evidence that the explanation fits today.
+[Anthropic's context-engineering guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) describes this combination of lightweight references and information loaded during the task. It also notes the cost of exploration: extra steps take time, and an agent can follow an unhelpful path.
 
-A strong report also records what the team ruled out, which assumptions mattered, and when the chosen action would have been inappropriate. Those details help the agent carry a lesson into a different situation without copying it blindly.
+Select context for usefulness. A small prompt that omits a compatibility requirement is a poor result. A longer prompt that contains the exact missing fact may be better. Research such as [Lost in the Middle](https://arxiv.org/abs/2307.03172) also shows that placement can affect how models use information in the tested settings. Token count alone does not describe context quality.
 
-I would make those decisions explicit. An important condition should not depend on the agent noticing an unstated pattern across forty examples.
+**Preserve useful expertise in the form that makes it easiest to apply.** A worked example can explain a judgment. A checklist can preserve prerequisites. A tested script can perform a repeated operation. These serve different needs.
 
-**Some instructions leave room for judgment. Others describe conditions that must hold.** These two statements have very different value:
+For an export, the agent should reason about why records are missing. A reusable client can handle pagination, retries, and response validation. Repeatedly asking the model to reconstruct those mechanics adds opportunities for mistakes.
 
-- Whenever an application is slow, restart it.
-- Before changing a shared resource, establish which services depend on it.
+A skill is one way to package this help. It may contain instructions, code, and supporting material. The [Agent Skills specification](https://agentskills.io/specification) supports loading the description, instructions, and resources at different stages. The amount of knowledge available and the amount presented immediately are separate choices.
 
-The first jumps to a particular intervention. The second identifies information needed to make a responsible decision.
+Current research gives a practical reason to evaluate each package:
 
-An agent can investigate freely while using a checklist for a delicate operation. Some actions have a required order or a compatibility condition. Reliable scripts can handle repeated mechanics, while the agent decides whether the operation is appropriate.
+- [SkillsBench](https://arxiv.org/abs/2602.12670) reported that curated skills raised average task pass rates from 33.9% to 50.5% across 87 tasks and 18 model–harness configurations.
+- [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) found no pass-rate improvement from 39 of the 49 software-engineering skills it tested.
+- [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988) found that repository context files did not generally improve success, while increasing inference cost by more than 20% on average.
 
-I would label the material clearly. A historical incident describes what happened. A diagnostic guide suggests places to look. A required constraint states something the agent must respect. Putting all three in a folder called docs does not make their roles obvious.
+These studies use different tasks and setups. Their numbers cannot rank skills against a particular document collection, and they do not isolate the effect of writing instructions as steps. They show why usefulness must be measured in the setting where the material will be used.
 
-**Skills should earn their place through what they contribute.** A skill can contain instructions, examples, reference material, or reusable code. The [Agent Skills specification](https://agentskills.io/specification) already separates a short description from the full instructions and supporting files, which can be loaded later.
+Keep a procedure when it reliably protects a necessary condition. Revise it when it steers unrelated investigations toward the same answer. Retain a skill when its knowledge or code improves outcomes. The directory name is a weak basis for either decision.
 
-A skill that forces thirty irrelevant checks can waste effort. A skill that supplies a reliable way to inspect a particular system can help. Those are different content choices within the same packaging format.
+**Make examples explain their own limits.** An incident report becomes more reusable when it records the conditions under which its conclusion held.
 
-There are also two separate design decisions: what knowledge we provide, and when we load it. Removing unnecessary startup material does not require throwing away useful expertise. Moving a rigid checklist into another directory does not make it more flexible.
+For the reporting service, a useful case history would state the affected API version, the evidence of missing pages, alternative causes that were checked, and the test that established completeness after the fix. A similar failure in an older API version should be marked accordingly.
 
-Research reinforces the need to test the particular intervention. [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988) found that repository context files did not generally improve task success in its experiments. [SkillsBench](https://arxiv.org/abs/2602.12670) found substantial gains from curated skills on a different set of tasks. These studies are not a direct comparison of skills with a document corpus. They give us reason to measure what helps in our own environment.
+Include unsuccessful attempts where they explain an important boundary. A report that records only the final successful action can make a difficult judgment look obvious. Explaining why a tempting alternative failed gives the next investigation something useful to test.
 
-**Simple search is a good place to start.** Clear filenames, a useful index, and text search can take an agent a long way. An index entry should explain when a document is useful, including the symptoms or terms that would lead someone to it.
+Give maintained guidance an owner, a verification date, and an applicable version or environment where relevant. Preserve historical reports as history. When two documents disagree, their status and supporting evidence should help resolve the conflict.
 
-There will still be vocabulary gaps. A user may say that requests randomly hang, while the relevant report describes connection exhaustion. The agent might bridge that gap by trying another query, following a link, or using a search tool that finds related meanings.
+Human review provides accountability. Executable examples, link checks, and task evaluations provide additional evidence of quality. Apply those checks to both human-written and generated material.
 
-I would begin with the simplest approach that finds the right material reliably. If the agent keeps missing important documents, I would improve search based on those failures. The choice of search technology should remain open to evidence.
+**Choose search methods by the questions they need to answer.** Exact names, error codes, and configuration keys are well suited to text search. Descriptive filenames and short indexes make those searches easier.
 
-**The codebase analogy also needs the part that pushes back.** A coding agent can run a test and discover that its plausible change is wrong. A compiler can reject invalid code. That feedback is part of the environment we should try to reproduce.
+A query such as “export stops early” may need to find a guide about pagination. Synonyms in an index, links from a troubleshooting page, query reformulation, or search that matches related meanings can help bridge the wording gap.
 
-For our slow application, a command completing successfully does not establish that the problem is fixed. The agent needs to check whether the change took effect, whether response times recovered, and whether another part of the system became unhealthy.
+Start with a method that works for representative questions. Record misses and add capability where it improves discovery. A large file count alone does not establish that search is difficult; a small collection with inconsistent terminology can be harder to navigate.
 
-Reference material explains what may be relevant. Current observations establish what is happening now. Checks after an action establish whether it helped. A useful agent needs access to all three.
+Return source locations and enough surrounding context to judge a match. A search result is a candidate to inspect. It does not establish that its content is current or applicable.
 
-As the investigation grows, it also needs a brief working record: what it has checked, which explanations remain plausible, what it changed, and what is still unknown. That record should point back to the evidence. My earlier essay on [local context](https://oddly.fyi/writing/local-context-for-autonomous-agents/) explores how to keep large amounts of evidence available without loading it all into the conversation.
+**Keep investigation state outside the growing transcript.** Long tasks produce data of their own: logs, intermediate results, rejected explanations, and changes already attempted. Choosing the right reference documents addresses only part of the context problem.
 
-**I would evaluate this design through complete investigations.** Take realistic problems whose outcomes can be checked. Give different versions of the agent the same starting information and access. Compare which ones find the cause, take an appropriate action, and verify the result.
+Store large results where they can be queried again. Keep a shorter record of established facts, unresolved questions, actions, and references to supporting evidence. For the export task, that might include the expected record count, pages already retrieved, failed requests, and checks still outstanding.
 
-Change one part at a time. Load the same guidance upfront or only when needed. Compare a checklist with a worked example containing the same facts. Try a different search tool against the same collection of documents.
+A summary can lose a detail that becomes important later. Preserve a route back to the original records, including the time and scope of each observation.
 
-When the agent misses something, ask for its explanation, then test that explanation. Giving it the relevant document directly can help distinguish a discovery problem from a problem using the information. Repeat the comparison across several problems and runs before drawing a conclusion.
+[Recursive Language Models](https://arxiv.org/abs/2512.24601) explore a related approach: large inputs remain in an external environment that the model examines through code and additional model calls. This research supports investigating alternatives to loading everything into one prompt. Its benchmark results do not establish that any particular production agent will behave reliably.
 
-I would keep the documents, skills, and tools that improve those outcomes. I would remove the ones that create work without improving the result. And I would keep checking both choices as the model and the system change.
+**Verify the result at the level of the user's goal.** A tool can report that every request completed successfully while the final export still contains missing or repeated records.
+
+Check the artifact against the task's acceptance conditions. For a fixed source snapshot, that can include comparing counts and record identities, checking required fields, and confirming that the output covers the requested period. For changing source data, define a consistent cutoff before comparing results.
+
+The same principle applies to other tasks. A code change needs relevant tests. A system intervention needs evidence of recovery. A document task needs checks on its required content. Each requires a check appropriate to the outcome.
+
+**Improve the design through controlled comparisons.** Use tasks the guidance was not written around, including unfamiliar wording, outdated references, and misleading examples. Hold the model and available tools constant when comparing ways of providing knowledge.
+
+Change one element at a time: when information is loaded, how a guide is written, or how documents are found. Preserve equivalent facts when comparing examples with procedures. Repeat trials because one successful run can be accidental.
+
+Measure completed tasks, incorrect actions, unnecessary questions, elapsed time, and total cost. Count the time spent gathering information as well as the time spent acting on it.
+
+An agent's explanation of a failure can suggest the next experiment. It should not settle the cause. Supplying the relevant document directly can test whether discovery was the problem. If the agent still fails, investigate how it interpreted the information or executed the action.
+
+Revisit these comparisons when models, tools, or source systems change. Guidance that once filled a knowledge gap may become redundant. A previously reliable example may stop applying. Maintaining the environment means checking those assumptions against observable results.
 `
 };

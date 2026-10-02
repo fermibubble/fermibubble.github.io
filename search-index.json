@@ -1,8 +1,8 @@
 [
   {
     "type": "Essay",
-    "title": "Give Agents Knowledge They Can Explore",
-    "description": "Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.",
+    "title": "Designing Context for Reliable Agents",
+    "description": "Practical guidance for helping agents find relevant evidence, use it correctly, and verify their work. Informed by research on context, skills, and long tasks.",
     "url": "/writing/knowledge-agents-can-explore/"
   },
   {
