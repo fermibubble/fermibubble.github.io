@@ -1,5 +1,6 @@
 import { autonomyOverview } from "./principle-series.mjs";
 import { systemsWriting } from "./systems-writing.mjs";
+import { knowledgeWriting } from "./knowledge-writing.mjs";
 import { newestFirst, withPublicationDate } from "./publication-dates.mjs";
 
 export const site = {
@@ -15,6 +16,7 @@ export const site = {
 };
 
 export const writing = [
+  knowledgeWriting,
   ...systemsWriting,
   autonomyOverview,
   {

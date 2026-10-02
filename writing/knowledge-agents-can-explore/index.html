@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Give Agents Knowledge They Can Explore — Oddly</title>
+    <meta name="description" content="Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Give Agents Knowledge They Can Explore — Oddly">
+    <meta property="og:description" content="Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.">
+    <meta property="og:url" content="https://oddly.fyi/writing/knowledge-agents-can-explore/">
+    <link rel="canonical" href="https://oddly.fyi/writing/knowledge-agents-can-explore/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/knowledge-agents-can-explore/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Essay · Agent knowledge &amp; reasoning</div>
+        <h1>Give Agents Knowledge They Can Explore</h1>
+        <p class="article-deck">Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-10-02">October 2, 2026</time><span>7 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="article-layout shell">
+        <aside class="article-rail"><span>Agent knowledge &amp; reasoning</span><div class="rail-line"></div><span>2026</span></aside>
+        <div class="prose" data-article-body><p>An agent is asked to find out why an application has become slow. Before it takes its first useful action, we could hand it every troubleshooting guide, every tool description, and a long checklist covering every possible cause.</p>
+<p>We could also give it a short introduction to the system, a way to find relevant material, and access to the evidence. It can then investigate and bring in more information as the problem becomes clearer.</p>
+<p>I prefer the second approach. It gives the agent room to choose its next step. Making that work requires care in how we organize knowledge, explain decisions, and check the result.</p>
+<p><strong>A useful starting point is how an experienced engineer joins a team.</strong> They already understand software. What they need is the local picture: how this system works, what has failed before, which tools are available, and which rules matter here.</p>
+<p>A mature codebase provides much of that picture. Existing code shows naming conventions, error handling, and common patterns. Tests show which behavior must be preserved. Previous changes show how the team solved related problems.</p>
+<p>We can give an agent a similar environment. A small set of entry points can lead to system descriptions, past investigations, working scripts, and explanations of important decisions. The agent reads what is relevant as the task unfolds.</p>
+<p>That is the useful idea behind treating knowledge as a codebase: make it easy to explore, connect, and check.</p>
+<p><strong>Information can be available without being loaded into the conversation.</strong> A file can sit in the workspace until the agent needs it. The same is true of a tool description or a long investigation report.</p>
+<p>This is often called progressive disclosure. The phrase simply means revealing more detail when it becomes useful. Think of the working context as a desk and the workspace as a filing cabinet. The agent brings the relevant files onto the desk as it works.</p>
+<p>For our slow application, it might first check when the problem began. A recent configuration change could lead it to the application settings. Database errors could lead it to connection metrics and a previous incident. Each observation helps it choose the next question.</p>
+<p>The point is to improve the information available for that decision. A smaller prompt is useful only if it still contains what the agent needs. Leaving out a critical fact is no victory for efficiency.</p>
+<p><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">Anthropic describes a similar approach</a>: keep lightweight references available and let the agent load material as it works. The same article acknowledges that exploration takes time and can go down the wrong path. Good navigation still matters.</p>
+<p><strong>Examples are most useful when they explain why the action made sense.</strong> Imagine an earlier incident with the same symptom:</p>
+<blockquote><p>The application became slow after we increased the number of running instances. Each instance opened database connections. Together, they exceeded what the database could handle. We reduced the connection limit per instance. Connection errors stopped, and response times recovered under normal traffic.</p></blockquote>
+<p>This is an illustrative example, but it contains several useful lessons. More application capacity can put extra pressure on a shared dependency. A database error has a cause that needs investigating. Recovery needs to be observed after the change.</p>
+<p>The current incident might have a different cause, such as an expensive query. The old report supplies a hypothesis. The agent still needs evidence that the explanation fits today.</p>
+<p>A strong report also records what the team ruled out, which assumptions mattered, and when the chosen action would have been inappropriate. Those details help the agent carry a lesson into a different situation without copying it blindly.</p>
+<p>I would make those decisions explicit. An important condition should not depend on the agent noticing an unstated pattern across forty examples.</p>
+<p><strong>Some instructions leave room for judgment. Others describe conditions that must hold.</strong> These two statements have very different value:</p>
+<ul><li>Whenever an application is slow, restart it.</li><li>Before changing a shared resource, establish which services depend on it.</li></ul>
+<p>The first jumps to a particular intervention. The second identifies information needed to make a responsible decision.</p>
+<p>An agent can investigate freely while using a checklist for a delicate operation. Some actions have a required order or a compatibility condition. Reliable scripts can handle repeated mechanics, while the agent decides whether the operation is appropriate.</p>
+<p>I would label the material clearly. A historical incident describes what happened. A diagnostic guide suggests places to look. A required constraint states something the agent must respect. Putting all three in a folder called docs does not make their roles obvious.</p>
+<p><strong>Skills should earn their place through what they contribute.</strong> A skill can contain instructions, examples, reference material, or reusable code. The <a href="https://agentskills.io/specification" rel="noreferrer">Agent Skills specification</a> already separates a short description from the full instructions and supporting files, which can be loaded later.</p>
+<p>A skill that forces thirty irrelevant checks can waste effort. A skill that supplies a reliable way to inspect a particular system can help. Those are different content choices within the same packaging format.</p>
+<p>There are also two separate design decisions: what knowledge we provide, and when we load it. Removing unnecessary startup material does not require throwing away useful expertise. Moving a rigid checklist into another directory does not make it more flexible.</p>
+<p>Research reinforces the need to test the particular intervention. <a href="https://arxiv.org/abs/2602.11988" rel="noreferrer">Evaluating AGENTS.md</a> found that repository context files did not generally improve task success in its experiments. <a href="https://arxiv.org/abs/2602.12670" rel="noreferrer">SkillsBench</a> found substantial gains from curated skills on a different set of tasks. These studies are not a direct comparison of skills with a document corpus. They give us reason to measure what helps in our own environment.</p>
+<p><strong>Simple search is a good place to start.</strong> Clear filenames, a useful index, and text search can take an agent a long way. An index entry should explain when a document is useful, including the symptoms or terms that would lead someone to it.</p>
+<p>There will still be vocabulary gaps. A user may say that requests randomly hang, while the relevant report describes connection exhaustion. The agent might bridge that gap by trying another query, following a link, or using a search tool that finds related meanings.</p>
+<p>I would begin with the simplest approach that finds the right material reliably. If the agent keeps missing important documents, I would improve search based on those failures. The choice of search technology should remain open to evidence.</p>
+<p><strong>The codebase analogy also needs the part that pushes back.</strong> A coding agent can run a test and discover that its plausible change is wrong. A compiler can reject invalid code. That feedback is part of the environment we should try to reproduce.</p>
+<p>For our slow application, a command completing successfully does not establish that the problem is fixed. The agent needs to check whether the change took effect, whether response times recovered, and whether another part of the system became unhealthy.</p>
+<p>Reference material explains what may be relevant. Current observations establish what is happening now. Checks after an action establish whether it helped. A useful agent needs access to all three.</p>
+<p>As the investigation grows, it also needs a brief working record: what it has checked, which explanations remain plausible, what it changed, and what is still unknown. That record should point back to the evidence. My earlier essay on <a href="https://oddly.fyi/writing/local-context-for-autonomous-agents/" rel="noreferrer">local context</a> explores how to keep large amounts of evidence available without loading it all into the conversation.</p>
+<p><strong>I would evaluate this design through complete investigations.</strong> Take realistic problems whose outcomes can be checked. Give different versions of the agent the same starting information and access. Compare which ones find the cause, take an appropriate action, and verify the result.</p>
+<p>Change one part at a time. Load the same guidance upfront or only when needed. Compare a checklist with a worked example containing the same facts. Try a different search tool against the same collection of documents.</p>
+<p>When the agent misses something, ask for its explanation, then test that explanation. Giving it the relevant document directly can help distinguish a discovery problem from a problem using the information. Repeat the comparison across several problems and runs before drawing a conclusion.</p>
+<p>I would keep the documents, skills, and tools that improve those outcomes. I would remove the ones that create work without improving the result. And I would keep checking both choices as the model and the system change.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <span></span>
+      <a class="pagination-next" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Next</span><strong>Checkpoint Replay for Long-Horizon Agent Evaluation</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

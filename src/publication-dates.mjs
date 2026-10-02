@@ -1,5 +1,6 @@
 // Publication chronology shared by articles, archives, and feeds.
 const publicationDates = {
+  "knowledge-agents-can-explore": "2026-10-02",
   "engineering-autonomous-agents": "2026-07-01",
   "verdicts-require-epistemics": "2026-07-11",
   "evidence-requires-provenance": "2026-07-26",

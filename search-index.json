@@ -1,6 +1,12 @@
 [
   {
     "type": "Essay",
+    "title": "Give Agents Knowledge They Can Explore",
+    "description": "Good examples, simple navigation, and clear checks help an agent decide what to do next. The details of how we provide that knowledge matter.",
+    "url": "/writing/knowledge-agents-can-explore/"
+  },
+  {
+    "type": "Essay",
     "title": "Checkpoint Replay for Long-Horizon Agent Evaluation",
     "description": "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
     "url": "/writing/checkpoint-replay-for-agent-evaluation/"
