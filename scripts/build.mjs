@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { ideas, notes, projects, site, writing as publishedWriting } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
+import { agencyOverview, agencyWriting } from "../src/agency-writing.mjs";
 import { renderCaseStudy, renderContextTable, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
 import { autonomyPath, writingPath } from "../src/paths.mjs";
 import { analyticsConfig } from "../src/analytics-config.mjs";
@@ -15,7 +16,13 @@ if (draftPreview && process.argv.includes("--publish-root")) {
 }
 const drafts = draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts : [];
 const writing = [...drafts, ...publishedWriting];
-const allWriting = [...writing, ...principleEssays];
+const allChapters = [...principleEssays, ...agencyWriting];
+const allWriting = [...writing, ...allChapters];
+const collections = {
+  "trustworthy-autonomy": { overview: autonomyOverview, essays: principleEssays, heading: "Nine principles, nine chapters" },
+  "how-intelligence-finds-its-way": { overview: agencyOverview, essays: agencyWriting, heading: "Five essays, one exploration" },
+};
+const seriesFor = (item) => collections[item.collectionSlug || ((item.seriesNumber || item.seriesOverview) ? "trustworthy-autonomy" : "")];
 const noteItems = new Set(notes);
 const publications = [...writing, ...notes].sort((a, b) => b.date.localeCompare(a.date));
 const publicationPath = (item) => noteItems.has(item) ? `/notes/${item.slug}/` : writingPath(item);
@@ -53,7 +60,38 @@ const inline = (value) => {
   return text;
 };
 
-function markdown(source) {
+const indexExampleId = (path) => `example-${path.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-$/, "")}`;
+
+function renderIndexExample(source, path, knownPaths) {
+  if (!path) throw new Error("An index example needs a file path");
+  let title = "";
+  const entries = [];
+  for (const raw of source.split("\n")) {
+    const line = raw.trim();
+    if (!line) continue;
+    const heading = line.match(/^#\s+(.+)$/);
+    const entry = line.match(/^-\s+\[([^\]]+)\]\(([^)]+)\):\s*(.*)$/);
+    if (heading) title = heading[1];
+    else if (entry) entries.push({ title: entry[1], path: entry[2], description: entry[3] });
+    else if (/^\s+/.test(raw) && entries.length) entries.at(-1).description += ` ${line}`;
+    else throw new Error(`Unsupported index example line in ${path}: ${line}`);
+  }
+  if (!title || !entries.length) throw new Error(`Incomplete index example: ${path}`);
+  const id = indexExampleId(path);
+  return `<section class="index-example" id="${id}" aria-labelledby="${id}-title">
+    <header><span class="index-file">${escapeHtml(path)}</span><h3 id="${id}-title">${escapeHtml(title)}</h3></header>
+    <ul class="index-entries">${entries.map((entry) => {
+      const target = join(dirname(path), entry.path);
+      const label = knownPaths.has(target)
+        ? `<a href="#${indexExampleId(target)}">${escapeHtml(entry.title)}</a>`
+        : `<strong>${escapeHtml(entry.title)}</strong>`;
+      return `<li><div class="index-entry-head">${label}<span class="index-entry-path">${escapeHtml(entry.path)}</span></div><p>${escapeHtml(entry.description)}</p></li>`;
+    }).join("")}</ul>
+    <details class="index-source"><summary>View Markdown source</summary><pre class="source-example"><code>${escapeHtml(source)}</code></pre></details>
+  </section>`;
+}
+
+function markdown(source = "") {
   const lines = source.trim().split("\n");
   const html = [];
   let paragraph = [];
@@ -61,6 +99,7 @@ function markdown(source) {
   let quote = [];
   let fence = null;
   let code = [];
+  const indexPaths = new Set([...source.matchAll(/^```index-example ([^\n]+)$/gm)].map((match) => match[1].trim()));
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -102,7 +141,9 @@ function markdown(source) {
     const line = raw.trim();
     if (fence !== null) {
       if (line === "```") {
-        html.push(`<pre class="source-example"><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+        html.push(fence.language === "index-example"
+          ? renderIndexExample(code.join("\n"), fence.label, indexPaths)
+          : `<pre class="source-example"><code>${escapeHtml(code.join("\n"))}</code></pre>`);
         fence = null;
         code = [];
       } else {
@@ -110,9 +151,10 @@ function markdown(source) {
       }
       continue;
     }
-    if (/^```[a-z0-9_-]*$/i.test(line)) {
+    const openingFence = line.match(/^```([a-z0-9_-]*)(?:\s+(.+))?$/i);
+    if (openingFence) {
       flushAll();
-      fence = line.slice(3);
+      fence = { language: openingFence[1], label: openingFence[2] || "" };
       continue;
     }
     if (!line) {
@@ -280,7 +322,7 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
     ${draftPreview ? "" : '<script type="module" src="/assets/analytics.js"></script>'}
@@ -399,7 +441,7 @@ function pageIntro(kicker, title, description, count) {
 }
 
 function writingPage() {
-  const count = `${writing.filter(item => !item.seriesOverview).length} essays · 1 collection`;
+  const count = `${writing.filter(item => !item.seriesOverview).length} essays · ${writing.filter(item => item.seriesOverview).length} collections`;
   const content = `<main id="content">
     ${pageIntro("Essays & collections", "Writing", "Architecture, experiments, and useful distinctions from building autonomous agents, context systems, and reproducible evaluation.", count)}
     <section class="shell archive-list" aria-label="All writing">
@@ -408,7 +450,7 @@ function writingPage() {
           (item, i) => `<article class="archive-item">
             <a class="archive-link" href="${publicationPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
             <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
-            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? "Collection · 9 chapters" : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
+            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? `Collection · ${seriesFor(item).essays.length} chapters` : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
             <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
@@ -488,37 +530,41 @@ function articlePage(item) {
   const index = publications.indexOf(item);
   const collection = publications;
   const series = !!(item.seriesNumber || item.seriesOverview);
+  const seriesData = seriesFor(item);
+  const seriesTitle = seriesData?.overview.title;
+  const seriesPath = seriesData ? writingPath(seriesData.overview) : null;
+  const chapterCount = seriesData?.essays.length;
   const enhanced = series || !!item.interactiveEssay;
   const pathFor = publicationPath;
-  const next = item.seriesNumber ? principleEssays[item.seriesNumber] : collection[index + 1];
-  const previous = item.seriesNumber ? principleEssays[item.seriesNumber - 2] : collection[index - 1];
+  const next = item.seriesNumber ? seriesData.essays[item.seriesNumber] : collection[index + 1];
+  const previous = item.seriesNumber ? seriesData.essays[item.seriesNumber - 2] : collection[index - 1];
   const content = `<main id="content">
     <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}${item.interactiveEssay ? " technical-article" : ""}">
       <header class="article-header shell-narrow">
-        <a class="article-back" href="${item.seriesNumber ? autonomyPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? "Trustworthy Autonomy" : `All ${base}`}</span></a>
-        <div class="article-type">${item.seriesNumber ? `Trustworthy Autonomy / Chapter ${String(item.seriesNumber).padStart(2,"0")} of 09` : item.seriesOverview ? "Collection / Nine chapters" : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)}${item.eyebrow ? ` · ${escapeHtml(item.eyebrow)}` : ""}`}</div>
+        <a class="article-back" href="${item.seriesNumber ? seriesPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? escapeHtml(seriesTitle) : `All ${base}`}</span></a>
+        <div class="article-type">${item.seriesNumber ? `${escapeHtml(seriesTitle)} / Chapter ${String(item.seriesNumber).padStart(2,"0")} of ${String(chapterCount).padStart(2,"0")}` : item.seriesOverview ? `Collection / ${chapterCount} chapters` : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)}${item.eyebrow ? ` · ${escapeHtml(item.eyebrow)}` : ""}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? '\n        <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>' : ""}
+        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? `\n        <a class="series-home-link" href="${seriesPath}">Part of ${escapeHtml(seriesTitle)} ↗</a>` : ""}
       </header>
       <div class="article-rule shell"></div>
-      ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, principleEssays, escapeHtml)}` : ""}
-        <div class="prose${item.incident ? " epistemics-intro" : ""}">${markdown(item.body)}</div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
-        ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : renderSeriesMap(principleEssays, escapeHtml)}
+      ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, seriesData.essays, escapeHtml)}` : ""}
+        <div class="prose${item.incident ? " epistemics-intro" : ""}"><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
+        ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : item.seriesOverview ? renderSeriesMap(seriesData.essays, escapeHtml, undefined, { title: seriesTitle, heading: seriesData.heading }) : ""}
         <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${markdown(item.afterword)}</div>
       </div>` : item.incident ? `<div class="epistemics-body" data-article-body>
-        <div class="prose epistemics-intro">${markdown(item.body)}</div>
+        <div class="prose epistemics-intro"><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>
         ${renderIncident(item.incident, escapeHtml)}
         <div class="prose epistemics-afterword">${markdown(item.afterword)}</div>
       </div>` : `<div class="article-layout shell">
         <aside class="article-rail"><span>${noteItems.has(item) ? "Short note" : escapeHtml(item.eyebrow || publicationFormat(item))}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
-        <div class="prose" data-article-body>${markdown(item.body)}</div>
+        <div class="prose" data-article-body><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
-      ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-prev" href="/writing/trustworthy-autonomy/"><span>Collection overview</span><strong>Trustworthy Autonomy</strong></a>' : "<span></span>"}
-      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? '<a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Back to the collection</span><strong>Trustworthy Autonomy</strong></a>' : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All writing</strong></a>`}
+      ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-prev" href="${seriesPath}"><span>Collection overview</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : "<span></span>"}
+      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-next" href="${seriesPath}"><span>Back to the collection</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All writing</strong></a>`}
     </nav>
   </main>`;
   return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series: enhanced, path: pathFor(item) });
@@ -580,7 +626,7 @@ async function emit(relative, contents) {
 function searchIndex() {
   return [
     ...publications.map((item) => ({ type: publicationFormat(item), title: item.title, description: item.description, url: publicationPath(item) })),
-    ...principleEssays.map((item) => ({ type: "Chapter", title: item.title, description: `Trustworthy Autonomy · ${item.description}`, url: writingPath(item) })),
+    ...allChapters.map((item) => ({ type: "Chapter", title: item.title, description: `${seriesFor(item).overview.title} · ${item.description}`, url: writingPath(item) })),
     { type: "Page", title: "Focus", description: "Agent systems, data and context, evaluation and learning.", url: "/projects/" },
     { type: "Page", title: "Ideas in progress", description: "Open questions about agent environments, context, replay, and reusable engineering.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
@@ -632,7 +678,7 @@ await Promise.all([
 ]);
 
 await Promise.all(publications.map((item) => emit(`${publicationPath(item).slice(1)}index.html`, articlePage(item))));
-await Promise.all(principleEssays.map((item) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item))));
+await Promise.all(allChapters.map((item) => emit(`${writingPath(item).slice(1)}index.html`, articlePage(item))));
 await Promise.all(allWriting.flatMap((item) => [...(item.aliases || []), ...(item.seriesNumber ? [item.slug] : [])].map((alias) => emit(`writing/${alias}/index.html`, articleRedirect(item)))));
 
 await mkdir(join(out, "assets"), { recursive: true });
@@ -677,7 +723,7 @@ await Promise.all([
   cp(join(root, "src", "mark.svg"), join(out, "assets", "mark.svg"))
 ]);
 
-console.log(`Built ${writing.length} writing entries, ${principleEssays.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
+console.log(`Built ${writing.length} writing entries, ${allChapters.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
 
 if (process.argv.includes("--publish-root")) {
   for (const retired of retiredPaths) await rm(join(root, retired), { recursive: true, force: true });

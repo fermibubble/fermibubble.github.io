@@ -14,6 +14,7 @@ const publicationDates = {
   "learning-requires-outcomes": "2026-09-23",
   "checkpoint-replay-for-agent-evaluation": "2026-09-28",
   "the-world-an-agent-can-read": "2026-10-03",
+  "how-intelligence-finds-its-way": "2026-10-03",
   "the-next-useful-question": "2026-10-03",
   "the-edge-of-an-example": "2026-10-03",
   "a-procedure-is-a-hypothesis": "2026-10-03",
@@ -22,6 +23,7 @@ const publicationDates = {
 
 // Publication time for the five essays released together on October 3.
 const publicationTimes = Object.fromEntries([
+  "how-intelligence-finds-its-way",
   "the-world-an-agent-can-read",
   "the-next-useful-question",
   "the-edge-of-an-example",

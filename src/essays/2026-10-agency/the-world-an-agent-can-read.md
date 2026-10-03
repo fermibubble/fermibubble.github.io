@@ -29,7 +29,7 @@ Here is an illustrative part of a knowledge directory for the slower-service inv
 
 The root index offers a choice the investigator can make before knowing the diagnosis. Its entries use relative links, so they remain navigable inside the repository:
 
-```markdown
+```index-example docs/INDEX.md
 # Knowledge index
 
 - [Request path](request-path/INDEX.md): Slow requests, timeouts,
@@ -40,7 +40,7 @@ The root index offers a choice the investigator can make before knowing the diag
 
 The next index makes the choice more precise. Here is `request-path/INDEX.md`:
 
-```markdown
+```index-example docs/request-path/INDEX.md
 # Slow requests and timeouts
 
 - [Retries](retries.md): Relevant when downstream attempts rise
@@ -53,7 +53,7 @@ The next index makes the choice more precise. Here is `request-path/INDEX.md`:
 
 The case index supplies another route into the same record. Its entries preserve what the investigator could observe before the cause was known:
 
-```markdown
+```index-example docs/cases/INDEX.md
 # Historical investigations
 
 - [Retry amplification](retry-amplification.md): Latency after a release;

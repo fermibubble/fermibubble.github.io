@@ -1,31 +1,32 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/how-intelligence-finds-its-way/the-next-useful-question/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The Next Useful Question — Oddly</title>
     <meta name="description" content="Context becomes valuable when it changes a decision.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="The Next Useful Question — Oddly">
     <meta property="og:description" content="Context becomes valuable when it changes a decision.">
-    <meta property="og:url" content="https://oddly.fyi/writing/the-next-useful-question/">
-    <link rel="canonical" href="https://oddly.fyi/writing/the-next-useful-question/">
+    <meta property="og:url" content="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-next-useful-question/">
+    <link rel="canonical" href="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-next-useful-question/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/the-next-useful-question/" data-typography="essay" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/how-intelligence-finds-its-way/the-next-useful-question/" data-typography="utility">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -45,46 +46,8 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Essay · Inquiry &amp; attention</div>
-        <h1>The Next Useful Question</h1>
-        <p class="article-deck">Context becomes valuable when it changes a decision.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-03">October 3, 2026</time><span>5 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="article-layout shell">
-        <aside class="article-rail"><span>Inquiry &amp; attention</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>An agent can finish reading a document and become better informed without becoming any closer to knowing what to do. It can repeat this across a dozen documents. The result looks like progress: more sources, fuller notes, a longer account of the system. The decision remains where it started.</p>
-<p>This is an easy failure to reward. We can count searches, inspect citations, and see that the agent was busy. It is harder to ask whether the information it gathered could distinguish between the actions available to it.</p>
-<p>That distinction matters whenever an agent chooses its own context. Progressive disclosure, explored in <a href="/writing/the-world-an-agent-can-read/" rel="noreferrer">The World an Agent Can Read</a>, makes detailed knowledge available behind small entry points. It gives the agent somewhere to look. It still needs a reason to look there. This essay concerns that choice: which piece of evidence is worth bringing into context next?</p>
-<p>Consider an illustrative example. An agent has been asked to produce a report from a customer data export. The export contains fewer records than expected. Several explanations remain plausible: the export stopped after its first page, a date filter excluded part of the period, or the agent&#039;s account cannot access some records.</p>
-<p>The agent searches for “incomplete export.” It reads an overview of the reporting service, then a troubleshooting guide, then an old incident describing missing rows. These documents are relevant to the topic. None establishes which explanation applies to this export.</p>
-<p>It requests the export again. The same rows arrive. It broadens its search. More information accumulates around an unchanged uncertainty.</p>
-<p>A useful next observation might be the response metadata. Does the response contain a continuation cursor that was never followed? If so, pagination deserves immediate investigation. If the response indicates completion, an unfollowed page becomes less likely, though the meaning and reliability of that metadata still matter. The check has value because its possible results lead toward different actions.</p>
-<p>This does not prove that response metadata should always be checked first. Perhaps the export format has no pagination. Perhaps the user has already supplied evidence that the date range is wrong. The example illustrates a relationship between uncertainty and action; it supplies no universal sequence.</p>
-<p>In this version of the example, the saved response contains a <code>next_cursor</code>. Fetching the next page returns additional rows. The investigation has changed: the agent now needs to follow pagination and reconcile the completed export with its expected scope. Rewriting the date filter would have addressed the wrong problem. Even the cursor does not prove that every expected record is accessible; it establishes one cause of incompleteness.</p>
-<p>The important relationship is compact: a plausible explanation, a decision that depends on it, and an observation that separates the available choices. An agent can maintain it without narrating a new plan before every request.</p>
-<p>Nor should an agent minimize reading for its own sake. A short request can be useless. A lengthy design document may reveal an assumption that changes the entire investigation. The useful question is whether the expected benefit of another observation justifies its cost in time, effort, and delay. Sometimes that benefit is discovering a possibility the agent had not considered.</p>
-<p>That last point prevents this approach from becoming too tidy. An agent that only tests its current hypotheses can miss the real cause completely. Early exploration should help it learn the shape of an unfamiliar system. Later requests can become more selective. If several checks fail to support any current explanation, the agent should revisit the explanations and expand its search.</p>
-<p>There is also a point at which another answer would change nothing. If the remaining explanations all justify the same permitted, recoverable next action, the agent may know enough to proceed. Further reading can wait for a decision that actually depends on it. Conversely, an unresolved distinction deserves attention when one possible answer would make the proposed action inappropriate. A stopping rule should follow the consequence of uncertainty.</p>
-<p>Anthropic&#039;s <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">context-engineering guidance</a> describes a practical combination of lightweight references and context loaded as work proceeds. It also acknowledges the tradeoff: autonomous exploration takes time and can follow dead ends. Progressive disclosure makes selective acquisition possible. The quality of the selection remains an engineering problem.</p>
-<p>The research on skill discovery makes a related distinction visible. In <a href="https://arxiv.org/abs/2604.04323" rel="noreferrer"><em>How Well Do Agentic Skills Work in the Wild</em></a>, the benefits of skills weakened as agents faced more realistic retrieval and relevance conditions. In the hardest settings, performance approached the baseline without skills. Task-specific refinement recovered part of the lost performance when the retrieved material was reasonably relevant. This preprint studies particular models and benchmarks; it does not establish one preferred retrieval method. It does show why useful knowledge supplied directly and useful knowledge somewhere in a collection deserve separate evaluation.</p>
-<p>I would test an agent&#039;s knowledge environment under four conditions. First, give it the decisive evidence directly. Second, make the same evidence available through its normal tools and documents. Third, add plausible material that resembles the task while differing on a consequential detail: an old export format, a different access model, or a superficially similar incident. Fourth, withhold the decisive evidence from every available source, so that an honest account of what remains unknown is the appropriate result.</p>
-<p>The first condition checks whether the agent can use the evidence. The second adds the burden of discovery. The third adds the burden of rejecting an attractive analogy. The fourth checks whether the agent recognises the limit of what it can establish. Use the same task set, model, tool permissions, and resource budget across repeated runs. Score the evidence actually obtained and the action it justifies, including a justified decision to stop or seek missing information; a fluent plan earns little by itself. If the agent fails with decisive evidence already present, improving search alone is unlikely to solve that case.</p>
-<p>The environment can help make useful questions answerable. An index should mention recognizable symptoms and applicability limits. A tool should expose the completion state, scope, and provenance of its result. A diagnostic utility should make a consequential distinction easy to inspect. Otherwise the agent may understand exactly what it needs to know and have no practical way to obtain it.</p>
-<p>That is a concrete place to begin improving an agent: find a moment when it kept looking without learning anything that mattered. Ask what observation could have changed its next move. Then make that observation retrievable.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/the-world-an-agent-can-read/"><span>Previous</span><strong>The World an Agent Can Read</strong></a>
-      <a class="pagination-next" href="/writing/the-edge-of-an-example/"><span>Next</span><strong>The Edge of an Example</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>The Next Useful Question</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/how-intelligence-finds-its-way/the-next-useful-question/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -103,7 +66,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

@@ -8,6 +8,6 @@
     "drafts:build": "node scripts/build.mjs --drafts && node scripts/render-draft-reader.mjs",
     "drafts:check": "node scripts/check.mjs --drafts",
     "publish:prepare": "node scripts/build.mjs --publish-root",
-    "check": "node scripts/check.mjs && node scripts/check-analytics.mjs"
+    "check": "node scripts/check.mjs && node scripts/check-collections.mjs && node scripts/check-analytics.mjs"
   }
 }

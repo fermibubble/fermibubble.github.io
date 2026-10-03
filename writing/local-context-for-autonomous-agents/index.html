@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/principles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
@@ -59,7 +59,7 @@
       </header>
       <div class="article-rule shell"></div>
       <div class="series-body" data-article-body>
-        <div class="prose"><p>Checkout latency is rising. An agent needs to compare revisions, inspect connection errors, and trace the downstream dependency. Before it can investigate, it has to navigate several observability tools, their schemas, and their failure modes.</p>
+        <div class="prose"><!--article-prose:start--><p>Checkout latency is rising. An agent needs to compare revisions, inspect connection errors, and trace the downstream dependency. Before it can investigate, it has to navigate several observability tools, their schemas, and their failure modes.</p>
 <p>We can design that environment differently: <strong>make the relevant data locally available, behind a small, stable interface.</strong> Telemetry through PromQL. Logs through files. Topology through a versioned snapshot. Let ordinary code prepare the evidence, so the agent can spend its turns interpreting it.</p>
 <h2 id="available-to-the-agent-does-not-mean-inside-the-prompt">Available to the agent does not mean inside the prompt<a class="heading-anchor" href="#available-to-the-agent-does-not-mean-inside-the-prompt" aria-label="Link to this section">#</a></h2>
 <p>A workspace can hold millions of log lines while the model reads twenty. The distinction is between <strong>execution context</strong>—data the agent can access—and <strong>model context</strong>—tokens it must process to decide what to do next.</p>
@@ -72,7 +72,7 @@
 <p>“Deterministic” describes the collection procedure: explicit resources, time ranges, and transformations. Live data can still change. Reproducing a query requires a captured dataset and fixed evaluation semantics.</p>
 <p>The same pattern applies beyond observability: a research agent can query a local paper index and read PDFs; a coding agent can search a checked-out repository and inspect test artifacts. The collector changes; the separation between accessible data and selected model context stays useful.</p>
 <p>The agent gets a manifest of coverage and freshness, a catalog of available metrics, and a compact access interface. Our telemetry design uses temporary local chunks, memory mapping, and an embedded PromQL engine. Complete chunks are published atomically for readers; there is no separate database daemon to operate per session.</p>
-<p>The useful contract is small enough to understand at a glance:</p></div>
+<p>The useful contract is small enough to understand at a glance:</p><!--article-prose:end--></div>
         <div class="context-table-wrap"><table class="context-table">
     <caption>A local context interface</caption>
     <thead><tr><th scope="col">Evidence</th><th scope="col">Local representation</th><th scope="col">How the agent reads it</th></tr></thead>
