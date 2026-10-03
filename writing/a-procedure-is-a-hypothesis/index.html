@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A Procedure Is a Hypothesis — Oddly</title>
+    <meta name="description" content="Every method assumes a world in which it works.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A Procedure Is a Hypothesis — Oddly">
+    <meta property="og:description" content="Every method assumes a world in which it works.">
+    <meta property="og:url" content="https://oddly.fyi/writing/a-procedure-is-a-hypothesis/">
+    <link rel="canonical" href="https://oddly.fyi/writing/a-procedure-is-a-hypothesis/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/a-procedure-is-a-hypothesis/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Essay · Methods &amp; assumptions</div>
+        <h1>A Procedure Is a Hypothesis</h1>
+        <p class="article-deck">Every method assumes a world in which it works.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-10-03">October 3, 2026</time><span>5 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="article-layout shell">
+        <aside class="article-rail"><span>Methods &amp; assumptions</span><div class="rail-line"></div><span>2026</span></aside>
+        <div class="prose" data-article-body><p>A procedure usually arrives as a sequence: inspect this, change that, check the result. Its form suggests that the difficult thinking has already happened. Follow the sequence and the outcome should follow. Hidden inside that expectation is a claim about the world: these observations mean what we think they mean, these actions have predictable effects, and the circumstances that made the method successful still hold.</p>
+<p>Some steps have a necessary dependency: a new representation must exist before readers can use it. Other steps reflect a convenience that became a convention. A procedure often gives both the same grammatical form. Once a situation changes, the reader needs to distinguish what must remain ordered from what can be revised independently.</p>
+<p>This is a useful way to think about what an agent should learn from procedures. Each one offers a hypothesis about how to accomplish something under particular conditions. Expertise includes recognizing those conditions, noticing their absence, and understanding which parts of the method survive a change. An agent that can execute the steps has acquired only part of that expertise.</p>
+<p>Consider a service migrating event times from strings into a typed timestamp column. The established method is sensible: add the column, enable compatible writes to both representations, backfill older records without overwriting newer writes, compare results, move readers, and eventually remove the old field. There are good reasons for the order. It allows gradual deployment and gives engineers time to find discrepancies before the old representation disappears.</p>
+<p>Suppose that, midway through the backfill, an agent encounters a group of records whose times shift by several hours. The migration is technically healthy. Row counts agree. Every string parses. The new column satisfies its constraints. But an upstream integration has changed: some strings represent local time, while the original producers supplied UTC. The old field never recorded this distinction because nobody previously needed it.</p>
+<p>The procedure assumed that each stored value identified an unambiguous instant. That assumption was doing more work than any individual step. Casting strings correctly cannot recover information they never contained. Repeating the backfill with a different parser might produce cleaner output while preserving the mistake.</p>
+<p>A capable agent should recognize that the evidence has changed the problem. It could inspect producer versions, compare affected records against independent events, and establish which records can be interpreted reliably. Some might be recoverable from their source and creation date. Others might remain ambiguous. The migration can retain the source string and mark unresolved conversions separately, keeping them out of the verified timestamp set. A decision from whoever owns the data&#039;s meaning may still be necessary. Completing the original sequence would conceal an unresolved question.</p>
+<p>Notice how much of the procedure remains useful. Gradual rollout still matters. Comparing representations still matters. Preserving the original field becomes even more valuable. Revision need not mean abandoning accumulated expertise. It requires understanding which recommendations depend on the failed assumption and which have independent justification.</p>
+<p>This distinction matters when we talk about instruction-following models. A strongly worded sequence can encourage an agent to interpret a discrepancy as something to overcome so it can finish the assigned steps. That is a problem in how the task has been framed. It does not establish that procedural knowledge suppresses reasoning. Often, reliable instructions save the agent from reconstructing details that other people have already worked out.</p>
+<p>Research on external agent knowledge supports that more modest view. <a href="https://arxiv.org/abs/2602.12670v4" rel="noreferrer">SkillsBench</a> finds that curated packages of expertise can improve task performance, with benefits depending on their content and scope. These packages contain multiple kinds of material, so the results do not identify procedural prose as the source of improvement. They do give us reason to preserve useful expertise and investigate how an agent selects and applies it.</p>
+<p>Calling a procedure a hypothesis also changes what we expect its documentation to contain. The record of a successful migration tells us what happened once. To reuse the method, we need to know why its authors expected those actions to work. Which properties of the data mattered? What could the comparisons detect? What would have made them postpone the change? A short explanation of these dependencies may transfer more judgment than several additional pages of instructions.</p>
+<p>There is a practical limit to how much judgment should be expressed in prose. Once the mechanics are stable, they can become tested code. A backfill utility can make writes resumable, bound its batches, preserve source values, and report conversion failures consistently. The agent still has to decide whether the conversion is appropriate and whether the reported checks establish what matters. Code makes the chosen operation dependable; its tests describe only the properties someone thought to test.</p>
+<p>This leaves room for firm requirements. Preserving recoverability may be essential even when the method changes. Revising a method does not give the agent authority to discard its required outcome or safeguards. Documentation helps by explaining the relationship: retain the source values because later evidence may reveal an incorrect interpretation. The reason gives the constraint meaning across situations that the original author never anticipated.</p>
+<p>The timestamp migration gives us a specific test. Introduce records that invalidate the assumption of an unambiguous instant. Can the agent identify the broken assumption, separate interpretable records from unresolved ones, and explain what additional evidence would permit conversion? Row counts and successful parsing cannot establish that the times are correct.</p>
+<p>Then inspect what the agent preserved. Source values, concurrency-safe writes, gradual deployment, and comparison still have sound reasons. An agent that abandons every safeguard has failed differently from one that repeats the original sequence. Understanding a method means knowing which part has stopped making sense—and which parts have become more valuable because of it.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <a class="pagination-prev" href="/writing/the-edge-of-an-example/"><span>Previous</span><strong>The Edge of an Example</strong></a>
+      <a class="pagination-next" href="/writing/the-freedom-to-try-again/"><span>Next</span><strong>The Freedom to Try Again</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>
