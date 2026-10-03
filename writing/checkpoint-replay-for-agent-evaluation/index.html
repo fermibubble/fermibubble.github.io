@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/principles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
@@ -59,7 +59,7 @@
       </header>
       <div class="article-rule shell"></div>
       <div class="series-body" data-article-body>
-        <div class="prose"><p>An order-processing service passes its first hour under load. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.</p>
+        <div class="prose"><!--article-prose:start--><p>An order-processing service passes its first hour under load. Six hours later, connections are accumulating. At twelve hours, requests begin waiting for the pool. By hour twenty-four, checkout is returning 5XX responses and the storefront is timing out.</p>
 <p>Now change one instruction in the reviewing agent. Must the entire soak test run for another day to find out whether that helped?</p>
 <p><strong>Long-horizon evaluation has an environment-time problem.</strong> Some failures need a full traffic cycle, repeated batch jobs, or slow resource accumulation to become visible. The model may reason for only minutes while the scenario takes twenty-four hours to unfold.</p>
 <p>Ten agent variants, each tested three times against a fresh 24-hour run, require 720 scenario-hours. Parallel runs reduce elapsed time, but each still needs its soak period and infrastructure.</p>
@@ -73,7 +73,7 @@
 <p>Metrics alone are insufficient. A checkpoint needs the environment view, the agent’s relevant state, and the tool contracts used to read them. <a href="https://arxiv.org/abs/2608.14380" rel="noreferrer">AgentRewind</a> explores aligned checkpoints of agent context and controlled environment state for recovery. Evaluation has a related requirement, with an extra constraint: later knowledge must stay out of an earlier trial.</p>
 <p>For example, an error occurred at 11:58 but its log arrived at 12:04. An agent at noon could not have read it. Faithful replay checks both event time and availability time. Future samples, later topology changes, postmortems, and outcome labels must also remain inaccessible.</p>
 <p>The same cutoff must govern files, query results, service APIs, and the agent’s view of “now.” CLI shims or HTTP proxies can route tool requests to replay services; network isolation prevents an unanswered request from silently reaching live infrastructure. Missing evidence must appear as a coverage gap.</p>
-<p>Consider this illustrative connection leak. An hourly reconciliation job leaves connections checked out in the new checkout revision. Database execution stays fast; obtaining a connection gradually becomes the bottleneck.</p></div>
+<p>Consider this illustrative connection leak. An hourly reconciliation job leaves connections checked out in the new checkout revision. Database execution stays fast; obtaining a connection gradually becomes the bottleneck.</p><!--article-prose:end--></div>
         <section class="case-study" data-case-study aria-labelledby="case-title">
     <header class="case-heading"><span class="case-kicker">24-hour soak / checkpoint inspection</span><h2 id="case-title">Evaluate the decisions before the outage</h2><p>Four illustrative checkpoints from one recorded scenario. Counts describe one instance’s pool; assessment text is an example to evaluate, not measured agent performance.</p></header>
     <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
@@ -148,7 +148,7 @@
       </div>
     </article>
     <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/the-freedom-to-try-again/"><span>Previous</span><strong>The Freedom to Try Again</strong></a>
+      <a class="pagination-prev" href="/writing/how-intelligence-finds-its-way/"><span>Previous</span><strong>How Intelligence Finds Its Way</strong></a>
       <a class="pagination-next" href="/writing/local-context-for-autonomous-agents/"><span>Next</span><strong>Local Context for Autonomous Agents</strong></a>
     </nav>
   </main>

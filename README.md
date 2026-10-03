@@ -22,13 +22,13 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
-The Writing index contains eight essays and the Trustworthy Autonomy collection in date order. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
+The Writing index contains three standalone essays and two collections in date order: Trustworthy Autonomy and How Intelligence Finds Its Way. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
 The local-context and checkpoint-replay essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
 
-The five essays on environment, inquiry, examples, procedures, and recoverability live as Markdown in `src/essays/2026-10-agency/`. Their `manifest.json` contains titles, descriptions, and reading order; `src/agency-writing.mjs` loads them into the writing registry. Their publication dates are in `src/publication-dates.mjs`. “The World an Agent Can Read” is featured on the homepage, and all five appear in writing, search, and feeds. The Markdown renderer in `scripts/build.mjs` supports nested outlines and fenced code examples for the hierarchy and index examples.
+The five chapters of How Intelligence Finds Its Way live as Markdown in `src/essays/2026-10-agency/`. Their `manifest.json` contains titles, descriptions, and reading order; `src/agency-writing.mjs` defines their collection overview and loads the chapters. The overview appears once on the homepage, in Writing, and in feeds. Each chapter has its own search entry and navigation within the collection. Original essay URLs redirect to their new addresses.
 
 PostHog integration, privacy controls, activation status, and the private dashboard are documented in `analytics/README.md`. Tracking is connected to the Oddly project and loads only after reader consent. The retired “Judgment Under Uncertainty” essay and its earlier alias intentionally return 404.
 
@@ -66,3 +66,7 @@ The old Markdown files remain as historical source; the build generates the live
 
 
 GitHub Pages publishing reference: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+## Index examples
+
+Index examples use an `index-example` fence followed by the illustrative file path. The article renders a readable preview and keeps the original Markdown inside an optional source disclosure. Links between displayed indexes navigate within the example; leaf references show their file paths.

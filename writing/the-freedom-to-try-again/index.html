@@ -1,31 +1,32 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The Freedom to Try Again — Oddly</title>
     <meta name="description" content="Recoverability changes the kind of autonomy we can afford.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="The Freedom to Try Again — Oddly">
     <meta property="og:description" content="Recoverability changes the kind of autonomy we can afford.">
-    <meta property="og:url" content="https://oddly.fyi/writing/the-freedom-to-try-again/">
-    <link rel="canonical" href="https://oddly.fyi/writing/the-freedom-to-try-again/">
+    <meta property="og:url" content="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/">
+    <link rel="canonical" href="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/the-freedom-to-try-again/" data-typography="essay" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/" data-typography="utility">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -45,46 +46,8 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
-        <div class="article-type">Essay · Action &amp; recoverability</div>
-        <h1>The Freedom to Try Again</h1>
-        <p class="article-deck">Recoverability changes the kind of autonomy we can afford.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-03">October 3, 2026</time><span>5 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="article-layout shell">
-        <aside class="article-rail"><span>Action &amp; recoverability</span><div class="rail-line"></div><span>2026</span></aside>
-        <div class="prose" data-article-body><p>A queue is growing. Customer reports that usually finish quickly are taking longer, and an agent has been asked to investigate. The workers appear busy. Increasing their concurrency seems reasonable. Perhaps too few jobs can run at once. Perhaps the workers are already overwhelming the database, and letting more jobs run will make the queue grow faster.</p>
-<p>Both explanations fit the first observation. The agent can read more logs, inspect recent changes, and compare metrics. A replay or isolated test may settle the question with less disruption. Suppose those sources leave a consequential uncertainty about behaviour under the current shared load. A live experiment now has a reason to exist.</p>
-<p>What happens next depends on the environment we have built around it.</p>
-<p>Suppose the agent can change only one global concurrency setting. Every experiment affects every worker. Restoring the previous value is straightforward, but the intervening slowdown may reach all customers. The agent needs substantial confidence before acting because a mistaken hypothesis is expensive to test.</p>
-<p>Now suppose it can direct a small share of jobs to a separate worker pool, cap that pool&#039;s database connections, and change its concurrency for a short interval. It can observe completion time, database wait, and errors alongside an unchanged pool. It can stop the experiment and restore only that pool&#039;s setting.</p>
-<p>The model has the same uncertainty. The available experiment has changed. Within an authorised scope, it can investigate a plausible explanation while keeping several possible next moves available. That scope needs a budget for the whole investigation: repeated small trials can accumulate substantial delay, resource cost, and customer impact.</p>
-<p>This is a practical way to expand an agent&#039;s independence. Give it actions whose consequences it can observe and contain, and whose effects it can repair. More questions become answerable through small experiments. The agent needs less certainty about the first hypothesis because being wrong leaves it able to investigate the next one.</p>
-<p>The design of the experiment matters as much as its size. Before changing concurrency, the agent should know what the competing explanations predict. If workers lack parallelism, completion should improve without a corresponding rise in database contention. If the database is saturated, extra concurrency may increase waiting while completed work barely changes. A useful experiment makes those possibilities easier to distinguish.</p>
-<p>The unchanged pool provides a comparison, although it cannot remove every ambiguity. Traffic changes. Jobs differ in complexity. Both pools may share a database, so the experiment can affect its own comparison. Connection limits and a short duration help contain that interaction. The result still needs interpretation. A small intervention can be inconclusive, and that is a legitimate result to preserve.</p>
-<p>Recoverability also changes the value of a failed attempt. Suppose database waiting rises and throughput falls. Returning the setting to its previous value leaves the agent with evidence against increasing concurrency under those conditions. The next question concerns the source of contention: are jobs waiting for connections, locks, or long-running queries? Without a dependable return path, the second investigation begins amid the consequences of the first. The agent must distinguish the original problem from the problem it just introduced.</p>
-<p>The <a href="https://arxiv.org/html/2506.02009v2" rel="noreferrer">STRATUS research</a> explores this relationship in agents that mitigate cloud failures. In a small evaluation involving thirteen mitigation problems, its ability to undo unsuccessful changes and try another approach helped substantially compared with retrying from the state left by a failed attempt. The advantage was not uniform: on another benchmark, retrying helped while undo added no measured success-rate gain. The results give a concrete reason to test recovery as part of an agent&#039;s environment. They do not establish that arbitrary production changes can be safely reversed.</p>
-<p>That qualification becomes clear when we follow a job through the queue. A worker reads data, generates a report, stores the file, and sends the customer a notification. We can restore the worker&#039;s configuration. We may be able to discard an unpublished report. A notification already delivered has entered someone else&#039;s world. A later correction adds another event; it cannot remove the first.</p>
-<p>Even the reversible part has a history. A brief overload consumes capacity and delays other work. Returning concurrency to its original value does not return the minutes customers spent waiting. The useful question is how much of the experiment&#039;s effect can be recovered, how quickly, and what will remain afterward.</p>
-<p>This suggests changes to the application itself. Report generation can be separated from delivery, allowing trial outputs to remain unpublished while their quality is checked. Repeated jobs can carry stable identifiers that the delivery layer uses to suppress duplicate notifications. The experimental pool can have a resource ceiling that remains enforced even if the agent misjudges the results. Each choice creates room to learn before a consequence spreads further.</p>
-<p>The return path needs equally careful design. Saving an old configuration file is insufficient if another operator changes it during the experiment. Restoring the entire file could erase their work. A scoped repair records which setting changed, its previous value, and the version produced by the change. Before restoring it, the system checks whether that part of the state still belongs to the experiment. Concurrent changes may require reconciliation.</p>
-<p>There is also a point at which observation becomes commitment. The canary may look healthy while expensive jobs have yet to finish. Expanding it too early spends the options the small experiment preserved. The agent needs observations that cover the effects it expects to unfold, including downstream pressure and delayed failures. Recovery has a duration, and some return paths close over time.</p>
-<p>For the queue, a successful investigation might therefore end with a modest configuration change, a rejected hypothesis, or a better question. Each can justify the experiment if the information gained was worth its effects and the remaining system is still workable.</p>
-<p>Before adding another action to an agent, write down what that action can change. For each item, identify the observation needed before execution, the observation that would reveal its effects afterward, and the repair that would actually be possible. Walk that inventory through the worker, the database, the stored report, and the customer&#039;s inbox. Try the repair on an unsuccessful experiment.</p>
-<p>The most revealing entries may be the effects that remain after a successful repair: a delayed job, capacity already consumed, a notification someone has read. An environment that supports experimentation must account for that residue. The freedom to try again depends on what the first attempt leaves possible.</p></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/a-procedure-is-a-hypothesis/"><span>Previous</span><strong>A Procedure Is a Hypothesis</strong></a>
-      <a class="pagination-next" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Next</span><strong>Checkpoint Replay for Long-Horizon Agent Evaluation</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>The Freedom to Try Again</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -103,7 +66,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

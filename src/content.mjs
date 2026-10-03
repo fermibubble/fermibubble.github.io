@@ -1,6 +1,6 @@
 import { autonomyOverview } from "./principle-series.mjs";
 import { systemsWriting } from "./systems-writing.mjs";
-import { agencyWriting } from "./agency-writing.mjs";
+import { agencyOverview } from "./agency-writing.mjs";
 import { newestFirst, withPublicationDate } from "./publication-dates.mjs";
 
 export const site = {
@@ -16,7 +16,7 @@ export const site = {
 };
 
 export const writing = [
-  ...agencyWriting,
+  agencyOverview,
   ...systemsWriting,
   autonomyOverview,
   {

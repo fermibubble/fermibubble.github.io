@@ -6,7 +6,7 @@ An agent can finish reading a document and become better informed without becomi
 
 This is an easy failure to reward. We can count searches, inspect citations, and see that the agent was busy. It is harder to ask whether the information it gathered could distinguish between the actions available to it.
 
-That distinction matters whenever an agent chooses its own context. Progressive disclosure, explored in [The World an Agent Can Read](/writing/the-world-an-agent-can-read/), makes detailed knowledge available behind small entry points. It gives the agent somewhere to look. It still needs a reason to look there. This essay concerns that choice: which piece of evidence is worth bringing into context next?
+That distinction matters whenever an agent chooses its own context. Progressive disclosure, explored in [The World an Agent Can Read](/writing/how-intelligence-finds-its-way/the-world-an-agent-can-read/), makes detailed knowledge available behind small entry points. It gives the agent somewhere to look. It still needs a reason to look there. This essay concerns that choice: which piece of evidence is worth bringing into context next?
 
 Consider an illustrative example. An agent has been asked to produce a report from a customer data export. The export contains fewer records than expected. Several explanations remain plausible: the export stopped after its first page, a date filter excluded part of the period, or the agent's account cannot access some records.
 

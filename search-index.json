@@ -1,33 +1,9 @@
 [
   {
-    "type": "Essay",
-    "title": "The World an Agent Can Read",
-    "description": "How the shape of an environment changes what intelligence can notice.",
-    "url": "/writing/the-world-an-agent-can-read/"
-  },
-  {
-    "type": "Essay",
-    "title": "The Next Useful Question",
-    "description": "Context becomes valuable when it changes a decision.",
-    "url": "/writing/the-next-useful-question/"
-  },
-  {
-    "type": "Essay",
-    "title": "The Edge of an Example",
-    "description": "What a past success teaches—and where its authority ends.",
-    "url": "/writing/the-edge-of-an-example/"
-  },
-  {
-    "type": "Essay",
-    "title": "A Procedure Is a Hypothesis",
-    "description": "Every method assumes a world in which it works.",
-    "url": "/writing/a-procedure-is-a-hypothesis/"
-  },
-  {
-    "type": "Essay",
-    "title": "The Freedom to Try Again",
-    "description": "Recoverability changes the kind of autonomy we can afford.",
-    "url": "/writing/the-freedom-to-try-again/"
+    "type": "Collection",
+    "title": "How Intelligence Finds Its Way",
+    "description": "Five essays on the worlds intelligence can read, the questions it asks, the experience it carries, and the actions it can afford to try.",
+    "url": "/writing/how-intelligence-finds-its-way/"
   },
   {
     "type": "Essay",
@@ -106,6 +82,36 @@
     "title": "Learning requires Outcomes",
     "description": "Trustworthy Autonomy · An invoice extractor passes its sample test. The next day, the accounting team finds incorrect totals. Who grades the original claim?",
     "url": "/writing/trustworthy-autonomy/learning-requires-outcomes/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The World an Agent Can Read",
+    "description": "How Intelligence Finds Its Way · How the shape of an environment changes what intelligence can notice.",
+    "url": "/writing/how-intelligence-finds-its-way/the-world-an-agent-can-read/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Next Useful Question",
+    "description": "How Intelligence Finds Its Way · Context becomes valuable when it changes a decision.",
+    "url": "/writing/how-intelligence-finds-its-way/the-next-useful-question/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Edge of an Example",
+    "description": "How Intelligence Finds Its Way · What a past success teaches—and where its authority ends.",
+    "url": "/writing/how-intelligence-finds-its-way/the-edge-of-an-example/"
+  },
+  {
+    "type": "Chapter",
+    "title": "A Procedure Is a Hypothesis",
+    "description": "How Intelligence Finds Its Way · Every method assumes a world in which it works.",
+    "url": "/writing/how-intelligence-finds-its-way/a-procedure-is-a-hypothesis/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Freedom to Try Again",
+    "description": "How Intelligence Finds Its Way · Recoverability changes the kind of autonomy we can afford.",
+    "url": "/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/"
   },
   {
     "type": "Page",
