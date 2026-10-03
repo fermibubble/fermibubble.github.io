@@ -1,6 +1,36 @@
 [
   {
     "type": "Essay",
+    "title": "The World an Agent Can Read",
+    "description": "How the shape of an environment changes what intelligence can notice.",
+    "url": "/writing/the-world-an-agent-can-read/"
+  },
+  {
+    "type": "Essay",
+    "title": "The Next Useful Question",
+    "description": "Context becomes valuable when it changes a decision.",
+    "url": "/writing/the-next-useful-question/"
+  },
+  {
+    "type": "Essay",
+    "title": "The Edge of an Example",
+    "description": "What a past success teaches—and where its authority ends.",
+    "url": "/writing/the-edge-of-an-example/"
+  },
+  {
+    "type": "Essay",
+    "title": "A Procedure Is a Hypothesis",
+    "description": "Every method assumes a world in which it works.",
+    "url": "/writing/a-procedure-is-a-hypothesis/"
+  },
+  {
+    "type": "Essay",
+    "title": "The Freedom to Try Again",
+    "description": "Recoverability changes the kind of autonomy we can afford.",
+    "url": "/writing/the-freedom-to-try-again/"
+  },
+  {
+    "type": "Essay",
     "title": "Checkpoint Replay for Long-Horizon Agent Evaluation",
     "description": "Evaluate a 24-hour soak at recorded checkpoints. Restore the evidence and agent state available at each moment, then test the decisions.",
     "url": "/writing/checkpoint-replay-for-agent-evaluation/"

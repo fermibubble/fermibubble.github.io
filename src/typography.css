@@ -141,6 +141,24 @@ body { font-optical-sizing: auto; }
   font: 400 12px/1.8 var(--mono);
   letter-spacing: -.01em;
 }
+.prose pre.source-example {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-deep);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.prose pre.source-example, .prose pre.source-example code {
+  font: 400 15px/1.65 var(--sans);
+  letter-spacing: 0;
+}
+.prose pre.source-example code { padding: 0; background: none; }
+.prose .nested-outline { padding-left: 1.1em; }
+.prose .nested-outline ul { margin: .35em 0 .6em; padding-left: 1.15em; border-left: 1px solid var(--line); }
+.prose .nested-outline li { overflow-wrap: anywhere; }
+.prose .nested-outline code { font: 500 .9em/1.5 var(--sans); }
 .article-meta, .card-meta, .note-row time, .note-time,
 .context-table td, .case-snapshot dd { font-variant-numeric: tabular-nums; }
 #epistemic-incident { --ei-serif: var(--sans); --ei-mono: var(--mono); }

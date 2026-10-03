@@ -4,3 +4,5 @@ _site/
 .jekyll-metadata
 
 dist/
+dist-drafts/
+drafts/**/reader.html

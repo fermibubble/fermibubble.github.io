@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "the-world-an-agent-can-read",
+    "title": "The World an Agent Can Read",
+    "description": "How the shape of an environment changes what intelligence can notice.",
+    "eyebrow": "Intelligence & environment",
+    "order": 1
+  },
+  {
+    "slug": "the-next-useful-question",
+    "title": "The Next Useful Question",
+    "description": "Context becomes valuable when it changes a decision.",
+    "eyebrow": "Inquiry & attention",
+    "order": 2
+  },
+  {
+    "slug": "the-edge-of-an-example",
+    "title": "The Edge of an Example",
+    "description": "What a past success teaches—and where its authority ends.",
+    "eyebrow": "Experience & judgment",
+    "order": 3
+  },
+  {
+    "slug": "a-procedure-is-a-hypothesis",
+    "title": "A Procedure Is a Hypothesis",
+    "description": "Every method assumes a world in which it works.",
+    "eyebrow": "Methods & assumptions",
+    "order": 4
+  },
+  {
+    "slug": "the-freedom-to-try-again",
+    "title": "The Freedom to Try Again",
+    "description": "Recoverability changes the kind of autonomy we can afford.",
+    "eyebrow": "Action & recoverability",
+    "order": 5
+  }
+]

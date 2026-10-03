@@ -1,7 +1,7 @@
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ideas, notes, projects, site, writing } from "../src/content.mjs";
+import { ideas, notes, projects, site, writing as publishedWriting } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { renderCaseStudy, renderContextTable, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
@@ -9,11 +9,18 @@ import { autonomyPath, writingPath } from "../src/paths.mjs";
 import { analyticsConfig } from "../src/analytics-config.mjs";
 import { analyticsReady } from "../src/analytics-policy.js";
 
+const draftPreview = process.argv.includes("--drafts");
+if (draftPreview && process.argv.includes("--publish-root")) {
+  throw new Error("Draft previews cannot be published. Review and promote individual essays first.");
+}
+const drafts = draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts : [];
+const writing = [...drafts, ...publishedWriting];
 const allWriting = [...writing, ...principleEssays];
 const noteItems = new Set(notes);
 const publications = [...writing, ...notes].sort((a, b) => b.date.localeCompare(a.date));
 const publicationPath = (item) => noteItems.has(item) ? `/notes/${item.slug}/` : writingPath(item);
-const publicationFormat = (item) => noteItems.has(item) ? 'Short note' : item.seriesOverview ? 'Collection' : 'Essay';
+const publicationTimestamp = (item) => item.publishedAt ?? `${item.date}T12:00:00Z`;
+const publicationFormat = (item) => item.draft ? 'Draft' : noteItems.has(item) ? 'Short note' : item.seriesOverview ? 'Collection' : 'Essay';
 const retiredPaths = [
   "writing/judgment-under-uncertainty",
   "writing/rollouts-are-decision-problems",
@@ -25,7 +32,7 @@ const retiredPaths = [
 ];
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const out = join(root, "dist");
+const out = join(root, draftPreview ? "dist-drafts" : "dist");
 const siteOrigin = "https://oddly.fyi";
 const absoluteUrl = (path) => new URL(path, siteOrigin).href;
 
@@ -40,7 +47,7 @@ const escapeHtml = (value = "") =>
 const inline = (value) => {
   let text = escapeHtml(value);
   text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
-  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" rel="noreferrer">$1</a>');
+  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/(?!\/)[^\s)]*)\)/g, '<a href="$2" rel="noreferrer">$1</a>');
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
   return text;
@@ -52,6 +59,8 @@ function markdown(source) {
   let paragraph = [];
   let list = null;
   let quote = [];
+  let fence = null;
+  let code = [];
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -61,7 +70,19 @@ function markdown(source) {
 
   const flushList = () => {
     if (!list) return;
-    html.push(`<${list.type}>${list.items.map((item) => `<li>${inline(item)}</li>`).join("")}</${list.type}>`);
+    const roots = [];
+    const stack = [{ indent: -1, children: roots }];
+    for (const item of list.items) {
+      while (stack.length > 1 && item.indent <= stack.at(-1).indent) stack.pop();
+      const node = { ...item, children: [] };
+      stack.at(-1).children.push(node);
+      stack.push(node);
+    }
+    const renderItems = (items) => `<${list.type}>${items.map((item) => `<li>${inline(item.text)}${item.children.length ? renderItems(item.children) : ""}</li>`).join("")}</${list.type}>`;
+    const rendered = renderItems(roots);
+    html.push(roots.some((item) => item.children.length)
+      ? rendered.replace(`<${list.type}>`, `<${list.type} class="nested-outline">`)
+      : rendered);
     list = null;
   };
 
@@ -79,6 +100,21 @@ function markdown(source) {
 
   for (const raw of lines) {
     const line = raw.trim();
+    if (fence !== null) {
+      if (line === "```") {
+        html.push(`<pre class="source-example"><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+        fence = null;
+        code = [];
+      } else {
+        code.push(raw);
+      }
+      continue;
+    }
+    if (/^```[a-z0-9_-]*$/i.test(line)) {
+      flushAll();
+      fence = line.slice(3);
+      continue;
+    }
     if (!line) {
       flushAll();
       continue;
@@ -112,7 +148,7 @@ function markdown(source) {
         flushList();
         list = { type: "ul", items: [] };
       }
-      list.items.push(unordered[1]);
+      list.items.push({ text: unordered[1], indent: raw.length - raw.trimStart().length });
       continue;
     }
 
@@ -124,7 +160,7 @@ function markdown(source) {
         flushList();
         list = { type: "ol", items: [] };
       }
-      list.items.push(ordered[1]);
+      list.items.push({ text: ordered[1], indent: raw.length - raw.trimStart().length });
       continue;
     }
 
@@ -133,6 +169,7 @@ function markdown(source) {
     paragraph.push(line);
   }
 
+  if (fence !== null) throw new Error("Unclosed Markdown code fence");
   flushAll();
   return html.join("\n");
 }
@@ -230,7 +267,7 @@ function layout({ title, description, active, content, article = false, incident
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${escapeHtml(pageTitle)}</title>
     <meta name="description" content="${escapeHtml(description || site.description)}">
-    <meta name="author" content="${escapeHtml(site.author)}">
+    <meta name="author" content="${escapeHtml(site.author)}">${draftPreview ? '\n    <meta name="robots" content="noindex, nofollow">' : ""}
     <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="${article ? "article" : "website"}">
     <meta property="og:title" content="${escapeHtml(pageTitle)}">
@@ -246,7 +283,7 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="stylesheet" href="/assets/typography.css?v=20260929-sans">
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
-    <script type="module" src="/assets/analytics.js"></script>
+    ${draftPreview ? "" : '<script type="module" src="/assets/analytics.js"></script>'}
   </head>
   <body data-path="${escapeHtml(path)}" data-typography="${typography}"${article ? ' class="article-page"' : ""}>
     ${article ? '<div class="reading-progress" data-reading-progress></div>' : ""}
@@ -556,7 +593,7 @@ function rss() {
     .map((item) => {
       const base = writing.includes(item) ? "writing" : "notes";
       const url = escapeHtml(absoluteUrl(`/${base}/${item.slug}/`));
-      return `<item><title>${escapeHtml(item.title)}</title><link>${url}</link><guid>${url}</guid><pubDate>${new Date(`${item.date}T12:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(item.description)}</description></item>`;
+      return `<item><title>${escapeHtml(item.title)}</title><link>${url}</link><guid>${url}</guid><pubDate>${new Date(publicationTimestamp(item)).toUTCString()}</pubDate><description>${escapeHtml(item.description)}</description></item>`;
     })
     .join("");
   return `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${escapeHtml(site.name)}</title><link>${siteOrigin}/</link><description>${escapeHtml(site.description)}</description>${items}</channel></rss>`;
@@ -567,9 +604,9 @@ function atom() {
   const entries = articles.map((item) => {
     const base = writing.includes(item) ? "writing" : "notes";
     const url = escapeHtml(absoluteUrl(`/${base}/${item.slug}/`));
-    return `<entry><title>${escapeHtml(item.title)}</title><id>${url}</id><link href="${url}"/><updated>${item.date}T12:00:00Z</updated><summary>${escapeHtml(item.description)}</summary></entry>`;
+    return `<entry><title>${escapeHtml(item.title)}</title><id>${url}</id><link href="${url}"/><updated>${publicationTimestamp(item)}</updated><summary>${escapeHtml(item.description)}</summary></entry>`;
   }).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>${escapeHtml(site.name)}</title><id>${siteOrigin}/</id><link href="${siteOrigin}/"/><link rel="self" href="${siteOrigin}/atom.xml"/><updated>${articles[0].date}T12:00:00Z</updated><author><name>${escapeHtml(site.author)}</name></author>${entries}</feed>`;
+  return `<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>${escapeHtml(site.name)}</title><id>${siteOrigin}/</id><link href="${siteOrigin}/"/><link rel="self" href="${siteOrigin}/atom.xml"/><updated>${publicationTimestamp(articles[0])}</updated><author><name>${escapeHtml(site.author)}</name></author>${entries}</feed>`;
 }
 
 await rm(out, { recursive: true, force: true });
@@ -591,7 +628,7 @@ await Promise.all([
   emit("atom.xml", atom()),
   emit(".nojekyll", ""),
   emit("CNAME", `${new URL(siteOrigin).hostname}\n`),
-  emit("robots.txt", "User-agent: *\nAllow: /\n")
+  emit("robots.txt", draftPreview ? "User-agent: *\nDisallow: /\n" : "User-agent: *\nAllow: /\n")
 ]);
 
 await Promise.all(publications.map((item) => emit(`${publicationPath(item).slice(1)}index.html`, articlePage(item))));

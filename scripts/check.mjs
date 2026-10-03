@@ -3,7 +3,8 @@ import { dirname, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const dist = join(root, "dist");
+const draftPreview = process.argv.includes("--drafts");
+const dist = join(root, draftPreview ? "dist-drafts" : "dist");
 const failures = [];
 const htmlFiles = [];
 
@@ -39,7 +40,7 @@ for (const file of htmlFiles) {
   }
 }
 
-const expectedPages = 51;
+const expectedPages = 56 + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
 if (htmlFiles.length !== expectedPages) failures.push(`expected ${expectedPages} HTML pages, found ${htmlFiles.length}`);
 
 if (failures.length) {
