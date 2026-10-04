@@ -1,5 +1,16 @@
 // Publication chronology shared by articles, archives, and feeds.
 const publicationDates = {
+  "classifiers-when-labels-become-decisions": "2026-10-04",
+  "a-label-is-a-commitment": "2026-10-04",
+  "categories-are-executable": "2026-10-04",
+  "choose-the-evidence-before-the-model": "2026-10-04",
+  "placement-changes-the-promise": "2026-10-04",
+  "ground-truth-is-a-process": "2026-10-04",
+  "accuracy-hides-a-question": "2026-10-04",
+  "rare-events-change-the-meaning": "2026-10-04",
+  "several-labels-several-questions": "2026-10-04",
+  "confidence-must-earn-its-meaning": "2026-10-04",
+  "measurement-needs-a-memory": "2026-10-04",
   "engineering-autonomous-agents": "2026-07-01",
   "verdicts-require-epistemics": "2026-07-11",
   "evidence-requires-provenance": "2026-07-26",
@@ -30,6 +41,13 @@ const publicationTimes = Object.fromEntries([
   "a-procedure-is-a-hypothesis",
   "the-freedom-to-try-again",
 ].map((slug) => [slug, "2026-10-03T04:52:57Z"]));
+
+// The classifier collection and its chapters form one October 4 release.
+Object.assign(publicationTimes, Object.fromEntries(
+  Object.entries(publicationDates)
+    .filter(([, date]) => date === "2026-10-04")
+    .map(([slug]) => [slug, "2026-10-04T08:11:05Z"])
+));
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long", day: "numeric", year: "numeric", timeZone: "UTC"

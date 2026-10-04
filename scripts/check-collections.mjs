@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { agencyOverview, agencyWriting } from "../src/agency-writing.mjs";
+import { classifierOverview, classifierWriting } from "../src/classifier-writing.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { writingPath } from "../src/paths.mjs";
 const read = (path) => readFile(new URL(`../dist${path}`, import.meta.url), "utf8");
 const writing = await read("/writing/index.html");
 const feed = await read("/rss.xml");
 const search = JSON.parse(await read("/search-index.json"));
-for (const [overview, chapters] of [[agencyOverview, agencyWriting], [autonomyOverview, principleEssays]]) {
+for (const [overview, chapters] of [[agencyOverview, agencyWriting], [autonomyOverview, principleEssays], [classifierOverview, classifierWriting]]) {
   const collectionPath = writingPath(overview);
   const page = await read(`${collectionPath}index.html`);
   assert(writing.includes(`Collection · ${chapters.length} chapters`));
@@ -37,4 +38,4 @@ assert(!preview.includes('[Request path](request-path/INDEX.md)'));
 for (const match of preview.matchAll(/href="#(example-[^"]+)"/g)) {
   assert(preview.includes(`id="${match[1]}"`), `Missing example destination: ${match[1]}`);
 }
-console.log("Validated both collections, chapter navigation, old URLs, and rendered index previews.");
+console.log("Validated all three collections, chapter navigation, short URLs, and rendered index previews.");

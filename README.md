@@ -22,13 +22,15 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
-The Writing index contains three standalone essays and two collections in date order: Trustworthy Autonomy and How Intelligence Finds Its Way. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
+The Writing index contains three standalone essays and three collections in date order: Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
 The local-context and checkpoint-replay essays live in `src/systems-writing.mjs`. `scripts/render-series.mjs` renders collection navigation and the shared example panels; `src/principles.js` progressively adds example navigation, with styling in `src/principles.css`. Every example is readable without JavaScript.
 
 The five chapters of How Intelligence Finds Its Way live as Markdown in `src/essays/2026-10-agency/`. Their `manifest.json` contains titles, descriptions, and reading order; `src/agency-writing.mjs` defines their collection overview and loads the chapters. The overview appears once on the homepage, in Writing, and in feeds. Each chapter has its own search entry and navigation within the collection. Original essay URLs redirect to their new addresses.
+
+The ten chapters of Classifiers: When Labels Become Decisions live in `src/essays/2026-10-classifiers/`. Their manifest defines the topics and reading order; `src/classifier-writing.mjs` loads the manuscripts and defines the overview and two worked example panels. Chapters use the existing collection navigation and progressive enhancement, with readable examples when JavaScript is disabled. The overview is listed in Writing and feeds; all chapters are searchable.
 
 PostHog integration, privacy controls, activation status, and the private dashboard are documented in `analytics/README.md`. Tracking is connected to the Oddly project and loads only after reader consent. The retired “Judgment Under Uncertainty” essay and its earlier alias intentionally return 404.
 

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Local Context for Autonomous Agents — Oddly</title>
+    <meta name="description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Local Context for Autonomous Agents — Oddly">
+    <meta property="og:description" content="Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.">
+    <meta property="og:url" content="https://oddly.fyi/writing/local-context-for-autonomous-agents/">
+    <link rel="canonical" href="https://oddly.fyi/writing/local-context-for-autonomous-agents/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/local-context-for-autonomous-agents/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article principle-article technical-article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Context &amp; data infrastructure</div>
+        <h1>Local Context<br><em>for Autonomous Agents</em></h1>
+        <p class="article-deck">Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-09-03">September 3, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="series-body" data-article-body>
+        <div class="prose"><!--article-prose:start--><p>Checkout latency is rising. An agent needs to compare revisions, inspect connection errors, and trace the downstream dependency. Before it can investigate, it has to navigate several observability tools, their schemas, and their failure modes.</p>
+<p>We can design that environment differently: <strong>make the relevant data locally available, behind a small, stable interface.</strong> Telemetry through PromQL. Logs through files. Topology through a versioned snapshot. Let ordinary code prepare the evidence, so the agent can spend its turns interpreting it.</p>
+<h2 id="available-to-the-agent-does-not-mean-inside-the-prompt">Available to the agent does not mean inside the prompt<a class="heading-anchor" href="#available-to-the-agent-does-not-mean-inside-the-prompt" aria-label="Link to this section">#</a></h2>
+<p>A workspace can hold millions of log lines while the model reads twenty. The distinction is between <strong>execution context</strong>—data the agent can access—and <strong>model context</strong>—tokens it must process to decide what to do next.</p>
+<p>Loading every tool definition and every intermediate result into model context blurs that distinction. In one published configuration, <a href="https://www.anthropic.com/engineering/advanced-tool-use" rel="noreferrer">Anthropic counted roughly 55,000 tokens across 58 tools from five MCP servers</a>, before the conversation began. Similar tools also increase the opportunities to choose the wrong interface or supply the wrong arguments.</p>
+<p>MCP remains useful for connecting systems. The avoidable cost comes from eagerly presenting the whole integration surface to the model. Tool discovery and programmatic execution already offer ways to reduce it: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" rel="noreferrer">Anthropic’s code-execution approach</a> loads definitions as needed and processes intermediate data outside the prompt. <a href="https://blog.cloudflare.com/code-mode/" rel="noreferrer">Cloudflare’s Code Mode</a> likewise lets an agent compose MCP operations through code.</p>
+<p>Local context takes a complementary step: materialize the working data near the agent, so successive questions can reuse it without successive provider calls.</p>
+<h2 id="collect-once-investigate-repeatedly">Collect once, investigate repeatedly<a class="heading-anchor" href="#collect-once-investigate-repeatedly" aria-label="Link to this section">#</a></h2>
+<p>In my work on agent infrastructure, this led to an embedded time-series store. The broader architecture is a local context layer; the database is one part of it.</p>
+<p>A deterministic collector loads the relevant services and recent time window. Provider adapters own authentication, pagination, retries, and normalization. They preserve metric types, units, and labels. Logs can be partitioned into newline-delimited JSON files; topology and deployment configuration can be captured as versioned JSON.</p>
+<p>“Deterministic” describes the collection procedure: explicit resources, time ranges, and transformations. Live data can still change. Reproducing a query requires a captured dataset and fixed evaluation semantics.</p>
+<p>The same pattern applies beyond observability: a research agent can query a local paper index and read PDFs; a coding agent can search a checked-out repository and inspect test artifacts. The collector changes; the separation between accessible data and selected model context stays useful.</p>
+<p>The agent gets a manifest of coverage and freshness, a catalog of available metrics, and a compact access interface. Our telemetry design uses temporary local chunks, memory mapping, and an embedded PromQL engine. Complete chunks are published atomically for readers; there is no separate database daemon to operate per session.</p>
+<p>The useful contract is small enough to understand at a glance:</p><!--article-prose:end--></div>
+        <div class="context-table-wrap"><table class="context-table">
+    <caption>A local context interface</caption>
+    <thead><tr><th scope="col">Evidence</th><th scope="col">Local representation</th><th scope="col">How the agent reads it</th></tr></thead>
+    <tbody><tr><th scope="row">Telemetry</th><td>Indexed time series</td><td>PromQL selectors, rates, and aggregates</td></tr><tr><th scope="row">Logs</th><td>NDJSON files by service and time</td><td>rg / jq, with bounded excerpts</td></tr><tr><th scope="row">Topology &amp; config</th><td>Versioned JSON snapshots</td><td>Read files and follow dependency edges</td></tr><tr><th scope="row">Coverage</th><td>Manifest and metric catalog</td><td>Check time windows, labels, freshness, and gaps</td></tr></tbody>
+  </table></div>
+        <section class="case-study" data-case-study aria-labelledby="case-title">
+    <header class="case-heading"><span class="case-kicker">Investigation trace</span><h2 id="case-title">From a 5XX spike to a shared dependency</h2><p>An illustrative workspace with a fifteen-minute window. Query results and observations are examples, not production measurements.</p></header>
+    <nav class="case-choices" data-case-controls hidden aria-label="Explore the example">
+      <button type="button" data-case-choice="0" aria-controls="case-panel-0" aria-pressed="true"><span>01</span>Query telemetry</button><button type="button" data-case-choice="1" aria-controls="case-panel-1" aria-pressed="false"><span>02</span>Read local logs</button><button type="button" data-case-choice="2" aria-controls="case-panel-2" aria-pressed="false"><span>03</span>Trace topology</button>
+    </nav>
+    <div class="case-panels"><section class="case-panel" id="case-panel-0" data-case-panel="0" aria-labelledby="case-heading-0">
+      <div class="case-snapshot"><span class="case-kicker">Query telemetry</span><dl><div><dt>New revision</dt><dd>8 errors/s</dd></div><div><dt>Control revision</dt><dd>0.1 errors/s</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-0">Locate the failing revision</h3>
+        <dl><dt>What happens</dt><dd>A local PromQL query shows that checkout 5XX responses concentrate in the new revision. Its request rate is comparable to the control.</dd><dt>What it means</dt><dd>The deployment is a lead. The error rate alone does not identify the failing dependency.</dd><dt>What the system does</dt><dd>Return a small aggregate, then inspect matching logs in the same window.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;snapshot&quot;: &quot;checkout-window-07&quot;,
+  &quot;evaluation_time&quot;: &quot;10:15 UTC&quot;,
+  &quot;query&quot;: &quot;sum by (revision) (rate(http_requests_total{service=\&quot;checkout\&quot;,status=~\&quot;5..\&quot;}[5m]))&quot;,
+  &quot;result_unit&quot;: &quot;errors/second&quot;,
+  &quot;result_rows&quot;: 2,
+  &quot;additional_provider_calls&quot;: 0
+}</pre></details>
+      </div>
+    </section><section class="case-panel" id="case-panel-1" data-case-panel="1" aria-labelledby="case-heading-1">
+      <div class="case-snapshot"><span class="case-kicker">Read local logs</span><dl><div><dt>Repeated error</dt><dd>pool_timeout</dd></div><div><dt>Affected dependency</dt><dd>orders-db</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-1">Follow the pool timeouts</h3>
+        <dl><dt>What happens</dt><dd>The mounted log file contains connection-pool timeouts for orders-db. The agent reads a bounded excerpt and keeps the path for follow-up queries.</dd><dt>What it means</dt><dd>The bottleneck may be connection acquisition inside checkout. A database-related error does not by itself establish a database outage.</dd><dt>What the system does</dt><dd>Search the existing file, then compare pool occupancy with database health.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;file&quot;: &quot;/context/logs/checkout/10-00.ndjson&quot;,
+  &quot;command&quot;: &quot;rg -n -m 20 &#039;pool_timeout&#039; /context/logs/checkout/10-00.ndjson&quot;,
+  &quot;output_byte_limit&quot;: 8192,
+  &quot;additional_provider_calls&quot;: 0
+}</pre></details>
+      </div>
+    </section><section class="case-panel" id="case-panel-2" data-case-panel="2" aria-labelledby="case-heading-2">
+      <div class="case-snapshot"><span class="case-kicker">Trace topology</span><dl><div><dt>Database query latency</dt><dd>Stable</dd></div><div><dt>Checkout pool</dt><dd>At capacity</dd></div></dl></div>
+      <div class="case-story"><h3 id="case-heading-2">Separate the cause from its upstream impact</h3>
+        <dl><dt>What happens</dt><dd>The topology snapshot connects storefront to checkout and checkout to orders-db. Database query latency stays flat, while the new checkout revision exhausts its pool. Storefront sees the resulting timeouts.</dd><dt>What it means</dt><dd>Connection handling in checkout is a stronger hypothesis than a slow database. Upstream errors are part of the impact, not independent proof of another failure.</dd><dt>What the system does</dt><dd>Record the evidence and request a historical baseline only if the local manifest says it is missing.</dd></dl>
+        <details><summary>Inspect the example record</summary><pre>{
+  &quot;topology&quot;: &quot;/context/topology/services.v42.json&quot;,
+  &quot;query&quot;: &quot;max by (revision) (db_pool_in_use{service=\&quot;checkout\&quot;})&quot;,
+  &quot;missing_baseline&quot;: &quot;targeted fetch through collector&quot;,
+  &quot;retrieval_failure&quot;: &quot;explicit coverage gap&quot;,
+  &quot;additional_provider_calls_for_loaded_data&quot;: 0
+}</pre></details>
+      </div>
+    </section></div>
+    <div class="case-footer" data-case-controls hidden><span data-case-position>1 of 3</span><div><button type="button" data-case-prev disabled>Previous</button><button type="button" data-case-next>Next</button></div></div>
+    <p class="sr-only" role="status" data-case-status></p>
+  </section>
+        <div class="prose series-afterword"><h2 id="remove-remote-failure-modes-from-the-inner-loop">Remove remote failure modes from the inner loop<a class="heading-anchor" href="#remove-remote-failure-modes-from-the-inner-loop" aria-label="Link to this section">#</a></h2>
+<p>Once a window is loaded, querying it cannot fail because a provider token expired, a remote API was rate-limited, or pagination broke halfway through that query. Those concerns belong to ingestion and refresh, where ordinary code can handle them consistently.</p>
+<p>This removes avoidable tool-call failures from repeated analysis. It does not make every query correct: an agent can still select the wrong metric, misread a counter, or overlook missing coverage. A smaller interface should expose those errors clearly. The <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" rel="noreferrer">Prometheus query model</a> provides useful semantics for time selection and evaluation; a local implementation must document the subset it supports.</p>
+<p>Keep the working set bounded. Prefetch likely evidence, hydrate missing ranges deliberately, and give queries output and resource limits. A manifest should say what is absent or stale. Read-only source data and separate scratch space keep exploration from altering the evidence.</p>
+<h2 id="measure-the-whole-investigation">Measure the whole investigation<a class="heading-anchor" href="#measure-the-whole-investigation" aria-label="Link to this section">#</a></h2>
+<p>Compare tool-definition tokens, result tokens, failed remote calls, time to first useful evidence, and task success. Include initial hydration and refresh costs. A faster local query is valuable only if the complete investigation improves.</p>
+<p>The architectural payoff is a clean separation: collectors handle data movement, local interfaces handle selection, and the model handles interpretation. Rich context can remain within reach without occupying the entire conversation.</p>
+<p>The same arrangement supports <a href="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/" rel="noreferrer">checkpoint replay for long-horizon evaluation</a>: give the agent a workspace reconstructed for a particular moment, then observe what it decides.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <a class="pagination-prev" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Previous</span><strong>Checkpoint Replay for Long-Horizon Agent Evaluation</strong></a>
+      <a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Next</span><strong>Trustworthy Autonomy</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

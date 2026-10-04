@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Classifiers: When Labels Become Decisions — Oddly</title>
+    <meta name="description" content="Ten chapters on designing categories, choosing evidence, measuring errors, and deciding when a label deserves to influence what happens next.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Classifiers: When Labels Become Decisions — Oddly">
+    <meta property="og:description" content="Ten chapters on designing categories, choosing evidence, measuring errors, and deciding when a label deserves to influence what happens next.">
+    <meta property="og:url" content="https://oddly.fyi/writing/classifiers-when-labels-become-decisions/">
+    <link rel="canonical" href="https://oddly.fyi/writing/classifiers-when-labels-become-decisions/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/classifiers-when-labels-become-decisions/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article principle-article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Collection / 10 chapters</div>
+        <h1>Classifiers<br><em>When labels become decisions</em></h1>
+        <p class="article-deck">Ten chapters on designing categories, choosing evidence, measuring errors, and deciding when a label deserves to influence what happens next.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>3 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="series-body" data-article-body>
+        <div class="prose"><!--article-prose:start--><p>A classifier turns an untidy situation into a small number of names. That compression makes a support queue sortable, an incident searchable, or an agent&#039;s behavior measurable. It also gives downstream systems something they may trust more than they should.</p>
+<p>Imagine an assistant that returns an incomplete export. Its tools report success, its response sounds finished, and a classifier labels the task resolved. The label enters a dashboard and removes the episode from a review queue. Nothing in the machinery breaks. The user&#039;s task remains incomplete.</p>
+<p>The challenge is larger than selecting a model. Someone has to decide what resolved means, which evidence establishes it, when the decision must arrive, and how to discover that the classifier is wrong. Those choices determine whether a label becomes useful knowledge or a repeatable mistake.</p>
+<h2 id="the-instrument-behind-the-number">The instrument behind the number<a class="heading-anchor" href="#the-instrument-behind-the-number" aria-label="Link to this section">#</a></h2>
+<p>These chapters treat a classifier as a measurement instrument embedded in a decision process. A rule, a trained model, a prompt, and an investigating agent can all produce categories. Each needs a defined question, a source of evidence, and a way to test its answer.</p>
+<p>The collection moves from design to measurement and then to change over time. It connects label definitions with software contracts, ground truth with provenance, confidence with evidence, and dashboards with the history of the instruments that produced them.</p>
+<p>The examples are illustrative. Their numbers are chosen to make the reasoning inspectable: a detector with 99% accuracy that finds no failures, an unchanged detector whose alerts become less reliable, and a multi-label answer that is partly correct while missing the decisive cause.</p><!--article-prose:end--></div>
+        <nav class="series-map" aria-label="Classifiers: When Labels Become Decisions chapters">
+    <div class="series-map-heading"><span>Inside this collection</span><h2>Ten ideas, from labels to decisions</h2></div>
+    <div class="series-map-grid"><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/a-label-is-a-commitment/">
+      <span class="series-number">01</span>
+      <h3>A Label Is a Commitment</h3><p>A category becomes consequential when another system starts acting on it.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/categories-are-executable/">
+      <span class="series-number">02</span>
+      <h3>Categories Are Executable</h3><p>The boundary between two labels is part of the system&#039;s behavior.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/choose-the-evidence-before-the-model/">
+      <span class="series-number">03</span>
+      <h3>Choose the Evidence Before the Model</h3><p>The right decision rule depends on what must be learned before a label can be justified.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/placement-changes-the-promise/">
+      <span class="series-number">04</span>
+      <h3>Placement Changes the Promise</h3><p>A correct answer can still fail if it arrives too late or describes the wrong moment.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/ground-truth-is-a-process/">
+      <span class="series-number">05</span>
+      <h3>Ground Truth Is a Process</h3><p>A reference label earns trust through how it was produced.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/">
+      <span class="series-number">06</span>
+      <h3>Accuracy Hides a Question</h3><p>A metric becomes useful when its denominator matches the decision.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/rare-events-change-the-meaning/">
+      <span class="series-number">07</span>
+      <h3>Rare Events Change the Meaning</h3><p>The same detector can produce very different evidence in a different population.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/several-labels-several-questions/">
+      <span class="series-number">08</span>
+      <h3>Several Labels, Several Questions</h3><p>Finding some of the truth, finding all of it, and finding the cause are different achievements.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/confidence-must-earn-its-meaning/">
+      <span class="series-number">09</span>
+      <h3>Confidence Must Earn Its Meaning</h3><p>Agreement, repeatability, and calibrated confidence answer different questions.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a><a class="series-map-card" href="/writing/classifiers-when-labels-become-decisions/measurement-needs-a-memory/">
+      <span class="series-number">10</span>
+      <h3>Measurement Needs a Memory</h3><p>A dashboard cannot explain change if the instrument forgets how it worked yesterday.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+    </a></div>
+  </nav>
+        <div class="prose series-afterword"><h2 id="a-path-through-the-ideas">A path through the ideas<a class="heading-anchor" href="#a-path-through-the-ideas" aria-label="Link to this section">#</a></h2>
+<p>Start with the first four chapters when building or changing a classifier. They establish the contract, category boundaries, decision rule, and placement. Chapters five through nine examine reference labels, metrics, prevalence, structured outputs, and uncertainty. The final chapter brings them together in a reproducible release and monitoring process.</p>
+<p>For a shorter route, read <a href="/writing/classifiers-when-labels-become-decisions/a-label-is-a-commitment/" rel="noreferrer">A Label Is a Commitment</a>, <a href="/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/" rel="noreferrer">Accuracy Hides a Question</a>, and <a href="/writing/classifiers-when-labels-become-decisions/measurement-needs-a-memory/" rel="noreferrer">Measurement Needs a Memory</a>. They frame the central responsibility: a label should retain a defensible relationship to the evidence and decision it represents.</p>
+<h2 id="connections-and-further-reading">Connections and further reading<a class="heading-anchor" href="#connections-and-further-reading" aria-label="Link to this section">#</a></h2>
+<p>Oddly&#039;s <a href="/writing/trustworthy-autonomy/evidence-requires-provenance/" rel="noreferrer">Evidence requires Provenance</a> follows a number back to its denominator and source. <a href="/writing/how-intelligence-finds-its-way/the-next-useful-question/" rel="noreferrer">The Next Useful Question</a> examines when additional evidence is worth obtaining. <a href="/writing/checkpoint-replay-for-agent-evaluation/" rel="noreferrer">Checkpoint Replay for Long-Horizon Agent Evaluation</a> explores evaluation at the moment a decision was made.</p>
+<p>Public technical references are linked in the relevant chapters: the <a href="https://scikit-learn.org/stable/modules/model_evaluation.html" rel="noreferrer">scikit-learn evaluation guide</a>, <a href="https://arxiv.org/abs/2209.11055" rel="noreferrer">SetFit</a>, <a href="https://proceedings.mlr.press/v70/guo17a.html" rel="noreferrer">On Calibration of Modern Neural Networks</a>, and <a href="https://proceedings.mlr.press/v80/lipton18a.html" rel="noreferrer">Detecting and Correcting for Label Shift with Black Box Predictors</a>.</p></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <span></span>
+      <a class="pagination-next" href="/writing/how-intelligence-finds-its-way/"><span>Next</span><strong>How Intelligence Finds Its Way</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

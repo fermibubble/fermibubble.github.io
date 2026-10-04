@@ -1,0 +1,12 @@
+[
+  { "slug": "a-label-is-a-commitment", "title": "A Label Is a Commitment", "description": "A category becomes consequential when another system starts acting on it.", "eyebrow": "Classification & decisions", "order": 1 },
+  { "slug": "categories-are-executable", "title": "Categories Are Executable", "description": "The boundary between two labels is part of the system's behavior.", "eyebrow": "Taxonomy & meaning", "order": 2 },
+  { "slug": "choose-the-evidence-before-the-model", "title": "Choose the Evidence Before the Model", "description": "The right decision rule depends on what must be learned before a label can be justified.", "eyebrow": "Rules, models & agents", "order": 3 },
+  { "slug": "placement-changes-the-promise", "title": "Placement Changes the Promise", "description": "A correct answer can still fail if it arrives too late or describes the wrong moment.", "eyebrow": "Execution & consequences", "order": 4 },
+  { "slug": "ground-truth-is-a-process", "title": "Ground Truth Is a Process", "description": "A reference label earns trust through how it was produced.", "eyebrow": "Evidence & evaluation", "order": 5 },
+  { "slug": "accuracy-hides-a-question", "title": "Accuracy Hides a Question", "description": "A metric becomes useful when its denominator matches the decision.", "eyebrow": "Metrics & tradeoffs", "order": 6 },
+  { "slug": "rare-events-change-the-meaning", "title": "Rare Events Change the Meaning", "description": "The same detector can produce very different evidence in a different population.", "eyebrow": "Prevalence & sampling", "order": 7 },
+  { "slug": "several-labels-several-questions", "title": "Several Labels, Several Questions", "description": "Finding some of the truth, finding all of it, and finding the cause are different achievements.", "eyebrow": "Sets, hierarchies & causes", "order": 8 },
+  { "slug": "confidence-must-earn-its-meaning", "title": "Confidence Must Earn Its Meaning", "description": "Agreement, repeatability, and calibrated confidence answer different questions.", "eyebrow": "Uncertainty & abstention", "order": 9 },
+  { "slug": "measurement-needs-a-memory", "title": "Measurement Needs a Memory", "description": "A dashboard cannot explain change if the instrument forgets how it worked yesterday.", "eyebrow": "Versions, drift & learning", "order": 10 }
+]

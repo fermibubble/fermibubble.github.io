@@ -1,6 +1,12 @@
 [
   {
     "type": "Collection",
+    "title": "Classifiers: When Labels Become Decisions",
+    "description": "Ten chapters on designing categories, choosing evidence, measuring errors, and deciding when a label deserves to influence what happens next.",
+    "url": "/writing/classifiers-when-labels-become-decisions/"
+  },
+  {
+    "type": "Collection",
     "title": "How Intelligence Finds Its Way",
     "description": "Five essays on the worlds intelligence can read, the questions it asks, the experience it carries, and the actions it can afford to try.",
     "url": "/writing/how-intelligence-finds-its-way/"
@@ -112,6 +118,66 @@
     "title": "The Freedom to Try Again",
     "description": "How Intelligence Finds Its Way · Recoverability changes the kind of autonomy we can afford.",
     "url": "/writing/how-intelligence-finds-its-way/the-freedom-to-try-again/"
+  },
+  {
+    "type": "Chapter",
+    "title": "A Label Is a Commitment",
+    "description": "Classifiers: When Labels Become Decisions · A category becomes consequential when another system starts acting on it.",
+    "url": "/writing/classifiers-when-labels-become-decisions/a-label-is-a-commitment/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Categories Are Executable",
+    "description": "Classifiers: When Labels Become Decisions · The boundary between two labels is part of the system's behavior.",
+    "url": "/writing/classifiers-when-labels-become-decisions/categories-are-executable/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Choose the Evidence Before the Model",
+    "description": "Classifiers: When Labels Become Decisions · The right decision rule depends on what must be learned before a label can be justified.",
+    "url": "/writing/classifiers-when-labels-become-decisions/choose-the-evidence-before-the-model/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Placement Changes the Promise",
+    "description": "Classifiers: When Labels Become Decisions · A correct answer can still fail if it arrives too late or describes the wrong moment.",
+    "url": "/writing/classifiers-when-labels-become-decisions/placement-changes-the-promise/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Ground Truth Is a Process",
+    "description": "Classifiers: When Labels Become Decisions · A reference label earns trust through how it was produced.",
+    "url": "/writing/classifiers-when-labels-become-decisions/ground-truth-is-a-process/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Accuracy Hides a Question",
+    "description": "Classifiers: When Labels Become Decisions · A metric becomes useful when its denominator matches the decision.",
+    "url": "/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Rare Events Change the Meaning",
+    "description": "Classifiers: When Labels Become Decisions · The same detector can produce very different evidence in a different population.",
+    "url": "/writing/classifiers-when-labels-become-decisions/rare-events-change-the-meaning/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Several Labels, Several Questions",
+    "description": "Classifiers: When Labels Become Decisions · Finding some of the truth, finding all of it, and finding the cause are different achievements.",
+    "url": "/writing/classifiers-when-labels-become-decisions/several-labels-several-questions/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Confidence Must Earn Its Meaning",
+    "description": "Classifiers: When Labels Become Decisions · Agreement, repeatability, and calibrated confidence answer different questions.",
+    "url": "/writing/classifiers-when-labels-become-decisions/confidence-must-earn-its-meaning/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Measurement Needs a Memory",
+    "description": "Classifiers: When Labels Become Decisions · A dashboard cannot explain change if the instrument forgets how it worked yesterday.",
+    "url": "/writing/classifiers-when-labels-become-decisions/measurement-needs-a-memory/"
   },
   {
     "type": "Page",

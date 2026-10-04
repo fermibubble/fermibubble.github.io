@@ -1,6 +1,7 @@
 import { autonomyOverview } from "./principle-series.mjs";
 import { systemsWriting } from "./systems-writing.mjs";
 import { agencyOverview } from "./agency-writing.mjs";
+import { classifierOverview } from "./classifier-writing.mjs";
 import { newestFirst, withPublicationDate } from "./publication-dates.mjs";
 
 export const site = {
@@ -16,6 +17,7 @@ export const site = {
 };
 
 export const writing = [
+  classifierOverview,
   agencyOverview,
   ...systemsWriting,
   autonomyOverview,
@@ -105,6 +107,9 @@ export const projects = [
 ];
 
 export const ideas = [
+  "Which decisions should a classifier's labels be allowed to influence?",
+  "How can we tell a change in the world from a change in the classifier measuring it?",
+  "When should a classifier gather more evidence or leave a case unresolved?",
   "Which evidence should already be local when an agent begins an investigation?",
   "Where should deterministic execution end and model-driven exploration begin?",
   "How much of a 24-hour incident can a checkpoint preserve without leaking its outcome?",

@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { dirname, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
+import { classifierWriting } from "../src/classifier-writing.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const draftPreview = process.argv.includes("--drafts");
@@ -40,7 +41,7 @@ for (const file of htmlFiles) {
   }
 }
 
-const expectedPages = 62 + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
+const expectedPages = 62 + 1 + classifierWriting.length * 2 + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
 if (htmlFiles.length !== expectedPages) failures.push(`expected ${expectedPages} HTML pages, found ${htmlFiles.length}`);
 
 if (failures.length) {

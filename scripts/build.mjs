@@ -5,6 +5,7 @@ import { ideas, notes, projects, site, writing as publishedWriting } from "../sr
 import { renderIncident } from "./render-incident.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { agencyOverview, agencyWriting } from "../src/agency-writing.mjs";
+import { classifierOverview, classifierWriting } from "../src/classifier-writing.mjs";
 import { renderCaseStudy, renderContextTable, renderSeriesMap, renderSeriesNavigation } from "./render-series.mjs";
 import { autonomyPath, writingPath } from "../src/paths.mjs";
 import { analyticsConfig } from "../src/analytics-config.mjs";
@@ -16,9 +17,10 @@ if (draftPreview && process.argv.includes("--publish-root")) {
 }
 const drafts = draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts : [];
 const writing = [...drafts, ...publishedWriting];
-const allChapters = [...principleEssays, ...agencyWriting];
+const allChapters = [...principleEssays, ...agencyWriting, ...classifierWriting];
 const allWriting = [...writing, ...allChapters];
 const collections = {
+  "classifiers-when-labels-become-decisions": { overview: classifierOverview, essays: classifierWriting, heading: "Ten ideas, from labels to decisions" },
   "trustworthy-autonomy": { overview: autonomyOverview, essays: principleEssays, heading: "Nine principles, nine chapters" },
   "how-intelligence-finds-its-way": { overview: agencyOverview, essays: agencyWriting, heading: "Five essays, one exploration" },
 };
