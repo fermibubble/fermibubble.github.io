@@ -12,7 +12,7 @@ This does not make assisted labeling useless. It makes the provenance of a refer
 
 Reference labels need a defined unit of analysis, the evidence readers should inspect, category definitions, tie-breaking rules, and a way to preserve uncertainty. Without these, two careful people may answer different questions.
 
-For the incomplete-export example, a reviewer needs the requested scope and the delivered artifact's coverage. The assistant's assertion that it finished is evidence about what the assistant said. It is not independent confirmation that the export is complete.
+For the ticket-email example, a reviewer needs the message and reliable evidence about its sender and destination. The filter's claim that the email is suspicious is evidence about what the filter said. It is not independent confirmation that the ticket is fraudulent.
 
 Have at least a subset of cases labeled independently before showing model suggestions. Compare the judgments and inspect disagreement. Adjudication should record why an interpretation won or why the case remains ambiguous. This makes the resolution available for improving the rubric, rather than leaving it in a meeting nobody can reconstruct.
 

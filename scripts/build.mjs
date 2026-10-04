@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ideas, notes, projects, site, writing as publishedWriting } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
+import { renderClassifierFigure } from "./render-classifier-figure.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
 import { agencyOverview, agencyWriting } from "../src/agency-writing.mjs";
 import { classifierOverview, classifierWriting } from "../src/classifier-writing.mjs";
@@ -147,6 +148,8 @@ function markdown(source = "") {
       if (line === "```") {
         html.push(fence.language === "index-example"
           ? renderIndexExample(code.join("\n"), fence.label, indexPaths)
+          : fence.language === "classifier-figure"
+          ? renderClassifierFigure(code.join("\n"), escapeHtml)
           : `<pre class="source-example"><code>${escapeHtml(code.join("\n"))}</code></pre>`);
         fence = null;
         code = [];

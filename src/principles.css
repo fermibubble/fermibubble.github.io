@@ -1,4 +1,32 @@
 /* Shared editorial treatment for collections and interactive essays. */
+.prose .classifier-figure { margin: 32px 0; padding: 24px; border: 1px solid var(--line-strong); background: var(--paper-deep); font: 14px/1.6 var(--sans); }
+.prose .classifier-figure figcaption { padding: 0 0 20px; text-align: left; color: var(--ink); font: 400 25px/1.2 var(--serif); }
+.prose .classifier-figure ol { margin: 0; padding: 0; list-style: none; counter-reset: classifier-step; display: grid; gap: 16px; }
+.prose .classifier-figure li { margin: 0; padding: 0; min-width: 0; }
+.prose .classifier-figure li::before { content: none; }
+.prose .classifier-figure li strong { display: block; margin-bottom: 5px; color: var(--ink); font-weight: 600; }
+.prose .classifier-figure li span { display: block; color: var(--ink-soft); }
+.prose .classifier-steps li { position: relative; padding-left: 38px; }
+.prose .classifier-steps li::before { counter-increment: classifier-step; content: counter(classifier-step, decimal-leading-zero); position: absolute; left: 0; top: 1px; color: var(--blue); font: 12px/1.6 var(--mono); }
+.prose .classifier-cards ol { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; }
+.prose .classifier-cards li { border-top: 2px solid var(--line-strong); padding-top: 12px; }
+.prose .classifier-scroll-hint { display: none; }
+.prose .classifier-table-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
+.prose .classifier-table-scroll:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+.prose .classifier-table { width: 100%; min-width: 480px; border-collapse: collapse; font: 14px/1.6 var(--sans); }
+.prose .classifier-table-compact { min-width: 0; table-layout: fixed; }
+.prose .classifier-table-compact th:first-child { width: 34%; }
+.prose .classifier-table th, .prose .classifier-table td { border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; padding: 12px 10px; color: var(--ink-soft); }
+.prose .classifier-table th { font-weight: 600; color: var(--ink); }
+.prose .classifier-table thead { font-size: 12px; }
+.prose .classifier-note { margin: 18px 0 0; color: var(--ink-soft); font: 12px/1.6 var(--sans); }
+@media (max-width: 540px) {
+  .prose .classifier-figure { padding: 18px; }
+  .prose .classifier-cards ol { grid-template-columns: 1fr; }
+  .prose .classifier-table-compact { font-size: 12px; }
+  .prose .classifier-table-compact th, .prose .classifier-table-compact td { padding-inline: 5px; overflow-wrap: anywhere; }
+  .prose .classifier-scroll-hint { display: block; margin: -7px 0 12px; font: 12px/1.5 var(--sans); color: var(--ink-soft); }
+}
 .context-table-wrap { width: min(920px,calc(100% - 40px)); margin: 36px auto 48px; }
 .context-table { width: 100%; border-collapse: collapse; table-layout: fixed; font: 14px/1.6 var(--sans); }
 .context-table caption { padding-bottom: 18px; text-align: left; font: 400 29px/1.2 var(--serif); letter-spacing: -.025em; }

@@ -76,7 +76,11 @@ export const classifierWriting = manifest
     const body = source.replace(/^# [^\n]+\n+\*[^\n]+\*\n+/, "");
     const caseStudy = examples[item.slug];
     const exampleText = caseStudy ? [caseStudy.title, caseStudy.caption, ...caseStudy.steps.flatMap(step => [step.label, step.headline, ...step.facts.flat(), step.observation, step.implication, step.action])].join(" ") : "";
-    const words = `${body} ${exampleText}`.trim().split(/\s+/).length;
+    const readingText = body.replace(/```classifier-figure\n([\s\S]*?)\n```/g, (_, payload) => {
+      const figure = JSON.parse(payload);
+      return [figure.title, ...(figure.columns || []), ...(figure.rows || []).flat(), ...(figure.items || []).flatMap(entry => [entry.title, entry.text]), figure.note || ""].join(" ");
+    });
+    const words = `${readingText} ${exampleText}`.trim().split(/\s+/).length;
     return withPublicationDate({ ...item, featured: false, seriesNumber: item.order, collectionSlug, summary: item.description, readTime: `${Math.ceil(words / 220)} min`, wordCount: words, body, ...(caseStudy ? { caseStudy } : {}) });
   });
 
@@ -93,9 +97,9 @@ export const classifierOverview = withPublicationDate({
   body: `
 A classifier turns an untidy situation into a small number of names. That compression makes a support queue sortable, an incident searchable, or an agent's behavior measurable. It also gives downstream systems something they may trust more than they should.
 
-Imagine an assistant that returns an incomplete export. Its tools report success, its response sounds finished, and a classifier labels the task resolved. The label enters a dashboard and removes the episode from a review queue. Nothing in the machinery breaks. The user's task remains incomplete.
+Imagine a concert ticket hidden by an email filter. Urgent wording and an unfamiliar sender produced a suspicious label; a downstream policy moved the email out of sight. The machinery worked as designed. The person still missed something important.
 
-The challenge is larger than selecting a model. Someone has to decide what resolved means, which evidence establishes it, when the decision must arrive, and how to discover that the classifier is wrong. Those choices determine whether a label becomes useful knowledge or a repeatable mistake.
+The challenge is larger than selecting a model. Someone has to decide what suspicious means, which evidence supports it, when the decision must arrive, and how to discover that the classifier is wrong. Those choices determine whether a label becomes useful knowledge or a repeatable mistake.
 
 ## The instrument behind the number
 
@@ -116,6 +120,6 @@ For a shorter route, read [A Label Is a Commitment](/writing/classifiers-when-la
 
 Oddly's [Evidence requires Provenance](/writing/trustworthy-autonomy/evidence-requires-provenance/) follows a number back to its denominator and source. [The Next Useful Question](/writing/how-intelligence-finds-its-way/the-next-useful-question/) examines when additional evidence is worth obtaining. [Checkpoint Replay for Long-Horizon Agent Evaluation](/writing/checkpoint-replay-for-agent-evaluation/) explores evaluation at the moment a decision was made.
 
-Public technical references are linked in the relevant chapters: the [scikit-learn evaluation guide](https://scikit-learn.org/stable/modules/model_evaluation.html), [SetFit](https://arxiv.org/abs/2209.11055), [On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a.html), and [Detecting and Correcting for Label Shift with Black Box Predictors](https://proceedings.mlr.press/v80/lipton18a.html).
+Public technical references are linked in the relevant chapters: the [scikit-learn evaluation guide](https://scikit-learn.org/stable/modules/model_evaluation.html), [SetFit](https://arxiv.org/abs/2209.11055), [On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a.html), [Detecting and Correcting for Label Shift with Black Box Predictors](https://proceedings.mlr.press/v80/lipton18a.html), [Item Response Theory for evaluation](https://aclanthology.org/D16-1062/), [tinyBenchmarks](https://proceedings.mlr.press/v235/maia-polo24a.html), and [hierarchical evaluation measures](https://arxiv.org/abs/1306.6802).
 `
 });

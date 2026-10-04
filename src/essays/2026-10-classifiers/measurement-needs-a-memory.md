@@ -45,6 +45,6 @@ Operational monitoring can track errors, empty outputs, catch-all categories, de
 
 Periodically obtain fresh reference labels, especially after consequential changes or drift signals. Set the cadence and sample size around traffic, decision cost, and observed instability. There is no universal schedule that makes an instrument trustworthy.
 
-The collection began with an export labeled resolved even though its file was incomplete. A mature system can return to that judgment: recover its evidence, inspect the definition used, discover the missing completion check, and show that a revised classifier handles both that case and new ones better.
+The collection began with a concert ticket hidden by an email filter. A mature system can return to that judgment: recover the evidence, inspect the definition used, discover why urgency was mistaken for danger, and show that a revision handles both legitimate tickets and new attacks better.
 
 That ability to revise with evidence is the durable achievement. The labels become useful because the organization can explain what they mean, test where they fail, and remember when their meaning changes.
