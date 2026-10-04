@@ -1,35 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/quality-flywheel/turn-failure-into-experiment/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>A Failure Is a Question — Oddly</title>
-    <meta name="description" content="The final mistake tells you where the damage appeared. The trace may reveal where it began.">
+    <title>Turn a Failure into an Experiment — Oddly</title>
+    <meta name="description" content="A trace narrows the explanation. An intervention puts it at risk.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="A Failure Is a Question — Oddly">
-    <meta property="og:description" content="The final mistake tells you where the damage appeared. The trace may reveal where it began.">
-    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/failure-is-a-question/">
-    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/failure-is-a-question/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Turn a Failure into an Experiment — Oddly">
+    <meta property="og:description" content="A trace narrows the explanation. An intervention puts it at risk.">
+    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/turn-failure-into-experiment/">
+    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/turn-failure-into-experiment/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/diagram.css">
     <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
-    <link rel="stylesheet" href="/assets/quality.css">
+    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">
     <script type="module" src="/assets/quality.js"></script>
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/quality-flywheel/failure-is-a-question/" data-typography="essay" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/quality-flywheel/turn-failure-into-experiment/" data-typography="utility">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -49,44 +49,8 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/quality-flywheel/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>The Quality Flywheel</span></a>
-        <div class="article-type">The Quality Flywheel / Chapter 06 of 10</div>
-        <h1>A Failure Is a Question</h1>
-        <p class="article-deck">The final mistake tells you where the damage appeared. The trace may reveal where it began.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>2 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-        <a class="series-home-link" href="/writing/quality-flywheel/">Part of The Quality Flywheel ↗</a>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <details class="series-directory"><summary>Chapters in this collection <span>06 / 10</span></summary>
-    <nav aria-label="Collection chapters"><ol><li><a href="/writing/quality-flywheel/beautiful-wrong-answer/">The Beautiful Wrong Answer</a></li><li><a href="/writing/quality-flywheel/loop-becomes-flywheel/">When a Loop Becomes a Flywheel</a></li><li><a href="/writing/quality-flywheel/two-loops/">Two Loops, Two Kinds of Evidence</a></li><li><a href="/writing/quality-flywheel/mountain-made-of-metrics/">The Mountain Is Made of Metrics</a></li><li><a href="/writing/quality-flywheel/judge-needs-a-test/">The Judge Also Needs a Test</a></li><li><a href="/writing/quality-flywheel/failure-is-a-question/" aria-current="page">A Failure Is a Question</a></li><li><a href="/writing/quality-flywheel/climbing-with-language/">Climbing with Language</a></li><li><a href="/writing/quality-flywheel/winners-curse/">The Winner&#039;s Curse of Iteration</a></li><li><a href="/writing/quality-flywheel/works-once/">“Works Once” Has Two Opposites</a></li><li><a href="/writing/quality-flywheel/frontier-and-memory/">Build a System That Remembers</a></li></ol></nav>
-  </details>
-        <div class="prose"><!--article-prose:start--><p>Atlas recommends a restart. “Bad reasoning” is an easy label. It is also a poor engineering plan.</p>
-<p>Perhaps the certificate check was unavailable. Perhaps the tool returned the expiry date but the assistant ignored it. Perhaps retrieval supplied a runbook for the wrong failure. Perhaps the benchmark's expected answer described a different incident. These explanations produce the same disappointing answer and require different repairs.</p>
-<div class="causal-chain" role="group" aria-label="Illustrative propagation of an agent failure"><div><span>EARLY ASSUMPTION</span><strong>“Probably overload”</strong></div><b aria-hidden="true">↓</b><div><span>EVIDENCE SELECTION</span><strong>Reads CPU metrics; skips certificate status</strong></div><b aria-hidden="true">↓</b><div><span>VISIBLE SYMPTOM</span><strong>Recommends an ineffective restart</strong></div></div>
-<p>A scalar score compresses this sequence into failure. The trajectory preserves possible explanations. Yet reading a trace is not the same as proving a cause.</p>
-<p><em>Who&amp;When</em> makes the difficulty concrete: in its multi-agent failure-attribution experiments, the best method identifies the responsible agent with 53.5% accuracy but the decisive step with only 14.2%. These figures describe the studied systems and methods, rather than a ceiling for newer ones. <sup class="citation"><a href="#ref-whowhen" aria-label="Reference 10: Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems">[10]</a></sup></p>
-<p>More recent work adds structure. <em>AgentRx</em> derives constraints, checks execution steps, and assembles evidence for diagnosis. <em>DeFA</em>, posted on 1 October 2026, represents dependencies and error propagation so that an early source of failure can be distinguished from its later symptoms. Its downstream skill-improvement results concern spreadsheet tasks; wider transfer remains to be demonstrated. <sup class="citation"><a href="#ref-agentrx" aria-label="Reference 11: AgentRx: Diagnosing AI Agent Failures from Execution Trajectories">[11]</a></sup> <sup class="citation"><a href="#ref-defa" aria-label="Reference 12: DeFA: Dependency-Guided Failure Attribution for LLM Agents">[12]</a></sup></p>
-<p>These approaches suggest a better next question: what intervention would distinguish our explanations? Give Atlas the certificate status directly while leaving the rest of the task comparable. If it now diagnoses correctly, missing access or retrieval becomes a stronger candidate. If it still recommends a restart, the problem may lie in evidence use or decision policy. Inspect whether the intervention changed anything else.</p>
-<p>Run the intervention across several representative failures and appropriate controls. A candidate that fixes certificate incidents but makes every incident look like a certificate incident has learned another shortcut.</p>
-<aside class="idea"><span>THE POWERFUL IDEA</span><p>A diagnosis earns credibility when its proposed intervention produces the predicted change.</p></aside>
-<p>Useful failure records therefore contain more than a label. Save the observations, competing explanations, discriminating intervention, result, and remaining uncertainty. This gives the optimizer something specific to test and gives reviewers a way to disagree productively.</p>
-<section class="references" aria-label="Chapter references"><h2>Research behind this chapter</h2><ol><li id="ref-whowhen" value="10"><a href="https://arxiv.org/abs/2505.00212v3">Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems</a><div class="ref-date">First posted: 2025-04-30</div><p>Measures agent- and step-level failure attribution. The reported difficulties describe its evaluated methods and data, not a permanent capability ceiling.</p></li><li id="ref-agentrx" value="11"><a href="https://arxiv.org/abs/2602.02475v2">AgentRx: Diagnosing AI Agent Failures from Execution Trajectories</a><div class="ref-date">Version checked: 2026-08-31</div><p>Constraints and evidence logs for trajectory diagnosis. Findings of EMNLP 2026; evaluated on a selected corpus of failures.</p></li><li id="ref-defa" value="12"><a href="https://arxiv.org/abs/2610.01256">DeFA: Dependency-Guided Failure Attribution for LLM Agents</a><div class="ref-date">First posted: 2026-10-01</div><p>Dependencies and failure propagation. 1 October 2026 preprint; downstream improvement is demonstrated in spreadsheet skill evolution. Broader transfer remains an open question.</p></li></ol></section>
-<!--article-prose:end--></div>
-        
-        <div class="prose series-afterword"></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/quality-flywheel/judge-needs-a-test/"><span>Previous chapter</span><strong>The Judge Also Needs a Test</strong></a>
-      <a class="pagination-next" href="/writing/quality-flywheel/climbing-with-language/"><span>Next chapter</span><strong>Climbing with Language</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Turn a Failure into an Experiment</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/quality-flywheel/turn-failure-into-experiment/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -105,7 +69,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

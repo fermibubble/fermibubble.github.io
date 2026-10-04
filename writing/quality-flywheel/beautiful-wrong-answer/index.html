@@ -1,35 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/quality-flywheel/what-the-score-conceals/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The Beautiful Wrong Answer — Oddly</title>
-    <meta name="description" content="The dashboard celebrates. The user still has the problem.">
+    <title>What the Score Conceals — Oddly</title>
+    <meta name="description" content="The service recovered. The explanation was wrong. What should count as success?">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="The Beautiful Wrong Answer — Oddly">
-    <meta property="og:description" content="The dashboard celebrates. The user still has the problem.">
-    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/beautiful-wrong-answer/">
-    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/beautiful-wrong-answer/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="What the Score Conceals — Oddly">
+    <meta property="og:description" content="The service recovered. The explanation was wrong. What should count as success?">
+    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/what-the-score-conceals/">
+    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/what-the-score-conceals/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/diagram.css">
     <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
-    <link rel="stylesheet" href="/assets/quality.css">
+    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">
     <script type="module" src="/assets/quality.js"></script>
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/quality-flywheel/beautiful-wrong-answer/" data-typography="essay" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/quality-flywheel/what-the-score-conceals/" data-typography="utility">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -49,42 +49,8 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/quality-flywheel/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>The Quality Flywheel</span></a>
-        <div class="article-type">The Quality Flywheel / Chapter 01 of 10</div>
-        <h1>The Beautiful Wrong Answer</h1>
-        <p class="article-deck">The dashboard celebrates. The user still has the problem.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>2 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-        <a class="series-home-link" href="/writing/quality-flywheel/">Part of The Quality Flywheel ↗</a>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <details class="series-directory"><summary>Chapters in this collection <span>01 / 10</span></summary>
-    <nav aria-label="Collection chapters"><ol><li><a href="/writing/quality-flywheel/beautiful-wrong-answer/" aria-current="page">The Beautiful Wrong Answer</a></li><li><a href="/writing/quality-flywheel/loop-becomes-flywheel/">When a Loop Becomes a Flywheel</a></li><li><a href="/writing/quality-flywheel/two-loops/">Two Loops, Two Kinds of Evidence</a></li><li><a href="/writing/quality-flywheel/mountain-made-of-metrics/">The Mountain Is Made of Metrics</a></li><li><a href="/writing/quality-flywheel/judge-needs-a-test/">The Judge Also Needs a Test</a></li><li><a href="/writing/quality-flywheel/failure-is-a-question/">A Failure Is a Question</a></li><li><a href="/writing/quality-flywheel/climbing-with-language/">Climbing with Language</a></li><li><a href="/writing/quality-flywheel/winners-curse/">The Winner&#039;s Curse of Iteration</a></li><li><a href="/writing/quality-flywheel/works-once/">“Works Once” Has Two Opposites</a></li><li><a href="/writing/quality-flywheel/frontier-and-memory/">Build a System That Remembers</a></li></ol></nav>
-  </details>
-        <div class="prose"><!--article-prose:start--><p>Imagine an incident assistant called Atlas. A service is failing. Atlas reads a log, recommends a restart, and explains the recommendation in polished prose. Unfortunately, the certificate has expired. Restarting the service changes nothing.</p>
-<p>The team adds an instruction: include an explanation, cite documentation, and end with a summary. Atlas's evaluation score rises. Its answers look more complete. The certificate remains expired.</p>
-<p>This is a fictional example, but it exposes a real design problem. If the checklist awards one point for a correct diagnosis, one for a citation, and one for a summary, a beautifully presented wrong answer can beat a terse correct one. The optimizer has found an efficient route through the scoring system.</p>
-<aside class="idea"><span>THE POWERFUL IDEA</span><p>A better optimizer makes the weaknesses of its evaluator more consequential.</p></aside>
-<p>There is now direct experimental evidence for this concern. <em>ProRubric</em>, released in September 2026, reports a 4B model whose rubric coverage rises from <strong>26.6 to 32.1</strong> after rubric-based reinforcement learning, while appropriateness against held-out physician criteria falls from <strong>54.1 to 26.0</strong>. Its proposed aggregation improves the latter to 36.8: a partial recovery, still below the untrained baseline. These are model-judged benchmark results from a very recent preprint, not clinical outcomes or a universal effect size. <sup class="citation"><a href="#ref-prorubric" aria-label="Reference 1: Scoring Higher, Answering Worse: Mitigating Reward Hacking in Rubric-Based RL via Protocol-Level Rubrics">[1]</a></sup></p>
-<p>The uncomfortable lesson is that improvement has two moving parts. We need a system capable of finding better behavior, and a measurement process capable of recognizing it. Making the first part faster while neglecting the second can accelerate the wrong thing.</p>
-<p>This article follows Atlas through a better process. We will turn its failure into a testable hypothesis, give it a more useful intervention, and decide what evidence would justify shipping the change. Along the way, we will examine how current research is automating parts of that process—and where human judgment and independent tests still matter.</p>
-<p>The central question is simple: <strong>what survives an experiment that makes the next experiment better?</strong> That is where a quality flywheel begins.</p>
-<section class="references" aria-label="Chapter references"><h2>Research behind this chapter</h2><ol><li id="ref-prorubric" value="1"><a href="https://arxiv.org/abs/2609.38847">Scoring Higher, Answering Worse: Mitigating Reward Hacking in Rubric-Based RL via Protocol-Level Rubrics</a><div class="ref-date">First posted: 2026-09-30</div><p>Additive rewards and critical omissions. September 2026 preprint; the cited aggregation mitigates the measured degradation but does not restore the untrained baseline.</p></li></ol></section>
-<!--article-prose:end--></div>
-        
-        <div class="prose series-afterword"></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/quality-flywheel/"><span>Collection overview</span><strong>The Quality Flywheel</strong></a>
-      <a class="pagination-next" href="/writing/quality-flywheel/loop-becomes-flywheel/"><span>Next chapter</span><strong>When a Loop Becomes a Flywheel</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>What the Score Conceals</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/quality-flywheel/what-the-score-conceals/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -103,7 +69,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

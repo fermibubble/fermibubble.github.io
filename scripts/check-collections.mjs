@@ -27,6 +27,9 @@ for (const [overview, chapters] of [[qualityOverview, qualityWriting], [agencyOv
     assert(!feed.includes(`https://oddly.fyi${path}`));
     assert.equal(search.filter((entry) => entry.url === path && entry.type === "Chapter").length, 1);
     assert((await read(`/writing/${item.slug}/index.html`)).includes(`content="0; url=${path}"`));
+    for (const alias of item.aliases || []) {
+      assert((await read(`/writing/${alias}/index.html`)).includes(`content="0; url=${path}"`), `Broken former chapter URL: ${alias}`);
+    }
   }
 }
 const example = await read(`${writingPath(agencyWriting[0])}index.html`);

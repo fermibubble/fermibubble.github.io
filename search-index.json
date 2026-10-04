@@ -2,7 +2,7 @@
   {
     "type": "Collection",
     "title": "The Quality Flywheel",
-    "description": "How AI systems learn from failure—and how improvement compounds. Ten chapters on feedback loops, hill climbing, evaluation, and the research frontier.",
+    "description": "How failures become experiments, better decisions, and knowledge that survives the next release.",
     "url": "/writing/quality-flywheel/"
   },
   {
@@ -43,63 +43,33 @@
   },
   {
     "type": "Chapter",
-    "title": "The Beautiful Wrong Answer",
-    "description": "The Quality Flywheel · The dashboard celebrates. The user still has the problem.",
-    "url": "/writing/quality-flywheel/beautiful-wrong-answer/"
+    "title": "What the Score Conceals",
+    "description": "The Quality Flywheel · The service recovered. The explanation was wrong. What should count as success?",
+    "url": "/writing/quality-flywheel/what-the-score-conceals/"
   },
   {
     "type": "Chapter",
-    "title": "When a Loop Becomes a Flywheel",
-    "description": "The Quality Flywheel · Repetition compounds only when the system retains something useful.",
-    "url": "/writing/quality-flywheel/loop-becomes-flywheel/"
+    "title": "Turn a Failure into an Experiment",
+    "description": "The Quality Flywheel · A trace narrows the explanation. An intervention puts it at risk.",
+    "url": "/writing/quality-flywheel/turn-failure-into-experiment/"
   },
   {
     "type": "Chapter",
-    "title": "Two Loops, Two Kinds of Evidence",
-    "description": "The Quality Flywheel · Real use tells you what matters. Controlled comparisons help explain what changed.",
-    "url": "/writing/quality-flywheel/two-loops/"
+    "title": "Search Beyond the Prompt",
+    "description": "The Quality Flywheel · An optimizer can only discover changes its search space allows.",
+    "url": "/writing/quality-flywheel/search-beyond-the-prompt/"
   },
   {
     "type": "Chapter",
-    "title": "The Mountain Is Made of Metrics",
-    "description": "The Quality Flywheel · Change the scoring rule and you change which direction counts as uphill.",
-    "url": "/writing/quality-flywheel/mountain-made-of-metrics/"
+    "title": "Make the Winner Earn Its Release",
+    "description": "The Quality Flywheel · Selection finds a promising candidate. Independent evidence earns the release.",
+    "url": "/writing/quality-flywheel/make-the-winner-earn-release/"
   },
   {
     "type": "Chapter",
-    "title": "The Judge Also Needs a Test",
-    "description": "The Quality Flywheel · An evaluator is another system with blind spots.",
-    "url": "/writing/quality-flywheel/judge-needs-a-test/"
-  },
-  {
-    "type": "Chapter",
-    "title": "A Failure Is a Question",
-    "description": "The Quality Flywheel · The final mistake tells you where the damage appeared. The trace may reveal where it began.",
-    "url": "/writing/quality-flywheel/failure-is-a-question/"
-  },
-  {
-    "type": "Chapter",
-    "title": "Climbing with Language",
-    "description": "The Quality Flywheel · A score chooses between candidates. Rich feedback helps invent the next one.",
-    "url": "/writing/quality-flywheel/climbing-with-language/"
-  },
-  {
-    "type": "Chapter",
-    "title": "The Winner's Curse of Iteration",
-    "description": "The Quality Flywheel · The more candidates you try, the more opportunities you create for a lucky winner.",
-    "url": "/writing/quality-flywheel/winners-curse/"
-  },
-  {
-    "type": "Chapter",
-    "title": "“Works Once” Has Two Opposites",
-    "description": "The Quality Flywheel · An assistant that can succeed and an assistant you can leave unattended require different evidence.",
-    "url": "/writing/quality-flywheel/works-once/"
-  },
-  {
-    "type": "Chapter",
-    "title": "Build a System That Remembers",
-    "description": "The Quality Flywheel · The frontier is learning how to improve the machinery of improvement.",
-    "url": "/writing/quality-flywheel/frontier-and-memory/"
+    "title": "What the Next Failure Inherits",
+    "description": "The Quality Flywheel · A loop becomes a flywheel when its useful work survives the turn.",
+    "url": "/writing/quality-flywheel/what-the-next-failure-inherits/"
   },
   {
     "type": "Chapter",

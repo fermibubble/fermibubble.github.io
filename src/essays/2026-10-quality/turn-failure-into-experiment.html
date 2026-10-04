@@ -1,0 +1,25 @@
+<p>The incident review initially blames Atlas's reasoning. It recommended scaling during an authentication failure. “Reason more carefully” seems like the obvious fix.</p>
+<p>Then someone compares Atlas's trace with the service logs. Atlas's summary tool reported queue depth and retry volume. It did not report response codes or credential versions. The decisive evidence existed, but it never entered the assistant's view.</p>
+<p>That changes the next experiment. A prompt asking for better reasoning cannot reliably recover a fact the agent has no way to inspect.</p>
+<h2>Separate the explanations that imply different repairs</h2>
+<p>There are at least three plausible failure mechanisms. The evidence may be inaccessible. It may be available through a tool Atlas never calls. Or it may be present in the context and still ignored. These failures can produce the same final recommendation, but they call for different changes.</p>
+<div class="table-wrap"><table><caption>Different hypotheses, different tests</caption><thead><tr><th>Hypothesis</th><th>Intervention</th><th>What a changed answer would suggest</th></tr></thead><tbody>
+<tr><td>Atlas lacks the evidence.</td><td>Add the response codes and credential versions to the incident snapshot.</td><td>The existing summary is hiding a useful distinction.</td></tr>
+<tr><td>Atlas can inspect the evidence but does not.</td><td>Require the available check before choosing a mitigation.</td><td>The investigation policy or tool selection needs work.</td></tr>
+<tr><td>Atlas sees the evidence but misuses it.</td><td>Keep the snapshot fixed and change the decision procedure.</td><td>The interpretation of available evidence is a better target.</td></tr>
+</tbody></table></div>
+<p>Each test is imperfect. Adding a field may also make it more salient. Requiring a tool call changes both the information and the workflow. The point is to make these changes inspectable, then narrow them further if the distinction matters.</p>
+<p>In our example, the team replays the saved incident with the response codes and credential versions added. Atlas now identifies the cached key. That makes the missing evidence a promising explanation. It does not establish that the richer snapshot will solve authentication failures in general.</p>
+<h2>A convincing story should risk being wrong</h2>
+<p>To investigate the service itself, refresh credentials in one affected worker without adding capacity. Compare it with a worker that still uses the old key, while accounting for other changes in the carrier and the traffic. If authentication recovers only after the refresh, the credential hypothesis gains support. If both recover before any intervention, the proposed cause needs another look.</p>
+<p>This separates two questions that are often blended together: what caused the outage, and what caused Atlas to recommend the wrong thing? The former concerns the service. The latter concerns the assistant's access to evidence and its decisions. Fixing one does not automatically fix the other.</p>
+<p><a href="https://arxiv.org/abs/2602.02475v2">AgentRx</a> takes a related approach to agent diagnosis: it checks execution trajectories against constraints and gathers evidence around failures. This can make a diagnosis more inspectable. It still leaves the engineering question of whether changing the suspected mechanism produces the expected effect.</p>
+<h2>Find the nearest case where the lesson fails</h2>
+<p>“Refresh credentials when a queue grows” would fix this incident and create a new problem. The next incident might be a genuine capacity shortage, or a carrier rate limit that additional workers cannot remove.</p>
+<div class="table-wrap"><table><caption>Three similar alerts that require different responses</caption><thead><tr><th>Growing queue, with…</th><th>Evidence to distinguish it</th><th>Likely next move</th></tr></thead><tbody>
+<tr><td>Stale credentials</td><td>401s concentrated on workers with the revoked key.</td><td>Refresh the affected credentials; verify authentication.</td></tr>
+<tr><td>Insufficient capacity</td><td>Authentication succeeds; workers are saturated and throughput trails arrivals.</td><td>Check downstream headroom, then consider additional capacity.</td></tr>
+<tr><td>Carrier throttling</td><td>429 responses and a binding downstream quota.</td><td>Respect the retry policy and reduce pressure on the carrier.</td></tr>
+</tbody></table></div>
+<p>These cases share a symptom and disagree about the remedy. They are more valuable than ten paraphrases of the original outage because they force Atlas to use the evidence that separates the causes.</p>
+<p>The output of a useful failure review is therefore a small experiment: an observation, competing explanations, a change that could distinguish them, and a case that would expose an overgeneralized lesson. The diagnosis becomes useful when someone can test it.</p>

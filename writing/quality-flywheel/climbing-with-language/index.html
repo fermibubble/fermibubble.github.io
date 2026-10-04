@@ -1,35 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="0; url=/writing/quality-flywheel/search-beyond-the-prompt/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Climbing with Language — Oddly</title>
-    <meta name="description" content="A score chooses between candidates. Rich feedback helps invent the next one.">
+    <title>Search Beyond the Prompt — Oddly</title>
+    <meta name="description" content="An optimizer can only discover changes its search space allows.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Climbing with Language — Oddly">
-    <meta property="og:description" content="A score chooses between candidates. Rich feedback helps invent the next one.">
-    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/climbing-with-language/">
-    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/climbing-with-language/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Search Beyond the Prompt — Oddly">
+    <meta property="og:description" content="An optimizer can only discover changes its search space allows.">
+    <meta property="og:url" content="https://oddly.fyi/writing/quality-flywheel/search-beyond-the-prompt/">
+    <link rel="canonical" href="https://oddly.fyi/writing/quality-flywheel/search-beyond-the-prompt/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
     <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/assets/principles.css">
     <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/diagram.css">
     <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
-    <link rel="stylesheet" href="/assets/quality.css">
+    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">
     <script type="module" src="/assets/quality.js"></script>
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
   </head>
-  <body data-path="/writing/quality-flywheel/climbing-with-language/" data-typography="essay" class="article-page">
-    <div class="reading-progress" data-reading-progress></div>
-    
+  <body data-path="/writing/quality-flywheel/search-beyond-the-prompt/" data-typography="utility">
+
+
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -49,74 +49,8 @@
         </div>
       </div>
     </header>
-    <main id="content">
-    <article class="article principle-article">
-      <header class="article-header shell-narrow">
-        <a class="article-back" href="/writing/quality-flywheel/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>The Quality Flywheel</span></a>
-        <div class="article-type">The Quality Flywheel / Chapter 07 of 10</div>
-        <h1>Climbing with Language</h1>
-        <p class="article-deck">A score chooses between candidates. Rich feedback helps invent the next one.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>3 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
-        <a class="series-home-link" href="/writing/quality-flywheel/">Part of The Quality Flywheel ↗</a>
-      </header>
-      <div class="article-rule shell"></div>
-      <div class="series-body" data-article-body>
-        <details class="series-directory"><summary>Chapters in this collection <span>07 / 10</span></summary>
-    <nav aria-label="Collection chapters"><ol><li><a href="/writing/quality-flywheel/beautiful-wrong-answer/">The Beautiful Wrong Answer</a></li><li><a href="/writing/quality-flywheel/loop-becomes-flywheel/">When a Loop Becomes a Flywheel</a></li><li><a href="/writing/quality-flywheel/two-loops/">Two Loops, Two Kinds of Evidence</a></li><li><a href="/writing/quality-flywheel/mountain-made-of-metrics/">The Mountain Is Made of Metrics</a></li><li><a href="/writing/quality-flywheel/judge-needs-a-test/">The Judge Also Needs a Test</a></li><li><a href="/writing/quality-flywheel/failure-is-a-question/">A Failure Is a Question</a></li><li><a href="/writing/quality-flywheel/climbing-with-language/" aria-current="page">Climbing with Language</a></li><li><a href="/writing/quality-flywheel/winners-curse/">The Winner&#039;s Curse of Iteration</a></li><li><a href="/writing/quality-flywheel/works-once/">“Works Once” Has Two Opposites</a></li><li><a href="/writing/quality-flywheel/frontier-and-memory/">Build a System That Remembers</a></li></ol></nav>
-  </details>
-        <div class="prose"><!--article-prose:start--><p>Classical hill climbing keeps a candidate when a nearby change improves the objective. For an agent, a “nearby” change might be one prompt edit. The landscape can contain plateaus, noisy slopes, and local peaks. Sometimes the next useful move is a different tool or workflow, which changes the available search space.</p>
-<figure id="figure-3"><div class="figure-kicker">FIGURE 3 · LOCAL IMPROVEMENT AND A DIFFERENT SEARCH SPACE</div><div class="diagram-scroll" tabindex="0" role="group" aria-label="Local improvement and a different search space. Diagram can scroll horizontally on narrow screens."><svg xmlns="http://www.w3.org/2000/svg" width="760" height="660" viewBox="0 0 760 660" role="img" aria-labelledby="landscape-title landscape-desc"><title id="landscape-title">Climb locally, then change the landscape</title><desc id="landscape-desc">A conceptual landscape illustrates incremental changes reaching a local peak. A separate higher peak requires an expanded search space, such as a redesign or a new tool. This is an illustration, not measured data, and redesign does not guarantee an improvement.</desc>
-<defs><marker id="landscape-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4.5 L0 9 Z" fill="#215a46"/></marker><marker id="landscape-amber" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4.5 L0 9 Z" fill="#b57327"/></marker></defs>
-<rect width="760" height="660" rx="20" fill="#faf9f4"/>
-<text x="45" y="49" text-anchor="start" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#215a46" letter-spacing="1">BETTER VERIFIED QUALITY</text>
-<path d="M59 516 L59 88" fill="none" stroke="#215a46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#landscape-arrow)"/>
-<path d="M60 516 L715 516" stroke="#dce2d8" stroke-width="2"/>
-<path d="M62 513 C105 508 117 430 168 381 C204 345 235 297 270 300 C308 301 322 441 374 462 C426 485 444 342 483 227 C508 152 529 127 557 125 C614 122 641 424 713 482 L713 516 L62 516 Z" fill="#e8eee2"/>
-<path d="M62 513 C105 508 117 430 168 381 C204 345 235 297 270 300 C308 301 322 441 374 462 C426 485 444 342 483 227 C508 152 529 127 557 125 C614 122 641 424 713 482" fill="none" stroke="#215a46" stroke-width="3"/>
-<circle cx="126" cy="434" r="6" fill="#215a46" stroke="#faf9f4" stroke-width="2"/>
-<circle cx="170" cy="380" r="6" fill="#215a46" stroke="#faf9f4" stroke-width="2"/>
-<circle cx="217" cy="331" r="6" fill="#215a46" stroke="#faf9f4" stroke-width="2"/>
-<circle cx="267" cy="301" r="6" fill="#215a46" stroke="#faf9f4" stroke-width="2"/>
-<path d="M131 420 L160 388" fill="none" stroke="#215a46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#landscape-arrow)"/>
-<path d="M179 366 L206 339" fill="none" stroke="#215a46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#landscape-arrow)"/>
-<path d="M225 324 L251 306" fill="none" stroke="#215a46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#landscape-arrow)"/>
-<text x="161" y="471" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" fill="#215a46" >Incremental</text>
-<text x="161" y="496" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" fill="#215a46" >changes</text>
-<rect x="116" y="214" width="171" height="60" rx="14" fill="white" stroke="#dce2d8" stroke-width="1.5"/>
-<text x="201.5" y="251.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" fill="#172b28" >Local peak</text>
-<path d="M268 275 L268 289" stroke="#586761" stroke-width="1.5"/>
-<rect x="452" y="53" width="221" height="54" rx="14" fill="white" stroke="#dce2d8" stroke-width="1.5"/>
-<text x="562.5" y="87.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" fill="#172b28" >Another possibility</text>
-<circle cx="557" cy="125" r="7" fill="#b57327" stroke="#faf9f4" stroke-width="2"/>
-<path d="M288 287 C347 145 403 122 474 148" fill="none" stroke="#b57327" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#landscape-amber)"/>
-<rect x="306" y="331" width="344" height="75" rx="12" fill="#faf9f4" stroke="#dce2d8"/>
-<text x="478" y="361" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600" fill="#b57327" >Redesign or a new tool</text>
-<text x="478" y="388" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#586761" >changes the search space.</text>
-<text x="386" y="562" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" fill="#172b28" >Different system designs and configurations</text>
-<text x="386" y="602" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#586761" >Conceptual illustration, not measured data.</text>
-<text x="386" y="630" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#586761" >A bigger move creates possibilities; it still needs evidence.</text>
-</svg></div><figcaption><strong>Figure 3.</strong> Incremental changes explore nearby configurations. A redesigned workflow or new tool opens other possibilities, whose gains still need to be demonstrated. Conceptual illustration, not measured data.<span class="mobile-hint"> Swipe across the diagram to inspect it.</span></figcaption></figure>
-<p>Atlas could spend hundreds of iterations polishing “be thorough.” If certificate information never enters its context, that search has a structural limit. Adding a reliable inspection tool changes what the system can know. The right intervention may therefore lie outside the component currently being optimized.</p>
-<p>Language models add a powerful search mechanism: execution feedback can be interpreted as a proposal for a change. Instead of learning only that a score was low, an optimizer can inspect the tool output that was missed and propose how to use it.</p>
-<p><em>DSPy</em> made modular language-model programs and their optimization an explicit programming approach. <em>TextGrad</em> propagates natural-language critiques through a computation graph to update components. Its “gradients” are textual feedback rather than exact mathematical derivatives, so candidate changes still require evaluation. <sup class="citation"><a href="#ref-dspy" aria-label="Reference 13: DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines">[13]</a></sup> <sup class="citation"><a href="#ref-textgrad" aria-label="Reference 14: TextGrad: Automatic &quot;Differentiation&quot; via Text">[14]</a></sup></p>
-<p><em>GEPA</em> uses reflection on execution traces to propose prompt updates and preserves complementary candidates along a Pareto frontier. Keeping several useful candidates can retain discoveries that a greedy sequence would discard. Its February 2026 revision reports an average 6% advantage over GRPO across six tasks, using up to 35 times fewer rollouts; those are the authors' task- and budget-specific comparisons, not a general claim that prompt search replaces reinforcement learning. <sup class="citation"><a href="#ref-gepa" aria-label="Reference 15: GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning">[15]</a></sup></p>
-<p><em>ACE</em> moves attention toward the context that persists between attempts. It separates generation, reflection, and curation, updating an evolving playbook. Its context-collapse case study shows why indiscriminate rewriting can erase useful detail: the memory can get shorter while the system gets worse. The broader lesson is to test additions and preserve useful structure, rather than assume that every reflection deserves to become a permanent rule. <sup class="citation"><a href="#ref-ace" aria-label="Reference 16: Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models">[16]</a></sup></p>
-<div class="table-wrap"><table><caption>Different methods improve different objects</caption><thead><tr><th>Method</th><th>What changes</th><th>What provides direction</th></tr></thead><tbody><tr><td>DSPy</td><td>Components of an LM program</td><td>A chosen metric and examples</td></tr><tr><td>TextGrad</td><td>Prompts, code, or other graph components</td><td>Natural-language feedback</td></tr><tr><td>GEPA</td><td>Prompts and candidate combinations</td><td>Reflection on execution traces</td></tr><tr><td>ACE</td><td>A structured context playbook</td><td>Reflection plus selective curation</td></tr></tbody></table></div>
-<p>This is a map of mechanisms, not a universal leaderboard. Their tasks, budgets, models, and feedback differ. For Atlas, the choice follows the suspected bottleneck: missing evidence calls for a different change from poor instructions or forgotten knowledge.</p>
-<aside class="idea"><span>THE POWERFUL IDEA</span><p>Use feedback to search intelligently, and use independent evidence to decide what to keep.</p></aside>
-<section class="references" aria-label="Chapter references"><h2>Research behind this chapter</h2><ol><li id="ref-dspy" value="13"><a href="https://arxiv.org/abs/2310.03714">DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines</a><div class="ref-date">First posted: 2023-10-05</div><p>Modular LM programs with metric-driven optimization. The objective remains an input to the system, so its validity must be assessed separately.</p></li><li id="ref-textgrad" value="14"><a href="https://arxiv.org/abs/2406.07496">TextGrad: Automatic &quot;Differentiation&quot; via Text</a><div class="ref-date">First posted: 2024-06-11</div><p>Natural-language feedback through computational graphs. Textual gradients are critiques, not exact derivatives or guarantees of improvement.</p></li><li id="ref-gepa" value="15"><a href="https://arxiv.org/abs/2507.19457v2">GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning</a><div class="ref-date">Version checked: 2026-02-14</div><p>Trace reflection and preservation of complementary candidates. ICLR 2026 Oral; this article uses v2, with six tasks, rather than the older four-task comparison.</p></li><li id="ref-ace" value="16"><a href="https://arxiv.org/abs/2510.04618v3">Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models</a><div class="ref-date">Version checked: 2026-03-29</div><p>Evolving, curated context playbooks. ICLR 2026; v3. Lessons need validation, and the paper’s leaderboard comparison is historical.</p></li></ol></section>
-<!--article-prose:end--></div>
-        
-        <div class="prose series-afterword"></div>
-      </div>
-    </article>
-    <nav class="article-pagination shell" aria-label="More writing">
-      <a class="pagination-prev" href="/writing/quality-flywheel/failure-is-a-question/"><span>Previous chapter</span><strong>A Failure Is a Question</strong></a>
-      <a class="pagination-next" href="/writing/quality-flywheel/winners-curse/"><span>Next chapter</span><strong>The Winner&#039;s Curse of Iteration</strong></a>
-    </nav>
-  </main>
-    
+    <main id="content" class="not-found shell"><h1>Search Beyond the Prompt</h1><p>This essay has a new address.</p><a class="primary-link" href="/writing/quality-flywheel/search-beyond-the-prompt/"><span>Read the essay</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a></main>
+
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -135,7 +69,7 @@
         <p class="footer-edition">Edition 0.1<br>© 2026</p>
       </div>
     </footer>
-    
+
     <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
       <div class="search-shell">
         <div class="search-field">

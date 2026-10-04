@@ -22,7 +22,7 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
-The Writing index contains three standalone essays and three collections in date order: Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
+The Writing index contains three standalone essays and four collections in date order: The Quality Flywheel, Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
@@ -75,4 +75,4 @@ Index examples use an `index-example` fence followed by the illustrative file pa
 
 ### Quality Flywheel collection
 
-`src/quality-writing.mjs` loads ten reviewed HTML chapters from `src/essays/2026-10-quality/`. HTML preserves the accessible inline SVG diagrams, citation anchors, and scoring experiment. Edit those source files, then run `npm run publish:prepare` and `npm run check`. Collection-specific styling and the scoring interaction live in `src/quality.css` and `src/quality.js`.
+`src/quality-writing.mjs` loads five HTML chapters from `src/essays/2026-10-quality/`. HTML preserves worked examples, inline research links, and the scoring experiment. The shared diagram system lives in `src/diagrams.mjs` and `src/diagram.css`; its vectors use the site typeface and color themes. Earlier Quality Flywheel chapter URLs redirect to the corresponding merged chapters. Edit those source files, then run `npm run publish:prepare` and `npm run check`. Collection-specific styling and the scoring interaction live in `src/quality.css` and `src/quality.js`.

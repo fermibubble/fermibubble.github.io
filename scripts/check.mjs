@@ -42,7 +42,7 @@ for (const file of htmlFiles) {
   }
 }
 
-const expectedPages = 62 + 1 + classifierWriting.length * 2 + 1 + qualityWriting.length * 2 + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
+const expectedPages = 62 + 1 + classifierWriting.length * 2 + 1 + qualityWriting.length * 2 + qualityWriting.reduce((count, chapter) => count + chapter.aliases.length, 0) + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
 if (htmlFiles.length !== expectedPages) failures.push(`expected ${expectedPages} HTML pages, found ${htmlFiles.length}`);
 
 if (failures.length) {

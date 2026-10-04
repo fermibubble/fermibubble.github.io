@@ -22,7 +22,7 @@ const writing = [...drafts, ...publishedWriting];
 const allChapters = [...qualityWriting, ...principleEssays, ...agencyWriting, ...classifierWriting];
 const allWriting = [...writing, ...allChapters];
 const collections = {
-  "quality-flywheel": { overview: qualityOverview, essays: qualityWriting, heading: "Ten ideas, from failure to compounding improvement" },
+  "quality-flywheel": { overview: qualityOverview, essays: qualityWriting, heading: "The chapters" },
   "classifiers-when-labels-become-decisions": { overview: classifierOverview, essays: classifierWriting, heading: "Ten ideas, from labels to decisions" },
   "trustworthy-autonomy": { overview: autonomyOverview, essays: principleEssays, heading: "Nine principles, nine chapters" },
   "how-intelligence-finds-its-way": { overview: agencyOverview, essays: agencyWriting, heading: "Five essays, one exploration" },
@@ -330,7 +330,8 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">${quality ? '\n    <link rel="stylesheet" href="/assets/quality.css">\n    <script type="module" src="/assets/quality.js"></script>' : ""}
+    <link rel="stylesheet" href="/assets/diagram.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">${quality ? '\n    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">\n    <script type="module" src="/assets/quality.js"></script>' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
     ${draftPreview ? "" : '<script type="module" src="/assets/analytics.js"></script>'}
@@ -717,6 +718,7 @@ await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
 await cp(join(root, "lnr-code.ico"), join(out, "lnr-code.ico"));
 await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
+  cp(join(root, "src", "diagram.css"), join(out, "assets", "diagram.css")),
   cp(join(root, "src", "quality.css"), join(out, "assets", "quality.css")),
   cp(join(root, "src", "quality.js"), join(out, "assets", "quality.js")),
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),

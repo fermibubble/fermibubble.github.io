@@ -1,0 +1,92 @@
+/* Reusable editorial diagrams. Geometry and labels carry meaning without color. */
+.editorial-diagram {
+  --diagram-ink: var(--ink);
+  --diagram-soft: var(--ink-soft);
+  --diagram-line: var(--line-strong);
+  --diagram-accent: var(--signal);
+  --diagram-fill: var(--paper-deep);
+  margin: 2.25rem 0;
+}
+.editorial-diagram .diagram-board {
+  padding: 18px 8px 12px;
+  border-block: 1px solid var(--line);
+  background: var(--paper);
+}
+.editorial-diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+.editorial-diagram svg text {
+  fill: var(--diagram-ink);
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+.editorial-diagram svg .diagram-small {
+  fill: var(--diagram-soft);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.editorial-diagram svg .diagram-axis-label {
+  fill: var(--diagram-soft);
+  font-size: 20px;
+  font-weight: 400;
+}
+.diagram-node rect {
+  fill: var(--paper);
+  stroke: var(--diagram-line);
+  stroke-width: 1.5;
+}
+.diagram-memory rect,
+.diagram-check rect,
+.diagram-comparison rect {
+  fill: var(--diagram-fill);
+  stroke: var(--diagram-accent);
+  stroke-width: 1.5;
+}
+.diagram-memory text { fill: var(--diagram-accent); }
+.diagram-flow {
+  fill: none;
+  stroke: var(--diagram-accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.diagram-arrowhead { fill: var(--diagram-accent); stroke: none; }
+.diagram-explore { stroke-dasharray: 6 7; }
+.diagram-axis,
+.diagram-divider {
+  fill: none;
+  stroke: var(--diagram-line);
+  stroke-width: 1.5;
+}
+.diagram-land { fill: var(--diagram-fill); stroke: none; }
+.diagram-ridge {
+  fill: none;
+  stroke: var(--diagram-line);
+  stroke-width: 2;
+}
+.diagram-point { fill: var(--diagram-accent); stroke: var(--paper); stroke-width: 2; }
+.editorial-diagram figcaption {
+  max-width: 620px;
+  margin: 14px auto 0;
+  color: var(--diagram-soft);
+  font: 400 15px/1.65 var(--sans);
+}
+.diagram-evidence svg { max-width: 460px; }
+.diagram-evidence .diagram-board { padding-bottom: 0; }
+@media (max-width: 520px) {
+  .editorial-diagram .diagram-board { padding: 14px 0 8px; }
+  .editorial-diagram figcaption { font-size: 14px; }
+}
+@media print {
+  .editorial-diagram { break-inside: avoid; }
+  .editorial-diagram { --diagram-ink: #172033; --diagram-soft: #536078; --diagram-line: #9ba9be; --diagram-accent: #315de8; --diagram-fill: #f0f3f8; }
+  .editorial-diagram .diagram-board, .diagram-node rect { background: white; fill: white; }
+}
