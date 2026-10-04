@@ -72,3 +72,7 @@ GitHub Pages publishing reference: https://docs.github.com/en/pages/getting-star
 ## Index examples
 
 Index examples use an `index-example` fence followed by the illustrative file path. The article renders a readable preview and keeps the original Markdown inside an optional source disclosure. Links between displayed indexes navigate within the example; leaf references show their file paths.
+
+### Quality Flywheel collection
+
+`src/quality-writing.mjs` loads ten reviewed HTML chapters from `src/essays/2026-10-quality/`. HTML preserves the accessible inline SVG diagrams, citation anchors, and scoring experiment. Edit those source files, then run `npm run publish:prepare` and `npm run check`. Collection-specific styling and the scoring interaction live in `src/quality.css` and `src/quality.js`.

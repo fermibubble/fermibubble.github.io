@@ -49,6 +49,23 @@ Object.assign(publicationTimes, Object.fromEntries(
     .map(([slug]) => [slug, "2026-10-04T08:11:05Z"])
 ));
 
+// The Quality Flywheel and its ten chapters form one release.
+const qualitySlugs = [
+  "quality-flywheel",
+  "beautiful-wrong-answer",
+  "loop-becomes-flywheel",
+  "two-loops",
+  "mountain-made-of-metrics",
+  "judge-needs-a-test",
+  "failure-is-a-question",
+  "climbing-with-language",
+  "winners-curse",
+  "works-once",
+  "frontier-and-memory"
+];
+Object.assign(publicationDates, Object.fromEntries(qualitySlugs.map(slug => [slug, "2026-10-04"])));
+Object.assign(publicationTimes, Object.fromEntries(qualitySlugs.map(slug => [slug, "2026-10-04T14:02:02Z"])));
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long", day: "numeric", year: "numeric", timeZone: "UTC"
 });

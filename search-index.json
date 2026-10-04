@@ -1,6 +1,12 @@
 [
   {
     "type": "Collection",
+    "title": "The Quality Flywheel",
+    "description": "How AI systems learn from failure—and how improvement compounds. Ten chapters on feedback loops, hill climbing, evaluation, and the research frontier.",
+    "url": "/writing/quality-flywheel/"
+  },
+  {
+    "type": "Collection",
     "title": "Classifiers: When Labels Become Decisions",
     "description": "Ten chapters on designing categories, choosing evidence, measuring errors, and deciding when a label deserves to influence what happens next.",
     "url": "/writing/classifiers-when-labels-become-decisions/"
@@ -34,6 +40,66 @@
     "title": "Engineering Autonomous Agents",
     "description": "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     "url": "/writing/engineering-autonomous-agents/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Beautiful Wrong Answer",
+    "description": "The Quality Flywheel · The dashboard celebrates. The user still has the problem.",
+    "url": "/writing/quality-flywheel/beautiful-wrong-answer/"
+  },
+  {
+    "type": "Chapter",
+    "title": "When a Loop Becomes a Flywheel",
+    "description": "The Quality Flywheel · Repetition compounds only when the system retains something useful.",
+    "url": "/writing/quality-flywheel/loop-becomes-flywheel/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Two Loops, Two Kinds of Evidence",
+    "description": "The Quality Flywheel · Real use tells you what matters. Controlled comparisons help explain what changed.",
+    "url": "/writing/quality-flywheel/two-loops/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Mountain Is Made of Metrics",
+    "description": "The Quality Flywheel · Change the scoring rule and you change which direction counts as uphill.",
+    "url": "/writing/quality-flywheel/mountain-made-of-metrics/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Judge Also Needs a Test",
+    "description": "The Quality Flywheel · An evaluator is another system with blind spots.",
+    "url": "/writing/quality-flywheel/judge-needs-a-test/"
+  },
+  {
+    "type": "Chapter",
+    "title": "A Failure Is a Question",
+    "description": "The Quality Flywheel · The final mistake tells you where the damage appeared. The trace may reveal where it began.",
+    "url": "/writing/quality-flywheel/failure-is-a-question/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Climbing with Language",
+    "description": "The Quality Flywheel · A score chooses between candidates. Rich feedback helps invent the next one.",
+    "url": "/writing/quality-flywheel/climbing-with-language/"
+  },
+  {
+    "type": "Chapter",
+    "title": "The Winner's Curse of Iteration",
+    "description": "The Quality Flywheel · The more candidates you try, the more opportunities you create for a lucky winner.",
+    "url": "/writing/quality-flywheel/winners-curse/"
+  },
+  {
+    "type": "Chapter",
+    "title": "“Works Once” Has Two Opposites",
+    "description": "The Quality Flywheel · An assistant that can succeed and an assistant you can leave unattended require different evidence.",
+    "url": "/writing/quality-flywheel/works-once/"
+  },
+  {
+    "type": "Chapter",
+    "title": "Build a System That Remembers",
+    "description": "The Quality Flywheel · The frontier is learning how to improve the machinery of improvement.",
+    "url": "/writing/quality-flywheel/frontier-and-memory/"
   },
   {
     "type": "Chapter",

@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "beautiful-wrong-answer",
+    "title": "The Beautiful Wrong Answer",
+    "description": "The dashboard celebrates. The user still has the problem.",
+    "eyebrow": "Metrics & Meaning",
+    "order": 1,
+    "wordCount": 367,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "loop-becomes-flywheel",
+    "title": "When a Loop Becomes a Flywheel",
+    "description": "Repetition compounds only when the system retains something useful.",
+    "eyebrow": "Feedback & Learning",
+    "order": 2,
+    "wordCount": 453,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "two-loops",
+    "title": "Two Loops, Two Kinds of Evidence",
+    "description": "Real use tells you what matters. Controlled comparisons help explain what changed.",
+    "eyebrow": "Feedback & Learning",
+    "order": 3,
+    "wordCount": 498,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "mountain-made-of-metrics",
+    "title": "The Mountain Is Made of Metrics",
+    "description": "Change the scoring rule and you change which direction counts as uphill.",
+    "eyebrow": "Metrics & Meaning",
+    "order": 4,
+    "wordCount": 572,
+    "readTime": "3 min"
+  },
+  {
+    "slug": "judge-needs-a-test",
+    "title": "The Judge Also Needs a Test",
+    "description": "An evaluator is another system with blind spots.",
+    "eyebrow": "Graders & Trust",
+    "order": 5,
+    "wordCount": 530,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "failure-is-a-question",
+    "title": "A Failure Is a Question",
+    "description": "The final mistake tells you where the damage appeared. The trace may reveal where it began.",
+    "eyebrow": "Failure & Causality",
+    "order": 6,
+    "wordCount": 455,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "climbing-with-language",
+    "title": "Climbing with Language",
+    "description": "A score chooses between candidates. Rich feedback helps invent the next one.",
+    "eyebrow": "Search & Optimization",
+    "order": 7,
+    "wordCount": 674,
+    "readTime": "3 min"
+  },
+  {
+    "slug": "winners-curse",
+    "title": "The Winner's Curse of Iteration",
+    "description": "The more candidates you try, the more opportunities you create for a lucky winner.",
+    "eyebrow": "Experiments & Reliability",
+    "order": 8,
+    "wordCount": 667,
+    "readTime": "3 min"
+  },
+  {
+    "slug": "works-once",
+    "title": "“Works Once” Has Two Opposites",
+    "description": "An assistant that can succeed and an assistant you can leave unattended require different evidence.",
+    "eyebrow": "Experiments & Reliability",
+    "order": 9,
+    "wordCount": 439,
+    "readTime": "2 min"
+  },
+  {
+    "slug": "frontier-and-memory",
+    "title": "Build a System That Remembers",
+    "description": "The frontier is learning how to improve the machinery of improvement.",
+    "eyebrow": "The Research Frontier",
+    "order": 10,
+    "wordCount": 749,
+    "readTime": "3 min"
+  }
+]

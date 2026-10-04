@@ -1,3 +1,4 @@
+import { qualityOverview, qualityWriting } from "../src/quality-writing.mjs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,9 +18,10 @@ if (draftPreview && process.argv.includes("--publish-root")) {
 }
 const drafts = draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts : [];
 const writing = [...drafts, ...publishedWriting];
-const allChapters = [...principleEssays, ...agencyWriting, ...classifierWriting];
+const allChapters = [...qualityWriting, ...principleEssays, ...agencyWriting, ...classifierWriting];
 const allWriting = [...writing, ...allChapters];
 const collections = {
+  "quality-flywheel": { overview: qualityOverview, essays: qualityWriting, heading: "Ten ideas, from failure to compounding improvement" },
   "classifiers-when-labels-become-decisions": { overview: classifierOverview, essays: classifierWriting, heading: "Ten ideas, from labels to decisions" },
   "trustworthy-autonomy": { overview: autonomyOverview, essays: principleEssays, heading: "Nine principles, nine chapters" },
   "how-intelligence-finds-its-way": { overview: agencyOverview, essays: agencyWriting, heading: "Five essays, one exploration" },
@@ -300,6 +302,7 @@ function footer() {
 }
 
 function layout({ title, description, active, content, article = false, incident = false, series = false, path = "/" }) {
+  const quality = path.startsWith("/writing/quality-flywheel/");
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
   const typography = article
     ? path.startsWith('/notes/') ? 'note' : path.startsWith('/writing/trustworthy-autonomy/') ? 'principle' : path.startsWith('/writing/') ? 'essay' : 'archive'
@@ -324,7 +327,7 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">${quality ? '\n    <link rel="stylesheet" href="/assets/quality.css">\n    <script type="module" src="/assets/quality.js"></script>' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
     ${draftPreview ? "" : '<script type="module" src="/assets/analytics.js"></script>'}
@@ -552,16 +555,16 @@ function articlePage(item) {
       </header>
       <div class="article-rule shell"></div>
       ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, seriesData.essays, escapeHtml)}` : ""}
-        <div class="prose${item.incident ? " epistemics-intro" : ""}"><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
+        <div class="prose${item.incident ? " epistemics-intro" : ""}"><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
         ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : item.seriesOverview ? renderSeriesMap(seriesData.essays, escapeHtml, undefined, { title: seriesTitle, heading: seriesData.heading }) : ""}
-        <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${markdown(item.afterword)}</div>
+        <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${item.afterwordHtml ?? markdown(item.afterword)}</div>
       </div>` : item.incident ? `<div class="epistemics-body" data-article-body>
-        <div class="prose epistemics-intro"><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>
+        <div class="prose epistemics-intro"><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>
         ${renderIncident(item.incident, escapeHtml)}
-        <div class="prose epistemics-afterword">${markdown(item.afterword)}</div>
+        <div class="prose epistemics-afterword">${item.afterwordHtml ?? markdown(item.afterword)}</div>
       </div>` : `<div class="article-layout shell">
         <aside class="article-rail"><span>${noteItems.has(item) ? "Short note" : escapeHtml(item.eyebrow || publicationFormat(item))}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
-        <div class="prose" data-article-body><!--article-prose:start-->${markdown(item.body)}<!--article-prose:end--></div>
+        <div class="prose" data-article-body><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
@@ -711,6 +714,8 @@ await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
 await cp(join(root, "lnr-code.ico"), join(out, "lnr-code.ico"));
 await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
+  cp(join(root, "src", "quality.css"), join(out, "assets", "quality.css")),
+  cp(join(root, "src", "quality.js"), join(out, "assets", "quality.js")),
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
   cp(join(root, "src", "editorial.css"), join(out, "assets", "editorial.css")),
   cp(join(root, "src", "typography.css"), join(out, "assets", "typography.css")),
