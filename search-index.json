@@ -44,13 +44,13 @@
   {
     "type": "Chapter",
     "title": "What the Score Conceals",
-    "description": "The Quality Flywheel · The service recovered. The explanation was wrong. What should count as success?",
+    "description": "The Quality Flywheel · The tests passed. Websites went down. Which question did the checks leave out?",
     "url": "/writing/quality-flywheel/what-the-score-conceals/"
   },
   {
     "type": "Chapter",
     "title": "Turn a Failure into an Experiment",
-    "description": "The Quality Flywheel · A trace narrows the explanation. An intervention puts it at risk.",
+    "description": "The Quality Flywheel · A wrong answer points to a problem. A targeted change tests the explanation.",
     "url": "/writing/quality-flywheel/turn-failure-into-experiment/"
   },
   {

@@ -2,10 +2,10 @@
   {
     "slug": "what-the-score-conceals",
     "title": "What the Score Conceals",
-    "description": "The service recovered. The explanation was wrong. What should count as success?",
+    "description": "The tests passed. Websites went down. Which question did the checks leave out?",
     "order": 1,
     "readTime": "4 min",
-    "wordCount": 768,
+    "wordCount": 737,
     "aliases": [
       "beautiful-wrong-answer",
       "quality-flywheel/beautiful-wrong-answer",
@@ -18,10 +18,10 @@
   {
     "slug": "turn-failure-into-experiment",
     "title": "Turn a Failure into an Experiment",
-    "description": "A trace narrows the explanation. An intervention puts it at risk.",
+    "description": "A wrong answer points to a problem. A targeted change tests the explanation.",
     "order": 2,
     "readTime": "3 min",
-    "wordCount": 647,
+    "wordCount": 559,
     "aliases": [
       "failure-is-a-question",
       "quality-flywheel/failure-is-a-question"
@@ -33,7 +33,7 @@
     "description": "An optimizer can only discover changes its search space allows.",
     "order": 3,
     "readTime": "3 min",
-    "wordCount": 612,
+    "wordCount": 632,
     "aliases": [
       "climbing-with-language",
       "quality-flywheel/climbing-with-language"
@@ -45,7 +45,7 @@
     "description": "Selection finds a promising candidate. Independent evidence earns the release.",
     "order": 4,
     "readTime": "4 min",
-    "wordCount": 743,
+    "wordCount": 861,
     "aliases": [
       "two-loops",
       "quality-flywheel/two-loops",
@@ -61,7 +61,7 @@
     "description": "A loop becomes a flywheel when its useful work survives the turn.",
     "order": 5,
     "readTime": "4 min",
-    "wordCount": 705,
+    "wordCount": 687,
     "aliases": [
       "loop-becomes-flywheel",
       "quality-flywheel/loop-becomes-flywheel",

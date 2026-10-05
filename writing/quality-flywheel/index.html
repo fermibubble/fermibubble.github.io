@@ -62,20 +62,21 @@
       </header>
       <div class="article-rule shell"></div>
       <div class="series-body" data-article-body>
-        <div class="prose"><!--article-prose:start--><p>An agent improves its score. A team ships the change. The same failure returns a week later.</p>
-<p>Improvement becomes durable when the team can explain what changed, test whether it helped, and preserve the evidence for the next problem. The quality flywheel connects those steps. Hill climbing supplies a way to search; the surrounding loop determines whether the climb leads somewhere useful.</p>
+        <div class="prose"><!--article-prose:start--><p>The tests pass. A change goes live. Websites stop responding.</p>
+<p>A quality flywheel begins with the gap between those three sentences. What did the tests miss? Which change would prevent a repeat? How do we know the proposed fix will help somewhere beyond the original failure?</p>
 <h2>Preface</h2>
-<p>Atlas is a fictional on-call assistant for a shipping-label service. It reads alerts, inspects operational data, and proposes mitigations for an engineer to approve. Its story begins with an apparent success: adding workers clears a growing queue. The trouble is that Atlas has drawn the wrong conclusion about why it worked.</p>
-<p>We will follow that incident from the first score through investigation, experimentation, and release—and ask what the next failure should inherit.</p>
+<p>Our starting point is <a href="https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/">Cloudflare's outage on 2 July 2019</a>. A new security rule consumed so much processing time that websites returned errors. The rule had passed its tests; those tests did not cover the way it could exhaust CPU.</p>
+<p>The outage and Cloudflare's account are real. Atlas, the on-call AI assistant we use to explore the lessons, is hypothetical. Its examples ask a practical question: how would we teach an assistant to investigate a slow or unavailable website, then verify that it had learned something useful?</p>
+<p>The chapters follow that question through measurement, investigation, hill climbing, release, and the knowledge left behind.</p>
 <!--article-prose:end--></div>
         <nav class="series-map" aria-label="The Quality Flywheel chapters">
     <div class="series-map-heading"><span>Inside this collection</span><h2>The chapters</h2></div>
     <div class="series-map-grid"><a class="series-map-card" href="/writing/quality-flywheel/what-the-score-conceals/">
       <span class="series-number">01</span>
-      <h3>What the Score Conceals</h3><p>The service recovered. The explanation was wrong. What should count as success?</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+      <h3>What the Score Conceals</h3><p>The tests passed. Websites went down. Which question did the checks leave out?</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/turn-failure-into-experiment/">
       <span class="series-number">02</span>
-      <h3>Turn a Failure into an Experiment</h3><p>A trace narrows the explanation. An intervention puts it at risk.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+      <h3>Turn a Failure into an Experiment</h3><p>A wrong answer points to a problem. A targeted change tests the explanation.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/search-beyond-the-prompt/">
       <span class="series-number">03</span>
       <h3>Search Beyond the Prompt</h3><p>An optimizer can only discover changes its search space allows.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>

@@ -82,7 +82,7 @@ export function renderQualityEvidenceLoop() {
   const id = "quality-evidence-diagram";
   return figure(id,
     "A failure becomes evidence through controlled comparison",
-    "A closed loop moves from live use to a representative case and trace, a paired replay of incumbent and candidate on the same inputs, an independent held-out check, and a staged release, then returns to live use. The paired comparison holds inputs fixed. Held-out cases remain separate from the cases used to improve the candidate. Monitoring after release supplies the next observation.",
+    "A closed loop moves from live use to a saved incident and its evidence, a paired replay of incumbent and candidate on the same inputs, an independent held-out check, and a staged release, then returns to live use. The paired comparison holds inputs fixed. Held-out cases remain separate from the cases used to improve the candidate. Monitoring after release supplies the next observation.",
     743,
     `<g class="diagram-flow" marker-end="url(#${id}-arrow)">
       <path d="M 220 105 V 139"/>
@@ -92,7 +92,7 @@ export function renderQualityEvidenceLoop() {
       <path d="M 359 670 H 416 Q 447 670 447 639 V 87 Q 447 58 418 58 H 367"/>
     </g>
     ${node(80, 15, 280, 88, ["Live use", "and monitoring"])}
-    ${node(80, 149, 280, 84, ["A representative", "case + trace"])}
+    ${node(80, 149, 280, 84, ["A saved incident", "+ evidence"])}
     <g class="diagram-node diagram-comparison">
       <rect x="32" y="288" width="376" height="120" rx="8"/>
       <text class="diagram-small" x="220" y="316" text-anchor="middle">PAIRED REPLAY · FIXED INPUTS</text>
