@@ -1,5 +1,11 @@
 [
   {
+    "type": "Essay",
+    "title": "Before You Build Another Agent",
+    "description": "Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.",
+    "url": "/writing/before-you-build-another-agent/"
+  },
+  {
     "type": "Collection",
     "title": "The Quality Flywheel",
     "description": "How failures become experiments, better decisions, and knowledge that survives the next release.",

@@ -1,5 +1,6 @@
 // Publication chronology shared by articles, archives, and feeds.
 const publicationDates = {
+  "before-you-build-another-agent": "2026-10-18",
   "classifiers-when-labels-become-decisions": "2026-10-04",
   "a-label-is-a-commitment": "2026-10-04",
   "categories-are-executable": "2026-10-04",
@@ -41,6 +42,8 @@ const publicationTimes = Object.fromEntries([
   "a-procedure-is-a-hypothesis",
   "the-freedom-to-try-again",
 ].map((slug) => [slug, "2026-10-03T04:52:57Z"]));
+
+publicationTimes["before-you-build-another-agent"] = "2026-10-18T00:45:17Z";
 
 // The classifier collection and its chapters form one October 4 release.
 Object.assign(publicationTimes, Object.fromEntries(

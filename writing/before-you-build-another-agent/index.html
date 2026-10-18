@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Before You Build Another Agent — Oddly</title>
+    <meta name="description" content="Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Before You Build Another Agent — Oddly">
+    <meta property="og:description" content="Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.">
+    <meta property="og:url" content="https://oddly.fyi/writing/before-you-build-another-agent/">
+    <link rel="canonical" href="https://oddly.fyi/writing/before-you-build-another-agent/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/diagram.css">
+    <link rel="stylesheet" href="/assets/agent-architecture.css">
+    <script type="module" src="/assets/agent-delegation.js"></script>
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/before-you-build-another-agent/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article principle-article technical-article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>All writing</span></a>
+        <div class="article-type">Agent architecture</div>
+        <h1>Before you build<br><em>another agent</em></h1>
+        <p class="article-deck">Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>7 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="series-body" data-article-body>
+        <div class="prose"><!--article-prose:start--><p class="agent-opening">“Our application became slow after the release.”</p>
+
+<p>A smaller connection pool can trigger queueing, retries, and more load. A deployment agent, a database agent, and a networking agent might each identify a symptom. The diagnosis depends on connecting them.</p>
+
+<p><strong>For an assistant that works across products, build one capable generalist as the primary agent.</strong> Give it a harness that progressively exposes the knowledge and tools it needs. Permit additional agents only as temporary, dynamically delegated subagents with enforced limits.</p>
+
+<p><strong>Permanent specialists</strong> are separately routed agents with fixed domain roles. Stable, repetitive workloads can make that routing attractive: context and latency are easier to tune. For a cross-product assistant, however, routing, context transfer, and reconciliation also create opportunities for <a href="https://arxiv.org/html/2503.13657v3" rel="noreferrer">coordination failures</a>. A specialist label adds no capability by itself. Preserve distinct capabilities through model selection, authorized tools, and scoped domain memory.</p>
+
+<h2 id="keep-the-investigation-coherent">Keep the investigation coherent<a class="heading-anchor" href="#keep-the-investigation-coherent" aria-label="Link to this section">#</a></h2>
+
+<p>The generalist needs <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">durable task state</a>: the objective, evidence, hypotheses, and open questions. Preserve it across compaction and restarts, with links to source artifacts. This lets the agent connect a deployment change to database behavior several steps later.</p>
+
+<figure class="editorial-diagram agent-diagram">
+    <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" role="img" aria-labelledby="generalist-investigation-title generalist-investigation-desc">
+  <title id="generalist-investigation-title">One coherent investigation</title><desc id="generalist-investigation-desc">A latency regression reaches the generalist primary agent. It discovers deployment tools, retrieves database knowledge, and inspects network evidence. These sources feed hypothesis evaluation. The investigation either continues with the next diagnostic or produces findings and a next action.</desc>
+  <defs><marker id="generalist-investigation-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
+  <g class="diagram-flow" marker-end="url(#generalist-investigation-arrow)">
+        <path d="M180 78 V108"/><path d="M180 178 V202 H60 V228"/><path d="M180 202 V228"/><path d="M180 202 H300 V228"/>
+        <path d="M60 298 V322 H180 V348"/><path d="M180 298 V348"/><path d="M300 298 V322 H180"/>
+        <path d="M180 418 V448"/>
+        <path class="diagram-explore" d="M80 384 H8 V144 H80"/>
+      </g>
+      <g class="agent-node">
+  <rect x="80" y="10" width="200" height="68" rx="8"/>
+  <text x="180" y="34" text-anchor="middle">Latency regression</text>
+  <text class="agent-node-detail" x="180" y="54" text-anchor="middle">After the release</text>
+</g>
+      <g class="agent-node agent-node-active">
+  <rect x="80" y="110" width="200" height="68" rx="8"/>
+  <text x="180" y="134" text-anchor="middle">Primary agent</text>
+  <text class="agent-node-detail" x="180" y="154" text-anchor="middle">Generalist</text><text class="agent-node-detail" x="180" y="170" text-anchor="middle">Durable task state</text>
+</g>
+      <g class="agent-node">
+  <rect x="10" y="230" width="100" height="68" rx="8"/>
+  <text x="60" y="254" text-anchor="middle">Deployment</text>
+  <text class="agent-node-detail" x="60" y="274" text-anchor="middle">Discover</text><text class="agent-node-detail" x="60" y="290" text-anchor="middle">tools</text>
+</g>
+      <g class="agent-node">
+  <rect x="130" y="230" width="100" height="68" rx="8"/>
+  <text x="180" y="254" text-anchor="middle">Database</text>
+  <text class="agent-node-detail" x="180" y="274" text-anchor="middle">Retrieve</text><text class="agent-node-detail" x="180" y="290" text-anchor="middle">knowledge</text>
+</g>
+      <g class="agent-node">
+  <rect x="250" y="230" width="100" height="68" rx="8"/>
+  <text x="300" y="254" text-anchor="middle">Network</text>
+  <text class="agent-node-detail" x="300" y="274" text-anchor="middle">Inspect</text><text class="agent-node-detail" x="300" y="290" text-anchor="middle">evidence</text>
+</g>
+      <g class="agent-node agent-node-active">
+  <rect x="80" y="350" width="200" height="68" rx="8"/>
+  <text x="180" y="374" text-anchor="middle">Evaluate hypotheses</text>
+  <text class="agent-node-detail" x="180" y="394" text-anchor="middle">Next diagnostic ↺</text>
+</g>
+      <g class="agent-node">
+  <rect x="80" y="450" width="200" height="68" rx="8"/>
+  <text x="180" y="474" text-anchor="middle">Findings</text>
+  <text class="agent-node-detail" x="180" y="494" text-anchor="middle">And next action</text>
+</g>
+</svg></div>
+    <figcaption>The investigation crosses domains while the primary agent retains the evidence and responsibility for the answer.</figcaption>
+  </figure>
+
+<p>The <strong>harness</strong> is the runtime around the model: context management, tool discovery, code execution, permissions, and recovery. Build these capabilities once and reuse them across tasks.</p>
+
+<h2 id="make-expertise-discoverable">Make expertise discoverable<a class="heading-anchor" href="#make-expertise-discoverable" aria-label="Link to this section">#</a></h2>
+
+<p><strong>Progressive disclosure gives the agent broad reach with focused context.</strong> Start with a compact knowledge index and tool catalog. <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">Retrieve relevant documents</a>, <a href="https://www.anthropic.com/engineering/advanced-tool-use" rel="noreferrer">discover tool schemas on demand</a>, and load procedures as needed. The generalist can follow the investigation from deployments to databases while retaining its context.</p>
+
+<p>Package expertise as <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" rel="noreferrer">reusable skills</a>: diagnostic principles, procedures, examples, and scripts. <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" rel="noreferrer">Filter large tool results in code</a> before adding them to context. Product teams contribute knowledge, tools, and evaluations to the shared harness.</p>
+
+<p>Discovery is a capability to test. <a href="https://arxiv.org/html/2602.12670v1" rel="noreferrer">SkillsBench</a> found that curated skills improved average pass rates, while some tasks regressed. A <a href="https://arxiv.org/html/2604.04323v1" rel="noreferrer">study of realistic skill retrieval</a> found that gains weakened when agents had to find and select relevant skills. Test the path from symptom to useful context to correct tool use; preload essentials when latency matters.</p>
+
+<p>If supplying the right material fixes a failure, improve discovery. If it does not, investigate the model, tool, or procedure before adding agent boundaries.</p>
+
+<h2 id="allow-only-bounded-dynamic-delegation">Allow only bounded dynamic delegation<a class="heading-anchor" href="#allow-only-bounded-dynamic-delegation" aria-label="Link to this section">#</a></h2>
+
+<p>A <strong>subagent</strong> is a temporary execution created through the primary agent’s delegation tool. Require three things: a separable question, a reason for separate execution—parallel progress, context isolation, or independent review—and a result the primary agent can <a href="https://arxiv.org/html/2602.11865v1" rel="noreferrer">verify without repeating the investigation</a>. Simple lookups and predictable procedures belong in tools, scripts, or <a href="https://www.anthropic.com/engineering/building-effective-agents" rel="noreferrer">deterministic workflows</a>.</p>
+
+<p>Dynamic-only delegation is the policy proposed here. The evidence supports choosing by task structure: a <a href="https://arxiv.org/html/2512.08296v3" rel="noreferrer">controlled study of 260 configurations across six benchmarks</a>, with matched compute budgets, found gains on decomposable financial tasks and losses on sequential planning tasks.</p>
+
+<p><a href="https://www.anthropic.com/engineering/multi-agent-research-system" rel="noreferrer">Anthropic’s research system</a> demonstrates parallel research followed by synthesis. Its reported gains also involved different models and more compute. Neither result establishes that dynamic delegation is universally best.</p>
+
+<p>The primary agent proposes the work; the runtime enforces the limits:</p>
+
+<div class="agent-limits-wrap" tabindex="0" role="region" aria-label="Runtime limits"><table class="agent-limits"><thead><tr><th scope="col">Limit</th><th scope="col">Runtime enforcement</th><th scope="col">Purpose</th></tr></thead><tbody><tr><th scope="row">Creation</th><td>Primary agent only; require a current-task contract</td><td>Keep spawning under one owner</td></tr><tr><th scope="row">Lifetime</th><td>Create a task-scoped execution; end it on completion, timeout, or parent termination</td><td>Keep delegation temporary</td></tr><tr><th scope="row">Fan-out</th><td>Cap concurrent executions and total launches, including retries</td><td>Prevent unbounded spawning</td></tr><tr><th scope="row">Depth</th><td>Subagents cannot delegate further</td><td>Prevent recursive expansion</td></tr><tr><th scope="row">Resources</th><td>Reserve from the parent budget; cap time and tool calls</td><td>Bound total task cost</td></tr><tr><th scope="row">Access</th><td>Restrict data and tools to the parent’s authority</td><td>Prevent privilege expansion</td></tr></tbody></table></div>
+
+<p>Do not install routes that automatically send database questions to a database agent. Templates can supply instructions; delegation must be chosen for the current task. Subagents use the same harness with isolated state. Depth one gives up nested delegation to keep ownership and budget accounting simple.</p>
+
+<p>Mandatory checks and approvals belong in runtime policy or deterministic workflows. If delegation is denied, continue directly, narrow the task, or escalate within the same limits.</p>
+
+<h2 id="delegate-a-question-you-can-verify">Delegate a question you can verify<a class="heading-anchor" href="#delegate-a-question-you-can-verify" aria-label="Link to this section">#</a></h2>
+
+<p>In the latency investigation, the generalist can trace request flow while a subagent asks: “Did this release change connection pool behavior?” Its contract includes the deployment diff, telemetry, documentation, and read-only tools. The result must include findings, source evidence, counterevidence, uncertainty, and completion status.</p>
+
+<p>Suppose the diff shows a pool limit falling from 100 to 20. That establishes a change, not its causal role. The generalist checks whether connection wait time rose with the release and proposes a controlled test. Evidence that does not fit stays visible.</p>
+
+<p>A separate review can challenge this explanation. Withhold the preferred conclusion where practical, and give the reviewer the evidence. Fresh context can still share model blind spots, so review complements tests and external evidence.</p>
+
+<p>The real limit on fan-out is also the capacity to verify. Ten plausible summaries can leave the generalist with more work than it started with. Source artifacts and explicit uncertainty make each finding easier to check and reconcile.</p>
+
+<p>As evidence arrives, database and network checks may converge on the same bottleneck. The generalist can combine their findings and cancel redundant branches. <a href="https://arxiv.org/html/2602.11865v1" rel="noreferrer">Adaptive delegation research</a> proposes this flexibility; its benefit still needs validation on the actual workload.</p>
+
+<p>Trace each contract, tool call, artifact, and result under the parent task. Propagate cancellation and release reservations. Preserve partial results for recovery without resetting budgets or treating unfinished output as verified.</p>
+
+<aside class="agent-callout"><p><strong>Tool discovery is not an access grant.</strong> Enforce permissions on every call. Exclusive internal data can stay behind a service that returns only authorized results. Subagents must not inherit broader credentials or use retrieved content to change policy.</p></aside>
+
+<h2 id="test-whether-the-boundary-adds-value">Test whether the boundary adds value<a class="heading-anchor" href="#test-whether-the-boundary-adds-value" aria-label="Link to this section">#</a></h2>
+
+<p>Compare the generalist, generalist with delegation, and any existing specialist system. Give them equivalent useful knowledge, state access, tools, and model capabilities. Use held-out tasks within and across domains. At matched budgets, measure quality, latency, total cost, and recovery failures—including discovery, retries, and verification. Then measure what extra spend buys.</p>
+
+<p>If specialists win, isolate the cause. Supply the generalist with the same relevant context; then test separate execution and parallelism. If the gap persists, block migration while addressing the measured limitation. The proposed architecture must meet the required quality and latency targets.</p>
+
+<p>Re-evaluate after model upgrades. <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" rel="noreferrer">Experiments with long-running agents</a> found that stronger models reduced the need for some scaffolding, while evaluation still helped on harder tasks. Retire orchestration that no longer earns its cost.</p>
+
+<h2 id="use-one-harness-across-product-surfaces">Use one harness across product surfaces<a class="heading-anchor" href="#use-one-harness-across-product-surfaces" aria-label="Link to this section">#</a></h2>
+
+<p>Customer-facing, personal, team, and internal operations agents can share this generalist design. Separate their identities, credentials, memory, and execution environments as required. Multi-tenant and dedicated deployments can reuse the harness while enforcing distinct access boundaries.</p>
+
+<p><strong>Keep expertise reusable, ownership coherent, and delegation temporary.</strong></p>
+
+<details class="agent-contract" id="optional-delegation-contract">
+<summary>Optional delegation contract</summary>
+<div class="agent-contract-content">
+
+<p>This illustrative contract describes one dynamic subagent execution. <a href="https://code.claude.com/docs/en/sub-agents" rel="noreferrer">Subagent mechanisms</a> supply the execution primitives; the runtime enforces the policy. Numeric limits are examples to tune through evaluation.</p>
+
+<pre class="source-example"><code class="language-yaml"># Illustrative policy and request, not a specific SDK schema.
+runtime_policy:
+  creation: primary_agent_only
+  contract_scope: current_parent_task
+  lifetime: until_completion_timeout_or_parent_termination
+  max_concurrent_subagents: 2
+  max_total_launches: 4  # Includes retries.
+  max_depth: 1          # Subagents cannot delegate.
+  budget_source: parent_task
+  require_reservation: true
+  permission_ceiling: parent_grants
+  propagate_cancellation: true
+
+delegation_request:
+  objective: Check whether the release changed connection pool behavior
+  model_class: strong
+  reasoning_effort: high
+  context: explicit_authorized_evidence
+  tools: [deployments.diff, metrics.query, logs.search]
+  actions: read_only
+  memory: task_artifacts_only
+  limits:
+    timeout_seconds: 120
+    max_tool_calls: 12
+    max_output_tokens: 2000
+  result: [findings, evidence, counterevidence, uncertainty, status]</code></pre>
+
+<p>The runtime rejects requests outside policy, accounts for aggregate usage, and records the effective contract. Output limits do not replace a total token or spend budget. Subagent results remain evidence for the primary agent to evaluate.</p>
+
+<p>The runtime checks the contract before creating a subagent. This example shows admission, rejection, and completion under the same policy.</p>
+
+<section class="agent-delegation" data-delegation aria-label="Runtime admission and subagent lifecycle">
+    <div class="agent-scenario-controls" data-delegation-controls hidden role="group" aria-label="Choose a delegation outcome"><button type="button" data-scenario="admitted" aria-controls="delegation-admitted" aria-pressed="true">Admitted</button><button type="button" data-scenario="budget" aria-controls="delegation-budget" aria-pressed="false">Budget exhausted</button><button type="button" data-scenario="access" aria-controls="delegation-access" aria-pressed="false">Access denied</button><button type="button" data-scenario="canceled" aria-controls="delegation-canceled" aria-pressed="false">Parent canceled</button></div>
+    <div aria-live="polite" aria-atomic="true"><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="admitted" id="delegation-admitted">
+        <h3>Admitted</h3>
+        <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-admitted-title delegation-admitted-desc">
+  <title id="delegation-admitted-title">Admitted</title><desc id="delegation-admitted-desc">The runtime reserves capacity, creates a temporary execution, and returns evidence for the primary agent to verify.</desc>
+  <defs><marker id="delegation-admitted-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
+  <g class="diagram-flow" marker-end="url(#delegation-admitted-arrow)">
+            <path d="M180 78 V108"/><path d="M180 178 V198 H85 V228"/><path d="M180 198 H275 V228"/>
+            <path d="M85 298 V328"/><path d="M275 298 V328"/><path d="M85 398 V428"/>
+          </g>
+          <text class="agent-branch-label" x="85" y="220" text-anchor="middle">Admit</text>
+          <text class="agent-branch-label" x="275" y="220" text-anchor="middle">Deny</text>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="10" width="220" height="68" rx="8"/>
+  <text x="180" y="34" text-anchor="middle">Primary agent</text>
+  <text class="agent-node-detail" x="180" y="54" text-anchor="middle">Current-task contract</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="110" width="220" height="68" rx="8"/>
+  <text x="180" y="134" text-anchor="middle">Runtime admission</text>
+  <text class="agent-node-detail" x="180" y="154" text-anchor="middle">Scope, grants and budget</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="230" width="150" height="68" rx="8"/>
+  <text x="85" y="254" text-anchor="middle">Create subagent</text>
+  <text class="agent-node-detail" x="85" y="274" text-anchor="middle">Same harness</text><text class="agent-node-detail" x="85" y="290" text-anchor="middle">Isolated task state</text>
+</g>
+          <g class="agent-node">
+  <rect x="200" y="230" width="150" height="68" rx="8"/>
+  <text x="275" y="254" text-anchor="middle">Reject request</text>
+  <text class="agent-node-detail" x="275" y="274" text-anchor="middle">No execution</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="330" width="150" height="68" rx="8"/>
+  <text x="85" y="354" text-anchor="middle">End execution</text>
+  <text class="agent-node-detail" x="85" y="374" text-anchor="middle">Release reservation</text><text class="agent-node-detail" x="85" y="390" text-anchor="middle">Retain evidence</text>
+</g>
+          <g class="agent-node">
+  <rect x="200" y="330" width="150" height="68" rx="8"/>
+  <text x="275" y="354" text-anchor="middle">Primary continues</text>
+  <text class="agent-node-detail" x="275" y="374" text-anchor="middle">Narrow, proceed</text><text class="agent-node-detail" x="275" y="390" text-anchor="middle">or escalate</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="430" width="150" height="68" rx="8"/>
+  <text x="85" y="454" text-anchor="middle">Primary verifies</text>
+  <text class="agent-node-detail" x="85" y="474" text-anchor="middle">Inspect result</text><text class="agent-node-detail" x="85" y="490" text-anchor="middle">Keep source evidence</text>
+</g>
+          
+</svg></div>
+        <figcaption>The runtime reserves capacity, creates a temporary execution, and returns evidence for the primary agent to verify.</figcaption>
+      </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="budget" id="delegation-budget">
+        <h3>Budget exhausted</h3>
+        <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-budget-title delegation-budget-desc">
+  <title id="delegation-budget-title">Budget exhausted</title><desc id="delegation-budget-desc">No capacity can be reserved. No subagent is created; the primary agent must continue within the remaining limits.</desc>
+  <defs><marker id="delegation-budget-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
+  <g class="diagram-flow" marker-end="url(#delegation-budget-arrow)">
+            <path d="M180 78 V108"/><path d="M180 178 V198 H85 V228"/><path d="M180 198 H275 V228"/>
+            <path d="M85 298 V328"/><path d="M275 298 V328"/><path d="M85 398 V428"/>
+          </g>
+          <text class="agent-branch-label" x="85" y="220" text-anchor="middle">Admit</text>
+          <text class="agent-branch-label" x="275" y="220" text-anchor="middle">Deny</text>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="10" width="220" height="68" rx="8"/>
+  <text x="180" y="34" text-anchor="middle">Primary agent</text>
+  <text class="agent-node-detail" x="180" y="54" text-anchor="middle">Current-task contract</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="110" width="220" height="68" rx="8"/>
+  <text x="180" y="134" text-anchor="middle">Runtime admission</text>
+  <text class="agent-node-detail" x="180" y="154" text-anchor="middle">Scope, grants and budget</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="230" width="150" height="68" rx="8"/>
+  <text x="85" y="254" text-anchor="middle">Create subagent</text>
+  <text class="agent-node-detail" x="85" y="274" text-anchor="middle">Same harness</text><text class="agent-node-detail" x="85" y="290" text-anchor="middle">Isolated task state</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="200" y="230" width="150" height="68" rx="8"/>
+  <text x="275" y="254" text-anchor="middle">Reject request</text>
+  <text class="agent-node-detail" x="275" y="274" text-anchor="middle">Budget exhausted</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="330" width="150" height="68" rx="8"/>
+  <text x="85" y="354" text-anchor="middle">End execution</text>
+  <text class="agent-node-detail" x="85" y="374" text-anchor="middle">Release reservation</text><text class="agent-node-detail" x="85" y="390" text-anchor="middle">Retain evidence</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="200" y="330" width="150" height="68" rx="8"/>
+  <text x="275" y="354" text-anchor="middle">Primary continues</text>
+  <text class="agent-node-detail" x="275" y="374" text-anchor="middle">Narrow, proceed</text><text class="agent-node-detail" x="275" y="390" text-anchor="middle">or escalate</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="430" width="150" height="68" rx="8"/>
+  <text x="85" y="454" text-anchor="middle">Primary verifies</text>
+  <text class="agent-node-detail" x="85" y="474" text-anchor="middle">Inspect result</text><text class="agent-node-detail" x="85" y="490" text-anchor="middle">Keep source evidence</text>
+</g>
+          
+</svg></div>
+        <figcaption>No capacity can be reserved. No subagent is created; the primary agent must continue within the remaining limits.</figcaption>
+      </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="access" id="delegation-access">
+        <h3>Access denied</h3>
+        <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-access-title delegation-access-desc">
+  <title id="delegation-access-title">Access denied</title><desc id="delegation-access-desc">The requested tool exceeds the parent task’s authority. Delegation cannot expand permissions.</desc>
+  <defs><marker id="delegation-access-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
+  <g class="diagram-flow" marker-end="url(#delegation-access-arrow)">
+            <path d="M180 78 V108"/><path d="M180 178 V198 H85 V228"/><path d="M180 198 H275 V228"/>
+            <path d="M85 298 V328"/><path d="M275 298 V328"/><path d="M85 398 V428"/>
+          </g>
+          <text class="agent-branch-label" x="85" y="220" text-anchor="middle">Admit</text>
+          <text class="agent-branch-label" x="275" y="220" text-anchor="middle">Deny</text>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="10" width="220" height="68" rx="8"/>
+  <text x="180" y="34" text-anchor="middle">Primary agent</text>
+  <text class="agent-node-detail" x="180" y="54" text-anchor="middle">Current-task contract</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="110" width="220" height="68" rx="8"/>
+  <text x="180" y="134" text-anchor="middle">Runtime admission</text>
+  <text class="agent-node-detail" x="180" y="154" text-anchor="middle">Scope, grants and budget</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="230" width="150" height="68" rx="8"/>
+  <text x="85" y="254" text-anchor="middle">Create subagent</text>
+  <text class="agent-node-detail" x="85" y="274" text-anchor="middle">Same harness</text><text class="agent-node-detail" x="85" y="290" text-anchor="middle">Isolated task state</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="200" y="230" width="150" height="68" rx="8"/>
+  <text x="275" y="254" text-anchor="middle">Reject request</text>
+  <text class="agent-node-detail" x="275" y="274" text-anchor="middle">Tool outside scope</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="330" width="150" height="68" rx="8"/>
+  <text x="85" y="354" text-anchor="middle">End execution</text>
+  <text class="agent-node-detail" x="85" y="374" text-anchor="middle">Release reservation</text><text class="agent-node-detail" x="85" y="390" text-anchor="middle">Retain evidence</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="200" y="330" width="150" height="68" rx="8"/>
+  <text x="275" y="354" text-anchor="middle">Primary continues</text>
+  <text class="agent-node-detail" x="275" y="374" text-anchor="middle">Narrow, proceed</text><text class="agent-node-detail" x="275" y="390" text-anchor="middle">or escalate</text>
+</g>
+          <g class="agent-node">
+  <rect x="10" y="430" width="150" height="68" rx="8"/>
+  <text x="85" y="454" text-anchor="middle">Primary verifies</text>
+  <text class="agent-node-detail" x="85" y="474" text-anchor="middle">Inspect result</text><text class="agent-node-detail" x="85" y="490" text-anchor="middle">Keep source evidence</text>
+</g>
+          
+</svg></div>
+        <figcaption>The requested tool exceeds the parent task’s authority. Delegation cannot expand permissions.</figcaption>
+      </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="canceled" id="delegation-canceled">
+        <h3>Parent canceled</h3>
+        <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-canceled-title delegation-canceled-desc">
+  <title id="delegation-canceled-title">Parent canceled</title><desc id="delegation-canceled-desc">The subagent stops, unused capacity is released, and partial results remain marked incomplete.</desc>
+  <defs><marker id="delegation-canceled-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
+  <g class="diagram-flow" marker-end="url(#delegation-canceled-arrow)">
+            <path d="M180 78 V108"/><path d="M180 178 V198 H85 V228"/><path d="M180 198 H275 V228"/>
+            <path d="M85 298 V328"/><path d="M275 298 V328"/><path d="M85 398 V428"/>
+          </g>
+          <text class="agent-branch-label" x="85" y="220" text-anchor="middle">Admit</text>
+          <text class="agent-branch-label" x="275" y="220" text-anchor="middle">Deny</text>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="10" width="220" height="68" rx="8"/>
+  <text x="180" y="34" text-anchor="middle">Primary agent</text>
+  <text class="agent-node-detail" x="180" y="54" text-anchor="middle">Current-task contract</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="70" y="110" width="220" height="68" rx="8"/>
+  <text x="180" y="134" text-anchor="middle">Runtime admission</text>
+  <text class="agent-node-detail" x="180" y="154" text-anchor="middle">Scope, grants and budget</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="230" width="150" height="68" rx="8"/>
+  <text x="85" y="254" text-anchor="middle">Create subagent</text>
+  <text class="agent-node-detail" x="85" y="274" text-anchor="middle">Same harness</text><text class="agent-node-detail" x="85" y="290" text-anchor="middle">Isolated task state</text>
+</g>
+          <g class="agent-node">
+  <rect x="200" y="230" width="150" height="68" rx="8"/>
+  <text x="275" y="254" text-anchor="middle">Reject request</text>
+  <text class="agent-node-detail" x="275" y="274" text-anchor="middle">No execution</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="330" width="150" height="68" rx="8"/>
+  <text x="85" y="354" text-anchor="middle">Cancel execution</text>
+  <text class="agent-node-detail" x="85" y="374" text-anchor="middle">Release reservation</text><text class="agent-node-detail" x="85" y="390" text-anchor="middle">Retain evidence</text>
+</g>
+          <g class="agent-node">
+  <rect x="200" y="330" width="150" height="68" rx="8"/>
+  <text x="275" y="354" text-anchor="middle">Primary continues</text>
+  <text class="agent-node-detail" x="275" y="374" text-anchor="middle">Narrow, proceed</text><text class="agent-node-detail" x="275" y="390" text-anchor="middle">or escalate</text>
+</g>
+          <g class="agent-node agent-node-active">
+  <rect x="10" y="430" width="150" height="68" rx="8"/>
+  <text x="85" y="454" text-anchor="middle">Preserve artifacts</text>
+  <text class="agent-node-detail" x="85" y="474" text-anchor="middle">Incomplete output</text><text class="agent-node-detail" x="85" y="490" text-anchor="middle">No further execution</text>
+</g>
+          
+</svg></div>
+        <figcaption>The subagent stops, unused capacity is released, and partial results remain marked incomplete.</figcaption>
+      </figure></div>
+  </section>
+
+</div>
+</details>
+<!--article-prose:end--></div>
+        
+        <div class="prose series-afterword"></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <span></span>
+      <a class="pagination-next" href="/writing/quality-flywheel/"><span>Next</span><strong>The Quality Flywheel</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>
