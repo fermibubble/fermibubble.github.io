@@ -1,3 +1,4 @@
+import { evalOverview } from "./eval-writing.mjs";
 import { qualityOverview } from "./quality-writing.mjs";
 import { agentArchitecture } from "./agent-architecture.mjs";
 import { progressiveDisclosure } from "./progressive-disclosure.mjs";
@@ -20,6 +21,7 @@ export const site = {
 };
 
 export const writing = [
+  evalOverview,
   progressiveDisclosure,
   agentArchitecture,
   qualityOverview,

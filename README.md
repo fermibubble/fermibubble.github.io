@@ -22,7 +22,7 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
-The Writing index contains five standalone essays and four collections in date order: The Quality Flywheel, Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
+The Writing index contains five standalone essays and five collections in date order: How to Write and Score an Agent Eval, The Quality Flywheel, Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
@@ -80,3 +80,9 @@ Index examples use an `index-example` fence followed by the illustrative file pa
 ### Quality Flywheel collection
 
 `src/quality-writing.mjs` loads five HTML chapters from `src/essays/2026-10-quality/`. HTML preserves worked examples, inline research links, and the scoring experiment. The shared diagram system lives in `src/diagrams.mjs` and `src/diagram.css`; its vectors use the site typeface and color themes. Earlier Quality Flywheel chapter URLs redirect to the corresponding merged chapters. Edit those source files, then run `npm run publish:prepare` and `npm run check`. Collection-specific styling and the scoring interaction live in `src/quality.css` and `src/quality.js`.
+
+### How to Write and Score an Agent Eval
+
+The evaluation guide is a collection of three installments containing nine chapters. `src/eval-writing.mjs` loads the approved HTML manuscripts and manifest from `src/essays/2026-10-evals/`. The collection appears once in the Writing index and feeds; all three parts are searchable and have previous/next navigation.
+
+Part 2 includes a progressive-enhancement scoring example. Its original values are readable without JavaScript; `src/eval-scores.js` enables the controls and updates correctness, completion, and authority independently. It uses no host APIs or external requests. `src/eval-writing.css` follows both existing color themes. `scripts/check-eval-scores.mjs` verifies the interactive states and their rendered controls. The runnable Python companion is `assets/downloads/eval-authoring-companion.zip`; its judgments are illustrative, not measured model results.

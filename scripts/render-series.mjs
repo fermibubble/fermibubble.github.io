@@ -1,7 +1,7 @@
 import { writingPath } from "../src/paths.mjs";
 
 export function renderSeriesMap(essays, escape, currentSlug, options = {}) {
-  return `<nav class="series-map" aria-label="${escape(options.title || "Trustworthy Autonomy")} chapters">
+  return `<nav class="series-map" aria-label="${escape(options.title || "Trustworthy Autonomy")} ${escape(options.unit || "chapter")}s">
     <div class="series-map-heading"><span>Inside this collection</span><h2>${escape(options.heading || "Nine principles, nine chapters")}</h2></div>
     <div class="series-map-grid">${essays.map((essay) => `<a class="series-map-card" href="${writingPath(essay)}"${essay.slug === currentSlug ? ' aria-current="page"' : ""}>
       <span class="series-number">${String(essay.seriesNumber).padStart(2,"0")}</span>
@@ -36,8 +36,8 @@ export function renderContextTable(table, escape) {
   </table></div>`;
 }
 
-export function renderSeriesNavigation(item, essays, escape) {
-  return `<details class="series-directory"><summary>Chapters in this collection <span>${String(item.seriesNumber).padStart(2,"0")} / ${String(essays.length).padStart(2,"0")}</span></summary>
-    <nav aria-label="Collection chapters"><ol>${essays.map((essay) => `<li><a href="${writingPath(essay)}"${essay.slug===item.slug?' aria-current="page"':""}>${escape(essay.title)}</a></li>`).join("")}</ol></nav>
+export function renderSeriesNavigation(item, essays, escape, unit = "chapter") {
+  return `<details class="series-directory"><summary>${escape(unit[0].toUpperCase() + unit.slice(1))}s in this collection <span>${String(item.seriesNumber).padStart(2,"0")} / ${String(essays.length).padStart(2,"0")}</span></summary>
+    <nav aria-label="Collection ${escape(unit)}s"><ol>${essays.map((essay) => `<li><a href="${writingPath(essay)}"${essay.slug===item.slug?' aria-current="page"':""}>${escape(essay.title)}</a></li>`).join("")}</ol></nav>
   </details>`;
 }

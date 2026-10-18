@@ -1,0 +1,130 @@
+<p>The agent finds the cause of an outage, explains it clearly, and recommends a fix. A reviewer might approve the answer after a quick read.</p>
+<p>Then someone checks the capacity calculation. The proposed fix would overload the database.</p>
+<p>The diagnosis was right. The recommendation was wrong. The answer cited real evidence and respected its permissions. The team needs to preserve those distinctions to decide what to fix.</p>
+<p>We will build an eval around this invented checkout incident, then test its scoring rules with owner lookups, CSV conversion, and booking examples. The final decision will be whether to release an improved agent whose headline score looks better.</p>
+
+<nav class="eval-chapter-nav" aria-label="In this installment"><p>In this installment</p><ol><li><a href="#chapter-1-reproduce-the-problem-before-writing-the-test">Chapter 1 Reproduce the problem before writing the test</a></li><li><a href="#chapter-2-write-rules-that-distinguish-a-good-answer">Chapter 2 Write rules that distinguish a good answer</a></li></ol></nav>
+<h2 id="chapter-1-reproduce-the-problem-before-writing-the-test">Chapter 1 Reproduce the problem before writing the test<a class="heading-anchor" href="#chapter-1-reproduce-the-problem-before-writing-the-test" aria-label="Link to this section">#</a></h2>
+<h3 id="give-the-agent-a-problem-to-solve">Give the agent a problem to solve<a class="heading-anchor" href="#give-the-agent-a-problem-to-solve" aria-label="Link to this section">#</a></h3>
+<p>Imagine an application called <code>checkout-api</code>. It runs on four instances. Each instance keeps a pool of open database connections, which requests borrow when they need to query the database.</p>
+<p>After a deployment, checkout requests start timing out.</p>
+<p>The user asks:</p>
+<blockquote>
+<p>Checkout requests started timing out after the 14:00 deployment. Investigate <code>checkout-api</code> in staging, identify the cause, and recommend a fix. Do not change the environment.</p>
+</blockquote>
+<p>This prompt gives the agent a symptom, a place to investigate, an expected result, and an action boundary. It leaves the diagnosis for the agent to discover.</p>
+<p>Compare it with “Investigate the connection pool regression.” That version has already supplied the important answer. It might be useful for testing a repair procedure, but it is a weak test of diagnosis.</p>
+<h3 id="know-the-answer-for-a-defensible-reason">Know the answer for a defensible reason<a class="heading-anchor" href="#know-the-answer-for-a-defensible-reason" aria-label="Link to this section">#</a></h3>
+<p>The evaluator has a controlled reproduction of the incident. The deployment reduced the connection pool from 16 to 4 per instance. Requests now spend longer waiting to borrow a connection. Once they obtain one, their database queries run at the usual speed.</p>
+<p>Restoring the previous setting resolves the problem in this reproduction.</p>
+<p>That distinction between <strong>waiting for a connection</strong> and <strong>executing a query</strong> matters. “The database became slower” would sound plausible, but would explain the wrong part of the delay.</p>
+<p>The evaluator records three pieces of evidence:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Evidence</th>
+<th scope="col">What the diagnostic environment shows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>e1</code> Configuration history</td>
+<td>The pool changed from 16 to 4 per instance</td>
+</tr>
+<tr>
+<td><code>e2</code> Latency measurements</td>
+<td>Connection waits increased; query execution time did not</td>
+</tr>
+<tr>
+<td><code>e3</code> Capacity information</td>
+<td>Four instances; database limit 100; other workloads use 20; keep 16 in reserve</td>
+</tr>
+</tbody></table></div>
+<p>These are the <strong>reference facts</strong>: the evidence against which an answer will be judged. The agent can discover them through its tools. The evaluator&#39;s answer key and grading instructions remain outside the agent&#39;s accessible files.</p>
+<p>Now work out a feasible remedy. The database allows 100 connections. Subtract the 20 used elsewhere and the 16 kept in reserve. That leaves 64 connections for checkout.</p>
+<p>Four instances share that budget, so each can use 16.</p>
+<p><strong>Available per instance = (100 − 20 − 16) / 4 = 16 connections.</strong></p>
+<p>A recommendation to restore 16 fits this case. A recommendation to use 64 per instance would allocate 256 connections and fail the capacity constraint.</p>
+<p>Notice what we established before involving a judge: the actual fault, the observable symptoms, and a constraint that distinguishes a good remedy from a bad one.</p>
+<h3 id="make-the-starting-conditions-repeatable">Make the starting conditions repeatable<a class="heading-anchor" href="#make-the-starting-conditions-repeatable" aria-label="Link to this section">#</a></h3>
+<p>A <strong>fixture</strong> is the prepared test situation: the files, service state, records, and tool responses the agent starts with. A <strong>trial</strong> is one attempt at solving that situation.</p>
+<p>Restore the fixture before each independent trial, then check that the intended fault is present. Otherwise, the second agent may inherit the first agent&#39;s repair and face an entirely different problem.</p>
+<p>Saved tool responses are useful for a diagnosis test: they are inexpensive and repeatable. They cannot demonstrate that a proposed repair works. If the task asks the agent to change a system, use an isolated executable environment or a simulator whose behavior has been validated.</p>
+<p>Historical incident reports are useful starting material too. Verify their diagnoses against the test environment; copying an old explanation into an answer key does not make it a verified answer for this test.</p>
+<p>Package the prompt, fixture version, reference facts, rubrics, and execution settings together. If shared grading templates change, pin the version used by each task. Otherwise a score can change merely because the runner loaded a different rule.</p>
+<p><strong>Apply this to your task:</strong> write down the fault, the evidence available to the agent, and one tempting answer that the evidence rules out. If you cannot explain why that answer is wrong, the reference is not ready for automated grading.</p>
+<h2 id="chapter-2-write-rules-that-distinguish-a-good-answer">Chapter 2 Write rules that distinguish a good answer<a class="heading-anchor" href="#chapter-2-write-rules-that-distinguish-a-good-answer" aria-label="Link to this section">#</a></h2>
+<h3 id="replace-a-vague-rating-with-answerable-questions">Replace a vague rating with answerable questions<a class="heading-anchor" href="#replace-a-vague-rating-with-answerable-questions" aria-label="Link to this section">#</a></h3>
+<p>A <strong>rubric</strong> is a written rule for judging one aspect of the result.</p>
+<p>“Give a helpful and accurate answer” is too broad. Two reviewers could agree that the diagnosis is good and still disagree about whether the bad remedy deserves a score of 3, 6, or 8.</p>
+<p>For checkout, separate three obligations:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Check</th>
+<th scope="col">What must be true</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>C1</code> Cause</td>
+<td>Identifies the deployment reducing the connection pool from 16 to 4</td>
+</tr>
+<tr>
+<td><code>C2</code> Mechanism</td>
+<td>Explains that requests wait for connections, while query execution time is unchanged</td>
+</tr>
+<tr>
+<td><code>C3</code> Remedy</td>
+<td>Recommends a fix that addresses the bottleneck within the verified capacity</td>
+</tr>
+</tbody></table></div>
+<p>Each check gets a pass or a fail. We will represent those as 1 and 0.</p>
+<p>This makes the failure useful. If <code>C1</code> and <code>C2</code> pass but <code>C3</code> fails, the next improvement is about choosing a remedy. We do not have to infer that from a holistic rating.</p>
+<h3 id="write-a-boundary-the-grader-can-apply">Write a boundary the grader can apply<a class="heading-anchor" href="#write-a-boundary-the-grader-can-apply" aria-label="Link to this section">#</a></h3>
+<p>Before reading the verdicts, decide which of these recommendations you would let an engineer act on. All three respond to the incident; they make very different commitments.</p>
+<blockquote>
+<p>Restore the pool to 16 per instance. Four pools use 64 connections, leaving the allocations for other workloads and reserve intact.</p>
+</blockquote>
+<p>This passes <code>C3</code>.</p>
+<blockquote>
+<p>Increase the pool to 64 per instance.</p>
+</blockquote>
+<p>This fails <code>C3</code>, because four pools would require 256 connections.</p>
+<blockquote>
+<p>Increase the pool, add retries, restart the database, or scale the application.</p>
+</blockquote>
+<p>This also fails the rubric as written. It offers a menu without selecting and justifying a feasible remedy. Mentioning a potentially useful action is not the same as recommending a defensible fix.</p>
+<p>These examples belong with the rubric. They give the grader a concrete boundary: a feasible recommendation passes; an excessive setting or an unchosen list of fixes fails.</p>
+<p>A different solution can still pass. For example, limiting incoming concurrency could reduce pressure on the pool. The answer would need to explain the throughput tradeoff and how to validate that the policy addresses the incident. The reference should describe acceptable outcomes and constraints, rather than demand a particular sentence.</p>
+<h3 id="do-not-reward-imitation">Do not reward imitation<a class="heading-anchor" href="#do-not-reward-imitation" aria-label="Link to this section">#</a></h3>
+<p>Suppose the reference says:</p>
+<blockquote>
+<p>Requests are blocked while acquiring a connection.</p>
+</blockquote>
+<p>The agent says:</p>
+<blockquote>
+<p>Queries are waiting for a free slot in the application&#39;s database pool.</p>
+</blockquote>
+<p>Those can express the same mechanism. Comparing the strings exactly would reject useful variation.</p>
+<p>Now suppose the agent says:</p>
+<blockquote>
+<p>This is not a connection pool problem.</p>
+</blockquote>
+<p>A keyword check for “connection pool” could accept the opposite claim.</p>
+<p>Exact matching works well for fixed identifiers and required literal outputs. For explanations, grade the meaning. For structured output, validate its structure and values instead of comparing formatting.</p>
+<p>The same principle applies to tool use. If the agent establishes the facts through SQL, it should not fail merely because the reference trace used a metrics API. Use traces to diagnose how an agent worked. Require a particular sequence only when the sequence itself matters, such as obtaining approval before a write.</p>
+<h3 id="choose-the-scoring-scale-deliberately">Choose the scoring scale deliberately<a class="heading-anchor" href="#choose-the-scoring-scale-deliberately" aria-label="Link to this section">#</a></h3>
+<p>Binary checks are a useful default for obligations with clear acceptance conditions. Write the boundaries clearly and check that reviewers apply them consistently.</p>
+<p>For a quality with degrees, use an anchored scale. A communication rubric might define:</p>
+<ul>
+<li><p><strong>1:</strong> The main conclusion is missing or hard to locate.</p>
+</li>
+<li><p><strong>2:</strong> The conclusion is present, but observations and recommendations are mixed together.</p>
+</li>
+<li><p><strong>3:</strong> The answer states the conclusion first and clearly separates evidence from next steps.</p>
+</li>
+</ul>
+<p>That is easier to apply than “Rate clarity from 1 to 3.” <a href="https://aclanthology.org/2024.acl-long.745/">LLM-Rubric</a> explores calibrating multidimensional ratings against human judgments for dialogue quality. The relevant lesson is that a scale needs validation, not that every task should use the same scale.</p>
+<p>For the worked checkout eval, we will keep binary checks so the arithmetic stays easy to inspect.</p>
+<p>Here is a way to improve the score without improving the answer. Split <code>C1</code>, the cause check, into five overlapping checks. Leave the mechanism and remedy checks unchanged.</p>
+<p>The same answer now passes six of seven checks: <strong>85.7% instead of 66.7%</strong>. The diagnosis has gained extra votes; the bad remedy is still bad.</p>
+<p>Choose the distinct obligations first. Then attach a pass example and a fail example to each rule. A longer rubric should make the judgment clearer, not quietly make a failure cheaper.</p>

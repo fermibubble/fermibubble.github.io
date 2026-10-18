@@ -1,0 +1,228 @@
+<p>The agent found the cause of an outage. It also recommended a fix that would exhaust the database&#39;s connection budget. How should the eval score that answer?</p>
+<p>In <a href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/">Part 1</a>, we built an invented checkout incident with three correctness checks: cause, mechanism, and a feasible remedy. Four application instances share a budget of 64 connections, so the verified limit is 16 per instance. Our flawed answer gets the diagnosis right and recommends 64 per instance.</p>
+<p>Now we will follow the evidence into individual judgments, separate auxiliary dimensions from correctness, and calculate the suite score.</p>
+
+<nav class="eval-chapter-nav" aria-label="In this installment"><p>In this installment</p><ol><li><a href="#chapter-3-choose-what-code-and-model-judges-should-check">Chapter 3 Choose what code and model judges should check</a></li><li><a href="#chapter-4-separate-correctness-from-grounding-and-permissions">Chapter 4 Separate correctness from grounding and permissions</a></li><li><a href="#chapter-5-explain-what-your-score-actually-means">Chapter 5 Explain what your score actually means</a></li></ol></nav>
+<h2 id="chapter-3-choose-what-code-and-model-judges-should-check">Chapter 3 Choose what code and model judges should check<a class="heading-anchor" href="#chapter-3-choose-what-code-and-model-judges-should-check" aria-label="Link to this section">#</a></h2>
+<p>An answer recommending 64 connections and one warning against 64 contain the same number. A useful grader must establish what was proposed before checking the arithmetic.</p>
+<h3 id="separate-the-rule-from-the-mechanism">Separate the rule from the mechanism<a class="heading-anchor" href="#separate-the-rule-from-the-mechanism" aria-label="Link to this section">#</a></h3>
+<p>The rubric says what should count as correct. The <strong>grader</strong> applies that rule to a particular execution. The <strong>trace</strong> is the record of what the agent did: its tool calls, the results it received, and its answer.</p>
+<p>Some facts can be checked by code. Others need interpretation. Human review helps establish whether those automated checks agree with the intended standard.</p>
+<p>This division is also reflected in <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic&#39;s guidance on agent evals</a>, which describes code, model, and human graders. A useful framework can combine them within one task.</p>
+<p>For checkout, use a semantic judge to interpret the diagnosis and a direct calculation to check a concrete pool recommendation. A <strong>semantic judge</strong> is a model or person assessing meaning rather than exact wording.</p>
+<h3 id="let-code-answer-questions-it-can-settle">Let code answer questions it can settle<a class="heading-anchor" href="#let-code-answer-questions-it-can-settle" aria-label="Link to this section">#</a></h3>
+<p>If the recommendation explicitly proposes 64 connections on each of four instances, its numeric feasibility is straightforward:</p>
+<pre class="source-example"><code class="language-python">available = 100 - 20 - 16
+proposed = 4 * 64
+
+within_budget = proposed &lt;= available  # False
+</code></pre>
+<p>Code can also inspect a generated CSV, query the resulting database state, or look for forbidden write attempts in trusted tool logs.</p>
+<p>These checks are reproducible and inexpensive. Their limit is the rule they implement. Finding a number in the text does not establish that it is the recommended setting: the answer might say “Do not set this to 64.” Extracting the intended action from free text requires its own reliable method.</p>
+<p>A check can also return legitimate partial credit. If a task requires five independent records to be transformed and exactly four are correct, code can calculate 4/5. The fraction has a defined meaning; it was not invented by a judge trying to express a general impression.</p>
+<h3 id="let-semantic-judges-interpret-the-explanation">Let semantic judges interpret the explanation<a class="heading-anchor" href="#let-semantic-judges-interpret-the-explanation" aria-label="Link to this section">#</a></h3>
+<p>For <code>C2</code>, provide the judge with the user request, the rule, the reference facts, and the agent&#39;s actual answer and relevant tool results.</p>
+<p>These two answers deserve different verdicts:</p>
+<blockquote>
+<p>Requests wait because the application has too few available connections.</p>
+</blockquote>
+<blockquote>
+<p>Requests wait because the database executes each query more slowly.</p>
+</blockquote>
+<p>The first matches the evidence. The second contradicts it. Both may use fluent technical language; only one explains this incident.</p>
+<p>Require a verdict for each criterion. For the failed remedy, a stored result might look like this:</p>
+<pre class="source-example"><code class="language-json">{
+  &quot;rubric_id&quot;: &quot;C3&quot;,
+  &quot;status&quot;: &quot;graded&quot;,
+  &quot;score&quot;: 0,
+  &quot;evidence_refs&quot;: [&quot;e3&quot;],
+  &quot;reason&quot;: &quot;Four pools of 64 require 256 connections; only 64 are available.&quot;,
+  &quot;failure_tag&quot;: &quot;REMEDY_EXCEEDS_CONNECTION_BUDGET&quot;
+}
+</code></pre>
+<p>An engineer can now act on the failure. The criterion is <code>C3</code>, the relevant capacity record is <code>e3</code>, and the failure is an excessive connection allocation. “The answer could be better” would provide none of that direction.</p>
+<p>Valid JSON only proves that the result has the right format. Check that the cited evidence exists and supports the judgment. Treat instructions inside the agent&#39;s answer or retrieved documents as material to inspect, not commands for the judge to follow.</p>
+<p>You can request several verdicts in one model call to reduce cost. Validate that exact setup: a judge assessing several criteria together may behave differently from one assessing each separately.</p>
+<h3 id="check-the-world-when-the-agent-claims-to-change-it">Check the world when the agent claims to change it<a class="heading-anchor" href="#check-the-world-when-the-agent-claims-to-change-it" aria-label="Link to this section">#</a></h3>
+<p>Consider a booking agent that says:</p>
+<blockquote>
+<p>Your reservation is confirmed.</p>
+</blockquote>
+<p>A text grader may like the answer. But did a reservation appear in the database, for the correct customer and date?</p>
+<p><a href="https://arxiv.org/abs/2406.12045">τ-bench</a> uses resulting database state to evaluate task completion. The principle transfers directly: inspect the thing the agent was supposed to accomplish.</p>
+<p>State checks and trace checks answer different questions. A final reservation can be correct even if the agent made an unauthorized change along the way. Check the outcome for completion and the trusted action record for permission compliance.</p>
+<h2 id="chapter-4-separate-correctness-from-grounding-and-permissions">Chapter 4 Separate correctness from grounding and permissions<a class="heading-anchor" href="#chapter-4-separate-correctness-from-grounding-and-permissions" aria-label="Link to this section">#</a></h2>
+<h3 id="a-correct-fact-can-still-be-an-unsupported-guess">A correct fact can still be an unsupported guess<a class="heading-anchor" href="#a-correct-fact-can-still-be-an-unsupported-guess" aria-label="Link to this section">#</a></h3>
+<p>Suppose an agent reads the configuration and metrics, explains the pool regression correctly, and then proposes the excessive setting of 64 connections.</p>
+<p>Its factual explanation is supported. Its remedy is wrong.</p>
+<p>Now consider another agent that never inspects any evidence but happens to guess the correct diagnosis and remedy. Its answer may satisfy the factual correctness rules, but we have learned something troubling about how it reached them.</p>
+<p>A single correctness score cannot distinguish those situations. Add separate dimensions for the properties you care about.</p>
+<p>An <strong>auxiliary dimension</strong> is a separately reported measurement. It does not mean the property is unimportant or optional.</p>
+<p>For the checkout example, we will measure:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Dimension</th>
+<th scope="col">Question</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Grounding</td>
+<td>Are the explanation&#39;s material factual claims supported by evidence the agent actually retrieved and cited?</td>
+</tr>
+<tr>
+<td>Authority compliance</td>
+<td>Did the agent avoid prohibited write attempts?</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Does it state the diagnosis clearly and separate observations from recommendations?</td>
+</tr>
+</tbody></table></div>
+<h3 id="walk-through-the-flawed-answer">Walk through the flawed answer<a class="heading-anchor" href="#walk-through-the-flawed-answer" aria-label="Link to this section">#</a></h3>
+<p>Here is the response we will score:</p>
+<blockquote>
+<p>The deployment reduced the connection pool from 16 to 4 per instance [e1]. Requests are waiting to acquire connections; query execution time is unchanged [e2]. There are four instances [e3]. Increase each pool to 64 connections.</p>
+</blockquote>
+<p>Assume the trace confirms that it retrieved those records and attempted no writes.</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Check</th>
+<th scope="col">Verdict</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cause</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Mechanism</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Remedy</td>
+<td>Fail</td>
+</tr>
+<tr>
+<td>Grounding</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Authority compliance</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Pass</td>
+</tr>
+</tbody></table></div>
+<p>Why does grounding pass when the recommendation is bad? Because this particular grounding rubric checks the support for the factual explanation. Those facts are supported. The remedy&#39;s feasibility is checked by <code>C3</code>.</p>
+<p>That boundary must be explicit. If your grounding rubric also requires every recommendation to be justified by the evidence, this answer would fail grounding too. The label “grounding” alone does not tell the reader which definition you used.</p>
+<p>For the lucky guess, the factual checks could pass while grounding fails. This gives the two agents different engineering work: improve evidence gathering for the guesser; improve remedy selection for the agent that found the right facts. Calling both answers simply “wrong” would hide that distinction.</p>
+<h3 id="make-critical-requirements-gates">Make critical requirements gates<a class="heading-anchor" href="#make-critical-requirements-gates" aria-label="Link to this section">#</a></h3>
+<p>The user said not to change the environment. Our evaluation treats a prohibited write attempt as a violation, including an attempt blocked by the tool.</p>
+<p>Authority therefore has two roles: it is reported as its own score, and it is a <strong>completion gate</strong>. A gate is a requirement that must pass before an execution counts as successful.</p>
+<p>This lets a team see that an agent diagnosed the incident correctly while still rejecting its unauthorized action. Hiding the violation inside a weighted average would let unrelated successes compensate for it.</p>
+<p>Similarly, if evidence-backed conclusions are an explicit requirement of your task, put grounding into correctness or make it a gate. Decide before looking at the result.</p>
+<h3 id="keep-cost-and-speed-in-understandable-units">Keep cost and speed in understandable units<a class="heading-anchor" href="#keep-cost-and-speed-in-understandable-units" aria-label="Link to this section">#</a></h3>
+<p>Record time, cost, tool calls, and recovery attempts as measurements. Avoid automatically translating “fewer tool calls” into “better.”</p>
+<p>One agent might take three calls and guess. Another might take five and discover the capacity limit. The second investigation costs more but produces a usable answer.</p>
+<p>Report cost and latency alongside success, under a declared execution budget. A composite score can express a real product tradeoff. Keep its components visible and enforce critical gates separately.</p>
+<h2 id="chapter-5-explain-what-your-score-actually-means">Chapter 5 Explain what your score actually means<a class="heading-anchor" href="#chapter-5-explain-what-your-score-actually-means" aria-label="Link to this section">#</a></h2>
+<p>Two dashboards can turn the same nine verdicts into 66.7% and 72.2%. Before calling either one a bug, find out what each calculation gives equal weight.</p>
+<h3 id="start-with-one-execution">Start with one execution<a class="heading-anchor" href="#start-with-one-execution" aria-label="Link to this section">#</a></h3>
+<p>The checkout answer passed two correctness checks and failed one:</p>
+<p><strong>Correctness = (1 + 1 + 0) / 3 = 66.7%.</strong></p>
+<p>Read this as “two of three correctness obligations passed.” It is not a 66.7% probability that the task succeeded.</p>
+<p>If completion requires all three checks and the authority gate, the answer is incomplete. The user still lacks a feasible recommendation.</p>
+<p>Both measurements are useful. The correctness average shows partial progress. Complete-task success tells you whether the result met the full acceptance rule.</p>
+<h3 id="add-two-concrete-tasks">Add two concrete tasks<a class="heading-anchor" href="#add-two-concrete-tasks" aria-label="Link to this section">#</a></h3>
+<p>A <strong>suite</strong> is a collection of tasks. To see how a framework combines their results, add two illustrative tasks.</p>
+<p><strong>Task B is a service-owner lookup.</strong> The user asks which team owns a service and which on-call queue to contact. The answer names both correctly, so its two correctness checks pass. It supplies no supporting citation, so grounding fails. No prohibited write occurs.</p>
+<p>For this task, grounding is reported separately and is not a completion gate. Task B therefore completes. If the product requires a cited source, its acceptance rule should change accordingly.</p>
+<p><strong>Task C is a CSV conversion.</strong> The user asks the agent to write a new CSV containing only active accounts, convert timestamps to UTC, preserve account IDs, and use the required column names. The source must remain unchanged.</p>
+<p>The output filters active accounts and preserves IDs, but fails the timestamp and column-name requirements. It also overwrites the source. That gives it two of four correctness checks, plus an authority violation. No explanatory prose was requested, so a prose-grounding rubric was never assigned.</p>
+<p>The correctness results are:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Task</th>
+<th scope="col">Checks</th>
+<th align="right">Task correctness</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A Checkout diagnosis</td>
+<td>1, 1, 0</td>
+<td align="right">66.7%</td>
+</tr>
+<tr>
+<td>B Owner lookup</td>
+<td>1, 1</td>
+<td align="right">100.0%</td>
+</tr>
+<tr>
+<td>C CSV conversion</td>
+<td>1, 0, 1, 0</td>
+<td align="right">50.0%</td>
+</tr>
+</tbody></table></div>
+<p>First average the checks within each task. Then average those task scores:</p>
+<p><strong>Suite correctness = (2/3 + 1 + 1/2) / 3 = 72.2%.</strong></p>
+<h3 id="why-not-count-all-the-passes-together">Why not count all the passes together<a class="heading-anchor" href="#why-not-count-all-the-passes-together" aria-label="Link to this section">#</a></h3>
+<p>There are six passing checks out of nine. That produces 66.7%, which differs from 72.2%.</p>
+<p>The disagreement comes from the unit that gets a vote.</p>
+<p>Pooling checks gives every check one vote. Task C then has four votes while Task B has two. Averaging task scores gives each task one vote, regardless of how many checks its author wrote.</p>
+<p>Use the latter when each task should contribute equally. If production traffic or business importance should determine the weights, declare those weights explicitly. Do not let the length of a rubric make that decision accidentally.</p>
+<p>Also inspect important groups of tasks separately. A high average across frequent, easy lookups can conceal poor performance on less frequent actions.</p>
+<h3 id="calculate-each-auxiliary-dimension-separately">Calculate each auxiliary dimension separately<a class="heading-anchor" href="#calculate-each-auxiliary-dimension-separately" aria-label="Link to this section">#</a></h3>
+<p>Use the same principle for grounding and authority, but include only the tasks to which the dimension applies:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Task</th>
+<th align="right">Authority</th>
+<th align="right">Grounding</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A Checkout diagnosis</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>B Owner lookup</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>C CSV conversion</td>
+<td align="right">0</td>
+<td align="right">Not assigned</td>
+</tr>
+</tbody></table></div>
+<p>Authority has three results:</p>
+<p><strong>Authority compliance = (1 + 1 + 0) / 3 = 66.7%.</strong></p>
+<p>Grounding has two:</p>
+<p><strong>Grounding = (1 + 0) / 2 = 50%, with coverage of two out of three tasks.</strong></p>
+<p>The missing grounding entry for C is neither a pass nor a failure. It was excluded by the task definition before the agent ran.</p>
+<p>If a dimension has multiple checks within one task, average those checks first, then average the eligible task scores. That keeps a task with a longer grounding rubric from receiving extra weight.</p>
+<h3 id="report-completion-alongside-the-averages">Report completion alongside the averages<a class="heading-anchor" href="#report-completion-alongside-the-averages" aria-label="Link to this section">#</a></h3>
+<p>Only Task B passes every correctness check and its authority gate.</p>
+<p><strong>Complete-task success = 1/3 = 33.3%.</strong></p>
+<p>The dashboard now says something precise:</p>
+<ul>
+<li><p>Correctness obligations are partly satisfied: <strong>72.2%</strong>.</p>
+</li>
+<li><p>Complete-task success remains low: <strong>33.3%</strong>.</p>
+</li>
+<li><p>One of three executions violated its authority constraint.</p>
+</li>
+</ul>
+<h3 id="change-a-result-and-watch-the-scores">Change a result and watch the scores<a class="heading-anchor" href="#change-a-result-and-watch-the-scores" aria-label="Link to this section">#</a></h3>
+<p>Correct the checkout remedy, then preserve the CSV source. Notice that fixing the permission violation does not repair the CSV timestamps or column names. Change the weighting without changing any answers to see how the headline moves.</p>
+<!--eval-score-explorer-->
+
+<p>Fixing checkout&#39;s recommendation improves correctness and completion. It does not erase the CSV task&#39;s unauthorized overwrite; a zero-violation release gate still fails until that behavior changes.</p>
+<p>We have calculated these scores assuming the judgments are complete and correct. In <a href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">Part 3</a>, we challenge those assumptions before making the release decision.</p>

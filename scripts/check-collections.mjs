@@ -1,3 +1,4 @@
+import { evalOverview, evalWriting } from "../src/eval-writing.mjs";
 import { qualityOverview, qualityWriting } from "../src/quality-writing.mjs";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -9,10 +10,12 @@ const read = (path) => readFile(new URL(`../dist${path}`, import.meta.url), "utf
 const writing = await read("/writing/index.html");
 const feed = await read("/rss.xml");
 const search = JSON.parse(await read("/search-index.json"));
-for (const [overview, chapters] of [[qualityOverview, qualityWriting], [agencyOverview, agencyWriting], [autonomyOverview, principleEssays], [classifierOverview, classifierWriting]]) {
+for (const [overview, chapters] of [[evalOverview, evalWriting], [qualityOverview, qualityWriting], [agencyOverview, agencyWriting], [autonomyOverview, principleEssays], [classifierOverview, classifierWriting]]) {
+  const unit = overview.seriesUnit || "chapter";
+  const unitLabel = unit[0].toUpperCase() + unit.slice(1);
   const collectionPath = writingPath(overview);
   const page = await read(`${collectionPath}index.html`);
-  assert(writing.includes(`Collection · ${chapters.length} chapters`));
+  assert(writing.includes(`Collection · ${chapters.length} ${unit}s`));
   assert(feed.includes(`https://oddly.fyi${collectionPath}`));
   assert.equal((page.match(/class="series-map-card"/g) || []).length, chapters.length);
   for (const [index, item] of chapters.entries()) {
@@ -20,12 +23,12 @@ for (const [overview, chapters] of [[qualityOverview, qualityWriting], [agencyOv
     const chapter = await read(`${path}index.html`);
     assert(page.includes(`href="${path}"`), `Overview misses ${item.slug}`);
     assert(chapter.includes(`Part of ${overview.title}`));
-    assert(chapter.includes(`Chapter ${String(index + 1).padStart(2, "0")} of ${String(chapters.length).padStart(2, "0")}`));
+    assert(chapter.includes(`${unitLabel} ${String(index + 1).padStart(2, "0")} of ${String(chapters.length).padStart(2, "0")}`));
     assert(chapter.includes(`href="${index ? writingPath(chapters[index - 1]) : collectionPath}"`));
     assert(chapter.includes(`href="${index + 1 < chapters.length ? writingPath(chapters[index + 1]) : collectionPath}"`));
     assert(!writing.includes(`href="${path}"`), `Chapter is ungrouped: ${item.slug}`);
     assert(!feed.includes(`https://oddly.fyi${path}`));
-    assert.equal(search.filter((entry) => entry.url === path && entry.type === "Chapter").length, 1);
+    assert.equal(search.filter((entry) => entry.url === path && entry.type === unitLabel).length, 1);
     assert((await read(`/writing/${item.slug}/index.html`)).includes(`content="0; url=${path}"`));
     for (const alias of item.aliases || []) {
       assert((await read(`/writing/${alias}/index.html`)).includes(`content="0; url=${path}"`), `Broken former chapter URL: ${alias}`);
@@ -42,4 +45,4 @@ assert(!preview.includes('[Request path](request-path/INDEX.md)'));
 for (const match of preview.matchAll(/href="#(example-[^"]+)"/g)) {
   assert(preview.includes(`id="${match[1]}"`), `Missing example destination: ${match[1]}`);
 }
-console.log("Validated all four collections, chapter navigation, short URLs, and rendered index previews.");
+console.log("Validated all five collections, chapter navigation, short URLs, and rendered index previews.");

@@ -1,3 +1,4 @@
+import { evalOverview, evalWriting } from "../src/eval-writing.mjs";
 import { qualityOverview, qualityWriting } from "../src/quality-writing.mjs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -19,9 +20,10 @@ if (draftPreview && process.argv.includes("--publish-root")) {
 }
 const drafts = draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts : [];
 const writing = [...drafts, ...publishedWriting];
-const allChapters = [...qualityWriting, ...principleEssays, ...agencyWriting, ...classifierWriting];
+const allChapters = [...evalWriting, ...qualityWriting, ...principleEssays, ...agencyWriting, ...classifierWriting];
 const allWriting = [...writing, ...allChapters];
 const collections = {
+  "how-to-write-and-score-an-agent-eval": { overview: evalOverview, essays: evalWriting, heading: "Three parts, nine chapters" },
   "quality-flywheel": { overview: qualityOverview, essays: qualityWriting, heading: "The chapters" },
   "classifiers-when-labels-become-decisions": { overview: classifierOverview, essays: classifierWriting, heading: "Ten ideas, from labels to decisions" },
   "trustworthy-autonomy": { overview: autonomyOverview, essays: principleEssays, heading: "Nine principles, nine chapters" },
@@ -305,6 +307,7 @@ function footer() {
 }
 
 function layout({ title, description, active, content, article = false, incident = false, series = false, path = "/" }) {
+  const evalGuide = path.startsWith("/writing/how-to-write-and-score-an-agent-eval/");
   const quality = path.startsWith("/writing/quality-flywheel/");
   const agentArchitecture = path === "/writing/before-you-build-another-agent/";
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
@@ -334,7 +337,7 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="stylesheet" href="/assets/diagram.css">${agentArchitecture ? '\n    <link rel="stylesheet" href="/assets/agent-architecture.css">\n    <script type="module" src="/assets/agent-delegation.js"></script>' : ""}
     <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">${quality ? '\n    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">\n    <script type="module" src="/assets/quality.js"></script>' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
-    <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
+    ${evalGuide ? '<link rel="stylesheet" href="/assets/eval-writing.css">\n    <script type="module" src="/assets/eval-scores.js"></script>\n    ' : ""}<script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
     ${draftPreview ? "" : '<script type="module" src="/assets/analytics.js"></script>'}
   </head>
   <body data-path="${escapeHtml(path)}" data-typography="${typography}"${article ? ' class="article-page"' : ""}>
@@ -460,7 +463,7 @@ function writingPage() {
           (item, i) => `<article class="archive-item">
             <a class="archive-link" href="${publicationPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
             <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
-            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? `Collection · ${seriesFor(item).essays.length} chapters` : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
+            <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? `Collection · ${seriesFor(item).essays.length} ${seriesFor(item).overview.seriesUnit || "chapter"}s` : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
             <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
@@ -544,6 +547,8 @@ function articlePage(item) {
   const seriesTitle = seriesData?.overview.title;
   const seriesPath = seriesData ? writingPath(seriesData.overview) : null;
   const chapterCount = seriesData?.essays.length;
+  const seriesUnit = seriesData?.overview.seriesUnit || "chapter";
+  const unitLabel = seriesUnit[0].toUpperCase() + seriesUnit.slice(1);
   const enhanced = series || !!item.interactiveEssay;
   const pathFor = publicationPath;
   const next = item.seriesNumber ? seriesData.essays[item.seriesNumber] : collection[index + 1];
@@ -552,16 +557,16 @@ function articlePage(item) {
     <article class="article${item.incident ? " article-epistemics" : ""}${enhanced ? " principle-article" : ""}${item.interactiveEssay ? " technical-article" : ""}">
       <header class="article-header shell-narrow">
         <a class="article-back" href="${item.seriesNumber ? seriesPath : `/${base}/`}">${icon.arrow}<span>${item.seriesNumber ? escapeHtml(seriesTitle) : `All ${base}`}</span></a>
-        <div class="article-type">${item.seriesNumber ? `${escapeHtml(seriesTitle)} / Chapter ${String(item.seriesNumber).padStart(2,"0")} of ${String(chapterCount).padStart(2,"0")}` : item.seriesOverview ? `Collection / ${chapterCount} chapters` : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)}${item.eyebrow ? ` · ${escapeHtml(item.eyebrow)}` : ""}`}</div>
+        <div class="article-type">${item.seriesNumber ? `${escapeHtml(seriesTitle)} / ${unitLabel} ${String(item.seriesNumber).padStart(2,"0")} of ${String(chapterCount).padStart(2,"0")}` : item.seriesOverview ? `Collection / ${chapterCount} ${seriesUnit}s` : item.interactiveEssay ? escapeHtml(item.eyebrow) : `${escapeHtml(type)}${item.eyebrow ? ` · ${escapeHtml(item.eyebrow)}` : ""}`}</div>
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
         <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? `\n        <a class="series-home-link" href="${seriesPath}">Part of ${escapeHtml(seriesTitle)} ↗</a>` : ""}
       </header>
       <div class="article-rule shell"></div>
-      ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, seriesData.essays, escapeHtml)}` : ""}
+      ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, seriesData.essays, escapeHtml, seriesUnit)}` : ""}
         <div class="prose${item.incident ? " epistemics-intro" : ""}"><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>${item.contextTable ? `\n        ${renderContextTable(item.contextTable, escapeHtml)}` : ""}
-        ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : item.seriesOverview ? renderSeriesMap(seriesData.essays, escapeHtml, undefined, { title: seriesTitle, heading: seriesData.heading }) : ""}
+        ${item.incident ? renderIncident(item.incident, escapeHtml) : item.caseStudy ? renderCaseStudy(item.caseStudy, escapeHtml) : item.seriesOverview ? renderSeriesMap(seriesData.essays, escapeHtml, undefined, { title: seriesTitle, heading: seriesData.heading, unit: seriesUnit }) : ""}
         <div class="prose series-afterword${item.incident ? " epistemics-afterword" : ""}">${item.afterwordHtml ?? markdown(item.afterword)}</div>
       </div>` : item.incident ? `<div class="epistemics-body" data-article-body>
         <div class="prose epistemics-intro"><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>
@@ -573,8 +578,8 @@ function articlePage(item) {
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
-      ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-prev" href="${seriesPath}"><span>Collection overview</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : "<span></span>"}
-      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? " chapter" : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-next" href="${seriesPath}"><span>Back to the collection</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All writing</strong></a>`}
+      ${previous ? `<a class="pagination-prev" href="${pathFor(previous)}"><span>Previous${item.seriesNumber ? ` ${seriesUnit}` : ""}</span><strong>${escapeHtml(previous.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-prev" href="${seriesPath}"><span>Collection overview</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : "<span></span>"}
+      ${next ? `<a class="pagination-next" href="${pathFor(next)}"><span>Next${item.seriesNumber ? ` ${seriesUnit}` : ""}</span><strong>${escapeHtml(next.title)}</strong></a>` : item.seriesNumber ? `<a class="pagination-next" href="${seriesPath}"><span>Back to the collection</span><strong>${escapeHtml(seriesTitle)}</strong></a>` : `<a class="pagination-next" href="/${base}/"><span>Continue</span><strong>All writing</strong></a>`}
     </nav>
   </main>`;
   return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series: enhanced, path: pathFor(item) });
@@ -636,7 +641,7 @@ async function emit(relative, contents) {
 function searchIndex() {
   return [
     ...publications.map((item) => ({ type: publicationFormat(item), title: item.title, description: item.description, url: publicationPath(item) })),
-    ...allChapters.map((item) => ({ type: "Chapter", title: item.title, description: `${seriesFor(item).overview.title} · ${item.description}`, url: writingPath(item) })),
+    ...allChapters.map((item) => ({ type: seriesFor(item).overview.seriesUnit === "part" ? "Part" : "Chapter", title: item.title, description: `${seriesFor(item).overview.title} · ${item.description}`, url: writingPath(item) })),
     { type: "Page", title: "Focus", description: "Agent systems, data and context, evaluation and learning.", url: "/projects/" },
     { type: "Page", title: "Ideas in progress", description: "Open questions about agent environments, context, replay, and reusable engineering.", url: "/ideas/" },
     { type: "Page", title: "About", description: "About Chaitanya and Oddly.", url: "/about/" }
@@ -722,6 +727,8 @@ await Promise.all([
   cp(join(root, "src", "diagram.css"), join(out, "assets", "diagram.css")),
   cp(join(root, "src", "agent-architecture.css"), join(out, "assets", "agent-architecture.css")),
   cp(join(root, "src", "agent-delegation.js"), join(out, "assets", "agent-delegation.js")),
+  cp(join(root, "src", "eval-writing.css"), join(out, "assets", "eval-writing.css")),
+  cp(join(root, "src", "eval-scores.js"), join(out, "assets", "eval-scores.js")),
   cp(join(root, "src", "quality.css"), join(out, "assets", "quality.css")),
   cp(join(root, "src", "quality.js"), join(out, "assets", "quality.js")),
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
