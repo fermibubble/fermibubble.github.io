@@ -1,0 +1,284 @@
+<p>An agent is asked which production services are still running a faulty release. The answer requires deployment inventory, service ownership, and perhaps logs. The agent already has a sandbox and can write code. What it needs is a practical way to discover the available interfaces and use them without loading their entire documentation into context.</p>
+
+<p>A large tool catalog supplied upfront makes every task pay for capabilities it may never use. A single generic executor can hide that catalog, but the agent still needs to learn what it can execute. Make discovery explicit, execution composable, and results selectively readable.</p>
+
+<p>In <a href="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-world-an-agent-can-read/" rel="noreferrer">The World an Agent Can Read</a>, I described how small indexes make a knowledge collection navigable. We can apply the same structure to APIs, database schemas, and tool servers. Here is a concrete design using a shared CLI called <code>toolbox</code>. The commands are proposed interfaces; a runnable fixture below checks the SQL and result contracts against synthetic data.</p>
+
+<h2 id="start-with-a-small-entry-point">Start with a small entry point<a class="heading-anchor" href="#start-with-a-small-entry-point" aria-label="Link to this section">#</a></h2>
+<p>The harness gives the agent a short index of the connections available to this task. Each entry describes the questions the connection can answer and points to its documentation.</p>
+
+<pre class="source-example"><code># Available connections
+
+- observability: Search runtime logs by service, release, and time window.
+  Read connections/observability.md for MCP discovery and invocation.
+- production: Query observed runtime instances and service ownership.
+  Read connections/production.md for SQL schema discovery and query usage.
+- incidents: Find existing incidents for a service or release.
+  Read connections/incidents.md for REST operations and pagination.</code></pre>
+
+<p>The connection documents explain MCP invocation, SQL views, and REST operations. Generate the index from the task's configured connections: the model sees routing descriptions and can retrieve detailed contracts when needed.</p>
+
+<p>The same three operations guide each adapter: list what is available, describe a selected capability, and execute it. We can implement that pattern for MCP, SQL, and REST.</p>
+
+<p>The CLI can fetch, index, and cache metadata without printing it all. Only selected output reaches the model. A catalog stored in a file remains working data; repeatedly inserting it into model requests consumes context.</p>
+
+<h2 id="start-with-mcp-tools">Start with MCP tools<a class="heading-anchor" href="#start-with-mcp-tools" aria-label="Link to this section">#</a></h2>
+<p>Suppose the observability server publishes a <code>query_logs</code> tool. The agent can discover its contract and use it when the investigation calls for logs:</p>
+
+<pre class="source-example"><code>toolbox mcp observability list-tools
+toolbox mcp observability describe query_logs
+toolbox mcp observability call query_logs \
+  --json-file log-query.json \
+  --output logs.json</code></pre>
+
+<p>A compact <code>list-tools</code> response might be:</p>
+
+<pre class="source-example"><code>{
+  &quot;tools&quot;: [{&quot;name&quot;:&quot;query_logs&quot;,&quot;summary&quot;:&quot;Search runtime logs&quot;}],
+  &quot;next_cursor&quot;: null
+}</code></pre>
+
+<p><code>describe query_logs</code> expands that selected entry into the invocation contract:</p>
+
+<pre class="source-example"><code>{
+  &quot;name&quot;: &quot;query_logs&quot;,
+  &quot;inputSchema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;: {
+      &quot;service_id&quot;: {&quot;type&quot;:&quot;string&quot;},
+      &quot;release_id&quot;: {&quot;type&quot;:&quot;string&quot;},
+      &quot;start&quot;: {&quot;type&quot;:&quot;string&quot;,&quot;format&quot;:&quot;date-time&quot;},
+      &quot;end&quot;: {&quot;type&quot;:&quot;string&quot;,&quot;format&quot;:&quot;date-time&quot;}
+    },
+    &quot;required&quot;: [&quot;service_id&quot;,&quot;release_id&quot;,&quot;start&quot;,&quot;end&quot;],
+    &quot;additionalProperties&quot;: false
+  }
+}</code></pre>
+
+<p>The agent can create <code>log-query.json</code> with those four fields. The adapter validates inputs and checks structured outputs against any published output schema. The compact listing is a CLI presentation of the full catalog held by the adapter.</p>
+
+<p>The adapter contract should make the <a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools" rel="noreferrer">MCP protocol mapping</a> explicit:</p>
+
+<div class="classifier-table-scroll" role="region" aria-label="MCP protocol mapping" tabindex="0"><table class="classifier-table"><thead><tr><th scope="col">CLI behavior</th><th scope="col">Adapter behavior</th></tr></thead><tbody><tr><th scope="row"><code>list-tools</code></th><td>Follow <code>tools/list</code> cursors, cache definitions, and expose a compact, paginated index</td></tr><tr><th scope="row"><code>describe &lt;name&gt;</code></th><td>Read the selected catalog entry; this is a CLI operation, not a separate MCP method</td></tr><tr><th scope="row"><code>call &lt;name&gt;</code></th><td>Validate arguments and send <code>tools/call</code>; map both JSON-RPC errors and <code>isError: true</code> results to nonzero CLI exits</td></tr><tr><th scope="row">Save a result</th><td>Preserve MCP <code>content</code> and <code>structuredContent</code>; do not force every response into SQL rows</td></tr></tbody></table></div>
+
+<p>Tool-result pagination belongs to the application schema; catalog pagination does not solve it. A generic adapter can save one response completely while leaving the application's next-page token untouched. It must distinguish those facts.</p>
+
+<p><code>list-tools</code> exposes only published tools. If a server publishes one code executor, the CLI cannot turn its internal functions into separate tools. The adapter standardizes access to existing capabilities.</p>
+
+<h2 id="then-discover-and-query-sql">Then discover and query SQL<a class="heading-anchor" href="#then-discover-and-query-sql" aria-label="Link to this section">#</a></h2>
+<p>To find affected services, the production connection exposes a query service and schema metadata. A generic <code>execute_sql</code> entry point alone would still leave the agent guessing which tables mean what. Give it discovery commands:</p>
+
+<pre class="source-example"><code>toolbox sql production list-tables
+toolbox sql production describe inventory_snapshots
+toolbox sql production describe runtime_instances
+toolbox sql production describe services</code></pre>
+
+<p><code>list-tables</code> returns names and short descriptions, with pagination when necessary. <code>describe</code> returns the complete contract for one selected view. For a large catalog, add a search entry point:</p>
+
+<pre class="source-example"><code>toolbox sql production search-schema \
+  &quot;currently running releases and service owners&quot;</code></pre>
+
+<h3 id="make-the-schema-useful-enough-to-write-the-query">Make the schema useful enough to write the query<a class="heading-anchor" href="#make-the-schema-useful-enough-to-write-the-query" aria-label="Link to this section">#</a></h3>
+<p>The distinction between rollout history and observed runtime state matters in this investigation. A deployment event can record an attempted release that was later rolled back. The agent needs a view of observed instances.</p>
+
+<p>A useful schema describes types, nullability, keys, and what each row means. This excerpt captures the domain details:</p>
+
+<pre class="source-example"><code>{
+  &quot;view&quot;: &quot;runtime_instances&quot;,
+  &quot;row_meaning&quot;: &quot;One observed instance in one inventory snapshot&quot;,
+  &quot;unique_key&quot;: [&quot;snapshot_id&quot;, &quot;instance_id&quot;],
+  &quot;columns&quot;: {
+    &quot;snapshot_id&quot;: &quot;Inventory capture identifier&quot;,
+    &quot;instance_id&quot;: &quot;Observed runtime instance&quot;,
+    &quot;service_id&quot;: &quot;Joins to services.service_id&quot;,
+    &quot;environment&quot;: &quot;prod, staging, or dev&quot;,
+    &quot;release_id&quot;: &quot;Release observed on this instance&quot;
+  },
+  &quot;coverage&quot;: &quot;Read the selected snapshot's capture metadata&quot;
+}</code></pre>
+
+<p>The <code>services</code> description establishes a unique, non-null <code>service_id</code> and exposes <code>name</code> and <code>owner_team</code> from the current service directory. Runtime service IDs are also non-null, but matching directory entries can be absent. Structural catalogs such as <a href="https://www.postgresql.org/docs/current/information-schema.html" rel="noreferrer">INFORMATION_SCHEMA</a> supply columns and types; maintained descriptions supply domain meaning.</p>
+
+<h3 id="find-the-snapshot-before-using-it">Find the snapshot before using it<a class="heading-anchor" href="#find-the-snapshot-before-using-it" aria-label="Link to this section">#</a></h3>
+<p>In this connection, <code>inventory_snapshots</code> describes immutable captures. Its contract says that <code>finished</code> means collection has stopped; coverage is reported separately. The following query selects the latest finished production capture:</p>
+
+<pre class="source-example"><code>SELECT snapshot_id, observed_at, scope,
+       coverage_complete, missing_regions
+FROM inventory_snapshots
+WHERE environment = :environment
+  AND capture_status = 'finished'
+ORDER BY observed_at DESC, snapshot_id DESC
+LIMIT 1;</code></pre>
+
+<p>Save this as <code>snapshot.sql</code>; <code>scope.json</code> contains <code>{&quot;environment&quot;:&quot;prod&quot;}</code>. Run the query and inspect the selected row:</p>
+
+<pre class="source-example"><code>toolbox sql production query \
+  --file snapshot.sql --params-file scope.json --output snapshot.json
+jq '.rows[0]' snapshot.json</code></pre>
+
+<pre class="source-example"><code>{
+  &quot;snapshot_id&quot;: &quot;snapshot-184&quot;,
+  &quot;observed_at&quot;: &quot;2026-10-18T02:00:00Z&quot;,
+  &quot;scope&quot;: &quot;authorized production inventory&quot;,
+  &quot;coverage_complete&quot;: false,
+  &quot;missing_regions&quot;: [&quot;region-c&quot;]
+}</code></pre>
+
+<p>The adapter normalizes database JSON and boolean values into these JSON types. If no finished capture exists, report that gap. If its observation time is too old for the question, refresh through the supported inventory operation or state the limitation. The latest available capture is not necessarily fresh enough.</p>
+
+<p>The agent now has a snapshot ID and its limitations. Each captured instance appears once, so counting rows counts observed instances on the faulty release. Use a left join to retain affected services whose ownership metadata is missing:</p>
+
+<pre class="source-example"><code>SELECT
+  i.service_id,
+  s.name,
+  s.owner_team,
+  COUNT(*) AS affected_instances
+FROM runtime_instances AS i
+LEFT JOIN services AS s
+  ON s.service_id = i.service_id
+WHERE i.snapshot_id = :snapshot_id
+  AND i.environment = :environment
+  AND i.release_id = :release_id
+GROUP BY i.service_id, s.name, s.owner_team
+ORDER BY affected_instances DESC, i.service_id;</code></pre>
+
+<p>Save the query as <code>affected.sql</code>. Put the user-selected values in <code>parameters.json</code>; the SQL adapter binds them as values rather than substituting them into the SQL string. In this connection, <code>snapshot_id</code> is reserved for the execution context selected with <code>--snapshot</code>. The adapter translates the placeholder notation for its database driver.</p>
+
+<pre class="source-example"><code>{
+  &quot;environment&quot;: &quot;prod&quot;,
+  &quot;release_id&quot;: &quot;R42&quot;
+}</code></pre>
+
+<pre class="source-example"><code>toolbox sql production query \
+  --snapshot snapshot-184 \
+  --file affected.sql --params-file parameters.json \
+  --output affected.json</code></pre>
+
+<h3 id="attach-provenance-where-the-read-is-enforced">Attach provenance where the read is enforced<a class="heading-anchor" href="#attach-provenance-where-the-read-is-enforced" aria-label="Link to this section">#</a></h3>
+<p><code>--snapshot</code> is a documented capability of the production connection. Its query service opens an authorized, immutable capture and exposes that capture's runtime instances alongside the authorized current service directory. Runtime queries require this context.</p>
+
+<p>The service binds <code>snapshot_id</code>, rejects parameter overrides, and attaches capture metadata to its response. The CLI copies it into the receipt. Coverage describes the runtime capture; current directory entries may still be missing.</p>
+
+<p>At the service boundary:</p>
+
+<pre class="source-example"><code>capture = inventory.open_authorized_snapshot(user, request.snapshot_id)
+catalog = readonly_catalog(capture.instances, authorized_directory(user))
+params = bind_reserved(request.params, snapshot_id=capture.id)
+rows = catalog.query(request.sql, params, budget=request_budget)
+return rows, capture.metadata</code></pre>
+
+<p>Snapshot files or restricted views can implement the catalog. The guarantee is that runtime inventory reads cannot escape the selected capture. Generic SQL connections without backend provenance report unknown coverage. Backend budgets still bound query work.</p>
+
+<h3 id="give-large-results-somewhere-to-live">Give large results somewhere to live<a class="heading-anchor" href="#give-large-results-somewhere-to-live" aria-label="Link to this section">#</a></h3>
+<p>Saving to a file must also change what the harness sends back to the model. A CLI that writes the file and then prints its entire contents has gained little.</p>
+
+<p>In the proposed contract, <code>--output</code> writes the data and prints a small receipt. Here is an illustrative receipt for the SQL query:</p>
+
+<pre class="source-example"><code>{
+  &quot;execution&quot;: &quot;succeeded&quot;,
+  &quot;result&quot;: {
+    &quot;path&quot;: &quot;affected.json&quot;,
+    &quot;row_count&quot;: 2,
+    &quot;complete&quot;: true
+  },
+  &quot;source&quot;: {
+    &quot;snapshot_id&quot;: &quot;snapshot-184&quot;,
+    &quot;observed_at&quot;: &quot;2026-10-18T02:00:00Z&quot;,
+    &quot;scope&quot;: &quot;authorized production inventory&quot;,
+    &quot;coverage_complete&quot;: false,
+    &quot;missing_regions&quot;: [&quot;region-c&quot;]
+  }
+}</code></pre>
+
+<p>Here, <code>result.complete</code> means every row returned by the requested SQL query was saved. It says nothing about missing source regions. <code>source.coverage_complete</code> is <code>true</code> only with supporting backend metadata, <code>false</code> for known gaps, and <code>null</code> when unknown. MCP receipts should likewise name what was retrieved—a single response or an application-defined full export—before claiming completion.</p>
+
+<p>The SQL result file uses a <code>rows</code> envelope. Inspecting it gives the two affected services:</p>
+
+<pre class="source-example"><code>jq '.rows[:5]' affected.json</code></pre>
+
+<pre class="source-example"><code>[
+  {&quot;service_id&quot;:&quot;svc-payments&quot;,&quot;name&quot;:&quot;payments&quot;,
+   &quot;owner_team&quot;:&quot;commerce&quot;,&quot;affected_instances&quot;:3},
+  {&quot;service_id&quot;:&quot;svc-unknown&quot;,&quot;name&quot;:null,
+   &quot;owner_team&quot;:null,&quot;affected_instances&quot;:1}
+]</code></pre>
+
+<p>The answer can now be precise: “At 02:00 UTC, the captured inventory shows three R42 instances in payments and one in svc-unknown. Ownership is unavailable for svc-unknown. Region-c was not covered, so this does not establish the full production impact.” The missing owner remains visible instead of removing the affected service from the answer.</p>
+
+<p>A local Python or JavaScript program can aggregate larger datasets, join results, or select evidence. The harness returns its chosen output. This separation between accessible data and model context is developed in <a href="https://oddly.fyi/writing/local-context-for-autonomous-agents/" rel="noreferrer">Local Context for Autonomous Agents</a>.</p>
+
+<h2 id="extend-the-same-interface-to-rest">Extend the same interface to REST<a class="heading-anchor" href="#extend-the-same-interface-to-rest" aria-label="Link to this section">#</a></h2>
+<p>Suppose the investigation also needs existing incidents for an affected service. A REST adapter can expose approved operations from an <a href="https://spec.openapis.org/oas/v3.1.1.html#operation-object" rel="noreferrer">OpenAPI description</a>, or a maintained catalog when the API has no usable specification.</p>
+
+<pre class="source-example"><code>toolbox rest incidents list-operations
+toolbox rest incidents describe listIncidents
+toolbox rest incidents call listIncidents \
+  --json-file incident-query.json --output incidents.json</code></pre>
+
+<p><code>list-operations</code> returns names and summaries. <code>describe</code> expands one operation into its method, path, parameter locations, response contract, and authorization requirements. In this illustrative catalog, <code>listIncidents</code> maps to <code>GET /incidents</code> and accepts <code>service_id</code>, <code>release_id</code>, and <code>state</code> as query parameters. The corresponding <code>incident-query.json</code> is:</p>
+
+<pre class="source-example"><code>{
+  &quot;query&quot;: {
+    &quot;service_id&quot;: &quot;svc-payments&quot;,
+    &quot;release_id&quot;: &quot;R42&quot;,
+    &quot;state&quot;: &quot;open&quot;
+  }
+}</code></pre>
+
+<p>The adapter validates the envelope, encodes the parameters according to the operation contract, and calls the configured service through the trusted gateway. Path parameters and request bodies use separate envelope fields when required. The agent selects a documented operation; the connection controls the destination and credentials.</p>
+
+<p>Pagination needs a connection-specific contract. If this API returns <code>next_cursor</code>, the adapter must either follow its documented cursor mapping within limits or preserve the cursor and label the result as one page. An empty page with a next cursor cannot establish that no incidents exist. HTTP errors produce nonzero exits; application errors and response bodies remain available for interpretation.</p>
+
+<p>REST adds an HTTP adapter, not another execution model. Its results use the same file-and-receipt pattern as MCP and SQL. The fixture later in this article checks the SQL and MCP contracts; this REST interface is a proposed extension.</p>
+
+<h2 id="keep-the-implementation-shared-and-the-adapters-small">Keep the implementation shared and the adapters small<a class="heading-anchor" href="#keep-the-implementation-shared-and-the-adapters-small" aria-label="Link to this section">#</a></h2>
+<p>One executable can provide argument parsing, JSON-file input, error formatting, output files, and trace propagation. Protocol adapters handle discovery and invocation. Connection configuration selects an approved target and the appropriate adapter.</p>
+
+<div class="classifier-table-scroll" role="region" aria-label="Shared components and adapter responsibilities" tabindex="0"><table class="classifier-table"><thead><tr><th scope="col">Component</th><th scope="col">Concrete responsibility</th></tr></thead><tbody><tr><th scope="row">Connection index and short skills</th><td>Route the agent to relevant capabilities and their documentation</td></tr><tr><th scope="row">Catalog store</th><td>Cache definitions, search descriptions, and expose selected contracts</td></tr><tr><th scope="row">MCP adapter</th><td>Discover published tools, validate arguments, and invoke the selected tool</td></tr><tr><th scope="row">SQL adapter</th><td>Read schema metadata, bind parameters, execute bounded queries, and preserve coverage information</td></tr><tr><th scope="row">REST adapter</th><td>Discover approved operations, serialize requests, and preserve HTTP and application result semantics</td></tr><tr><th scope="row">Result writer</th><td>Stream data to a file and return a compact receipt with completion and provenance</td></tr><tr><th scope="row">Trusted gateway or service</th><td>Resolve identity, enforce permissions, and apply required approval policy</td></tr></tbody></table></div>
+
+<p>Implement the adapters your connections require, sharing the catalog and result contract. Product-specific aliases can make common operations convenient, while discovery, validation, and output handling stay common.</p>
+
+<p>Cache definitions by connection and authorization context, with version or expiry information. Refresh stale schemas and return useful errors. A call that may have changed external state must not be retried blindly: distinguish success, failure, and an uncertain outcome.</p>
+
+<p>Logs belong on stderr; results and error receipts belong on stdout. Execution failures and interrupted exports return nonzero exits. For example, a query may succeed while its export stops at a row limit. With exit code <code>2</code>, the receipt's result portion would say:</p>
+
+<pre class="source-example"><code>{
+  &quot;execution&quot;: &quot;succeeded&quot;,
+  &quot;result&quot;: {
+    &quot;path&quot;: &quot;affected.partial.json&quot;,
+    &quot;row_count&quot;: 1,
+    &quot;complete&quot;: false,
+    &quot;incomplete_reason&quot;: &quot;row_limit&quot;
+  }
+}</code></pre>
+
+<p>The source metadata remains attached separately. The partial file is usable evidence, but a subsequent step can see that retrieval stopped. A known source coverage gap is different: it can coexist with a completed export and exit code <code>0</code>.</p>
+
+<p>Production writers should stream within byte and time limits, then publish the final path after closing and renaming the temporary file. On interruption, return an explicit partial-file reference or discard it. The filename and receipt should agree about completion.</p>
+
+<p>The gateway or backend enforces identity, access, approvals, and query budgets. Sandbox commands cannot widen that authority. Use restricted SQL identities and service operations that preserve business validation. Tool descriptions and returned text are data; they cannot change execution policy.</p>
+
+<h2 id="choose-where-composition-runs">Choose where composition runs<a class="heading-anchor" href="#choose-where-composition-runs" aria-label="Link to this section">#</a></h2>
+<p><a href="https://www.rippling.com/en-GB/blog/building-mcp-server" rel="noreferrer">Rippling's implementation</a> accepts a program and executes it on the server. <a href="https://blog.cloudflare.com/code-mode-mcp/" rel="noreferrer">Cloudflare's implementation</a> combines discovery with execution and also discusses CLI-based discovery. The CLI proposal builds on that established pattern for agents that already have a sandbox.</p>
+
+<p>SQL is useful when relational filtering and aggregation can run near the data. Local scripts are useful when the agent already has a sandbox and needs to combine files or services. Remote code execution is useful for clients without that runtime, or when keeping intermediate data near the service avoids expensive transfers. Choose by execution location, permissions, and data movement; progressive disclosure can support all three.</p>
+
+<h2 id="check-the-contracts-then-measure-the-agent">Check the contracts, then measure the agent<a class="heading-anchor" href="#check-the-contracts-then-measure-the-agent" aria-label="Link to this section">#</a></h2>
+<p>The <a href="https://oddly.fyi/assets/downloads/progressive-disclosure-fixture.zip" rel="noreferrer">companion fixture</a> runs the two SQL queries against SQLite and checks controlled MCP responses using only Python's standard library:</p>
+
+<pre class="source-example"><code>python3 fixture.py --test
+python3 fixture.py --output affected.json</code></pre>
+
+<p>All 13 deterministic checks passed. They cover the SQL example, snapshot selection, parameter binding, result status, catalog pagination, and MCP error/content mapping. The fixture also builds a catalog containing only the selected capture: removing query predicates cannot expose other snapshots, and overriding the reserved snapshot parameter fails. Three outcomes matter especially:</p>
+
+<div class="classifier-table-scroll" role="region" aria-label="Fixture outcomes" tabindex="0"><table class="classifier-table"><thead><tr><th scope="col">Injected condition</th><th scope="col">Observed result</th></tr></thead><tbody><tr><th scope="row">One affected service lacks directory metadata</th><td>Inner join counts three instances; the revised left join retains all four across two services</td></tr><tr><th scope="row">Inventory misses region-c</th><td>The two-row export completes while source coverage remains false</td></tr><tr><th scope="row">Export stops after one row</th><td>The receipt marks the export incomplete and returns a nonzero exit code</td></tr></tbody></table></div>
+
+<p>The fixture uses SQLite and controlled MCP messages; it makes no model calls or live MCP connections. Its copied catalog demonstrates data scope, not a security boundary for hostile SQL. The writer materializes rows; authentication, streaming, and schema validation remain production work. These checks establish the illustrated contracts, not improved agent success or token cost.</p>
+
+<p>Evaluate agent behavior separately with three explicit conditions: the full catalog supplied upfront; a short index with deferred discovery; and an oracle condition supplying only the relevant definitions. Keep the model, task, data, permissions, output handling, and execution options fixed. Otherwise a change in result handling could be mistaken for a discovery improvement.</p>
+
+<p>Across repeated tasks, score affected-service identification, observation time, and coverage qualification separately. Include missing metadata, an incomplete capture, a schema change, and a partial export. An interrupted result must not turn into a confident “nothing is affected.” Record task success, total input and output tokens across all turns, discovery calls, elapsed time, and backend work. Report variation across runs rather than one favorable trace.</p>
+
+<p>The oracle condition helps distinguish a discovery failure from a reasoning failure after the relevant contract is available. <a href="https://oddly.fyi/writing/how-intelligence-finds-its-way/the-next-useful-question/" rel="noreferrer">The Next Useful Question</a> offers the corresponding test for each retrieval: does the evidence change what the agent can decide? The CLI earns its complexity only if those complete tasks improve.</p>
+
+<p>One shared CLI, small protocol adapters, a discoverable catalog, and an explicit result contract are enough to start. The agent can find a tool, query a snapshot, inspect an API operation, and explain what the evidence covers. Those small interfaces determine whether progressive disclosure produces a reliable answer.</p>
