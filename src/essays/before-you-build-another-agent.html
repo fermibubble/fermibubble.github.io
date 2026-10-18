@@ -1,0 +1,113 @@
+<p class="agent-opening">“Our application became slow after the release.”</p>
+
+<p>A smaller connection pool can trigger queueing, retries, and more load. A deployment agent, a database agent, and a networking agent might each identify a symptom. The diagnosis depends on connecting them.</p>
+
+<p><strong>For an assistant that works across products, build one capable generalist as the primary agent.</strong> Give it a harness that progressively exposes the knowledge and tools it needs. Permit additional agents only as temporary, dynamically delegated subagents with enforced limits.</p>
+
+<p><strong>Permanent specialists</strong> are separately routed agents with fixed domain roles. Stable, repetitive workloads can make that routing attractive: context and latency are easier to tune. For a cross-product assistant, however, routing, context transfer, and reconciliation also create opportunities for <a href="https://arxiv.org/html/2503.13657v3" rel="noreferrer">coordination failures</a>. A specialist label adds no capability by itself. Preserve distinct capabilities through model selection, authorized tools, and scoped domain memory.</p>
+
+<h2 id="keep-the-investigation-coherent">Keep the investigation coherent<a class="heading-anchor" href="#keep-the-investigation-coherent" aria-label="Link to this section">#</a></h2>
+
+<p>The generalist needs <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">durable task state</a>: the objective, evidence, hypotheses, and open questions. Preserve it across compaction and restarts, with links to source artifacts. This lets the agent connect a deployment change to database behavior several steps later.</p>
+
+<!--generalist-diagram-->
+
+<p>The <strong>harness</strong> is the runtime around the model: context management, tool discovery, code execution, permissions, and recovery. Build these capabilities once and reuse them across tasks.</p>
+
+<h2 id="make-expertise-discoverable">Make expertise discoverable<a class="heading-anchor" href="#make-expertise-discoverable" aria-label="Link to this section">#</a></h2>
+
+<p><strong>Progressive disclosure gives the agent broad reach with focused context.</strong> Start with a compact knowledge index and tool catalog. <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="noreferrer">Retrieve relevant documents</a>, <a href="https://www.anthropic.com/engineering/advanced-tool-use" rel="noreferrer">discover tool schemas on demand</a>, and load procedures as needed. The generalist can follow the investigation from deployments to databases while retaining its context.</p>
+
+<p>Package expertise as <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" rel="noreferrer">reusable skills</a>: diagnostic principles, procedures, examples, and scripts. <a href="https://www.anthropic.com/engineering/code-execution-with-mcp" rel="noreferrer">Filter large tool results in code</a> before adding them to context. Product teams contribute knowledge, tools, and evaluations to the shared harness.</p>
+
+<p>Discovery is a capability to test. <a href="https://arxiv.org/html/2602.12670v1" rel="noreferrer">SkillsBench</a> found that curated skills improved average pass rates, while some tasks regressed. A <a href="https://arxiv.org/html/2604.04323v1" rel="noreferrer">study of realistic skill retrieval</a> found that gains weakened when agents had to find and select relevant skills. Test the path from symptom to useful context to correct tool use; preload essentials when latency matters.</p>
+
+<p>If supplying the right material fixes a failure, improve discovery. If it does not, investigate the model, tool, or procedure before adding agent boundaries.</p>
+
+<h2 id="allow-only-bounded-dynamic-delegation">Allow only bounded dynamic delegation<a class="heading-anchor" href="#allow-only-bounded-dynamic-delegation" aria-label="Link to this section">#</a></h2>
+
+<p>A <strong>subagent</strong> is a temporary execution created through the primary agent’s delegation tool. Require three things: a separable question, a reason for separate execution—parallel progress, context isolation, or independent review—and a result the primary agent can <a href="https://arxiv.org/html/2602.11865v1" rel="noreferrer">verify without repeating the investigation</a>. Simple lookups and predictable procedures belong in tools, scripts, or <a href="https://www.anthropic.com/engineering/building-effective-agents" rel="noreferrer">deterministic workflows</a>.</p>
+
+<p>Dynamic-only delegation is the policy proposed here. The evidence supports choosing by task structure: a <a href="https://arxiv.org/html/2512.08296v3" rel="noreferrer">controlled study of 260 configurations across six benchmarks</a>, with matched compute budgets, found gains on decomposable financial tasks and losses on sequential planning tasks.</p>
+
+<p><a href="https://www.anthropic.com/engineering/multi-agent-research-system" rel="noreferrer">Anthropic’s research system</a> demonstrates parallel research followed by synthesis. Its reported gains also involved different models and more compute. Neither result establishes that dynamic delegation is universally best.</p>
+
+<p>The primary agent proposes the work; the runtime enforces the limits:</p>
+
+<div class="agent-limits-wrap" tabindex="0" role="region" aria-label="Runtime limits"><table class="agent-limits"><thead><tr><th scope="col">Limit</th><th scope="col">Runtime enforcement</th><th scope="col">Purpose</th></tr></thead><tbody><tr><th scope="row">Creation</th><td>Primary agent only; require a current-task contract</td><td>Keep spawning under one owner</td></tr><tr><th scope="row">Lifetime</th><td>Create a task-scoped execution; end it on completion, timeout, or parent termination</td><td>Keep delegation temporary</td></tr><tr><th scope="row">Fan-out</th><td>Cap concurrent executions and total launches, including retries</td><td>Prevent unbounded spawning</td></tr><tr><th scope="row">Depth</th><td>Subagents cannot delegate further</td><td>Prevent recursive expansion</td></tr><tr><th scope="row">Resources</th><td>Reserve from the parent budget; cap time and tool calls</td><td>Bound total task cost</td></tr><tr><th scope="row">Access</th><td>Restrict data and tools to the parent’s authority</td><td>Prevent privilege expansion</td></tr></tbody></table></div>
+
+<p>Do not install routes that automatically send database questions to a database agent. Templates can supply instructions; delegation must be chosen for the current task. Subagents use the same harness with isolated state. Depth one gives up nested delegation to keep ownership and budget accounting simple.</p>
+
+<p>Mandatory checks and approvals belong in runtime policy or deterministic workflows. If delegation is denied, continue directly, narrow the task, or escalate within the same limits.</p>
+
+<h2 id="delegate-a-question-you-can-verify">Delegate a question you can verify<a class="heading-anchor" href="#delegate-a-question-you-can-verify" aria-label="Link to this section">#</a></h2>
+
+<p>In the latency investigation, the generalist can trace request flow while a subagent asks: “Did this release change connection pool behavior?” Its contract includes the deployment diff, telemetry, documentation, and read-only tools. The result must include findings, source evidence, counterevidence, uncertainty, and completion status.</p>
+
+<p>Suppose the diff shows a pool limit falling from 100 to 20. That establishes a change, not its causal role. The generalist checks whether connection wait time rose with the release and proposes a controlled test. Evidence that does not fit stays visible.</p>
+
+<p>A separate review can challenge this explanation. Withhold the preferred conclusion where practical, and give the reviewer the evidence. Fresh context can still share model blind spots, so review complements tests and external evidence.</p>
+
+<p>The real limit on fan-out is also the capacity to verify. Ten plausible summaries can leave the generalist with more work than it started with. Source artifacts and explicit uncertainty make each finding easier to check and reconcile.</p>
+
+<p>As evidence arrives, database and network checks may converge on the same bottleneck. The generalist can combine their findings and cancel redundant branches. <a href="https://arxiv.org/html/2602.11865v1" rel="noreferrer">Adaptive delegation research</a> proposes this flexibility; its benefit still needs validation on the actual workload.</p>
+
+<p>Trace each contract, tool call, artifact, and result under the parent task. Propagate cancellation and release reservations. Preserve partial results for recovery without resetting budgets or treating unfinished output as verified.</p>
+
+<aside class="agent-callout"><p><strong>Tool discovery is not an access grant.</strong> Enforce permissions on every call. Exclusive internal data can stay behind a service that returns only authorized results. Subagents must not inherit broader credentials or use retrieved content to change policy.</p></aside>
+
+<h2 id="test-whether-the-boundary-adds-value">Test whether the boundary adds value<a class="heading-anchor" href="#test-whether-the-boundary-adds-value" aria-label="Link to this section">#</a></h2>
+
+<p>Compare the generalist, generalist with delegation, and any existing specialist system. Give them equivalent useful knowledge, state access, tools, and model capabilities. Use held-out tasks within and across domains. At matched budgets, measure quality, latency, total cost, and recovery failures—including discovery, retries, and verification. Then measure what extra spend buys.</p>
+
+<p>If specialists win, isolate the cause. Supply the generalist with the same relevant context; then test separate execution and parallelism. If the gap persists, block migration while addressing the measured limitation. The proposed architecture must meet the required quality and latency targets.</p>
+
+<p>Re-evaluate after model upgrades. <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" rel="noreferrer">Experiments with long-running agents</a> found that stronger models reduced the need for some scaffolding, while evaluation still helped on harder tasks. Retire orchestration that no longer earns its cost.</p>
+
+<h2 id="use-one-harness-across-product-surfaces">Use one harness across product surfaces<a class="heading-anchor" href="#use-one-harness-across-product-surfaces" aria-label="Link to this section">#</a></h2>
+
+<p>Customer-facing, personal, team, and internal operations agents can share this generalist design. Separate their identities, credentials, memory, and execution environments as required. Multi-tenant and dedicated deployments can reuse the harness while enforcing distinct access boundaries.</p>
+
+<p><strong>Keep expertise reusable, ownership coherent, and delegation temporary.</strong></p>
+
+<details class="agent-contract" id="optional-delegation-contract">
+<summary>Optional delegation contract</summary>
+<div class="agent-contract-content">
+
+<p>This illustrative contract describes one dynamic subagent execution. <a href="https://code.claude.com/docs/en/sub-agents" rel="noreferrer">Subagent mechanisms</a> supply the execution primitives; the runtime enforces the policy. Numeric limits are examples to tune through evaluation.</p>
+
+<pre class="source-example"><code class="language-yaml"># Illustrative policy and request, not a specific SDK schema.
+runtime_policy:
+  creation: primary_agent_only
+  contract_scope: current_parent_task
+  lifetime: until_completion_timeout_or_parent_termination
+  max_concurrent_subagents: 2
+  max_total_launches: 4  # Includes retries.
+  max_depth: 1          # Subagents cannot delegate.
+  budget_source: parent_task
+  require_reservation: true
+  permission_ceiling: parent_grants
+  propagate_cancellation: true
+
+delegation_request:
+  objective: Check whether the release changed connection pool behavior
+  model_class: strong
+  reasoning_effort: high
+  context: explicit_authorized_evidence
+  tools: [deployments.diff, metrics.query, logs.search]
+  actions: read_only
+  memory: task_artifacts_only
+  limits:
+    timeout_seconds: 120
+    max_tool_calls: 12
+    max_output_tokens: 2000
+  result: [findings, evidence, counterevidence, uncertainty, status]</code></pre>
+
+<p>The runtime rejects requests outside policy, accounts for aggregate usage, and records the effective contract. Output limits do not replace a total token or spend budget. Subagent results remain evidence for the primary agent to evaluate.</p>
+
+<p>The runtime checks the contract before creating a subagent. This example shows admission, rejection, and completion under the same policy.</p>
+
+<!--delegation-scenarios-->
+
+</div>
+</details>
