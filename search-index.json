@@ -1,5 +1,11 @@
 [
   {
+    "type": "Collection",
+    "title": "How to Write and Score an Agent Eval",
+    "description": "From a plausible wrong answer to a defensible release decision: nine chapters on writing tests, calculating scores, and checking whether success repeats.",
+    "url": "/writing/how-to-write-and-score-an-agent-eval/"
+  },
+  {
     "type": "Essay",
     "title": "Implementing Progressive Disclosure for Agent Tools",
     "description": "Build one discoverable CLI for MCP, SQL, and REST, with precise schemas, scoped execution, and honest result receipts.",
@@ -52,6 +58,24 @@
     "title": "Engineering Autonomous Agents",
     "description": "An agent’s capabilities depend on its data, execution loop, state, and feedback. Design them as one system.",
     "url": "/writing/engineering-autonomous-agents/"
+  },
+  {
+    "type": "Part",
+    "title": "Design the Test: What Counts as Correct?",
+    "description": "How to Write and Score an Agent Eval · Reproduce the failure, establish the evidence, and write rubrics that accept valid alternatives while rejecting plausible mistakes.",
+    "url": "/writing/how-to-write-and-score-an-agent-eval/design-the-test/"
+  },
+  {
+    "type": "Part",
+    "title": "Build the Score: What Does 72.2% Mean?",
+    "description": "How to Write and Score an Agent Eval · Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.",
+    "url": "/writing/how-to-write-and-score-an-agent-eval/build-the-score/"
+  },
+  {
+    "type": "Part",
+    "title": "Trust the Result: Is It Good Enough to Ship?",
+    "description": "How to Write and Score an Agent Eval · Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.",
+    "url": "/writing/how-to-write-and-score-an-agent-eval/trust-the-result/"
   },
   {
     "type": "Chapter",

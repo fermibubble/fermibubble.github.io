@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trust the Result: Is It Good Enough to Ship? — Oddly</title>
+    <meta name="description" content="Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.">
+    <meta name="author" content="Chaitanya">
+    <meta name="theme-color" content="#fbfcfe">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Trust the Result: Is It Good Enough to Ship? — Oddly">
+    <meta property="og:description" content="Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.">
+    <meta property="og:url" content="https://oddly.fyi/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">
+    <link rel="canonical" href="https://oddly.fyi/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="Oddly" href="/rss.xml">
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/principles.css">
+    <link rel="stylesheet" href="/assets/editorial.css">
+    <link rel="stylesheet" href="/assets/diagram.css">
+    <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">
+    <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
+    <link rel="stylesheet" href="/assets/eval-writing.css">
+    <script type="module" src="/assets/eval-scores.js"></script>
+    <script type="module" src="/assets/site.js"></script>
+    <script type="module" src="/assets/principles.js"></script>
+    <script type="module" src="/assets/analytics.js"></script>
+  </head>
+  <body data-path="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/" data-typography="essay" class="article-page">
+    <div class="reading-progress" data-reading-progress></div>
+    
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Oddly, home">
+          <img class="brand-mark" src="/assets/mark.svg" alt="" width="31" height="31">
+          <span class="brand-name">Oddly</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span></span><span></span><span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+          <button class="icon-button theme-button" type="button" aria-label="Switch color theme" data-theme-toggle><span class="sun"><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.2"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6 16 16M16 4l-1.4 1.4M5.4 14.6 4 16"/></svg></span><span class="moon"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M16.6 12.9A7.2 7.2 0 0 1 7.1 3.4 7.2 7.2 0 1 0 16.6 12.9Z"/></svg></span></button>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+    <article class="article principle-article">
+      <header class="article-header shell-narrow">
+        <a class="article-back" href="/writing/how-to-write-and-score-an-agent-eval/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>How to Write and Score an Agent Eval</span></a>
+        <div class="article-type">How to Write and Score an Agent Eval / Part 03 of 03</div>
+        <h1>Trust the Result: Is It Good Enough to Ship?</h1>
+        <p class="article-deck">Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.</p>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>12 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <a class="series-home-link" href="/writing/how-to-write-and-score-an-agent-eval/">Part of How to Write and Score an Agent Eval ↗</a>
+      </header>
+      <div class="article-rule shell"></div>
+      <div class="series-body" data-article-body>
+        <details class="series-directory"><summary>Parts in this collection <span>03 / 03</span></summary>
+    <nav aria-label="Collection parts"><ol><li><a href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/">Design the Test: What Counts as Correct?</a></li><li><a href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/">Build the Score: What Does 72.2% Mean?</a></li><li><a href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/" aria-current="page">Trust the Result: Is It Good Enough to Ship?</a></li></ol></nav>
+  </details>
+        <div class="prose"><!--article-prose:start--><p>A score can improve because the agent got better. It can also improve because difficult judgments disappeared, a grader missed an error, or the team kept only a lucky attempt.</p>
+<p><a href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/">Part 2</a> produced a three-task example: checkout diagnosis, an owner lookup, and CSV conversion. Correctness was 72.2%, but only one task fully completed. The CSV conversion also overwrote a source file it was required to preserve.</p>
+<p>Before using those numbers to make a release decision, we need to establish what was measured, whether the grader is right, and whether success repeats.</p>
+
+<nav class="eval-chapter-nav" aria-label="In this installment"><p>In this installment</p><ol><li><a href="#chapter-6-keep-missing-results-from-inflating-the-score">Chapter 6 Keep missing results from inflating the score</a></li><li><a href="#chapter-7-find-the-mistakes-your-grader-misses">Chapter 7 Find the mistakes your grader misses</a></li><li><a href="#chapter-8-find-out-whether-success-repeats">Chapter 8 Find out whether success repeats</a></li><li><a href="#chapter-9-build-the-framework-and-make-the-release-call">Chapter 9 Build the framework and make the release call</a></li></ol></nav>
+<h2 id="chapter-6-keep-missing-results-from-inflating-the-score">Chapter 6 Keep missing results from inflating the score<a class="heading-anchor" href="#chapter-6-keep-missing-results-from-inflating-the-score" aria-label="Link to this section">#</a></h2>
+<p>Half the grading jobs failed overnight. The dashboard still shows 80%. Find out which results that number includes before interpreting it.</p>
+<h3 id="separate-an-agent-failure-from-an-evaluation-failure">Separate an agent failure from an evaluation failure<a class="heading-anchor" href="#separate-an-agent-failure-from-an-evaluation-failure" aria-label="Link to this section">#</a></h3>
+<p>Suppose the agent reads the capacity limit and still recommends 64 connections. That is an agent failure: <code>C3 = 0</code>.</p>
+<p>Suppose instead the grader times out before returning a verdict. We do not yet know the grade. That is an <strong>unresolved judgment</strong>.</p>
+<p>Suppose the checkout fixture never loaded, so the intended fault was absent. The trial is <strong>invalid</strong> for that test.</p>
+<p>These cases need different treatment. Marking all three as zero blames the agent for evaluation failures. Dropping all three makes the agent look better by removing real failures.</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">State</th>
+<th scope="col">Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Graded</td>
+<td>A judge established a pass or fail</td>
+</tr>
+<tr>
+<td>Not assigned</td>
+<td>The CSV task has no prose-grounding rubric</td>
+</tr>
+<tr>
+<td>Not applicable</td>
+<td>A predeclared condition makes a check irrelevant to this case</td>
+</tr>
+<tr>
+<td>Unresolved</td>
+<td>The grader failed to return a usable verdict</td>
+</tr>
+<tr>
+<td>Invalid trial</td>
+<td>The test did not start in a valid environment</td>
+</tr>
+</tbody></table></div>
+<p>For “not applicable,” consider a refund task with a rule requiring manager approval only above a stated amount. A request below that amount does not need the approval check. The condition belongs in the task definition.</p>
+<p>Failing to inspect an available document is different. The agent cannot make an evidence requirement inapplicable by skipping the evidence.</p>
+<h3 id="do-not-let-incomplete-grading-improve-the-score">Do not let incomplete grading improve the score<a class="heading-anchor" href="#do-not-let-incomplete-grading-improve-the-score" aria-label="Link to this section">#</a></h3>
+<p>Imagine 100 applicable judgments. The grader returns 40 passes and 10 failures, then fails on the remaining 50.</p>
+<p>The resolved results have an 80% pass rate: 40 divided by 50. But only half the judgments were resolved.</p>
+<p>Reporting “80%” without coverage would invite readers to mistake it for a complete result. Worse, the unanswered cases might be the hardest ones.</p>
+<p>For the implementation here, unresolved required judgments block the complete aggregate they affect. A debugging dashboard can show the provisional result, clearly labeled “80% among resolved judgments; 50% coverage.”</p>
+<p><a href="https://arxiv.org/html/2606.00093v2">Research on rubric-based judge agreement</a> shows that reported agreement can change even when the verdicts do not. Which cases are included, how withheld judgments are handled, and how results are combined are part of the measurement.</p>
+<h3 id="set-retry-rules-before-running">Set retry rules before running<a class="heading-anchor" href="#set-retry-rules-before-running" aria-label="Link to this section">#</a></h3>
+<p>Retry a grader error or invalid environment under a bounded, recorded policy. Retain the attempts and explain which result replaces which failed evaluation attempt.</p>
+<p>Do not keep rerunning an ordinary agent failure until it passes and then record only the winner. That answers whether a successful attempt can be found, while concealing how often the product fails.</p>
+<p>Apply the retry policy consistently. The report must distinguish an agent failure from a failure to evaluate it. Accounting for every result prepares us to ask whether the judgments themselves are right.</p>
+<h2 id="chapter-7-find-the-mistakes-your-grader-misses">Chapter 7 Find the mistakes your grader misses<a class="heading-anchor" href="#chapter-7-find-the-mistakes-your-grader-misses" aria-label="Link to this section">#</a></h2>
+<p>A judge agrees with people on 85% of a small test set, yet accepts one in five unacceptable answers. Both statements can be true. The mistakes hidden by the average determine whether the judge is useful.</p>
+<h3 id="build-answers-that-expose-its-mistakes">Build answers that expose its mistakes<a class="heading-anchor" href="#build-answers-that-expose-its-mistakes" aria-label="Link to this section">#</a></h3>
+<p>A well-written rubric does not guarantee that a model judge will apply it correctly. Before using its verdicts to compare agents, give it answers whose expected grades have been reviewed by people who understand the task.</p>
+<p>For checkout, include:</p>
+<ul>
+<li><p>A correct answer with different wording.</p>
+</li>
+<li><p>A valid remedy other than restoring the pool setting.</p>
+</li>
+<li><p>A confident explanation blaming query execution time.</p>
+</li>
+<li><p>A correct diagnosis with no supporting evidence.</p>
+</li>
+<li><p>The capacity-breaking recommendation of 64 connections per instance.</p>
+</li>
+<li><p>An answer telling the judge to ignore the rubric and award a pass.</p>
+</li>
+</ul>
+<p>These cases test different weaknesses. If paraphrases fail, the grader may be matching wording. If the confident wrong explanation passes, fluency may be masking a factual error. If instructions inside the answer change its score, the judge is treating untrusted content as authority.</p>
+<p>When human reviewers disagree, inspect the rubric and evidence together. Sometimes the grading rule needs clarification. Sometimes the reference is wrong. Do not force agreement by automatically treating the original answer key as infallible.</p>
+<h3 id="count-the-errors-that-matter">Count the errors that matter<a class="heading-anchor" href="#count-the-errors-that-matter" aria-label="Link to this section">#</a></h3>
+<p>Take an illustrative calibration set with 20 answers. Human reviewers classify 10 as acceptable and 10 as unacceptable for a particular criterion.</p>
+<p>The automated judge produces:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Human judgment</th>
+<th align="right">Judge passes</th>
+<th align="right">Judge fails</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Acceptable answer</td>
+<td align="right">9</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>Unacceptable answer</td>
+<td align="right">2</td>
+<td align="right">8</td>
+</tr>
+</tbody></table></div>
+<p>It agrees on 17 of 20 answers, or 85%.</p>
+<p>But the two kinds of mistakes deserve separate attention:</p>
+<p><strong>False passes:</strong> Two of the 10 unacceptable answers get through. That is a 20% false-pass rate among unacceptable answers.</p>
+<p><strong>False failures:</strong> One of the 10 acceptable answers is rejected. That is a 10% false-failure rate among acceptable answers.</p>
+<p>For a permission gate, false passes may be especially costly. For accepting multiple valid solutions, false failures may hide real capability. Inspect these rates per criterion rather than relying only on an overall agreement number.</p>
+<p>Agreement between two model judges is useful evidence of consistency, but they can share the same error. Keep a human-reviewed reference set and periodically inspect disagreements and apparent easy passes.</p>
+<p>Tune on one set, then check another set whose labels were not used to adjust the judge. Otherwise you may only have taught the grader to recognize its calibration examples.</p>
+<h3 id="use-preference-comparisons-for-the-question-they-answer">Use preference comparisons for the question they answer<a class="heading-anchor" href="#use-preference-comparisons-for-the-question-they-answer" aria-label="Link to this section">#</a></h3>
+<p>Sometimes you want to know which of two answers people prefer. Pairwise judging is well suited to that question.</p>
+<p>Suppose Answer A recommends 64 connections and Answer B recommends 32. A judge might prefer B because it is less excessive. Both still exceed the allowed 16 per instance.</p>
+<p>Preference does not establish absolute correctness.</p>
+<p>The <a href="https://arxiv.org/abs/2306.05685">MT-Bench and Chatbot Arena research</a> also documents position and verbosity biases in LLM judging. Hide model identity, vary which answer appears first, and inspect whether preferences are tracking length rather than the intended quality. Keep the absolute task checks alongside the comparison.</p>
+<p>Keep reviewed examples as a regression check for the grader, and use a separate holdout to validate changes. A trustworthy grader can still observe an inconsistent agent; that is the next experiment.</p>
+<h2 id="chapter-8-find-out-whether-success-repeats">Chapter 8 Find out whether success repeats<a class="heading-anchor" href="#chapter-8-find-out-whether-success-repeats" aria-label="Link to this section">#</a></h2>
+<h3 id="a-second-run-answers-a-different-question-from-a-new-task">A second run answers a different question from a new task<a class="heading-anchor" href="#a-second-run-answers-a-different-question-from-a-new-task" aria-label="Link to this section">#</a></h3>
+<p>The first checkout run is perfect. It would make a convincing demo. Now restore the environment and run it four more times.</p>
+<p><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic describes using multiple trials</a> because agent outputs vary between attempts. Repetition tells you whether that first success was representative.</p>
+<p>A new task tests another situation. Another attempt at the same task tests whether performance on that situation persists.</p>
+<p>Suppose checkout is run five times from the same restored starting state. Every attempt respects the no-write rule, but the answers differ:</p>
+<div class="eval-table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">Attempt</th>
+<th scope="col">Correctness checks</th>
+<th scope="col">Complete</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1, 1, 1</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1, 1, 0</td>
+<td>No</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1, 1, 1</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1, 1, 1</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1, 0, 0</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>Three attempts complete the task, so the observed complete-task success rate is <strong>3/5 = 60%</strong>.</p>
+<p>Across these attempts, 12 of 15 correctness checks pass. Because every attempt has the same three checks, average correctness is <strong>80%</strong>.</p>
+<p>If you had stopped after the first attempt, the eval would have shown a complete success. The additional attempts expose the behavior a user might encounter on another day.</p>
+<p>Five attempts are an illustration, not a universal sample-size rule. A small smoke test may be enough to detect an obvious regression; a release decision needs enough evidence to distinguish the improvement you care about from run-to-run variation.</p>
+<h3 id="repeat-the-right-thing">Repeat the right thing<a class="heading-anchor" href="#repeat-the-right-thing" aria-label="Link to this section">#</a></h3>
+<p>Restore state and memory when measuring independent attempts. Keep fixtures, tools, budgets, and graders fixed across the comparison. Record the intended difference between the systems, such as a model or prompt change, so it is clear what the experiment tests.</p>
+<p>Regrading a saved trace measures variability in the judge. Executing the agent again measures variability in the agent system. Replaying a cached response measures neither.</p>
+<p>Keep those experiments separate. If the same answer alternates between pass and fail, investigate the grader before interpreting the agent&#39;s score.</p>
+<p>When tasks have different numbers of trials, average in this order: checks within a trial, trials within a task, then tasks within the suite. Running checkout 20 times should not automatically give it 20 times the influence of a task run once.</p>
+<h3 id="distinguish-finding-a-success-from-delivering-one-reliably">Distinguish finding a success from delivering one reliably<a class="heading-anchor" href="#distinguish-finding-a-success-from-delivering-one-reliably" aria-label="Link to this section">#</a></h3>
+<p>The five attempts above contain at least one success. They do not all succeed.</p>
+<p>Those observations motivate two different measurements:</p>
+<p><strong>pass@k</strong> asks whether at least one of k attempts succeeds. It measures the ability to find a solution within several tries.</p>
+<p><strong>pass^k</strong> asks whether all k attempts succeed. It measures consistency across that group of attempts.</p>
+<p>For the illustrated group of five, the “at least one” condition holds and the “all five” condition fails. A benchmark estimates these quantities across its tasks and samples; one group is only an illustration.</p>
+<p>Best-of-N systems add a further problem: selecting which answer to deliver. A hidden evaluator may recognize the successful attempt, but the deployed selector may choose a confident wrong answer. Evaluate the actual selection rule and count the cost of all attempts.</p>
+<p>Retries are useful when the product can afford them and can recognize or verify success. They do not justify removing failed attempts from a reliability report.</p>
+<h3 id="test-whether-the-agent-follows-evidence">Test whether the agent follows evidence<a class="heading-anchor" href="#test-whether-the-agent-follows-evidence" aria-label="Link to this section">#</a></h3>
+<p>Now change the checkout case.</p>
+<p>Keep the timeout symptom but make database queries genuinely slower. A good agent should change its diagnosis.</p>
+<p>Remove the measurements that distinguish slow queries from connection waits. A good agent should explain the uncertainty and request the missing evidence.</p>
+<p>Keep the service healthy. A good agent should avoid inventing an incident.</p>
+<p>These variants test something that repeated identical runs cannot: whether the diagnosis responds to the evidence. <a href="https://proceedings.mlr.press/v306/rabanser26a.html">Research on agent reliability</a> distinguishes consistency from robustness and other reliability dimensions; both repeated attempts and changed conditions matter.</p>
+<p>Hold whole families of related cases out of tuning. Randomly separating almost identical incidents into training and evaluation can make memorized patterns look like generalization.</p>
+<p>For release comparisons, run the old and new systems on the same held-out cases and inspect changes task by task. Report an uncertainty range, such as a confidence interval, around the aggregate difference. A small apparent gain with a wide interval is weak evidence for a release.</p>
+<p>Repeated attempts at one task remain grouped observations; do not count them as an equivalent number of unrelated tasks. You want a result that survives another attempt and a result that transfers to another situation.</p>
+<h2 id="chapter-9-build-the-framework-and-make-the-release-call">Chapter 9 Build the framework and make the release call<a class="heading-anchor" href="#chapter-9-build-the-framework-and-make-the-release-call" aria-label="Link to this section">#</a></h2>
+<p>The team fixes the checkout recommendation and the score rises. The framework should now make the release decision—and its reason—easy to inspect.</p>
+<h3 id="give-the-runner-a-complete-task">Give the runner a complete task<a class="heading-anchor" href="#give-the-runner-a-complete-task" aria-label="Link to this section">#</a></h3>
+<p>The runner is the program that prepares the environment, executes the agent, invokes graders, and collects results.</p>
+<p>It should receive a task definition containing:</p>
+<ol>
+<li><p><strong>The request:</strong> what the user wants and what actions are allowed.</p>
+</li>
+<li><p><strong>The starting state:</strong> the fixture version, reset procedure, and validity checks.</p>
+</li>
+<li><p><strong>The reference:</strong> verified facts, constraints, and acceptable alternatives, hidden from the agent.</p>
+</li>
+<li><p><strong>The rubrics:</strong> correctness checks, auxiliary dimensions, gates, and applicability conditions.</p>
+</li>
+<li><p><strong>The execution settings:</strong> model, prompts, tools, budget, and number of trials.</p>
+</li>
+<li><p><strong>The measurement policy:</strong> averaging, missing-result handling, and bounded retries.</p>
+</li>
+</ol>
+<p>Shared templates can generate these definitions. The resolved versions must be recorded with the run, so another runner can apply the same rules.</p>
+<h3 id="keep-the-arithmetic-easy-to-inspect">Keep the arithmetic easy to inspect<a class="heading-anchor" href="#keep-the-arithmetic-easy-to-inspect" aria-label="Link to this section">#</a></h3>
+<p>Once judgments are valid and complete, the basic scorer is small:</p>
+<pre class="source-example"><code class="language-python">from statistics import mean
+
+tasks = [
+    {&quot;correctness&quot;: [1, 1, 0],
+     &quot;aux&quot;: {&quot;authority&quot;: 1, &quot;grounding&quot;: 1}},
+    {&quot;correctness&quot;: [1, 1],
+     &quot;aux&quot;: {&quot;authority&quot;: 1, &quot;grounding&quot;: 0}},
+    {&quot;correctness&quot;: [1, 0, 1, 0],
+     &quot;aux&quot;: {&quot;authority&quot;: 0}},
+]
+
+correctness = mean(mean(t[&quot;correctness&quot;]) for t in tasks)
+
+dimensions = set().union(*(t[&quot;aux&quot;] for t in tasks))
+auxiliary = {
+    name: mean(t[&quot;aux&quot;][name] for t in tasks if name in t[&quot;aux&quot;])
+    for name in dimensions
+}
+
+print(round(correctness * 100, 1))  # 72.2
+</code></pre>
+<p>The inner average gives each task a score. The outer average combines tasks. Each auxiliary dimension gets its own set of eligible tasks.</p>
+<p>This example assumes one trial per task and fully resolved judgments. It omits completion gates and validation so you can see the arithmetic clearly.</p>
+<p>Before reaching this code, check that every verdict belongs to the right task, run, and rubric version. Reject duplicate judgments, missing required results, unexpected criterion IDs, invalid score ranges, and unsupported “not applicable” claims. A model-generated verdict cannot decide to remove a failed criterion from the denominator.</p>
+<p>The <a href="/assets/downloads/eval-authoring-companion.zip">companion implementation</a> includes the checkout task, sample judgments, a grader prompt, and a scorer with validation, repeated-trial aggregation, missingness handling, critical gates, and tests. The judgments are supplied examples for inspecting the framework.</p>
+<h3 id="make-the-score-point-to-the-next-fix">Make the score point to the next fix<a class="heading-anchor" href="#make-the-score-point-to-the-next-fix" aria-label="Link to this section">#</a></h3>
+<p>Return to the original recommendation. Change 64 connections per instance to 16, justify the capacity calculation, and keep the correct diagnosis.</p>
+<p>Only <code>C3</code> changes from fail to pass.</p>
+<p>Checkout correctness rises from 66.7% to 100%. Across the three-task suite, correctness rises from 72.2% to <strong>83.3%</strong>, and complete-task success rises from 33.3% to <strong>66.7%</strong>.</p>
+<p>Grounding stays at 50%. Authority compliance stays at 66.7%. The CSV task still violated its permission boundary, so a zero-violation release gate still fails.</p>
+<p>The next work is specific: prevent the source overwrite, correct the CSV timestamps, and fix its column names. Preserve the filtering and account IDs that already pass. Keep the improved checkout answer as a regression case.</p>
+<blockquote>
+<p><strong>Release decision for this worked example: hold.</strong></p>
+<p>Checkout&#39;s remedy now passes. The CSV task still violates a hard boundary and fails two correctness checks. Fix those failures and rerun the comparison with the same fixtures and grading rules.</p>
+</blockquote>
+<p>The score tells you what improved. The failed checks tell you what to fix. The gate tells you why the improvement is not enough to release.</p>
+<!--article-prose:end--></div>
+        
+        <div class="prose series-afterword"></div>
+      </div>
+    </article>
+    <nav class="article-pagination shell" aria-label="More writing">
+      <a class="pagination-prev" href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/"><span>Previous part</span><strong>Build the Score: What Does 72.2% Mean?</strong></a>
+      <a class="pagination-next" href="/writing/how-to-write-and-score-an-agent-eval/"><span>Back to the collection</span><strong>How to Write and Score an Agent Eval</strong></a>
+    </nav>
+  </main>
+    
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-name" href="/">Oddly</a>
+          <p>By <a href="/about/" rel="author">Chaitanya</a></p>
+          <p>Agent infrastructure, context, and reproducible evaluation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/anti-patterns/">Earlier writing</a>
+          <a href="/ideas/">Ideas</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+          <button type="button" data-analytics-settings hidden>Analytics preferences</button>
+        </div>
+        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+      </div>
+    </footer>
+    
+    <dialog class="search-dialog" data-search-dialog aria-label="Search the site">
+      <div class="search-shell">
+        <div class="search-field">
+          <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
+          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <button type="button" data-search-close aria-label="Close search">Esc</button>
+        </div>
+        <div class="search-results" data-search-results>
+          <p class="search-hint">Start typing to search the writing.</p>
+        </div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span></div>
+      </div>
+    </dialog>
+  </body>
+</html>

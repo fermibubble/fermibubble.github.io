@@ -66,6 +66,10 @@ const qualitySlugs = [
 Object.assign(publicationDates, Object.fromEntries(qualitySlugs.map(slug => [slug, "2026-10-04"])));
 Object.assign(publicationTimes, Object.fromEntries(qualitySlugs.map(slug => [slug, "2026-10-04T14:02:02Z"])));
 
+const evalSlugs = ["how-to-write-and-score-an-agent-eval", "design-the-test", "build-the-score", "trust-the-result"];
+Object.assign(publicationDates, Object.fromEntries(evalSlugs.map(slug => [slug, "2026-10-18"])));
+Object.assign(publicationTimes, Object.fromEntries(evalSlugs.map(slug => [slug, "2026-10-18T17:20:00Z"])));
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "long", day: "numeric", year: "numeric", timeZone: "UTC"
 });

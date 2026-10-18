@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "design-the-test",
+    "title": "Design the Test: What Counts as Correct?",
+    "description": "Reproduce the failure, establish the evidence, and write rubrics that accept valid alternatives while rejecting plausible mistakes.",
+    "eyebrow": "Part 1 · Chapters 1–2",
+    "readTime": "7 min",
+    "order": 1
+  },
+  {
+    "slug": "build-the-score",
+    "title": "Build the Score: What Does 72.2% Mean?",
+    "description": "Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.",
+    "eyebrow": "Part 2 · Chapters 3–5",
+    "readTime": "10 min",
+    "order": 2
+  },
+  {
+    "slug": "trust-the-result",
+    "title": "Trust the Result: Is It Good Enough to Ship?",
+    "description": "Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.",
+    "eyebrow": "Part 3 · Chapters 6–9",
+    "readTime": "12 min",
+    "order": 3
+  }
+]

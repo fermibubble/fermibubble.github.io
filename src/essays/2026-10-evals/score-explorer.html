@@ -1,0 +1,29 @@
+<section class="eval-score-explorer" id="eval-score-explorer" aria-label="Explore the evaluation scores">
+  <fieldset class="eval-controls" id="eval-controls" hidden>
+    <legend>Change the example</legend>
+    <label class="eval-toggle"><input id="eval-fix-remedy" type="checkbox"><span>Correct the checkout remedy</span></label>
+    <label class="eval-toggle"><input id="eval-preserve-source" type="checkbox"><span>Preserve the CSV source</span></label>
+    <label class="eval-weighting" for="eval-weighting">Correctness weighting
+      <select id="eval-weighting">
+        <option value="tasks">Equal weight per task</option>
+        <option value="checks">Equal weight per check</option>
+      </select>
+    </label>
+  </fieldset>
+  <div class="eval-metrics" aria-live="polite" aria-atomic="true">
+    <div><span>Correctness</span><strong id="eval-correctness">72.2%</strong><small id="eval-weight-label">Equal task weights</small></div>
+    <div><span>Complete tasks</span><strong id="eval-completion">33.3%</strong><small id="eval-completion-count">1 of 3 tasks</small></div>
+    <div><span>Authority compliance</span><strong id="eval-authority">66.7%</strong><small id="eval-authority-count">2 of 3 tasks</small></div>
+  </div>
+  <div class="eval-table-wrap"><table aria-label="Task results">
+    <thead><tr><th scope="col">Task</th><th scope="col">Correct checks</th><th scope="col">Complete</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Checkout</th><td id="eval-checkout-checks">2 of 3</td><td id="eval-checkout-complete">No</td></tr>
+      <tr><th scope="row">Owner lookup</th><td>2 of 2</td><td>Yes</td></tr>
+      <tr><th scope="row">CSV conversion</th><td>2 of 4</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+  <p class="eval-grounding">Grounding: <strong>50.0%</strong> · 2 eligible tasks of 3.</p>
+  <p id="eval-gate" aria-live="polite">Authority gate: failed — CSV source overwritten.</p>
+  <noscript><p>The values above show the original result. Enable JavaScript to change the remedy, permissions, and weighting.</p></noscript>
+</section>

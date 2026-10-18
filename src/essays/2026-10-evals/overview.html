@@ -1,0 +1,8 @@
+<p>The agent finds the cause of an outage, explains it clearly, and recommends a fix. A reviewer might approve the answer after a quick read.</p>
+<p>Then someone checks the capacity calculation. The proposed fix would overload the database.</p>
+<p>The diagnosis was right. The recommendation was wrong. The answer cited real evidence and respected its permissions. The team needs to preserve those distinctions to decide what to fix.</p>
+<p>We will build an eval around this invented checkout incident, then test its scoring rules with owner lookups, CSV conversion, and booking examples. The final decision will be whether to release an improved agent whose headline score looks better.</p>
+<p>This guide follows that incident from the first task definition to the release decision. Nine chapters are grouped into three installments, each with worked answers, the reasons behind the recommended method, and the failure modes of common alternatives.</p>
+<p>Start with <strong>Design the Test</strong> if you are authoring an eval. Go to <strong>Build the Score</strong> to inspect correctness, auxiliary dimensions, and the interactive scoring example. Use <strong>Trust the Result</strong> when validating a grader or deciding whether an improvement deserves release.</p>
+<p>The <a href="/assets/downloads/eval-authoring-companion.zip">Python companion</a> contains a scoring contract, supplied example judgments, validation, and tests. The incidents and measurements in this guide are illustrative; they are not measured model results.</p>
+<p>Read the example answers before their verdicts and decide how you would grade them. The disagreements reveal the design choices.</p>
