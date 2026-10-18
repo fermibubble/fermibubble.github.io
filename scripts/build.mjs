@@ -306,6 +306,7 @@ function footer() {
 
 function layout({ title, description, active, content, article = false, incident = false, series = false, path = "/" }) {
   const quality = path.startsWith("/writing/quality-flywheel/");
+  const agentArchitecture = path === "/writing/before-you-build-another-agent/";
   const pageTitle = title ? `${title} — ${site.name}` : site.title;
   const typography = article
     ? path.startsWith('/notes/') ? 'note' : path.startsWith('/writing/trustworthy-autonomy/') ? 'principle' : path.startsWith('/writing/') ? 'essay' : 'archive'
@@ -330,7 +331,7 @@ function layout({ title, description, active, content, article = false, incident
     <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/styles.css">${incident ? '\n    <link rel="stylesheet" href="/assets/epistemics.css">' : ""}${series ? '\n    <link rel="stylesheet" href="/assets/principles.css">' : ""}
     <link rel="stylesheet" href="/assets/editorial.css">
-    <link rel="stylesheet" href="/assets/diagram.css">
+    <link rel="stylesheet" href="/assets/diagram.css">${agentArchitecture ? '\n    <link rel="stylesheet" href="/assets/agent-architecture.css">\n    <script type="module" src="/assets/agent-delegation.js"></script>' : ""}
     <link rel="stylesheet" href="/assets/typography.css?v=20261003-collections">${quality ? '\n    <link rel="stylesheet" href="/assets/quality.css?v=20261004-revision">\n    <script type="module" src="/assets/quality.js"></script>' : ""}
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>${incident ? '\n    <script type="module" src="/assets/epistemics.js"></script>' : ""}${series ? '\n    <script type="module" src="/assets/principles.js"></script>' : ""}
@@ -719,6 +720,8 @@ await cp(join(root, "lnr-code.ico"), join(out, "lnr-code.ico"));
 await cp(join(root, "lnr-code.ico"), join(out, "favicon.ico"));
 await Promise.all([
   cp(join(root, "src", "diagram.css"), join(out, "assets", "diagram.css")),
+  cp(join(root, "src", "agent-architecture.css"), join(out, "assets", "agent-architecture.css")),
+  cp(join(root, "src", "agent-delegation.js"), join(out, "assets", "agent-delegation.js")),
   cp(join(root, "src", "quality.css"), join(out, "assets", "quality.css")),
   cp(join(root, "src", "quality.js"), join(out, "assets", "quality.js")),
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
