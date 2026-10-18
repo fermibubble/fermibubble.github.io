@@ -1,4 +1,5 @@
 import { qualityOverview } from "./quality-writing.mjs";
+import { agentArchitecture } from "./agent-architecture.mjs";
 import { autonomyOverview } from "./principle-series.mjs";
 import { systemsWriting } from "./systems-writing.mjs";
 import { agencyOverview } from "./agency-writing.mjs";
@@ -18,6 +19,7 @@ export const site = {
 };
 
 export const writing = [
+  agentArchitecture,
   qualityOverview,
   classifierOverview,
   agencyOverview,
