@@ -1,5 +1,6 @@
 // Publication chronology shared by articles, archives, and feeds.
 const publicationDates = {
+  "building-an-agent-that-improves-its-own-harness": "2026-10-19",
   "implementing-progressive-disclosure-for-agent-tools": "2026-10-18",
   "before-you-build-another-agent": "2026-10-18",
   "classifiers-when-labels-become-decisions": "2026-10-04",
@@ -45,6 +46,7 @@ const publicationTimes = Object.fromEntries([
 ].map((slug) => [slug, "2026-10-03T04:52:57Z"]));
 
 publicationTimes["before-you-build-another-agent"] = "2026-10-18T00:45:17Z";
+publicationTimes["building-an-agent-that-improves-its-own-harness"] = "2026-10-19T01:12:45Z";
 publicationTimes["implementing-progressive-disclosure-for-agent-tools"] = "2026-10-18T03:20:26Z";
 
 // The classifier collection and its chapters form one October 4 release.
