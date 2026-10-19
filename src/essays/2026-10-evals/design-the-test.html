@@ -3,7 +3,6 @@
 <p>The diagnosis was right. The recommendation was wrong. The answer cited real evidence and respected its permissions. The team needs to preserve those distinctions to decide what to fix.</p>
 <p>We will build an eval around this invented checkout incident, then test its scoring rules with owner lookups, CSV conversion, and booking examples. The final decision will be whether to release an improved agent whose headline score looks better.</p>
 
-<nav class="eval-chapter-nav" aria-label="In this installment"><p>In this installment</p><ol><li><a href="#chapter-1-reproduce-the-problem-before-writing-the-test">Chapter 1 Reproduce the problem before writing the test</a></li><li><a href="#chapter-2-write-rules-that-distinguish-a-good-answer">Chapter 2 Write rules that distinguish a good answer</a></li></ol></nav>
 <h2 id="chapter-1-reproduce-the-problem-before-writing-the-test">Chapter 1 Reproduce the problem before writing the test<a class="heading-anchor" href="#chapter-1-reproduce-the-problem-before-writing-the-test" aria-label="Link to this section">#</a></h2>
 <h3 id="give-the-agent-a-problem-to-solve">Give the agent a problem to solve<a class="heading-anchor" href="#give-the-agent-a-problem-to-solve" aria-label="Link to this section">#</a></h3>
 <p>Imagine an application called <code>checkout-api</code>. It runs on four instances. Each instance keeps a pool of open database connections, which requests borrow when they need to query the database.</p>
