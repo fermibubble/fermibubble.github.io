@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Busy Waiting — Oddly</title>
-    <meta name="description" content="Busy Waiting. Earlier software engineering writing by Chaitanya Meesala.">
+    <title>Busy Waiting, Polling, and Blocking — Oddly</title>
+    <meta name="description" content="Busy Waiting, Polling, and Blocking. Earlier software engineering writing by Chaitanya Meesala.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Busy Waiting — Oddly">
-    <meta property="og:description" content="Busy Waiting. Earlier software engineering writing by Chaitanya Meesala.">
+    <meta property="og:title" content="Busy Waiting, Polling, and Blocking — Oddly">
+    <meta property="og:description" content="Busy Waiting, Polling, and Blocking. Earlier software engineering writing by Chaitanya Meesala.">
     <meta property="og:url" content="https://oddly.fyi/anti-patterns/busy-waiting/">
     <link rel="canonical" href="https://oddly.fyi/anti-patterns/busy-waiting/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--busy-waiting.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Busy Waiting, Polling, and Blocking — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Busy Waiting, Polling, and Blocking","description":"Busy Waiting, Polling, and Blocking. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/busy-waiting/","image":"https://oddly.fyi/assets/social/anti-patterns--busy-waiting.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/busy-waiting/"}</script></head>
   <body data-path="/anti-patterns/busy-waiting/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,68 +46,37 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Busy Waiting</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Busy Waiting</h5>
-  <p>It’s a phenomenon where processor is continuously spending its clock cycles while doing nothing and waiting for some event to occur. It can be a valid strategy in some scenarios but should be mostly avoided.</p>
-
-<p>Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sender</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">Message</span> <span class="n">message</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Hello World"</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Receiver</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">Message</span> <span class="n">message</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">while</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-            <span class="k">try</span> <span class="o">{</span>
-                <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span> <span class="c1">// Busy Wait</span>
-            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
-        <span class="o">}</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-     <span class="nc">Message</span> <span class="n">msg</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Message</span><span class="o">();</span>
-     <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Receiver</span><span class="o">(</span><span class="n">msg</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
-     <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Sender</span><span class="o">(</span><span class="n">msg</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>In the above snippet, the receiver thread sleeps for unnecessary long time leading to busy wait. Instead of waiting for 5 seconds, the receiver can listen for sender notification.<br />
-It can be refactored to:</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sender</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">Message</span> <span class="n">message</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">synchronized</span><span class="o">(</span><span class="n">message</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Hello World"</span><span class="o">);</span>
-            <span class="n">message</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Receiver</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">Message</span> <span class="n">message</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-        <span class="kd">synchronized</span><span class="o">(</span><span class="n">message</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">while</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-                <span class="k">try</span> <span class="o">{</span>
-                    <span class="n">message</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span> <span class="c1">// Wait for notification</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Busy Waiting, Polling, and Blocking</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>A tight loop repeatedly checking a condition consumes execution time while it waits. That is busy waiting. A loop that calls <code>Thread.sleep</code> between checks is polling: it gives up execution during the sleep but trades wake-up delay against repeated checks.</p>
+<h2 id="choose-the-wait">Choose the wait your protocol needs</h2>
+<p>Spinning can be justified for very short waits in specialized low-level code. Polling can be appropriate when a remote system offers no notification mechanism. For producer–consumer work within a Java process, a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html">BlockingQueue</a> gives explicit waiting and publication semantics.</p>
+<pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>static void blockingExample() throws InterruptedException {
+        BlockingQueue&lt;Integer&gt; queue = new ArrayBlockingQueue&lt;&gt;(2);
+        AtomicInteger sum = new AtomicInteger();
+        Thread consumer = new Thread(() -&gt; {
+            try {
+                while (true) {
+                    int value = queue.take();
+                    if (value == -1) return; // -1 is outside this example's input domain
+                    sum.addAndGet(value);
+                }
+            } catch (InterruptedException interrupted) {
+                Thread.currentThread().interrupt();
+            }
+        });
+        consumer.start();
+        try {
+            queue.put(2); queue.put(3); queue.put(-1);
+            consumer.join(2000);
+            check(!consumer.isAlive() &amp;&amp; sum.get() == 5, "queue result or termination");
+        } finally {
+            consumer.interrupt(); consumer.join(2000);
+        }
+    }</code></pre>
+<p>The queue is bounded, so producers wait when it is full. The consumer blocks on <code>take()</code> when it is empty. The sentinel is outside the example’s valid domain and terminates this single consumer. Multiple consumers require an explicit shutdown policy; one sentinel is not enough for an arbitrary worker pool.</p>
+<h2 id="cancellation-and-visibility">Cancellation and visibility are part of the example</h2>
+<p>The consumer restores its interrupt status and exits if interrupted. The coordinating thread bounds its join and interrupts the consumer during cleanup. Queue operations establish the publication relationship needed to hand off values safely. A plain shared boolean is not a replacement for a specified memory-visibility protocol.</p>
+<p>For remote polling, use a deadline, bounded backoff, and cancellation. Measure both request load and detection delay. Replacing a spin with sleep changes the tradeoff; it does not turn polling into event-driven delivery.</p><p>The <a href="/assets/downloads/oddly-workbench.zip">workbench</a> includes the complete <code>LegacyExamples.java</code> program, imports, assertions, and a run command: <code>java LegacyExamples.java</code> with JDK 17 or later. The fragments below are extracted from that same tested source.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -119,12 +88,13 @@ It can be refactored to:</p>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -132,9 +102,10 @@ It can be refactored to:</p>
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

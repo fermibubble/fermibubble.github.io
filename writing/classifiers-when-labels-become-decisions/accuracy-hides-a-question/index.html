@@ -25,7 +25,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--classifiers-when-labels-become-decisions--accuracy-hides-a-question.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Accuracy Hides a Question — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Accuracy Hides a Question","description":"A metric becomes useful when its denominator matches the decision.","url":"https://oddly.fyi/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/","image":"https://oddly.fyi/assets/social/writing--classifiers-when-labels-become-decisions--accuracy-hides-a-question.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-04T08:11:05Z","mainEntityOfPage":"https://oddly.fyi/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/"}</script></head>
   <body data-path="/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -40,7 +40,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -55,11 +55,11 @@
         <div class="article-type">Classifiers: When Labels Become Decisions / Chapter 06 of 10</div>
         <h1>Accuracy Hides a Question</h1>
         <p class="article-deck">A metric becomes useful when its denominator matches the decision.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>8 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/classifiers-when-labels-become-decisions/">Part of Classifiers: When Labels Become Decisions ↗</a>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 8 min read</summary><ol><li><a href="#keep-the-four-counts-visible">Keep the four counts visible </a></li><li><a href="#aggregation-chooses-what-counts">Aggregation chooses what counts </a></li><li><a href="#what-research-contributes">What research contributes </a></li><li><a href="#a-scorecard-i-would-actually-use">A scorecard I would actually use </a></li><li><a href="#choose-a-metric-from-the-decision">Choose a metric from the decision</a></li></ol></details>
       <div class="series-body" data-article-body>
         <details class="series-directory"><summary>Chapters in this collection <span>06 / 10</span></summary>
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/classifiers-when-labels-become-decisions/a-label-is-a-commitment/">A Label Is a Commitment</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/categories-are-executable/">Categories Are Executable</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/choose-the-evidence-before-the-model/">Choose the Evidence Before the Model</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/placement-changes-the-promise/">Placement Changes the Promise</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/ground-truth-is-a-process/">Ground Truth Is a Process</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/accuracy-hides-a-question/" aria-current="page">Accuracy Hides a Question</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/rare-events-change-the-meaning/">Rare Events Change the Meaning</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/several-labels-several-questions/">Several Labels, Several Questions</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/confidence-must-earn-its-meaning/">Confidence Must Earn Its Meaning</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/measurement-needs-a-memory/">Measurement Needs a Memory</a></li></ol></nav>
@@ -79,7 +79,7 @@
 <p>These conventions are documented in the <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics" rel="noreferrer">scikit-learn evaluation guide</a>. Report per-class results and support—the number of reference examples—alongside the average. A rare class with three examples can swing dramatically after one changed judgment.</p>
 <h3 id="can-harder-items-count-more">Can harder items count more?<a class="heading-anchor" href="#can-harder-items-count-more" aria-label="Link to this section">#</a></h3>
 <p>Yes. Assign each item a nonnegative weight, multiply that weight by whether the answer was correct, and divide by the total weight. At least one weight must be positive.</p>
-<pre class="source-example"><code>weighted accuracy = sum of weights of correct items
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>weighted accuracy = sum of weights of correct items
                     / sum of weights of all items</code></pre>
 <p>This is ordinary sample weighting; <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html" rel="noreferrer">accuracy_score</a> supports it directly. The arithmetic is easy. <strong>The difficult part is deciding what the weights mean.</strong></p>
 <p>Consider two classifiers on the same 120 support requests. Before evaluating them, reviewers separated 100 routine requests from 20 challenge cases containing interacting intents or negation. Each item receives one correct-or-incorrect judgment under a fixed rubric. Assume the references are reliable.</p>
@@ -104,9 +104,9 @@
 <p>Finally, choose the decision threshold on validation data, then test the completed policy separately. The <a href="https://scikit-learn.org/stable/modules/classification_threshold.html" rel="noreferrer">threshold-tuning guide</a> explains this separation. For our defect detector, that means asking whether the team can review 278 alerts and tolerate 20 misses—not celebrating a percentage in isolation.</p>
 <p>Difficulty-aware scoring can be useful. Its value comes from a defensible question, a stable rubric, and visible component results. A more elaborate average should explain the tradeoff better than the simple one it replaces.</p><!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="choose-a-metric-from-the-decision">Choose a metric from the decision</h2><p>For balanced routing, a confusion matrix and per-class recall may be sufficient. For expensive false positives, inspect precision at the intended operating point. For an unequal label distribution, compare macro and population-weighted summaries and state why one matches the decision.</p><p>Keep the advanced difficulty-model discussion optional. You do not need item-response modeling to notice that a benchmark contains mostly easy cases. Begin with task-family counts and slice results; add a model of difficulty only when its assumptions, fit, and intended use are defensible.</p><p>A report should expose raw counts, denominators, excluded cases, and weighting. If two teams can obtain different scores from the same predictions because those choices are implicit, the measurement contract is unfinished.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/classifiers-when-labels-become-decisions/ground-truth-is-a-process/"><span>Previous chapter</span><strong>Ground Truth Is a Process</strong></a>
       <a class="pagination-next" href="/writing/classifiers-when-labels-become-decisions/rare-events-change-the-meaning/"><span>Next chapter</span><strong>Rare Events Change the Meaning</strong></a>
@@ -123,12 +123,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -136,9 +137,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

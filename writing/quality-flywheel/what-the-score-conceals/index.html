@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--quality-flywheel--what-the-score-conceals.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="What the Score Conceals — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What the Score Conceals","description":"The tests passed. Websites went down. Which question did the checks leave out?","url":"https://oddly.fyi/writing/quality-flywheel/what-the-score-conceals/","image":"https://oddly.fyi/assets/social/writing--quality-flywheel--what-the-score-conceals.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-04T14:02:02Z","mainEntityOfPage":"https://oddly.fyi/writing/quality-flywheel/what-the-score-conceals/"}</script></head>
   <body data-path="/writing/quality-flywheel/what-the-score-conceals/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -57,11 +57,11 @@
         <div class="article-type">The Quality Flywheel / Chapter 01 of 05</div>
         <h1>What the Score Conceals</h1>
         <p class="article-deck">The tests passed. Websites went down. Which question did the checks leave out?</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>5 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/quality-flywheel/">Part of The Quality Flywheel ↗</a>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 5 min read</summary><ol><li><a href="#a-green-test-is-an-answer-to-a-particular-question">A green test is an answer to a particular question</a></li><li><a href="#write-down-the-trade-before-choosing-the-weights">Write down the trade before choosing the weights</a></li><li><a href="#the-evaluator-needs-a-difficult-example-too">The evaluator needs a difficult example too</a></li><li><a href="#turn-coverage-into-a-small-matrix">Turn coverage into a small matrix</a></li></ol></details>
       <div class="series-body" data-article-body>
         <details class="series-directory"><summary>Chapters in this collection <span>01 / 05</span></summary>
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/quality-flywheel/what-the-score-conceals/" aria-current="page">What the Score Conceals</a></li><li><a href="/writing/quality-flywheel/turn-failure-into-experiment/">Turn a Failure into an Experiment</a></li><li><a href="/writing/quality-flywheel/search-beyond-the-prompt/">Search Beyond the Prompt</a></li><li><a href="/writing/quality-flywheel/make-the-winner-earn-release/">Make the Winner Earn Its Release</a></li><li><a href="/writing/quality-flywheel/what-the-next-failure-inherits/">What the Next Failure Inherits</a></li></ol></nav>
@@ -69,18 +69,18 @@
         <div class="prose"><!--article-prose:start--><p>On 2 July 2019, people visiting websites served through Cloudflare began seeing “502 Bad Gateway” errors. A newly deployed security rule was consuming excessive CPU while inspecting requests. Machines needed for serving web traffic were occupied evaluating the rule.</p>
 <p>Cloudflare's engineers disabled the affected firewall component to restore service, then isolated the problematic rule and tested the correction. The outage lasted 27 minutes. The company's <a href="https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/">postmortem</a> explains an important gap: the tests checked which requests the rules matched, but did not test for runaway CPU consumption.</p>
 <p>This was one of several failed safeguards, including limits on CPU use and the scope of the rollout. The change passed the questions the tests asked. The failure lived in a question they did not ask.</p>
-<h2>A green test is an answer to a particular question</h2>
+<h2 id="a-green-test-is-an-answer-to-a-particular-question">A green test is an answer to a particular question</h2>
 <p>“Does this rule detect the intended pattern?” and “Can we afford to run it on production traffic?” are different requirements. Success on the first does not establish the second. A useful evaluation has to represent the job the system must perform, including constraints that can make an otherwise correct result unusable.</p>
 <p>Now imagine evaluating Atlas, an AI assistant that helps an engineer investigate an unavailable website. It sees high CPU and recommends adding servers. The answer is concise, cites a scaling runbook, and contains a sensible-looking checklist.</p>
 <p>But busy CPUs do not tell us why they are busy. There may be more requests, or each request may have become more expensive to process. The same symptom can require a different response.</p>
 <div class="table-wrap"><table><caption>Two causes of a busy web server</caption><thead><tr><th>What changed?</th><th>What to investigate</th></tr></thead><tbody><tr><td>More requests arrive.</td><td>Traffic volume, available capacity, and downstream limits.</td></tr><tr><td>Each request does more work.</td><td>Recent changes and where CPU time is being spent.</td></tr></tbody></table></div>
 <p>If the evaluator rewards Atlas for writing a complete plan without checking that distinction, an optimizer can improve presentation while leaving the investigation weak. A runbook link is evidence only when its reasoning applies to the case.</p>
 <p>In <a href="https://proceedings.mlr.press/v202/gao23h.html">Scaling Laws for Reward Model Overoptimization</a>, stronger optimization of a proxy reward eventually degrades the study's reference reward. The practical lesson is to inspect what the score allows the optimizer to neglect before making the search more powerful.</p>
-<h2>Write down the trade before choosing the weights</h2>
+<h2 id="write-down-the-trade-before-choosing-the-weights">Write down the trade before choosing the weights</h2>
 <p>Suppose one version of Atlas diagnoses failures correctly more often, while another includes runbook links more often. A weighted average can rank either version first without changing a single answer.</p>
 <div class="interactive" id="metric-lab">
 <div class="figure-kicker">Change the scoring rule</div>
-<h3>The answers stay the same. The winner changes.</h3>
+<h3 id="the-answers-stay-the-same-the-winner-changes">The answers stay the same. The winner changes.</h3>
 <p>Atlas A: 90% correct diagnoses, 20% include a runbook link.<br>Atlas B: 70% correct diagnoses, 95% include a runbook link.</p>
 <label for="citation-weight">Weight assigned to including a runbook link <output id="weight-value" for="citation-weight">50%</output></label>
 <input id="citation-weight" type="range" min="0" max="100" value="50" step="1" aria-describedby="metric-explanation">
@@ -91,16 +91,16 @@
 </div>
 <p>Links, clear writing, and thorough explanations matter. They do not compensate for an unsupported diagnosis. Combining them into one average quietly makes them exchangeable.</p>
 <p>A useful scorecard keeps separate questions visible: does the explanation fit the evidence, does the proposed action address the suspected cause, and does it respect the engineer's approval boundary? A plan to disable a security control also needs to account for the protection being removed. Restoring availability is part of the decision, not the whole of it.</p>
-<h2>The evaluator needs a difficult example too</h2>
+<h2 id="the-evaluator-needs-a-difficult-example-too">The evaluator needs a difficult example too</h2>
 <p>Give the evaluator two equally polished answers: “add servers to handle the extra traffic” and “investigate the recent change that increased work per request.” Pair them first with a genuine traffic surge, then with evidence of an expensive new rule. A useful evaluator should change its judgment as the evidence changes.</p>
 <p>Recent <a href="https://arxiv.org/abs/2609.02942">controlled probes of LLM judges</a> find cases where meaningful changes to a response or rubric fail to produce the expected change in the verdict. That makes this a useful test to run, rather than an ability to assume.</p>
 <p><a href="https://arxiv.org/abs/2404.12272">Who Validates the Validators?</a> studies how people's evaluation criteria evolve as they inspect outputs. The team may initially reward a plausible recovery plan and later recognize that it must also check the causal argument and the action's consequences. When the standard changes, rescore the previous version under the same rules.</p>
 <p>The first step in improvement is a defensible answer to a simple question: <strong>what would have to change for us to call this behavior better?</strong></p>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="turn-coverage-into-a-small-matrix">Turn coverage into a small matrix</h2><p>For the incident, record each requirement as a row: detect the symptom, identify the rule, bound affected traffic, propose a reversible action, and verify recovery. Add columns for evidence source, current test, failure case, and owner. A blank cell is an untested obligation, not an implicit pass.</p><p>For example, a successful rollback can satisfy recovery while leaving the causal diagnosis wrong. Score those separately. Before adding a new aggregate metric, inspect which row drove the change. The matrix should make a missing test obvious enough that a higher headline score cannot hide it.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/quality-flywheel/"><span>Collection overview</span><strong>The Quality Flywheel</strong></a>
       <a class="pagination-next" href="/writing/quality-flywheel/turn-failure-into-experiment/"><span>Next chapter</span><strong>Turn a Failure into an Experiment</strong></a>
@@ -117,12 +117,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -130,9 +131,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

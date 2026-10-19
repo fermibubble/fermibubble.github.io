@@ -25,7 +25,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--building-an-agent-that-improves-its-own-harness.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Building an Agent That Improves Its Own Harness — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Building an Agent That Improves Its Own Harness","description":"Turn repeated failures into tested changes, then use the evidence to improve the next experiment.","url":"https://oddly.fyi/writing/building-an-agent-that-improves-its-own-harness/","image":"https://oddly.fyi/assets/social/writing--building-an-agent-that-improves-its-own-harness.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-19T01:12:45Z","mainEntityOfPage":"https://oddly.fyi/writing/building-an-agent-that-improves-its-own-harness/"}</script></head>
   <body data-path="/writing/building-an-agent-that-improves-its-own-harness/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -40,7 +40,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -55,10 +55,10 @@
         <div class="article-type">Agent architecture</div>
         <h1>Building an Agent<br><em>That Improves Its Own Harness</em></h1>
         <p class="article-deck">Turn repeated failures into tested changes, then use the evidence to improve the next experiment.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-19">October 19, 2026</time><span>14 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-19">October 19, 2026</time><span>17 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 17 min read</summary><ol><li><a href="#decide-what-should-persist">Decide what should persist </a></li><li><a href="#locate-the-change">Locate the change </a></li><li><a href="#choose-where-improvement-happens">Choose where improvement happens </a></li><li><a href="#turn-the-failure-into-a-patch-hypothesis">Turn the failure into a patch hypothesis </a></li><li><a href="#give-the-improver-a-search-procedure">Give the improver a search procedure </a></li><li><a href="#let-the-first-candidate-fail">Let the first candidate fail </a></li><li><a href="#make-the-second-proposal-remember-the-first">Make the second proposal remember the first </a></li><li><a href="#promote-the-version-that-survives-new-evidence">Promote the version that survives new evidence </a></li><li><a href="#test-whether-the-improver-improved">Test whether the improver improved </a></li><li><a href="#build-the-smallest-loop-that-can-earn-a-release">Build the smallest loop that can earn a release </a></li><li><a href="#run-the-warning-preservation-experiment">Run the warning-preservation experiment</a></li></ol></details>
       <div class="series-body" data-article-body>
         <div class="prose"><!--article-prose:start--><p>Imagine a coding agent encountering the same failure for the third time. A build produces thousands of lines of output. The useful diagnostic disappears from the model’s working context. The agent edits the wrong file, retries the build, and runs out of time.</p>
 <p>A developer adds another instruction: “Pay attention to compiler errors.” The next run still fails.</p>
@@ -185,7 +185,7 @@
 <p>Start with the trace. Did the tool return the diagnostic? Did an output limit remove it? Did compaction discard it later? Did the model see it and misunderstand it? Each explanation points to a different component. A prompt cannot recover evidence that never reaches the model.</p>
 <p>Write a hypothesis that can fail: “On long build outputs, preserving structured diagnostic spans will increase repair success because the agent can inspect the first relevant failure without losing access to the complete log.”</p>
 <p>The candidate might modify a tool wrapper. It saves the original output in a task-scoped artifact, extracts diagnostics with locations, and returns a compact receipt. The complete log remains accessible under the same task permissions. An illustrative interface could return:</p>
-<pre class="source-example"><code class="language-json">{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-json">{
   &quot;exit_code&quot;: 1,
   &quot;full_output&quot;: &quot;artifacts/build-17.log&quot;,
   &quot;diagnostics&quot;: &quot;artifacts/build-17.diagnostics.json&quot;,
@@ -201,7 +201,7 @@
 <p>The improver can be the same generalist model, running in an isolated workspace. It needs a bounded editing task, relevant evidence, and an explicit selection rule.</p>
 <p>Freeze the current production version, the <strong>incumbent</strong>, for one search cycle. Choose a recurring failure family by frequency and impact. Retrieve lessons that match its symptoms, component, and toolchain, including failed attempts. Require the proposer to return a hypothesis, applicability conditions, a patch, and a predicted regression to check.</p>
 <p>Here is pseudocode for a deliberately small search. All candidates branch from the same incumbent; a rejected patch can inform a later proposal without entering production.</p>
-<pre class="source-example"><code class="language-text">base, library = snapshot(incumbent, experience)
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-text">base, library = snapshot(incumbent, experience)
 budget = search_budget_after_reserving_final_checks()
 journal, candidates = [], []
 
@@ -267,14 +267,14 @@ return candidate, journal  # No candidate means keep the incumbent.
 <p>The aggregate improves from 65% to 73%, but warning-dependent repairs get worse. If the declared limit permits at most a two-point decline in an important slice, this candidate is ineligible. A useful idea has produced an unacceptable default.</p>
 <p>Inspect the failing traces before assigning a cause. The filter may have removed a useful warning, but run variability or another adapter bug could also explain failures. The measurement is evidence of a regression; warning loss is a hypothesis to test.</p>
 <p>Calculate each task’s average score across repetitions, subtract its incumbent average, and average those differences:</p>
-<pre class="source-example"><code class="language-text">task gain = mean(candidate runs) − mean(incumbent runs)
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-text">task gain = mean(candidate runs) − mean(incumbent runs)
 overall gain = mean(task gains)
 </code></pre>
 <p>Repetitions expose execution variability. They do not turn 120 distinct tasks into 600 independent task examples. Estimate uncertainty with a method that preserves task grouping, such as resampling tasks with all their runs together. If repositories or task templates introduce further dependence, preserve that grouping too.</p>
 <p>Set the primary outcome, slices, acceptable regressions, and comparison budget in advance. Use declared workload weights if the task mix differs from deployment traffic. Development scores guide search; fresh promotion evidence must resolve uncertainty before release.</p>
 <h2 id="make-the-second-proposal-remember-the-first">Make the second proposal remember the first<a class="heading-anchor" href="#make-the-second-proposal-remember-the-first" aria-label="Link to this section">#</a></h2>
 <p>The useful lesson is more specific than “shorter output is better.” Store the measured regression separately from its suspected cause.</p>
-<pre class="source-example"><code class="language-yaml"># Hypothetical development record, not a framework schema.
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-yaml"># Hypothetical development record, not a framework schema.
 trigger: long compiler output obscures actionable diagnostics
 change: error-only diagnostic preview with raw-log access
 observation: warning-dependent pass rate fell by 11 points
@@ -352,9 +352,9 @@ provenance: [parent_version, patch_id, task_ids, trace_ids, results]
 <p>The next time the compiler failure appears, the agent should inherit a better way to inspect the evidence. The next time the optimizer proposes an output filter, it should inherit the warning regression and the test that caught it. That is a concrete form of progress: both the work and the method for improving the work have learned from the failure.</p>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="run-the-warning-preservation-experiment">Run the warning-preservation experiment</h2><p>The <a href="/toolkit/">engineering workbench</a> contains four fixed build transcripts and explicit required diagnostics. Run <code>python workbench.py</code> to compare raw output, errors-only output, and errors-plus-warnings. Inspect <code>adapter-cases.json</code> before the report: a warning-only regression is the case that the aggressive filter hides.</p><p>The companion also includes <code>compiler_experiment.py</code>, which compiles and executes three Java programs in three trials each. On OpenJDK 17.0.20, the unchecked-cast case compiled successfully with a 216-byte warning and failed at runtime in all three trials. The errors-only adapter discarded the warning completely. Inspect <code>compiler-results.json</code> for the raw diagnostics, exit codes, and environment. This is a narrow compiler experiment, not an agent benchmark. The report records retained requirements and UTF-8 bytes; bytes are not tokens or model cost. The conservative adapter passes these four cases, but a diagnostic with an unfamiliar prefix can still defeat it. Add that case before extending the rule.</p><p>For a real harness experiment, freeze model, tool versions, task IDs, and budgets; store every raw response alongside the transformed view. Run the baseline and candidate on the same held-out tasks, report repeated trials and latency, and keep promotion outside the optimizer. A smaller response is useful only if downstream completion and authority checks survive.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <span></span>
       <a class="pagination-next" href="/writing/how-to-write-and-score-an-agent-eval/"><span>Next</span><strong>How to Write and Score an Agent Eval</strong></a>
@@ -371,12 +371,13 @@ provenance: [parent_version, patch_id, task_ids, trace_ids, results]
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -384,9 +385,10 @@ provenance: [parent_version, patch_id, task_ids, trace_ids, results]
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

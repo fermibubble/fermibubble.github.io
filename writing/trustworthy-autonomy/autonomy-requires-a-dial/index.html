@@ -25,7 +25,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--trustworthy-autonomy--autonomy-requires-a-dial.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Autonomy requires a Dial — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Autonomy requires a Dial","description":"A coding agent can inspect a repository, prepare a patch, or merge it. Each action needs its own grant of authority.","url":"https://oddly.fyi/writing/trustworthy-autonomy/autonomy-requires-a-dial/","image":"https://oddly.fyi/assets/social/writing--trustworthy-autonomy--autonomy-requires-a-dial.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-08-10T12:00:00Z","mainEntityOfPage":"https://oddly.fyi/writing/trustworthy-autonomy/autonomy-requires-a-dial/"}</script></head>
   <body data-path="/writing/trustworthy-autonomy/autonomy-requires-a-dial/" data-typography="principle" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -40,7 +40,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -55,11 +55,11 @@
         <div class="article-type">Trustworthy Autonomy / Chapter 04 of 09</div>
         <h1>Autonomy requires<br><em>a Dial</em></h1>
         <p class="article-deck">A coding agent can inspect a repository, prepare a patch, or merge it. Each action needs its own grant of authority.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-08-10">August 10, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-08-10">August 10, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/trustworthy-autonomy/">Part of Trustworthy Autonomy ↗</a>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 6 min read</summary><ol><li><a href="#the-same-agent-different-kinds-of-freedom">The same agent, different kinds of freedom </a></li><li><a href="#delegation-is-conditional">Delegation is conditional </a></li><li><a href="#case-title">Set the authority</a></li><li><a href="#put-the-dial-outside-the-agent">Put the dial outside the agent </a></li><li><a href="#use-a-capability-vector-for-real-policy">Use a capability vector for real policy</a></li></ol></details>
       <div class="series-body" data-article-body>
         <details class="series-directory"><summary>Chapters in this collection <span>04 / 09</span></summary>
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/trustworthy-autonomy/verdicts-require-epistemics/">Verdicts require Epistemics</a></li><li><a href="/writing/trustworthy-autonomy/evidence-requires-provenance/">Evidence requires Provenance</a></li><li><a href="/writing/trustworthy-autonomy/state-requires-ownership/">State requires Ownership</a></li><li><a href="/writing/trustworthy-autonomy/autonomy-requires-a-dial/" aria-current="page">Autonomy requires a Dial</a></li><li><a href="/writing/trustworthy-autonomy/inputs-require-a-trust-boundary/">Inputs require a Trust Boundary</a></li><li><a href="/writing/trustworthy-autonomy/knowledge-requires-a-clock/">Knowledge requires a Clock</a></li><li><a href="/writing/trustworthy-autonomy/delegation-requires-ceilings/">Delegation requires Ceilings</a></li><li><a href="/writing/trustworthy-autonomy/failure-requires-a-ladder/">Failure requires a Ladder</a></li><li><a href="/writing/trustworthy-autonomy/learning-requires-outcomes/">Learning requires Outcomes</a></li></ol></nav>
@@ -84,7 +84,7 @@
       <div class="case-snapshot"><span class="case-kicker">0 · Observe</span><dl><div><dt>Level</dt><dd>0</dd></div><div><dt>Writes</dt><dd>None</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-0">Inspect the repository</h3>
         <dl><dt>What happens</dt><dd>Read dependency manifests and test reports in the permitted repository.</dd><dt>What it means</dt><dd>Access allows observation; it does not authorize changes.</dd><dt>What the system does</dt><dd>Stay within the approved files and query budget.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 0,
   &quot;allowed&quot;: [
     &quot;read repository&quot;
@@ -96,7 +96,7 @@
       <div class="case-snapshot"><span class="case-kicker">1 · Analyze</span><dl><div><dt>Level</dt><dd>1</dd></div><div><dt>Writes</dt><dd>Assessment only</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-1">Explain the compatibility problem</h3>
         <dl><dt>What happens</dt><dd>Identify deprecated APIs and the packages that depend on them.</dd><dt>What it means</dt><dd>The agent may interpret evidence without changing shared code.</dd><dt>What the system does</dt><dd>Record the affected interfaces and remaining uncertainty.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 1,
   &quot;allowed&quot;: [
     &quot;analyze&quot;,
@@ -109,7 +109,7 @@
       <div class="case-snapshot"><span class="case-kicker">2 · Recommend</span><dl><div><dt>Level</dt><dd>2</dd></div><div><dt>Change status</dt><dd>Proposed</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-2">Propose the upgrade</h3>
         <dl><dt>What happens</dt><dd>Recommend a target version and explain its compatibility and maintenance tradeoffs.</dd><dt>What it means</dt><dd>A recommendation is not permission to install the dependency.</dd><dt>What the system does</dt><dd>Name the proposed change and the checks it needs.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 2,
   &quot;action&quot;: &quot;dependency upgrade&quot;,
   &quot;status&quot;: &quot;recommendation&quot;
@@ -119,7 +119,7 @@
       <div class="case-snapshot"><span class="case-kicker">3 · Prepare</span><dl><div><dt>Level</dt><dd>3</dd></div><div><dt>Boundary</dt><dd>Isolated branch</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-3">Create a reviewable patch</h3>
         <dl><dt>What happens</dt><dd>Update code and run tests in the granted scratch environment.</dd><dt>What it means</dt><dd>Preparing an artifact can be authorized separately from publishing it.</dd><dt>What the system does</dt><dd>Keep the diff, test results, and migration notes together.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 3,
   &quot;scope&quot;: &quot;isolated branch&quot;,
   &quot;artifact&quot;: &quot;patch and test results&quot;,
@@ -130,7 +130,7 @@
       <div class="case-snapshot"><span class="case-kicker">4 · Approval</span><dl><div><dt>Level</dt><dd>4</dd></div><div><dt>Approver</dt><dd>Repository maintainer</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-4">Execute the approved change</h3>
         <dl><dt>What happens</dt><dd>A maintainer approves one exact patch for one repository.</dd><dt>What it means</dt><dd>Approval for this patch does not authorize a larger rewrite or a package release.</dd><dt>What the system does</dt><dd>Check patch identity, scope, expiry, and continued validity before acting.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 4,
   &quot;action&quot;: &quot;merge approved patch&quot;,
   &quot;approval_required_from&quot;: [
@@ -143,7 +143,7 @@
       <div class="case-snapshot"><span class="case-kicker">5 · Policy</span><dl><div><dt>Level</dt><dd>5</dd></div><div><dt>Boundary</dt><dd>Documentation fixes</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-5">Automate a bounded class of changes</h3>
         <dl><dt>What happens</dt><dd>A predefined rule permits documentation-only fixes after the required checks pass.</dd><dt>What it means</dt><dd>The runtime still verifies the changed paths and policy conditions.</dd><dt>What the system does</dt><dd>Evaluate the actual diff against the policy before merging.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 5,
   &quot;policy&quot;: &quot;documentation-only maintenance&quot;,
   &quot;required&quot;: [
@@ -157,7 +157,7 @@
       <div class="case-snapshot"><span class="case-kicker">6 · Delegated</span><dl><div><dt>Level</dt><dd>6</dd></div><div><dt>Boundary</dt><dd>One maintenance mission</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-6">Work inside a mission contract</h3>
         <dl><dt>What happens</dt><dd>The agent may plan and complete a sequence of maintenance tasks within a defined repository and deadline.</dd><dt>What it means</dt><dd>Tool, time, cost, and publication limits remain enforceable and revocable.</dd><dt>What the system does</dt><dd>Escalate when the plan reaches a boundary.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;autonomy_level&quot;: 6,
   &quot;scope&quot;: &quot;one approved repository&quot;,
   &quot;limits&quot;: [
@@ -179,9 +179,14 @@
 <p>The dial also turns down. Stale evidence, exhausted budgets, an unexpectedly broad diff, or a revoked permission can reduce what is allowed halfway through a task.</p>
 <p>Try the same proposed action in a scratch repository, a shared feature branch, and a protected main branch. A well-designed system can give three different answers, each with a reason someone can inspect.</p>
 <blockquote><p>Give the agent enough freedom to be useful, and make the boundary legible to everyone affected.</p></blockquote>
-<p>Further reading: Saltzer and Schroeder&#039;s <a href="https://web.mit.edu/saltzer/www/publications/protection/Basic.html" rel="noreferrer">principles of information protection</a>, especially least privilege and fail-safe defaults.</p></div>
+<p>Further reading: Saltzer and Schroeder&#039;s <a href="https://web.mit.edu/saltzer/www/publications/protection/Basic.html" rel="noreferrer">principles of information protection</a>, especially least privilege and fail-safe defaults.</p><section class="practice-note"><h2 id="use-a-capability-vector-for-real-policy">Use a capability vector for real policy</h2><p>The seven levels illustrate increasing consequences; they are not a universal ordinal scale. A system may read broadly but write narrowly, spend little money but run for hours, or propose risky changes that require approval. Represent those dimensions directly.</p><pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>read_scope: incident-17
+write_scope: staging/config/*
+max_spend: 0
+max_duration_seconds: 300
+allowed_actions: [inspect, propose_patch]
+requires_approval: [deploy, notify_customer]</code></pre><p>Test the boundary with an action that is permitted in one dimension and forbidden in another. A valid file path must not override a prohibited deployment. Enforcement belongs in the runtime policy, and increasing a level must not silently widen every capability.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/trustworthy-autonomy/state-requires-ownership/"><span>Previous chapter</span><strong>State requires Ownership</strong></a>
       <a class="pagination-next" href="/writing/trustworthy-autonomy/inputs-require-a-trust-boundary/"><span>Next chapter</span><strong>Inputs require a Trust Boundary</strong></a>
@@ -198,12 +203,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -211,9 +217,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

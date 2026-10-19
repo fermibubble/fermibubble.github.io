@@ -1,0 +1,109 @@
+{
+  "paired_release": {
+    "tasks": 100,
+    "baseline": 0.8,
+    "candidate": 0.86,
+    "delta": 0.06,
+    "interval_95": [
+      -0.03,
+      0.15
+    ],
+    "seed": 19,
+    "draws": 10000,
+    "method": "paired task percentile bootstrap",
+    "scope": "illustrative independent tasks; no model runs"
+  },
+  "adapter": [
+    {
+      "adapter": "raw",
+      "cases": [
+        {
+          "case": "compile-error",
+          "required_retained": true,
+          "utf8_bytes": 68
+        },
+        {
+          "case": "warning-only-regression",
+          "required_retained": true,
+          "utf8_bytes": 81
+        },
+        {
+          "case": "clean-build",
+          "required_retained": true,
+          "utf8_bytes": 36
+        },
+        {
+          "case": "mixed-diagnostics",
+          "required_retained": true,
+          "utf8_bytes": 87
+        }
+      ],
+      "passed": 4,
+      "total": 4,
+      "utf8_bytes": 272
+    },
+    {
+      "adapter": "errors_only",
+      "cases": [
+        {
+          "case": "compile-error",
+          "required_retained": true,
+          "utf8_bytes": 29
+        },
+        {
+          "case": "warning-only-regression",
+          "required_retained": false,
+          "utf8_bytes": 0
+        },
+        {
+          "case": "clean-build",
+          "required_retained": true,
+          "utf8_bytes": 0
+        },
+        {
+          "case": "mixed-diagnostics",
+          "required_retained": false,
+          "utf8_bytes": 25
+        }
+      ],
+      "passed": 2,
+      "total": 4,
+      "utf8_bytes": 54
+    },
+    {
+      "adapter": "diagnostics",
+      "cases": [
+        {
+          "case": "compile-error",
+          "required_retained": true,
+          "utf8_bytes": 29
+        },
+        {
+          "case": "warning-only-regression",
+          "required_retained": true,
+          "utf8_bytes": 43
+        },
+        {
+          "case": "clean-build",
+          "required_retained": true,
+          "utf8_bytes": 0
+        },
+        {
+          "case": "mixed-diagnostics",
+          "required_retained": true,
+          "utf8_bytes": 51
+        }
+      ],
+      "passed": 4,
+      "total": 4,
+      "utf8_bytes": 123
+    }
+  ],
+  "rare_event": {
+    "tp": 90.0,
+    "fp": 495.0,
+    "fn": 10.0,
+    "tn": 9405.0,
+    "precision": 0.15384615384615385
+  }
+}

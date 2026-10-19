@@ -1,9 +1,13 @@
+import { readingPaths, glossary } from "../src/reading-paths.mjs";
+import { revisions } from "../src/legacy-revisions.mjs";
+import { articlePractice } from "../src/article-practice.mjs";
+import { enhancePublication } from "./enhance-publication.mjs";
 import { evalOverview, evalWriting } from "../src/eval-writing.mjs";
 import { qualityOverview, qualityWriting } from "../src/quality-writing.mjs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ideas, notes, projects, site, writing as publishedWriting } from "../src/content.mjs";
+import { ideas, ideaExperiments, notes, projects, site, writing as publishedWriting } from "../src/content.mjs";
 import { renderIncident } from "./render-incident.mjs";
 import { renderClassifierFigure } from "./render-classifier-figure.mjs";
 import { autonomyOverview, principleEssays } from "../src/principle-series.mjs";
@@ -234,6 +238,7 @@ const icon = {
 };
 
 const navItems = [
+  ["Start here", "/start/", "start"],
   ["Writing", "/writing/", "writing"],
   ["Focus", "/projects/", "projects"],
   ["About", "/about/", "about"]
@@ -273,9 +278,10 @@ function searchDialog() {
       <div class="search-shell">
         <div class="search-field">
           ${icon.search}
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>
@@ -296,12 +302,13 @@ function footer() {
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>`;
 }
@@ -345,7 +352,7 @@ function layout({ title, description, active, content, article = false, incident
     ${header(active)}
     ${content}
     ${footer()}
-    ${searchDialog()}
+    ${path === "/search/" ? "" : searchDialog()}
   </body>
 </html>`;
 }
@@ -362,7 +369,7 @@ function featureCard(article, index) {
       <h3>${escapeHtml(article.title)}</h3>
       <p>${escapeHtml(article.description)}</p>
     </div>
-    <div class="card-meta"><span>${article.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
+    <div class="card-meta"><span>${article.seriesOverview ? `${seriesFor(article).essays.reduce((sum, chapter) => sum + parseInt(chapter.readTime), 0)} min collection` : article.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
   </article>`;
 }
 
@@ -376,13 +383,11 @@ function homePage() {
           <div class="hero-copy reveal reveal-delay-1">
             <h1>${escapeHtml(site.statement)}</h1>
             <p>${escapeHtml(site.intro)}</p>
-            ${arrowLink("Read the writing", "/writing/", "primary-link")}
+            ${arrowLink("Find your starting point", "/start/", "primary-link")}
           </div>
           <aside class="home-directory reveal reveal-delay-2" aria-label="Explore the work">
-            <p class="directory-label">AREAS OF WORK</p>
-            <a href="/writing/engineering-autonomous-agents/"><span>01</span><div><strong>Agent architecture</strong><small>Execution, memory, and the structure around a model.</small></div></a>
-            <a href="/writing/local-context-for-autonomous-agents/"><span>02</span><div><strong>Context systems</strong><small>Data within reach. Evidence worth reasoning with.</small></div></a>
-            <a href="/writing/checkpoint-replay-for-agent-evaluation/"><span>03</span><div><strong>Evaluation</strong><small>Repeatable experiments across long tasks.</small></div></a>
+            <p class="directory-label">WHAT ARE YOU WORKING ON?</p>
+            ${readingPaths.map((route, i) => `<a href="/start/#${route.id}"><span>0${i+1}</span><div><strong>${route.title}</strong><small>${route.outcome}</small></div></a>`).join('')}
           </aside>
         </div>
         <div class="hero-index reveal reveal-delay-3">
@@ -392,11 +397,11 @@ function homePage() {
 
       <section class="section shell featured-section">
         <div class="section-heading">
-          <div><span class="section-index">01</span><h2>Featured writing</h2></div>
+          <div><span class="section-index">01</span><h2>Start with these</h2></div>
           ${arrowLink("All writing", "/writing/")}
         </div>
         <div class="feature-grid">
-          ${writing.filter((item) => item.featured).slice(0, 3).map(featureCard).join("")}
+          ${["how-to-write-and-score-an-agent-eval", "trustworthy-autonomy", "implementing-progressive-disclosure-for-agent-tools"].map(slug => writing.find(item => item.slug === slug)).map(featureCard).join("")}
         </div>
       </section>
 
@@ -411,7 +416,7 @@ function homePage() {
               (item) => `<a class="note-row" href="${publicationPath(item)}">
                 <span class="recent-meta"><time datetime="${item.date}">${item.displayDate.replace(", 2026", "")}</time><span class="publication-kind">${publicationFormat(item)}</span></span>
                 <span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.description)}</small></span>
-                <span class="note-time">${item.readTime}</span>
+                <span class="note-time">${item.seriesOverview ? `${seriesFor(item).essays.reduce((sum, chapter) => sum + parseInt(chapter.readTime), 0)} min collection` : item.readTime}</span>
                 <span class="note-arrow">${icon.arrow}</span>
               </a>`
             )
@@ -457,6 +462,7 @@ function writingPage() {
   const count = `${writing.filter(item => !item.seriesOverview).length} essays · ${writing.filter(item => item.seriesOverview).length} collections`;
   const content = `<main id="content">
     ${pageIntro("Essays & collections", "Writing", "Architecture, experiments, and useful distinctions from building autonomous agents, context systems, and reproducible evaluation.", count)}
+    <div class="shell browse-tools"><a href="/start/">Choose a reading path</a><a href="/start/#glossary">Browse the glossary</a><a href="/search/">Search all articles</a><a href="/toolkit/">Runnable examples</a></div>
     <section class="shell archive-list" aria-label="All writing">
       ${publications
         .map(
@@ -464,7 +470,7 @@ function writingPage() {
             <a class="archive-link" href="${publicationPath(item)}" aria-label="Read ${escapeHtml(item.title)}"></a>
             <div class="archive-index">${String(i + 1).padStart(2,"0")}</div>
             <div class="archive-main"><div class="archive-eyebrow">${item.seriesOverview ? `Collection · ${seriesFor(item).essays.length} ${seriesFor(item).overview.seriesUnit || "chapter"}s` : noteItems.has(item) ? "Short note" : `Essay · ${escapeHtml(item.eyebrow)}`}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></div>
-            <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? "Explore the collection" : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
+            <div class="archive-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? `${seriesFor(item).essays.reduce((sum, chapter) => sum + parseInt(chapter.readTime), 0)} min · complete collection` : item.readTime}</span><span class="circle-arrow">${icon.arrow}</span></div>
           </article>`
         )
         .join("")}
@@ -481,7 +487,8 @@ function notesPage() {
 
 function projectsPage() {
   const content = `<main id="content">
-    ${pageIntro("Areas of work", "Focus", "Three connected engineering problems: executing work, making evidence accessible, and measuring decisions across time.", `${projects.length} themes`)}
+    <div class="shell browse-tools"><a href="/start/">Build, Evaluate, Improve: choose a reading route</a><a href="/toolkit/">Try the examples</a></div>
+    ${pageIntro("Areas of work", "Focus", "Three routes through the work: build a bounded system, evaluate its decisions, and improve it through experiments.", `${projects.length} themes`)}
     <section class="shell project-list">
       ${projects
         .map(
@@ -489,7 +496,7 @@ function projectsPage() {
             <div class="project-side"><span>${project.index}</span><span class="status"><i></i>${escapeHtml(project.status)}</span></div>
             <div class="project-main"><span class="project-label">${escapeHtml(project.label)}</span><h2>${escapeHtml(project.title)}</h2><p>${escapeHtml(project.description)}</p>
               <div class="project-questions"><h3>Questions I return to</h3><ul>${project.questions.map((q) => `<li>${escapeHtml(q)}</li>`).join("")}</ul></div>
-              ${arrowLink(`Read: ${escapeHtml(project.reading.title)}`, project.reading.href)}
+              ${arrowLink(escapeHtml(project.reading.title), project.reading.href)}<ul class="focus-reading">${project.links.map(([title, href]) => `<li><a href="${href}">${escapeHtml(title)}</a></li>`).join("")}</ul>
             </div>
           </article>`
         )
@@ -503,7 +510,7 @@ function ideasPage() {
   const content = `<main id="content">
     ${pageIntro("Open notebook", "Ideas in progress", "Questions I have not resolved yet. Publishing them early makes the edges of the work visible.", `${ideas.length} open questions`)}
     <section class="shell ideas-list">
-      ${ideas.map((idea, i) => `<article><span>${String(i + 1).padStart(2, "0")}</span><p>${escapeHtml(idea)}</p><div aria-hidden="true">?</div></article>`).join("")}
+      ${ideas.map((idea, i) => `<article><span>${String(i + 1).padStart(2, "0")}</span><div class="idea-content"><p>${escapeHtml(idea)}</p><details><summary>Proposed test · not yet measured</summary><p>${escapeHtml(ideaExperiments[i])}</p></details></div><div aria-hidden="true">?</div></article>`).join("")}
     </section>
   </main>`;
   return layout({ title: "Ideas", description: "Open questions about agent environments, context, replay, and reusable engineering.", content, path: "/ideas/" });
@@ -524,6 +531,8 @@ function aboutPage() {
         <p>I’m Chaitanya Meesala. I work on autonomous agents and the data, execution, and evaluation systems around them.</p>
         <p>I’m drawn to how intelligence takes shape in systems: how they make sense of the world, carry experience forward, and turn understanding into action. My work sits between engineering and philosophy, exploring how context, memory, and judgment come together—and what changes when a system can act on its own.</p>
         <p>Oddly is where I consolidate the architecture and lessons behind that work. The essays examine concrete designs and their tradeoffs. Trustworthy Autonomy develops the principles of evidence, authority, and accountability within that broader systems perspective.</p>
+        <p><a href="https://github.com/fermibubble">Find me on GitHub</a>. The <a href="https://github.com/fermibubble/fermibubble.github.io">site source</a> and its <a href="/toolkit/">runnable examples</a> are public. For a correction, <a href="https://github.com/fermibubble/fermibubble.github.io/issues/new">open an issue</a> with the article URL, disputed claim, and supporting evidence.</p>
+        <p>Examples are labeled as illustrative when they are constructed. Passing a fixture test establishes that fixture’s behavior; it does not establish a model’s real-world reliability. <a href="/changes/">Substantive revisions</a> remain visible.</p>
         <blockquote>The interesting question is how an idea behaves once it becomes a running system.</blockquote>
       </div>
     </section>
@@ -537,10 +546,11 @@ function aboutPage() {
 }
 
 function articlePage(item) {
+  if (!item.seriesOverview && articlePractice[item.slug]) item = { ...item, afterwordHtml: (item.afterwordHtml ?? markdown(item.afterword)) + articlePractice[item.slug] };
   const active = "writing";
   const base = "writing";
   const type = publicationFormat(item);
-  const index = publications.indexOf(item);
+  const index = publications.findIndex(entry => entry.slug === item.slug);
   const collection = publications;
   const series = !!(item.seriesNumber || item.seriesOverview);
   const seriesData = seriesFor(item);
@@ -561,7 +571,7 @@ function articlePage(item) {
         <h1>${item.titleLines ? `${escapeHtml(item.titleLines[0])}<br><em>${escapeHtml(item.titleLines[1])}</em>` : escapeHtml(item.title)}</h1>
         <p class="article-deck">${escapeHtml(item.description)}</p>
         <p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p>
-        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.readTime} read</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? `\n        <a class="series-home-link" href="${seriesPath}">Part of ${escapeHtml(seriesTitle)} ↗</a>` : ""}
+        <div class="article-meta"><time datetime="${item.date}">${item.displayDate}</time><span>${item.seriesOverview ? `${seriesData.essays.reduce((sum, chapter) => sum + parseInt(chapter.readTime), 0)} min · complete collection` : `${item.readTime} read`}</span><button type="button" data-copy-link>${icon.copy}<span>Copy link</span></button></div>${item.seriesNumber ? `\n        <a class="series-home-link" href="${seriesPath}">Part of ${escapeHtml(seriesTitle)} ↗</a>` : ""}
       </header>
       <div class="article-rule shell"></div>
       ${enhanced ? `<div class="series-body${item.incident ? " epistemics-body" : ""}" data-article-body>${item.seriesNumber ? `\n        ${renderSeriesNavigation(item, seriesData.essays, escapeHtml, seriesUnit)}` : ""}
@@ -574,7 +584,7 @@ function articlePage(item) {
         <div class="prose epistemics-afterword">${item.afterwordHtml ?? markdown(item.afterword)}</div>
       </div>` : `<div class="article-layout shell">
         <aside class="article-rail"><span>${noteItems.has(item) ? "Short note" : escapeHtml(item.eyebrow || publicationFormat(item))}</span><div class="rail-line"></div><span>${item.date.slice(0, 4)}</span></aside>
-        <div class="prose" data-article-body><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end--></div>
+        <div class="prose" data-article-body><!--article-prose:start-->${item.bodyHtml ?? markdown(item.body)}<!--article-prose:end-->${articlePractice[item.slug] || ""}</div>
       </div>`}
     </article>
     <nav class="article-pagination shell" aria-label="More ${base}">
@@ -583,6 +593,17 @@ function articlePage(item) {
     </nav>
   </main>`;
   return layout({ title: item.title, description: item.description, active, content, article: true, incident: !!item.incident, series: enhanced, path: pathFor(item) });
+}
+
+function utilityPages() {
+  const wrap = (title, description, body) => `<main id="content">${pageIntro('Oddly / Field guide', title, description)}<div class="utility-body shell-narrow prose">${body}</div></main>`;
+  return [
+    { path: '/start/', title: 'Start here', active: 'start', description: 'Three reading paths through agent architecture, evaluation, and improvement.', content: wrap('Start with your problem', 'Read one useful piece now. Follow a path when you need the whole system.', `${readingPaths.map(route => `<section class="reading-route" id="${route.id}"><h2>${route.title}</h2><p>${route.outcome}</p><ol>${route.links.map(([title, href, note]) => `<li><a href="${href}">${title}</a><p>${note}</p></li>`).join('')}</ol></section>`).join('')}<h2 id="glossary">A small working glossary</h2><dl class="glossary">${glossary.map(([term, meaning, href]) => `<dt>${escapeHtml(term)}</dt><dd>${escapeHtml(meaning)} <a href="${href}">Read more</a></dd>`).join('')}</dl>`) },
+    { path: '/follow/', title: 'Follow Oddly', description: 'New essays in your feed reader, without an account.', content: wrap('Keep the thread', 'New essays and collections, delivered through RSS.', '<p>Add <a href="/rss.xml">https://oddly.fyi/rss.xml</a> to your feed reader. Prefer Atom? Use <a href="/atom.xml">the Atom feed</a>.</p><p>The feed lists new essays and collection releases. Small edits do not republish old entries. For corrections and companion updates, see <a href="/changes/">the revision log</a>.</p><p>No account or email address is required. You can also bookmark <a href="/writing/">the writing index</a> or follow <a href="https://github.com/fermibubble/fermibubble.github.io">the public repository</a>.</p>') },
+    { path: '/changes/', title: 'Revisions and corrections', description: 'Substantive changes to Oddly articles and examples.', content: wrap('Revisions & corrections', 'Keep the argument inspectable as the work changes.', '<h2>October 19, 2026</h2><ul><li>Rewrote the eight earlier anti-pattern articles: corrected Java examples, separated polling from spinning, qualified negative caching, removed an unreliable quote attribution, and made authorization and cleanup semantics explicit.</li><li>Added article-specific implementation contracts and failure checks throughout the current writing, with runnable boundary and measurement examples in the <a href="/toolkit/">toolkit</a>.</li><li>Clarified that harness experiments, release examples, and classifier datasets are illustrative. The accompanying fixtures do not measure model reliability.</li><li>Added full-text search, three reading routes, complete collection durations, a glossary, and accessible section navigation.</li><li>Added canonical sitemap, article metadata, sharing images, and visible revision dates while preserving original publication dates.</li></ul><h2>Report a correction</h2><p><a href="https://github.com/fermibubble/fermibubble.github.io/issues/new">Open an issue</a> with the page, claim, and evidence. Source history preserves earlier versions.</p>') },
+    { path: '/toolkit/', title: 'Runnable examples', description: 'Small reproducible contracts for agent systems, evaluation, and Java examples.', content: wrap('Try the idea', 'Small examples with explicit boundaries. Download, run, change one assumption.', '<h2>Engineering workbench</h2><p><a href="/assets/downloads/oddly-workbench.zip">Download the workbench</a> · Python 3.10+ standard library; Java examples require JDK 17+.</p><pre><code>python -m unittest -v\npython workbench.py\njava LegacyExamples.java</code></pre><p>Run these commands from the extracted folder. The Python suite tests replay availability, stale ownership, evidence coverage, hierarchical labels, prevalence, and paired uncertainty. The Java program checks the corrected collection, prime-number, queue, cleanup, and authorization examples.</p><p>The report is deterministic for the supplied illustrative data. It includes raw paired outcomes and an adapter experiment that demonstrates why dropping warnings can hide failures. These are engineering fixtures, not a benchmark of any language model.</p><h2>Evaluation authoring</h2><p><a href="/assets/downloads/eval-authoring-companion.zip">Download the eval companion</a> for scoring contracts, example judgments, and validation. Read <a href="/writing/how-to-write-and-score-an-agent-eval/">the guide</a> before changing weights.</p><h2>Progressive disclosure</h2><p><a href="/assets/downloads/progressive-disclosure-fixture.zip">Download the SQL/MCP fixture</a>. It exercises discovery and incomplete coverage with a controlled fixture. It does not implement a production MCP transport or SQL sandbox.</p><h2>Source and limitations</h2><p>Every workbench function is deliberately small enough to inspect. In-memory ownership checks need database transactions in production; replay does not simulate alternate interventions; a synthetic confidence interval says nothing about your deployment until you supply representative paired outcomes. See the included README for commands, expected outputs, and extension points.</p>') },
+    { path: '/search/', title: 'Search', description: 'Search the full Oddly archive.', content: `<main id="content">${pageIntro('Find an idea', 'Search the writing', 'Search the full text, including examples and earlier articles.')}<section class="shell-narrow search-page" data-search-page><label for="page-query">Words or concepts</label><input id="page-query" type="search" data-search-input aria-describedby="search-status"><p id="search-status" role="status" aria-live="polite" data-search-status>Loading search…</p><div data-search-results></div><noscript><p>Search needs JavaScript. Browse <a href="/writing/">all writing</a> or the <a href="/start/#glossary">glossary</a>.</p></noscript></section></main>` }
+  ];
 }
 
 function notFoundPage() {
@@ -676,6 +697,7 @@ await mkdir(out, { recursive: true });
 await Promise.all([
   emit("index.html", homePage()),
   emit("writing/index.html", writingPage()),
+  ...utilityPages().map(page => emit(`${page.path.slice(1)}index.html`, layout(page))),
   emit("notes/index.html", notesPage()),
   emit("projects/index.html", projectsPage()),
   emit("principles/index.html", articleRedirect(autonomyOverview)),
@@ -710,12 +732,18 @@ async function renderArchive(directory, relative = "") {
     if (entry.isDirectory()) { await renderArchive(join(directory, entry.name), rel); continue; }
     if (!entry.name.endsWith(".html")) { await cp(join(directory, entry.name), join(out, rel)); continue; }
     const source = await readFile(join(directory, entry.name), "utf8");
-    const title = source.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
-    const body = source.match(/<div class="content container">([\s\S]*)<\/div>\s*<\/body>/)?.[1];
+    let title = source.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+    let body = source.match(/<div class="content container">([\s\S]*)<\/div>\s*<\/body>/)?.[1];
     if (!title || body === undefined) throw new Error(`Cannot preserve archive page: ${rel}`);
     const path = `/${rel.replace(/index\.html$/, "")}`;
+    const revision = revisions[path];
+    if (revision) { title = revision.title; body = revision.body; }
+    if (archiveTopics.some(([, slug]) => path === `/${slug}/`) && path !== '/anti-patterns/') {
+      body = `<p>This earlier topic now connects to the agent systems writing. These are useful places to continue:</p><ul>${readingPaths.flatMap(route => route.links).filter((_, i) => [0,2,3,4,5].includes(i)).map(([title, href, description]) => `<li><a href="${href}">${escapeHtml(title)}</a> — ${escapeHtml(description)}</li>`).join('')}</ul>`;
+    }
+    body = body.replaceAll("Action a a Distance", "Action at a Distance");
     const topicLinks = archiveTopics.map(([label, slug]) => `<a href="/${slug}/"${path === `/${slug}/` ? ' aria-current="page"' : ""}>${label}</a>`).join("");
-    const content = `<main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/">${icon.arrow}<span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>${escapeHtml(title)}</h1><p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics">${topicLinks}</nav><div class="prose legacy-prose" data-article-body>${body}</div></article></main>`;
+    const content = `<main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/">${icon.arrow}<span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>${escapeHtml(title)}</h1><p class="article-byline">By <a href="/about/" rel="author">${escapeHtml(site.author)}</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics">${topicLinks}</nav><div class="prose legacy-prose" data-article-body>${revision ? '<p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>' : ""}${body}</div></article></main>`;
     await emit(rel, layout({ title, description: `${title}. Earlier software engineering writing by Chaitanya Meesala.`, path, content, article: true }).replace(/^[ \t]+$/gm, ""));
   }
 }
@@ -734,6 +762,7 @@ await Promise.all([
   cp(join(root, "src", "styles.css"), join(out, "assets", "styles.css")),
   cp(join(root, "src", "editorial.css"), join(out, "assets", "editorial.css")),
   cp(join(root, "src", "typography.css"), join(out, "assets", "typography.css")),
+  cp(join(root, "src", "search.js"), join(out, "assets", "search.js")),
   cp(join(root, "src", "site.js"), join(out, "assets", "site.js")),
   cp(join(root, "src", "analytics.js"), join(out, "assets", "analytics.js")),
   cp(join(root, "src", "analytics-policy.js"), join(out, "assets", "analytics-policy.js")),
@@ -744,6 +773,8 @@ await Promise.all([
   cp(join(root, "src", "principles.css"), join(out, "assets", "principles.css")),
   cp(join(root, "src", "mark.svg"), join(out, "assets", "mark.svg"))
 ]);
+
+await enhancePublication(out, allWriting, collections);
 
 console.log(`Built ${writing.length} writing entries, ${allChapters.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
 

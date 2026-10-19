@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/projects.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Focus — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","headline":"Focus","description":"Agent systems, data and context, evaluation and learning.","url":"https://oddly.fyi/projects/","image":"https://oddly.fyi/assets/social/projects.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"}}</script></head>
   <body data-path="/projects/" data-typography="focus">
     
     
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/" aria-current="page">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/" aria-current="page">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -47,29 +47,30 @@
       </div>
     </header>
     <main id="content">
+    <div class="shell browse-tools"><a href="/start/">Build, Evaluate, Improve: choose a reading route</a><a href="/toolkit/">Try the examples</a></div>
     <section class="page-intro shell">
     <div class="page-intro-kicker"><span>Areas of work</span><span>3 themes</span></div>
     <h1>Focus</h1>
-    <p>Three connected engineering problems: executing work, making evidence accessible, and measuring decisions across time.</p>
+    <p>Three routes through the work: build a bounded system, evaluate its decisions, and improve it through experiments.</p>
   </section>
     <section class="shell project-list">
       <article class="project-item">
-            <div class="project-side"><span>01</span><span class="status"><i></i>Ongoing focus</span></div>
-            <div class="project-main"><span class="project-label">Reasoning &amp; execution</span><h2>Agent systems</h2><p>Execution loops, durable state, tool contracts, and recovery: the infrastructure that lets an agent complete work across many steps.</p>
-              <div class="project-questions"><h3>Questions I return to</h3><ul><li>What belongs in the model, and what belongs in ordinary code?</li><li>What helps an agent keep making progress across a long task?</li></ul></div>
-              <a class="text-link" href="/writing/engineering-autonomous-agents/"><span>Read: Engineering Autonomous Agents</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+            <div class="project-side"><span>01</span><span class="status"><i></i>Reading route</span></div>
+            <div class="project-main"><span class="project-label">Architecture &amp; execution</span><h2 id="build-an-agent">Build an agent</h2><p>Choose the execution loop, expose useful tools, and bound what can change.</p>
+              <div class="project-questions"><h3 id="questions-i-return-to">Questions I return to</h3><ul><li>What belongs in the model, and what belongs in ordinary code?</li><li>Which boundaries must remain enforceable when the model is wrong?</li></ul></div>
+              <a class="text-link" href="/start/#build"><span>Follow this route</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a><ul class="focus-reading"><li><a href="/writing/before-you-build-another-agent/">Before You Build Another Agent</a></li><li><a href="/writing/implementing-progressive-disclosure-for-agent-tools/">Implementing Progressive Disclosure for Agent Tools</a></li><li><a href="/writing/trustworthy-autonomy/">Trustworthy Autonomy</a></li></ul>
             </div>
           </article><article class="project-item">
-            <div class="project-side"><span>02</span><span class="status"><i></i>Ongoing focus</span></div>
-            <div class="project-main"><span class="project-label">Local context &amp; observability</span><h2>Data &amp; context</h2><p>Deterministic collection and local access to telemetry, logs, and topology. Rich evidence stays available while the model receives focused results.</p>
-              <div class="project-questions"><h3>Questions I return to</h3><ul><li>Which data should already be waiting when an investigation begins?</li><li>How can deterministic collection support flexible reasoning?</li></ul></div>
-              <a class="text-link" href="/writing/local-context-for-autonomous-agents/"><span>Read: Local Context for Autonomous Agents</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+            <div class="project-side"><span>02</span><span class="status"><i></i>Reading route</span></div>
+            <div class="project-main"><span class="project-label">Evidence &amp; measurement</span><h2 id="evaluate-a-system">Evaluate a system</h2><p>Define success, score the right things, and test whether the result holds.</p>
+              <div class="project-questions"><h3 id="questions-i-return-to-2">Questions I return to</h3><ul><li>What outcome does the task require?</li><li>What evidence would distinguish a real improvement from a lucky run?</li></ul></div>
+              <a class="text-link" href="/start/#evaluate"><span>Follow this route</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a><ul class="focus-reading"><li><a href="/writing/how-to-write-and-score-an-agent-eval/">How to Write and Score an Agent Eval</a></li><li><a href="/writing/checkpoint-replay-for-agent-evaluation/">Checkpoint Replay for Long-Horizon Agent Evaluation</a></li><li><a href="/writing/classifiers-when-labels-become-decisions/">Classifiers: When Labels Become Decisions</a></li></ul>
             </div>
           </article><article class="project-item">
-            <div class="project-side"><span>03</span><span class="status"><i></i>Ongoing focus</span></div>
-            <div class="project-main"><span class="project-label">Replay &amp; experimental design</span><h2>Evaluation &amp; learning</h2><p>Recorded scenarios, checkpoint replay, and outcome-based evaluation. Compare decisions across long tasks without reproducing the entire waiting period.</p>
-              <div class="project-questions"><h3>Questions I return to</h3><ul><li>How can we test a slow failure without waiting for it every time?</li><li>What distinguishes an improvement from a lucky run?</li></ul></div>
-              <a class="text-link" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Read: Checkpoint Replay for Long-Horizon Agent Evaluation</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a>
+            <div class="project-side"><span>03</span><span class="status"><i></i>Reading route</span></div>
+            <div class="project-main"><span class="project-label">Experiments &amp; learning</span><h2 id="improve-what-works">Improve what works</h2><p>Turn a failure into a bounded experiment and preserve what survives review.</p>
+              <div class="project-questions"><h3 id="questions-i-return-to-3">Questions I return to</h3><ul><li>Which failure is worth turning into an experiment?</li><li>Which conditions must travel with the resulting lesson?</li></ul></div>
+              <a class="text-link" href="/start/#improve"><span>Follow this route</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg></a><ul class="focus-reading"><li><a href="/writing/quality-flywheel/">The Quality Flywheel</a></li><li><a href="/writing/building-an-agent-that-improves-its-own-harness/">Building an Agent That Improves Its Own Harness</a></li><li><a href="/writing/how-intelligence-finds-its-way/">How Intelligence Finds Its Way</a></li></ul>
             </div>
           </article>
     </section>
@@ -85,12 +86,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -98,9 +100,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

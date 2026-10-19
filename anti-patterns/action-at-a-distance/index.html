@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Action a a Distance — Oddly</title>
-    <meta name="description" content="Action a a Distance. Earlier software engineering writing by Chaitanya Meesala.">
+    <title>Action at a Distance — Oddly</title>
+    <meta name="description" content="Action at a Distance. Earlier software engineering writing by Chaitanya Meesala.">
     <meta name="author" content="Chaitanya">
     <meta name="theme-color" content="#fbfcfe">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Action a a Distance — Oddly">
-    <meta property="og:description" content="Action a a Distance. Earlier software engineering writing by Chaitanya Meesala.">
+    <meta property="og:title" content="Action at a Distance — Oddly">
+    <meta property="og:description" content="Action at a Distance. Earlier software engineering writing by Chaitanya Meesala.">
     <meta property="og:url" content="https://oddly.fyi/anti-patterns/action-at-a-distance/">
     <link rel="canonical" href="https://oddly.fyi/anti-patterns/action-at-a-distance/">
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--action-at-a-distance.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Action at a Distance — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Action at a Distance","description":"Action at a Distance. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/action-at-a-distance/","image":"https://oddly.fyi/assets/social/anti-patterns--action-at-a-distance.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/action-at-a-distance/"}</script></head>
   <body data-path="/anti-patterns/action-at-a-distance/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,42 +46,16 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Action a a Distance</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Action a a Distance</h5>
-  <p>It’s an anti-pattern in which behavior in one part of a program varies widely based on difficult/impossible to identify operations in another part of the program.</p>
-
-<p>Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">setX</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
-    <span class="nc">Display</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kt">void</span> <span class="nf">setY</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
-    <span class="nc">Display</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>Suppose in above use-case we feel that all setter functions should update the display and thought of dealing it with AOP as below.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">setX</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="kt">void</span> <span class="nf">setY</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="n">after</span><span class="o">()</span> <span class="o">:</span> <span class="n">set</span><span class="o">()</span> <span class="o">{</span>
-   <span class="nc">Display</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="n">pointcut</span> <span class="nf">set</span><span class="o">()</span> <span class="o">:</span> <span class="n">execution</span><span class="o">(*</span> <span class="n">set</span><span class="o">*(*)</span> <span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">within</span><span class="o">(</span><span class="n">io</span><span class="o">.</span><span class="na">fermibubble</span><span class="o">.*)</span>
-</code></pre></div></div>
-<p>If we just look at the code of a set-method, we will not be able to figure out that it magically updating the display. Mixing up normal code with AOP can lead to problems if not careful.</p>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Action at a Distance</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><details class="article-toc shell-narrow"><summary>On this page · 2 min read</summary><ol><li><a href="#make-the-path-traceable">Make the path traceable</a></li><li><a href="#cross-cutting-behavior">Cross-cutting behavior can still be useful</a></li><li><a href="#review-question">A practical review</a></li></ol></details><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>Action at a distance makes local behavior depend on something difficult to discover elsewhere. A method changes a field, but a global callback, interceptor, or mutable registry changes what that action means.</p>
+<h2 id="make-the-path-traceable">Make the path traceable</h2>
+<p>Imagine a payment method that appears to save a record while an interceptor also sends a receipt. A developer retries the method after a timeout and sends two receipts. The problem is the hidden side effect and missing retry contract, not the mere presence of an interceptor.</p>
+<p>Put consequential effects behind an explicit operation with an idempotency key. Record the triggering request and the resulting external operation. In a debugger, log, or trace, a reader should be able to follow the path from the caller to the effect.</p>
+<h2 id="cross-cutting-behavior">Cross-cutting behavior can still be useful</h2>
+<p>Instrumentation, transaction boundaries, and access checks often belong in shared middleware. Keep those rules declared, narrowly scoped, and testable. A trace span can make an interceptor more visible than a manually copied convention. A hidden rule with broad matching and no observability does the opposite.</p>
+<h2 id="review-question">A practical review</h2>
+<p>List the side effects a caller can trigger, where their configuration lives, and how retries behave. Disable or alter one policy in a test and verify the resulting behavior is understandable. If a local change unexpectedly affects unrelated callers, narrow ownership before adding another special case.</p>
+<p>The earlier title typo and partial AspectJ fragment have been removed. This article describes the design problem without presenting an incomplete aspect as executable code.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -93,12 +67,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -106,9 +81,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

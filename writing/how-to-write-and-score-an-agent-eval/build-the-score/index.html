@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--how-to-write-and-score-an-agent-eval--build-the-score.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Build the Score: What Does 72.2% Mean? — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Build the Score: What Does 72.2% Mean?","description":"Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.","url":"https://oddly.fyi/writing/how-to-write-and-score-an-agent-eval/build-the-score/","image":"https://oddly.fyi/assets/social/writing--how-to-write-and-score-an-agent-eval--build-the-score.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-18T17:20:00Z","mainEntityOfPage":"https://oddly.fyi/writing/how-to-write-and-score-an-agent-eval/build-the-score/"}</script></head>
   <body data-path="/writing/how-to-write-and-score-an-agent-eval/build-the-score/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -57,11 +57,11 @@
         <div class="article-type">How to Write and Score an Agent Eval / Part 02 of 03</div>
         <h1>Build the Score: What Does 72.2% Mean?</h1>
         <p class="article-deck">Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>10 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>12 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/how-to-write-and-score-an-agent-eval/">Part of How to Write and Score an Agent Eval ↗</a>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 12 min read</summary><ol><li><a href="#chapter-3-choose-what-code-and-model-judges-should-check">Chapter 3 Choose what code and model judges should check </a></li><li><a href="#chapter-4-separate-correctness-from-grounding-and-permissions">Chapter 4 Separate correctness from grounding and permissions </a></li><li><a href="#chapter-5-explain-what-your-score-actually-means">Chapter 5 Explain what your score actually means </a></li><li><a href="#keep-the-denominator-beside-the-result">Keep the denominator beside the result</a></li></ol></details>
       <div class="series-body" data-article-body>
         <details class="series-directory"><summary>Parts in this collection <span>02 / 03</span></summary>
     <nav aria-label="Collection parts"><ol><li><a href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/">Design the Test: What Counts as Correct?</a></li><li><a href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/" aria-current="page">Build the Score: What Does 72.2% Mean?</a></li><li><a href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">Trust the Result: Is It Good Enough to Ship?</a></li></ol></nav>
@@ -80,7 +80,7 @@
 <p>For checkout, use a semantic judge to interpret the diagnosis and a direct calculation to check a concrete pool recommendation. A <strong>semantic judge</strong> is a model or person assessing meaning rather than exact wording.</p>
 <h3 id="let-code-answer-questions-it-can-settle">Let code answer questions it can settle<a class="heading-anchor" href="#let-code-answer-questions-it-can-settle" aria-label="Link to this section">#</a></h3>
 <p>If the recommendation explicitly proposes 64 connections on each of four instances, its numeric feasibility is straightforward:</p>
-<pre class="source-example"><code class="language-python">available = 100 - 20 - 16
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-python">available = 100 - 20 - 16
 proposed = 4 * 64
 
 within_budget = proposed &lt;= available  # False
@@ -99,7 +99,7 @@ within_budget = proposed &lt;= available  # False
 </blockquote>
 <p>The first matches the evidence. The second contradicts it. Both may use fluent technical language; only one explains this incident.</p>
 <p>Require a verdict for each criterion. For the failed remedy, a stored result might look like this:</p>
-<pre class="source-example"><code class="language-json">{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-json">{
   &quot;rubric_id&quot;: &quot;C3&quot;,
   &quot;status&quot;: &quot;graded&quot;,
   &quot;score&quot;: 0,
@@ -301,6 +301,8 @@ within_budget = proposed &lt;= available  # False
         <option value="checks">Equal weight per check</option>
       </select>
     </label>
+    <button type="button" id="eval-reset">Reset example</button>
+    <a id="eval-permalink" href="#eval-score-explorer">Link to this scenario</a>
   </fieldset>
   <div class="eval-metrics" aria-live="polite" aria-atomic="true">
     <div><span>Correctness</span><strong id="eval-correctness">72.2%</strong><small id="eval-weight-label">Equal task weights</small></div>
@@ -325,9 +327,9 @@ within_budget = proposed &lt;= available  # False
 <p>We have calculated these scores assuming the judgments are complete and correct. In <a href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">Part 3</a>, we challenge those assumptions before making the release decision.</p>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="keep-the-denominator-beside-the-result">Keep the denominator beside the result</h2><p>The explorer’s three tasks contain 3, 2, and 4 checks. Equal task weights answer how well the typical task performed; pooling all nine checks gives the larger tasks more influence. Neither weighting is neutral. Choose the estimand before looking at the winning candidate.</p><p>When the checkout remedy is fixed, its three checks pass and task-macro correctness becomes 83.3%. Completion becomes two of three tasks. Preserving the CSV source separately improves authority; it does not repair its remaining correctness failures. An authority gate must not be diluted into a convenient average.</p><p>Use the <a href="/assets/downloads/eval-authoring-companion.zip">supplied scorer</a> to retain per-task judgments and missing values. A missing judgment is not a zero and must not disappear from the denominator without an explicit eligibility rule. Save the contract version with every report.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/"><span>Previous part</span><strong>Design the Test: What Counts as Correct?</strong></a>
       <a class="pagination-next" href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/"><span>Next part</span><strong>Trust the Result: Is It Good Enough to Ship?</strong></a>
@@ -344,12 +346,13 @@ within_budget = proposed &lt;= available  # False
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -357,9 +360,10 @@ within_budget = proposed &lt;= available  # False
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

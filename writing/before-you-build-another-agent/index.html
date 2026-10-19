@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--before-you-build-another-agent.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Before you build another agent — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Before you build another agent","description":"Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.","url":"https://oddly.fyi/writing/before-you-build-another-agent/","image":"https://oddly.fyi/assets/social/writing--before-you-build-another-agent.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-18T00:45:17Z","mainEntityOfPage":"https://oddly.fyi/writing/before-you-build-another-agent/"}</script></head>
   <body data-path="/writing/before-you-build-another-agent/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -57,10 +57,10 @@
         <div class="article-type">Agent architecture</div>
         <h1>Before you build<br><em>another agent</em></h1>
         <p class="article-deck">Build a strong generalist. Make expertise discoverable. Delegate only when the task earns it.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>7 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>8 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 8 min read</summary><ol><li><a href="#keep-the-investigation-coherent">Keep the investigation coherent </a></li><li><a href="#make-expertise-discoverable">Make expertise discoverable </a></li><li><a href="#allow-only-bounded-dynamic-delegation">Allow only bounded dynamic delegation </a></li><li><a href="#delegate-a-question-you-can-verify">Delegate a question you can verify </a></li><li><a href="#test-whether-the-boundary-adds-value">Test whether the boundary adds value </a></li><li><a href="#use-one-harness-across-product-surfaces">Use one harness across product surfaces </a></li><li><a href="#a-decision-you-can-make-before-delegation">A decision you can make before delegation</a></li></ol></details>
       <div class="series-body" data-article-body>
         <div class="prose"><!--article-prose:start--><p class="agent-opening">“Our application became slow after the release.”</p>
 
@@ -187,7 +187,7 @@
 
 <p>This illustrative contract describes one dynamic subagent execution. <a href="https://code.claude.com/docs/en/sub-agents" rel="noreferrer">Subagent mechanisms</a> supply the execution primitives; the runtime enforces the policy. Numeric limits are examples to tune through evaluation.</p>
 
-<pre class="source-example"><code class="language-yaml"># Illustrative policy and request, not a specific SDK schema.
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code class="language-yaml"># Illustrative policy and request, not a specific SDK schema.
 runtime_policy:
   creation: primary_agent_only
   contract_scope: current_parent_task
@@ -221,7 +221,7 @@ delegation_request:
 <section class="agent-delegation" data-delegation aria-label="Runtime admission and subagent lifecycle">
     <div class="agent-scenario-controls" data-delegation-controls hidden role="group" aria-label="Choose a delegation outcome"><button type="button" data-scenario="admitted" aria-controls="delegation-admitted" aria-pressed="true">Admitted</button><button type="button" data-scenario="budget" aria-controls="delegation-budget" aria-pressed="false">Budget exhausted</button><button type="button" data-scenario="access" aria-controls="delegation-access" aria-pressed="false">Access denied</button><button type="button" data-scenario="canceled" aria-controls="delegation-canceled" aria-pressed="false">Parent canceled</button></div>
     <div aria-live="polite" aria-atomic="true"><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="admitted" id="delegation-admitted">
-        <h3>Admitted</h3>
+        <h3 id="admitted">Admitted</h3>
         <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-admitted-title delegation-admitted-desc">
   <title id="delegation-admitted-title">Admitted</title><desc id="delegation-admitted-desc">The runtime reserves capacity, creates a temporary execution, and returns evidence for the primary agent to verify.</desc>
   <defs><marker id="delegation-admitted-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
@@ -270,7 +270,7 @@ delegation_request:
 </svg></div>
         <figcaption>The runtime reserves capacity, creates a temporary execution, and returns evidence for the primary agent to verify.</figcaption>
       </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="budget" id="delegation-budget">
-        <h3>Budget exhausted</h3>
+        <h3 id="budget-exhausted">Budget exhausted</h3>
         <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-budget-title delegation-budget-desc">
   <title id="delegation-budget-title">Budget exhausted</title><desc id="delegation-budget-desc">No capacity can be reserved. No subagent is created; the primary agent must continue within the remaining limits.</desc>
   <defs><marker id="delegation-budget-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
@@ -319,7 +319,7 @@ delegation_request:
 </svg></div>
         <figcaption>No capacity can be reserved. No subagent is created; the primary agent must continue within the remaining limits.</figcaption>
       </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="access" id="delegation-access">
-        <h3>Access denied</h3>
+        <h3 id="access-denied">Access denied</h3>
         <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-access-title delegation-access-desc">
   <title id="delegation-access-title">Access denied</title><desc id="delegation-access-desc">The requested tool exceeds the parent task’s authority. Delegation cannot expand permissions.</desc>
   <defs><marker id="delegation-access-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
@@ -368,7 +368,7 @@ delegation_request:
 </svg></div>
         <figcaption>The requested tool exceeds the parent task’s authority. Delegation cannot expand permissions.</figcaption>
       </figure><figure class="editorial-diagram agent-diagram agent-scenario" data-delegation-panel="canceled" id="delegation-canceled">
-        <h3>Parent canceled</h3>
+        <h3 id="parent-canceled">Parent canceled</h3>
         <div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 505" role="img" aria-labelledby="delegation-canceled-title delegation-canceled-desc">
   <title id="delegation-canceled-title">Parent canceled</title><desc id="delegation-canceled-desc">The subagent stops, unused capacity is released, and partial results remain marked incomplete.</desc>
   <defs><marker id="delegation-canceled-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M1 1 L9 5 L1 9Z"/></marker></defs>
@@ -423,9 +423,9 @@ delegation_request:
 </details>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="a-decision-you-can-make-before-delegation">A decision you can make before delegation</h2><table><thead><tr><th>Task shape</th><th>First choice</th><th>Reason to change</th></tr></thead><tbody><tr><td>One evolving diagnosis, shared evidence</td><td>One generalist and deterministic tools</td><td>A separable investigation has a precise return contract</td></tr><tr><td>Independent inspections of disjoint modules</td><td>Bounded temporary children</td><td>Integration cost or conflicting assumptions erase the time saved</td></tr><tr><td>Repeated mechanical transformation</td><td>Ordinary code</td><td>Inputs genuinely require judgment</td></tr></tbody></table><p>A delegation that loses: three children inspect the same flaky integration test with incomplete logs, each proposes a different cause, and the parent repeats all three investigations. Parallel activity increased cost without producing independent evidence. Measure accepted work after integration, not completed child messages. Default to depth one, shared harness behavior, explicit deadlines, and a parent-owned final decision.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/implementing-progressive-disclosure-for-agent-tools/"><span>Previous</span><strong>Implementing Progressive Disclosure for Agent Tools</strong></a>
       <a class="pagination-next" href="/writing/quality-flywheel/"><span>Next</span><strong>The Quality Flywheel</strong></a>
@@ -442,12 +442,13 @@ delegation_request:
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -455,9 +456,10 @@ delegation_request:
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/ideas.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Ideas in progress — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","headline":"Ideas in progress","description":"Open questions about agent environments, context, replay, and reusable engineering.","url":"https://oddly.fyi/ideas/","image":"https://oddly.fyi/assets/social/ideas.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"}}</script></head>
   <body data-path="/ideas/" data-typography="ideas">
     
     
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -53,7 +53,7 @@
     <p>Questions I have not resolved yet. Publishing them early makes the edges of the work visible.</p>
   </section>
     <section class="shell ideas-list">
-      <article><span>01</span><p>Which decisions should a classifier&#039;s labels be allowed to influence?</p><div aria-hidden="true">?</div></article><article><span>02</span><p>How can we tell a change in the world from a change in the classifier measuring it?</p><div aria-hidden="true">?</div></article><article><span>03</span><p>When should a classifier gather more evidence or leave a case unresolved?</p><div aria-hidden="true">?</div></article><article><span>04</span><p>Which evidence should already be local when an agent begins an investigation?</p><div aria-hidden="true">?</div></article><article><span>05</span><p>Where should deterministic execution end and model-driven exploration begin?</p><div aria-hidden="true">?</div></article><article><span>06</span><p>How much of a 24-hour incident can a checkpoint preserve without leaking its outcome?</p><div aria-hidden="true">?</div></article><article><span>07</span><p>When does evaluating an intervention require simulation instead of replay?</p><div aria-hidden="true">?</div></article><article><span>08</span><p>What should memory retain so the next agent can verify a lesson before reusing it?</p><div aria-hidden="true">?</div></article>
+      <article><span>01</span><div class="idea-content"><p>Which decisions should a classifier&#039;s labels be allowed to influence?</p><details><summary>Proposed test · not yet measured</summary><p>Hold predictions fixed and vary the permitted action. Inspect how false-positive cost changes the acceptance rule.</p></details></div><div aria-hidden="true">?</div></article><article><span>02</span><div class="idea-content"><p>How can we tell a change in the world from a change in the classifier measuring it?</p><details><summary>Proposed test · not yet measured</summary><p>Run old and new classifier versions over the same frozen overlap sample before attributing a dashboard change to the world.</p></details></div><div aria-hidden="true">?</div></article><article><span>03</span><div class="idea-content"><p>When should a classifier gather more evidence or leave a case unresolved?</p><details><summary>Proposed test · not yet measured</summary><p>Compare coverage and error among accepted cases as the deferral threshold moves; record review workload too.</p></details></div><div aria-hidden="true">?</div></article><article><span>04</span><div class="idea-content"><p>Which evidence should already be local when an agent begins an investigation?</p><details><summary>Proposed test · not yet measured</summary><p>Compare remote retrieval with a frozen local snapshot, including collection and indexing cost in the total.</p></details></div><div aria-hidden="true">?</div></article><article><span>05</span><div class="idea-content"><p>Where should deterministic execution end and model-driven exploration begin?</p><details><summary>Proposed test · not yet measured</summary><p>Replace one repeated reasoning step with deterministic code and test edge cases that the code must reject.</p></details></div><div aria-hidden="true">?</div></article><article><span>06</span><div class="idea-content"><p>How much of a 24-hour incident can a checkpoint preserve without leaking its outcome?</p><details><summary>Proposed test · not yet measured</summary><p>Insert a late-arriving record whose event time predates the checkpoint; verify it remains unavailable in historical replay.</p></details></div><div aria-hidden="true">?</div></article><article><span>07</span><div class="idea-content"><p>When does evaluating an intervention require simulation instead of replay?</p><details><summary>Proposed test · not yet measured</summary><p>Choose an action that changes the environment and show exactly where a fixed recorded future stops being a valid comparison.</p></details></div><div aria-hidden="true">?</div></article><article><span>08</span><div class="idea-content"><p>What should memory retain so the next agent can verify a lesson before reusing it?</p><details><summary>Proposed test · not yet measured</summary><p>Retrieve a lesson after changing its parser or policy dependency; require a review instead of unconditional reuse.</p></details></div><div aria-hidden="true">?</div></article>
     </section>
   </main>
     
@@ -67,12 +67,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -80,9 +81,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

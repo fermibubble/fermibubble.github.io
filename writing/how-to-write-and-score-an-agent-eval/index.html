@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--how-to-write-and-score-an-agent-eval.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="How to Write and Score an Agent Eval — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","headline":"How to Write and Score an Agent Eval","description":"From a plausible wrong answer to a defensible release decision: nine chapters on writing tests, calculating scores, and checking whether success repeats.","url":"https://oddly.fyi/writing/how-to-write-and-score-an-agent-eval/","image":"https://oddly.fyi/assets/social/writing--how-to-write-and-score-an-agent-eval.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"}}</script></head>
   <body data-path="/writing/how-to-write-and-score-an-agent-eval/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -58,30 +58,26 @@
         <h1>How to Write and Score<br><em>an Agent Eval</em></h1>
         <p class="article-deck">From a plausible wrong answer to a defensible release decision: nine chapters on writing tests, calculating scores, and checking whether success repeats.</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>1 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>34 min · complete collection</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
       <div class="series-body" data-article-body>
-        <div class="prose"><!--article-prose:start--><p>The agent finds the cause of an outage, explains it clearly, and recommends a fix. A reviewer might approve the answer after a quick read.</p>
-<p>Then someone checks the capacity calculation. The proposed fix would overload the database.</p>
-<p>The diagnosis was right. The recommendation was wrong. The answer cited real evidence and respected its permissions. The team needs to preserve those distinctions to decide what to fix.</p>
-<p>We will build an eval around this invented checkout incident, then test its scoring rules with owner lookups, CSV conversion, and booking examples. The final decision will be whether to release an improved agent whose headline score looks better.</p>
-<p>This guide follows that incident from the first task definition to the release decision. Nine chapters are grouped into three installments, each with worked answers, the reasons behind the recommended method, and the failure modes of common alternatives.</p>
-<p>Start with <strong>Design the Test</strong> if you are authoring an eval. Go to <strong>Build the Score</strong> to inspect correctness, auxiliary dimensions, and the interactive scoring example. Use <strong>Trust the Result</strong> when validating a grader or deciding whether an improvement deserves release.</p>
-<p>The <a href="/assets/downloads/eval-authoring-companion.zip">Python companion</a> contains a scoring contract, supplied example judgments, validation, and tests. The incidents and measurements in this guide are illustrative; they are not measured model results.</p>
-<p>Read the example answers before their verdicts and decide how you would grade them. The disagreements reveal the design choices.</p>
+        <div class="prose"><!--article-prose:start--><p>A correct diagnosis can still produce an unsafe recommendation. This guide uses an illustrative checkout incident to separate those judgments, turn them into a scoring contract, and decide what a release result actually supports.</p>
+<p>Three parts contain nine chapters. Each part can be read on its own:</p>
+<ul><li><a href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/">Design the Test</a>: define the task, evidence, valid alternatives, and rubric.</li><li><a href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/">Build the Score</a>: inspect correctness, completion, authority, and the interactive scoring example.</li><li><a href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">Trust the Result</a>: calibrate judgments, account for repeated runs, and assess a release.</li></ul>
+<p>Download the <a href="/assets/downloads/eval-authoring-companion.zip">Python scoring companion</a> and the <a href="/toolkit/">paired-comparison workbench</a>. The supplied judgments and datasets are illustrative. They are not measured model results.</p>
 <!--article-prose:end--></div>
         <nav class="series-map" aria-label="How to Write and Score an Agent Eval parts">
-    <div class="series-map-heading"><span>Inside this collection</span><h2>Three parts, nine chapters</h2></div>
+    <div class="series-map-heading"><span>Inside this collection</span><h2 id="three-parts-nine-chapters">Three parts, nine chapters</h2></div>
     <div class="series-map-grid"><a class="series-map-card" href="/writing/how-to-write-and-score-an-agent-eval/design-the-test/">
       <span class="series-number">01</span>
-      <h3>Design the Test: What Counts as Correct?</h3><p>Reproduce the failure, establish the evidence, and write rubrics that accept valid alternatives while rejecting plausible mistakes.</p><span class="series-read">7 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="design-the-test-what-counts-as-correct">Design the Test: What Counts as Correct?</h3><p>Reproduce the failure, establish the evidence, and write rubrics that accept valid alternatives while rejecting plausible mistakes.</p><span class="series-read">9 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/how-to-write-and-score-an-agent-eval/build-the-score/">
       <span class="series-number">02</span>
-      <h3>Build the Score: What Does 72.2% Mean?</h3><p>Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.</p><span class="series-read">10 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="build-the-score-what-does-72-2-mean">Build the Score: What Does 72.2% Mean?</h3><p>Turn one execution into verifiable judgments. Separate correctness, grounding, permissions, and completion—then calculate each score.</p><span class="series-read">12 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/how-to-write-and-score-an-agent-eval/trust-the-result/">
       <span class="series-number">03</span>
-      <h3>Trust the Result: Is It Good Enough to Ship?</h3><p>Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.</p><span class="series-read">12 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="trust-the-result-is-it-good-enough-to-ship">Trust the Result: Is It Good Enough to Ship?</h3><p>Handle missing judgments, calibrate graders, repeat trials, and make a release decision that the headline score can justify.</p><span class="series-read">13 min read <span aria-hidden="true">↗</span></span>
     </a></div>
   </nav>
         <div class="prose series-afterword"></div>
@@ -103,12 +99,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -116,9 +113,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

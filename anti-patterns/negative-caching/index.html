@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--negative-caching.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Negative Caching — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Negative Caching","description":"Negative Caching. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/negative-caching/","image":"https://oddly.fyi/assets/social/anti-patterns--negative-caching.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/negative-caching/"}</script></head>
   <body data-path="/anti-patterns/negative-caching/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,37 +46,16 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Negative Caching</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Negative Caching</h5>
-  <p>Caching the negative HTTP responses.<br />
-Consider following snippet that makes api call to a web service</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Cacheable</span>
-<span class="kd">public</span> <span class="nc">HttpResponse</span> <span class="nf">call</span><span class="o">(</span><span class="no">URI</span> <span class="n">uri</span><span class="o">,</span> <span class="nc">HttpRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">HttpResponse</span> <span class="n">response</span><span class="o">;</span>
-    <span class="c1">// Make Call</span>
-    <span class="k">return</span> <span class="n">response</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p>If the web service call fails with 500 response for some internal reasons, we will be still caching it. So, even after the dependent service recovers from its error state, the function returns error response until the cache expiry time.
-In some scenarios, it can be a design choice, but most of the cases it’s an anti-pattern.</p>
-
-<p>It’s advisable to cache individual entities as opposed to higher-order objects that compose them.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Cacheable</span>
-<span class="kd">public</span> <span class="nc">Customer</span> <span class="nf">getCustomerDetails</span><span class="o">(</span><span class="kt">int</span> <span class="n">customerId</span><span class="o">)</span> <span class="o">{</span>
-   <span class="nc">Customer</span> <span class="n">customer</span><span class="o">;</span>
-   <span class="nc">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="nc">RestClient</span><span class="o">.</span><span class="na">makeApiCall</span><span class="o">(...);</span>
-   <span class="c1">// Validate Response and Extract Information</span>
-   <span class="k">return</span> <span class="n">customer</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Negative Caching</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><details class="article-toc shell-narrow"><summary>On this page · 2 min read</summary><ol><li><a href="#absence-is-not-outage">Separate absence from an outage</a></li><li><a href="#write-the-policy">Write the policy before the annotation</a></li><li><a href="#test-recovery">Test recovery, not only cache hits</a></li></ol></details><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>Negative caching stores an absence or failure so the next request need not repeat the same work. It can be useful. The failure mode is treating every negative response as equally stable.</p>
+<h2 id="absence-is-not-outage">Separate absence from an outage</h2>
+<p>A missing product in a slowly changing catalogue may be worth caching briefly. A database timeout says nothing about whether the product exists. Reusing that timeout as “not found” converts a temporary dependency failure into a false statement about the data.</p>
+<p><a href="https://www.rfc-editor.org/rfc/rfc9111.html#section-3">HTTP caching explicitly permits negative responses under its storage rules</a>. Whether a particular response may be stored and reused depends on status, cache directives, authorization, and the cache context. “Negative response” alone is not a prohibition.</p>
+<h2 id="write-the-policy">Write the policy before the annotation</h2>
+<table><thead><tr><th>Outcome</th><th>Example policy</th><th>Invalidation</th></tr></thead><tbody><tr><td>Confirmed absence</td><td>Short, explicit TTL if bounded staleness is acceptable</td><td>Evict on creation; otherwise expire</td></tr><tr><td>Timeout or dependency unavailable</td><td>Do not store as absence; use a distinct error and bounded retry/backoff</td><td>Retry under a separate failure policy</td></tr><tr><td>Authorization failure</td><td>Do not share across identities or scopes</td><td>Account for policy changes and credential scope</td></tr></tbody></table>
+<p>These are design examples, not universal TTL settings. Pick a lifetime from the cost of stale absence and the dependency load you can tolerate. A framework cache annotation does not establish the right domain policy; inspect its key, exception, null, and invalidation behavior.</p>
+<h2 id="test-recovery">Test recovery, not only cache hits</h2>
+<p>Request a missing key, create it, then repeat the lookup. Verify that your invalidation or expiry makes it visible within the promised window. Separately inject a timeout and prove the next successful lookup is not suppressed. Returning a domain object instead of an HTTP wrapper is not enough if the cache still conflates these outcomes.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -88,12 +67,13 @@ In some scenarios, it can be a design choice, but most of the cases it’s an an
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -101,9 +81,10 @@ In some scenarios, it can be a design choice, but most of the cases it’s an an
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

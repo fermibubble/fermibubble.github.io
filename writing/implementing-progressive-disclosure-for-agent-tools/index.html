@@ -25,7 +25,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--implementing-progressive-disclosure-for-agent-tools.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Implementing Progressive Disclosure for Agent Tools — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Implementing Progressive Disclosure for Agent Tools","description":"Build one discoverable CLI for MCP, SQL, and REST, with precise schemas, scoped execution, and honest result receipts.","url":"https://oddly.fyi/writing/implementing-progressive-disclosure-for-agent-tools/","image":"https://oddly.fyi/assets/social/writing--implementing-progressive-disclosure-for-agent-tools.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-18T03:20:26Z","mainEntityOfPage":"https://oddly.fyi/writing/implementing-progressive-disclosure-for-agent-tools/"}</script></head>
   <body data-path="/writing/implementing-progressive-disclosure-for-agent-tools/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -40,7 +40,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -55,10 +55,10 @@
         <div class="article-type">Agent interfaces</div>
         <h1>Implementing Progressive Disclosure<br><em>for Agent Tools</em></h1>
         <p class="article-deck">Build one discoverable CLI for MCP, SQL, and REST, with precise schemas, scoped execution, and honest result receipts.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>12 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-18">October 18, 2026</time><span>15 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 15 min read</summary><ol><li><a href="#start-with-a-small-entry-point">Start with a small entry point </a></li><li><a href="#start-with-mcp-tools">Start with MCP tools </a></li><li><a href="#then-discover-and-query-sql">Then discover and query SQL </a></li><li><a href="#extend-the-same-interface-to-rest">Extend the same interface to REST </a></li><li><a href="#keep-the-implementation-shared-and-the-adapters-small">Keep the implementation shared and the adapters small </a></li><li><a href="#choose-where-composition-runs">Choose where composition runs </a></li><li><a href="#check-the-contracts-then-measure-the-agent">Check the contracts, then measure the agent </a></li><li><a href="#a-first-adapter-you-can-actually-finish">A first adapter you can actually finish</a></li></ol></details>
       <div class="series-body" data-article-body>
         <div class="prose"><!--article-prose:start--><p>An agent is asked which production services are still running a faulty release. The answer requires deployment inventory, service ownership, and perhaps logs. The agent already has a sandbox and can write code. What it needs is a practical way to discover the available interfaces and use them without loading their entire documentation into context.</p>
 
@@ -69,7 +69,7 @@
 <h2 id="start-with-a-small-entry-point">Start with a small entry point<a class="heading-anchor" href="#start-with-a-small-entry-point" aria-label="Link to this section">#</a></h2>
 <p>The harness gives the agent a short index of the connections available to this task. Each entry describes the questions the connection can answer and points to its documentation.</p>
 
-<pre class="source-example"><code># Available connections
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code># Available connections
 
 - observability: Search runtime logs by service, release, and time window.
   Read connections/observability.md for MCP discovery and invocation.
@@ -87,7 +87,7 @@
 <h2 id="start-with-mcp-tools">Start with MCP tools<a class="heading-anchor" href="#start-with-mcp-tools" aria-label="Link to this section">#</a></h2>
 <p>Suppose the observability server publishes a <code>query_logs</code> tool. The agent can discover its contract and use it when the investigation calls for logs:</p>
 
-<pre class="source-example"><code>toolbox mcp observability list-tools
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox mcp observability list-tools
 toolbox mcp observability describe query_logs
 toolbox mcp observability call query_logs \
   --json-file log-query.json \
@@ -95,14 +95,14 @@ toolbox mcp observability call query_logs \
 
 <p>A compact <code>list-tools</code> response might be:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;tools&quot;: [{&quot;name&quot;:&quot;query_logs&quot;,&quot;summary&quot;:&quot;Search runtime logs&quot;}],
   &quot;next_cursor&quot;: null
 }</code></pre>
 
 <p><code>describe query_logs</code> expands that selected entry into the invocation contract:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;name&quot;: &quot;query_logs&quot;,
   &quot;inputSchema&quot;: {
     &quot;type&quot;: &quot;object&quot;,
@@ -130,14 +130,14 @@ toolbox mcp observability call query_logs \
 <h2 id="then-discover-and-query-sql">Then discover and query SQL<a class="heading-anchor" href="#then-discover-and-query-sql" aria-label="Link to this section">#</a></h2>
 <p>To find affected services, the production connection exposes a query service and schema metadata. A generic <code>execute_sql</code> entry point alone would still leave the agent guessing which tables mean what. Give it discovery commands:</p>
 
-<pre class="source-example"><code>toolbox sql production list-tables
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox sql production list-tables
 toolbox sql production describe inventory_snapshots
 toolbox sql production describe runtime_instances
 toolbox sql production describe services</code></pre>
 
 <p><code>list-tables</code> returns names and short descriptions, with pagination when necessary. <code>describe</code> returns the complete contract for one selected view. For a large catalog, add a search entry point:</p>
 
-<pre class="source-example"><code>toolbox sql production search-schema \
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox sql production search-schema \
   &quot;currently running releases and service owners&quot;</code></pre>
 
 <h3 id="make-the-schema-useful-enough-to-write-the-query">Make the schema useful enough to write the query<a class="heading-anchor" href="#make-the-schema-useful-enough-to-write-the-query" aria-label="Link to this section">#</a></h3>
@@ -145,7 +145,7 @@ toolbox sql production describe services</code></pre>
 
 <p>A useful schema describes types, nullability, keys, and what each row means. This excerpt captures the domain details:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;view&quot;: &quot;runtime_instances&quot;,
   &quot;row_meaning&quot;: &quot;One observed instance in one inventory snapshot&quot;,
   &quot;unique_key&quot;: [&quot;snapshot_id&quot;, &quot;instance_id&quot;],
@@ -164,7 +164,7 @@ toolbox sql production describe services</code></pre>
 <h3 id="find-the-snapshot-before-using-it">Find the snapshot before using it<a class="heading-anchor" href="#find-the-snapshot-before-using-it" aria-label="Link to this section">#</a></h3>
 <p>In this connection, <code>inventory_snapshots</code> describes immutable captures. Its contract says that <code>finished</code> means collection has stopped; coverage is reported separately. The following query selects the latest finished production capture:</p>
 
-<pre class="source-example"><code>SELECT snapshot_id, observed_at, scope,
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>SELECT snapshot_id, observed_at, scope,
        coverage_complete, missing_regions
 FROM inventory_snapshots
 WHERE environment = :environment
@@ -174,11 +174,11 @@ LIMIT 1;</code></pre>
 
 <p>Save this as <code>snapshot.sql</code>; <code>scope.json</code> contains <code>{&quot;environment&quot;:&quot;prod&quot;}</code>. Run the query and inspect the selected row:</p>
 
-<pre class="source-example"><code>toolbox sql production query \
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox sql production query \
   --file snapshot.sql --params-file scope.json --output snapshot.json
 jq '.rows[0]' snapshot.json</code></pre>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;snapshot_id&quot;: &quot;snapshot-184&quot;,
   &quot;observed_at&quot;: &quot;2026-10-18T02:00:00Z&quot;,
   &quot;scope&quot;: &quot;authorized production inventory&quot;,
@@ -190,7 +190,7 @@ jq '.rows[0]' snapshot.json</code></pre>
 
 <p>The agent now has a snapshot ID and its limitations. Each captured instance appears once, so counting rows counts observed instances on the faulty release. Use a left join to retain affected services whose ownership metadata is missing:</p>
 
-<pre class="source-example"><code>SELECT
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>SELECT
   i.service_id,
   s.name,
   s.owner_team,
@@ -206,12 +206,12 @@ ORDER BY affected_instances DESC, i.service_id;</code></pre>
 
 <p>Save the query as <code>affected.sql</code>. Put the user-selected values in <code>parameters.json</code>; the SQL adapter binds them as values rather than substituting them into the SQL string. In this connection, <code>snapshot_id</code> is reserved for the execution context selected with <code>--snapshot</code>. The adapter translates the placeholder notation for its database driver.</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;environment&quot;: &quot;prod&quot;,
   &quot;release_id&quot;: &quot;R42&quot;
 }</code></pre>
 
-<pre class="source-example"><code>toolbox sql production query \
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox sql production query \
   --snapshot snapshot-184 \
   --file affected.sql --params-file parameters.json \
   --output affected.json</code></pre>
@@ -223,7 +223,7 @@ ORDER BY affected_instances DESC, i.service_id;</code></pre>
 
 <p>At the service boundary:</p>
 
-<pre class="source-example"><code>capture = inventory.open_authorized_snapshot(user, request.snapshot_id)
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>capture = inventory.open_authorized_snapshot(user, request.snapshot_id)
 catalog = readonly_catalog(capture.instances, authorized_directory(user))
 params = bind_reserved(request.params, snapshot_id=capture.id)
 rows = catalog.query(request.sql, params, budget=request_budget)
@@ -236,7 +236,7 @@ return rows, capture.metadata</code></pre>
 
 <p>In the proposed contract, <code>--output</code> writes the data and prints a small receipt. Here is an illustrative receipt for the SQL query:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;execution&quot;: &quot;succeeded&quot;,
   &quot;result&quot;: {
     &quot;path&quot;: &quot;affected.json&quot;,
@@ -256,9 +256,9 @@ return rows, capture.metadata</code></pre>
 
 <p>The SQL result file uses a <code>rows</code> envelope. Inspecting it gives the two affected services:</p>
 
-<pre class="source-example"><code>jq '.rows[:5]' affected.json</code></pre>
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>jq '.rows[:5]' affected.json</code></pre>
 
-<pre class="source-example"><code>[
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>[
   {&quot;service_id&quot;:&quot;svc-payments&quot;,&quot;name&quot;:&quot;payments&quot;,
    &quot;owner_team&quot;:&quot;commerce&quot;,&quot;affected_instances&quot;:3},
   {&quot;service_id&quot;:&quot;svc-unknown&quot;,&quot;name&quot;:null,
@@ -272,14 +272,14 @@ return rows, capture.metadata</code></pre>
 <h2 id="extend-the-same-interface-to-rest">Extend the same interface to REST<a class="heading-anchor" href="#extend-the-same-interface-to-rest" aria-label="Link to this section">#</a></h2>
 <p>Suppose the investigation also needs existing incidents for an affected service. A REST adapter can expose approved operations from an <a href="https://spec.openapis.org/oas/v3.1.1.html#operation-object" rel="noreferrer">OpenAPI description</a>, or a maintained catalog when the API has no usable specification.</p>
 
-<pre class="source-example"><code>toolbox rest incidents list-operations
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>toolbox rest incidents list-operations
 toolbox rest incidents describe listIncidents
 toolbox rest incidents call listIncidents \
   --json-file incident-query.json --output incidents.json</code></pre>
 
 <p><code>list-operations</code> returns names and summaries. <code>describe</code> expands one operation into its method, path, parameter locations, response contract, and authorization requirements. In this illustrative catalog, <code>listIncidents</code> maps to <code>GET /incidents</code> and accepts <code>service_id</code>, <code>release_id</code>, and <code>state</code> as query parameters. The corresponding <code>incident-query.json</code> is:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;query&quot;: {
     &quot;service_id&quot;: &quot;svc-payments&quot;,
     &quot;release_id&quot;: &quot;R42&quot;,
@@ -304,7 +304,7 @@ toolbox rest incidents call listIncidents \
 
 <p>Logs belong on stderr; results and error receipts belong on stdout. Execution failures and interrupted exports return nonzero exits. For example, a query may succeed while its export stops at a row limit. With exit code <code>2</code>, the receipt's result portion would say:</p>
 
-<pre class="source-example"><code>{
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>{
   &quot;execution&quot;: &quot;succeeded&quot;,
   &quot;result&quot;: {
     &quot;path&quot;: &quot;affected.partial.json&quot;,
@@ -328,7 +328,7 @@ toolbox rest incidents call listIncidents \
 <h2 id="check-the-contracts-then-measure-the-agent">Check the contracts, then measure the agent<a class="heading-anchor" href="#check-the-contracts-then-measure-the-agent" aria-label="Link to this section">#</a></h2>
 <p>The <a href="https://oddly.fyi/assets/downloads/progressive-disclosure-fixture.zip" rel="noreferrer">companion fixture</a> runs the two SQL queries against SQLite and checks controlled MCP responses using only Python's standard library:</p>
 
-<pre class="source-example"><code>python3 fixture.py --test
+<pre class="source-example" tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>python3 fixture.py --test
 python3 fixture.py --output affected.json</code></pre>
 
 <p>All 13 deterministic checks passed. They cover the SQL example, snapshot selection, parameter binding, result status, catalog pagination, and MCP error/content mapping. The fixture also builds a catalog containing only the selected capture: removing query predicates cannot expose other snapshots, and overriding the reserved snapshot parameter fails. Three outcomes matter especially:</p>
@@ -346,9 +346,9 @@ python3 fixture.py --output affected.json</code></pre>
 <p>One shared CLI, small protocol adapters, a discoverable catalog, and an explicit result contract are enough to start. The agent can find a tool, query a snapshot, inspect an API operation, and explain what the evidence covers. Those small interfaces determine whether progressive disclosure produces a reliable answer.</p>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="a-first-adapter-you-can-actually-finish">A first adapter you can actually finish</h2><p>Start with the downloadable fixture’s SQL snapshot and expected coverage, then expose a single read-only MCP operation that returns the same receipt. Confirm that protocol errors and tool-level <code>isError</code> results remain distinct, and compare the transport output with the fixture before adding REST. The ZIP provides controlled SQL/MCP examples; it does not ship the proposed toolbox CLI or a production transport.</p><p>Record a transcript with discovery query, selected schema version, exact call, raw result, export-complete flag, expected scope, and missing scope. An exhausted cursor can coexist with missing owners. In the <a href="/toolkit/">engineering workbench</a>, <code>evidence_complete</code> deliberately returns false when only one of those conditions holds.</p><p>To test disclosure quality, compare full catalogue, deferred catalogue, and an oracle-selected interface under the same task, model, tool results, and budget. Count failed discovery and abandoned tasks as outcomes. Until those runs exist, context savings are a hypothesis rather than evidence of better agent performance.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/how-to-write-and-score-an-agent-eval/"><span>Previous</span><strong>How to Write and Score an Agent Eval</strong></a>
       <a class="pagination-next" href="/writing/before-you-build-another-agent/"><span>Next</span><strong>Before You Build Another Agent</strong></a>
@@ -365,12 +365,13 @@ python3 fixture.py --output affected.json</code></pre>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -378,9 +379,10 @@ python3 fixture.py --output affected.json</code></pre>
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

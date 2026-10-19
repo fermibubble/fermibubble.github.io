@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--quality-flywheel.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="The Quality Flywheel — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","headline":"The Quality Flywheel","description":"How failures become experiments, better decisions, and knowledge that survives the next release.","url":"https://oddly.fyi/writing/quality-flywheel/","image":"https://oddly.fyi/assets/social/writing--quality-flywheel.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"}}</script></head>
   <body data-path="/writing/quality-flywheel/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -58,34 +58,34 @@
         <h1>The Quality<br><em>Flywheel</em></h1>
         <p class="article-deck">How failures become experiments, better decisions, and knowledge that survives the next release.</p>
         <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>1 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>24 min · complete collection</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
       <div class="article-rule shell"></div>
       <div class="series-body" data-article-body>
         <div class="prose"><!--article-prose:start--><p>The tests pass. A change goes live. Websites stop responding.</p>
 <p>A quality flywheel begins with the gap between those three sentences. What did the tests miss? Which change would prevent a repeat? How do we know the proposed fix will help somewhere beyond the original failure?</p>
-<h2>Preface</h2>
+<h2 id="preface">Preface</h2>
 <p>Our starting point is <a href="https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/">Cloudflare's outage on 2 July 2019</a>. A new security rule consumed so much processing time that websites returned errors. The rule had passed its tests; those tests did not cover the way it could exhaust CPU.</p>
 <p>The outage and Cloudflare's account are real. Atlas, the on-call AI assistant we use to explore the lessons, is hypothetical. Its examples ask a practical question: how would we teach an assistant to investigate a slow or unavailable website, then verify that it had learned something useful?</p>
 <p>The chapters follow that question through measurement, investigation, hill climbing, release, and the knowledge left behind.</p>
 <!--article-prose:end--></div>
         <nav class="series-map" aria-label="The Quality Flywheel chapters">
-    <div class="series-map-heading"><span>Inside this collection</span><h2>The chapters</h2></div>
+    <div class="series-map-heading"><span>Inside this collection</span><h2 id="the-chapters">The chapters</h2></div>
     <div class="series-map-grid"><a class="series-map-card" href="/writing/quality-flywheel/what-the-score-conceals/">
       <span class="series-number">01</span>
-      <h3>What the Score Conceals</h3><p>The tests passed. Websites went down. Which question did the checks leave out?</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="what-the-score-conceals">What the Score Conceals</h3><p>The tests passed. Websites went down. Which question did the checks leave out?</p><span class="series-read">5 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/turn-failure-into-experiment/">
       <span class="series-number">02</span>
-      <h3>Turn a Failure into an Experiment</h3><p>A wrong answer points to a problem. A targeted change tests the explanation.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="turn-a-failure-into-an-experiment">Turn a Failure into an Experiment</h3><p>A wrong answer points to a problem. A targeted change tests the explanation.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/search-beyond-the-prompt/">
       <span class="series-number">03</span>
-      <h3>Search Beyond the Prompt</h3><p>An optimizer can only discover changes its search space allows.</p><span class="series-read">3 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="search-beyond-the-prompt">Search Beyond the Prompt</h3><p>An optimizer can only discover changes its search space allows.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/make-the-winner-earn-release/">
       <span class="series-number">04</span>
-      <h3>Make the Winner Earn Its Release</h3><p>Selection finds a promising candidate. Independent evidence earns the release.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="make-the-winner-earn-its-release">Make the Winner Earn Its Release</h3><p>Selection finds a promising candidate. Independent evidence earns the release.</p><span class="series-read">6 min read <span aria-hidden="true">↗</span></span>
     </a><a class="series-map-card" href="/writing/quality-flywheel/what-the-next-failure-inherits/">
       <span class="series-number">05</span>
-      <h3>What the Next Failure Inherits</h3><p>A loop becomes a flywheel when its useful work survives the turn.</p><span class="series-read">4 min read <span aria-hidden="true">↗</span></span>
+      <h3 id="what-the-next-failure-inherits">What the Next Failure Inherits</h3><p>A loop becomes a flywheel when its useful work survives the turn.</p><span class="series-read">5 min read <span aria-hidden="true">↗</span></span>
     </a></div>
   </nav>
         <div class="prose series-afterword"></div>
@@ -107,12 +107,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -120,9 +121,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

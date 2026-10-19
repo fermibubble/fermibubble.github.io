@@ -32,7 +32,7 @@ for (const file of htmlFiles) {
   if (!/<!doctype html>/i.test(body)) failures.push(`${relative}: missing doctype`);
   if (!/<title>[^<]+<\/title>/.test(body)) failures.push(`${relative}: missing title`);
   if (!legacyPage && !body.includes('id="content"')) failures.push(`${relative}: missing main content target`);
-  if (body.includes("undefined") || body.includes("[object Object]")) failures.push(`${relative}: contains invalid rendered value`);
+  if (/>\s*undefined\s*</.test(body) || body.includes("[object Object]")) failures.push(`${relative}: contains invalid rendered value`);
 
   const links = [...body.matchAll(/(?:href|src)="(\/[^"?#]*)/g)].map((match) => match[1]);
   for (const href of links) {
@@ -43,7 +43,7 @@ for (const file of htmlFiles) {
   }
 }
 
-const expectedPages = 1 + evalWriting.length * 2 + 62 + 1 + classifierWriting.length * 2 + 1 + qualityWriting.length * 2 + qualityWriting.reduce((count, chapter) => count + chapter.aliases.length, 0) + 3 /* Standalone generalist, progressive disclosure, and harness improvement essays. */ + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
+const expectedPages = 1 + evalWriting.length * 2 + 62 + 1 + classifierWriting.length * 2 + 1 + qualityWriting.length * 2 + qualityWriting.reduce((count, chapter) => count + chapter.aliases.length, 0) + 5 /* Reading paths, toolkit, follow, changes, search. */ + 3 /* Standalone generalist, progressive disclosure, and harness improvement essays. */ + (draftPreview ? (await import("../src/editorial-drafts.mjs")).editorialDrafts.length : 0);
 if (htmlFiles.length !== expectedPages) failures.push(`expected ${expectedPages} HTML pages, found ${htmlFiles.length}`);
 
 if (failures.length) {

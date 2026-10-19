@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--premature-optimization.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Premature Optimization — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Premature Optimization","description":"Premature Optimization. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/premature-optimization/","image":"https://oddly.fyi/assets/social/anti-patterns--premature-optimization.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/premature-optimization/"}</script></head>
   <body data-path="/anti-patterns/premature-optimization/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,35 +46,16 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Premature Optimization</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Premature Optimization</h5>
-  <p><em>“Premature Optimization is root cause of all evil”</em> - Sir Tony Hoare (famous by Knuth).
-<br /><br />
-The most important function of computer code is to communicate the programmer’s intent to a human reader. Any coding practice that makes the code harder to understand in the name of performance can be premature optimization.</p>
-
-<p style="margin-bottom: 0px">Following can be examples of early optimizations that can be premature:</p>
-<ul>
-  <li>Introducing custom libraries rather than using standard/open-source libraries as they might doing more than what needed.</li>
-  <li>Monolithic approach over microservices to prevent network latencies.</li>
-  <li>Micro optimizations like - “Arrays.copyOf(array, array.length) is faster than array.clone()” , “++i is faster than i++”, “for( ; ; ) is faster than while(1) “</li>
-</ul>
-
-<p>The performance problems should be solved top-down rather than bottom-up. The Service Level Agreement (SLA) for each web service has to be fixed and all efforts should be made in order to achieve that SLA. For example, the SLA for a web service can be 100 ms and when we failed to fulfill that we have to think of further optimizations.</p>
-
-<p>The key characteristics of a good software system are - reliability, efficiency, security &amp; maintainability. Trading off these characteristics for the sake of insignificant performance benefits leads to disaster.<br />
-<br /></p>
-<h5 id="note">Note:</h5>
-<p style="margin-bottom: 0px">The premature optimization can be easily misinterpreted. Below are few pointers to be aware of :</p>
-<ul>
-  <li>Only certain micro optimizations and few design considerations are premature. Algorithm choices like using quick sort over bubble sort, lazy evaluations etc are NOT premature optimization, they are essential design choices.</li>
-  <li>It’s misbelief that performance problems will be easy to solve at the end of development cycle</li>
-  <li>It’s misbelief that developer’s time is more valuable than server CPU cycles and hence wasting CPU time to reduce development efforts is always a win. (Client’s time should be of highest priority)</li>
-</ul>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Premature Optimization</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><details class="article-toc shell-narrow"><summary>On this page · 2 min read</summary><ol><li><a href="#measure-the-constraint">Measure the constraint</a></li><li><a href="#a-small-experiment">Make the experiment smaller than the commitment</a></li><li><a href="#when-early-work-is-necessary">When early work is necessary</a></li></ol></details><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>An optimization is premature when its cost is justified by an assumption you have not tested. The problem is not caring about performance early. It is committing to a complicated design before knowing which constraint matters.</p>
+<h2 id="measure-the-constraint">Measure the constraint</h2>
+<p>Suppose checkout takes 900 ms at the 95th percentile. You can spend a week replacing a collection algorithm, but a trace might show that 700 ms is waiting for a remote service. First record the workload, percentile, throughput, error rate, and environment. Separate time spent executing from time spent waiting.</p>
+<p>A monolith is not automatically faster in every useful sense, and a microservice is not automatically scalable. Network hops, serialization, queueing, deployment independence, and team ownership all affect the choice. Choose a boundary for a concrete requirement, then measure its cost.</p>
+<h2 id="a-small-experiment">Make the experiment smaller than the commitment</h2>
+<ol><li>State the target: for example, checkout p95 below 400 ms at the expected peak load.</li><li>Capture a representative baseline and identify a dominant contributor.</li><li>Change one thing and rerun the same workload, including warm-up and repeated trials.</li><li>Compare memory, correctness, tail latency, and operational cost as well as the headline speed.</li><li>Keep the simpler implementation if the improvement is immaterial.</li></ol>
+<h2 id="when-early-work-is-necessary">When early work is necessary</h2>
+<p>Hard memory limits, safety deadlines, and an unavoidable data volume can rule out a design before a full implementation exists. Estimate those constraints early. A capacity model or small prototype can answer the architectural question without turning every line of code into a performance project.</p>
+<p>Keep the benchmark input and command with the change. A result without its workload is difficult to reproduce and easy to overgeneralize. The same discipline applies when <a href="/writing/quality-flywheel/make-the-winner-earn-release/">deciding whether an agent improvement deserves release</a>.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -86,12 +67,13 @@ The most important function of computer code is to communicate the programmer’
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -99,9 +81,10 @@ The most important function of computer code is to communicate the programmer’
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

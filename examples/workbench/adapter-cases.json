@@ -1,0 +1,45 @@
+[
+  {
+    "id": "compile-error",
+    "lines": [
+      "INFO build started",
+      "ERROR missing symbol Customer",
+      "INFO build finished"
+    ],
+    "required": [
+      "ERROR missing symbol Customer"
+    ]
+  },
+  {
+    "id": "warning-only-regression",
+    "lines": [
+      "INFO tests passed",
+      "WARN deprecated callback drops cancellation",
+      "INFO build finished"
+    ],
+    "required": [
+      "WARN deprecated callback drops cancellation"
+    ]
+  },
+  {
+    "id": "clean-build",
+    "lines": [
+      "INFO build started",
+      "INFO tests passed"
+    ],
+    "required": []
+  },
+  {
+    "id": "mixed-diagnostics",
+    "lines": [
+      "INFO compile start",
+      "WARN unchecked conversion",
+      "ERROR invalid return type",
+      "INFO compile end"
+    ],
+    "required": [
+      "WARN unchecked conversion",
+      "ERROR invalid return type"
+    ]
+  }
+]
