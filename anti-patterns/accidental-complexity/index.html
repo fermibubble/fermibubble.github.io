@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--accidental-complexity.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Accidental Complexity — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Accidental Complexity","description":"Accidental Complexity. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/accidental-complexity/","image":"https://oddly.fyi/assets/social/anti-patterns--accidental-complexity.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/accidental-complexity/"}</script></head>
   <body data-path="/anti-patterns/accidental-complexity/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,46 +46,24 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Accidental Complexity</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Accidental Complexity</h5>
-  <p>The complexity that is not related to the problem.
-Consider the following snippet that computes sum of square root of k prime numbers starting from n.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">compute</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="kt">double</span> <span class="n">index</span> <span class="o">=</span> <span class="n">n</span><span class="o">;</span>
-    <span class="kt">double</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="k">while</span><span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">isPrime</span><span class="o">(</span><span class="n">index</span><span class="o">))</span> <span class="o">{</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
-            <span class="n">count</span><span class="o">++;</span>
-        <span class="o">}</span>
-        <span class="n">index</span><span class="o">++;</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>It’s hard to understand what the above function is doing at first glance.<br />
-It can be made better by refactoring it as below</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">compute</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">iterate</span><span class="o">(</span><span class="n">n</span> <span class="o">,</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
-                 <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">isPrime</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
-                 <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="nl">Math:</span><span class="n">sqrt</span><span class="o">)</span>
-                 <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="n">k</span><span class="o">)</span>
-                 <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The former follows imperative paradigm and the later follows declarative paradigm.</p>
-
-<p>The imperative programming is about using statements that change the state whereas declarative programming is about expressing the logic abstracting those state changing statements.</p>
-
-<p>It’s advisable to prefer declarative programming over imperative programming unless there is a specific usecase for not to do so.</p>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Accidental Complexity</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>Essential complexity comes from the problem you must solve. Accidental complexity comes from the representation, tools, or organization you chose. The distinction is contextual: a constraint that is unnecessary in one application may be essential in another.</p>
+<h2 id="a-small-calculation">Make the calculation visible</h2>
+<p>Take the first <code>k</code> prime numbers in a supplied list and sum their square roots. The list order matters; the example does not generate an unbounded sequence of primes. Here is a complete definition of the predicate and calculation:</p>
+<pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>static boolean prime(int n) {
+        if (n &lt; 2) return false;
+        for (int d = 2; d &lt;= n / d; d++) if (n % d == 0) return false;
+        return true;
+    }
+    static double rootSum(List&lt;Integer&gt; values, int k) {
+        if (k &lt; 0) throw new IllegalArgumentException("k must be nonnegative");
+        return values.stream().filter(LegacyExamples::prime).limit(k)
+            .mapToDouble(Math::sqrt).sum();
+    }</code></pre>
+<p>For <code>[1, 2, 4, 9, 5]</code> and <code>k = 2</code>, the result is <code>sqrt(2) + sqrt(5)</code>. Zero requests return zero; negative requests are rejected. If fewer than <code>k</code> primes exist, this contract sums those available. The division bound avoids overflow from calculating <code>d * d</code>.</p>
+<h2 id="choose-for-clarity">Choose the clearest representation</h2>
+<p>The pipeline separates selection, truncation, transformation, and aggregation. An ordinary loop can express the same contract well, especially when early exits or diagnostics matter. “Declarative” is not a guarantee of simplicity. Prefer the version whose order, edge cases, and costs are easiest for the next reader to check.</p>
+<p>The earlier example used an invalid method reference. The tested version uses <code>Math::sqrt</code> and a defined integer primality predicate.</p><p>The <a href="/assets/downloads/oddly-workbench.zip">workbench</a> includes the complete <code>LegacyExamples.java</code> program, imports, assertions, and a run command: <code>java LegacyExamples.java</code> with JDK 17 or later. The fragments below are extracted from that same tested source.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -97,12 +75,13 @@ It can be made better by refactoring it as below</p>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -110,9 +89,10 @@ It can be made better by refactoring it as below</p>
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

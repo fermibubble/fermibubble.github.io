@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--sequential-coupling.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Sequential Coupling — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Sequential Coupling","description":"Sequential Coupling. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/sequential-coupling/","image":"https://oddly.fyi/assets/social/anti-patterns--sequential-coupling.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/sequential-coupling/"}</script></head>
   <body data-path="/anti-patterns/sequential-coupling/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,51 +46,17 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Sequential Coupling</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Sequential Coupling</h5>
-  <p>It appears when a class forces its methods to be called in a particular sequence to make it work correctly<br />
- Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Processor</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">preProcess</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">process</span><span class="o">();</span>
-    <span class="kt">void</span> <span class="nf">postProcess</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultProcessor</span> <span class="kd">implements</span> <span class="nc">Processor</span> <span class="o">{</span>
-    <span class="c1">//Implementation</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">Processor</span> <span class="n">processor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultProcessor</span><span class="o">();</span>
-    <span class="n">processor</span><span class="o">.</span><span class="na">preProcess</span><span class="o">();</span>
-    <span class="n">processor</span><span class="o">.</span><span class="na">process</span><span class="o">();</span>
-    <span class="n">processor</span><span class="o">.</span><span class="na">postProcess</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The methods <em>preProcess</em>, <em>process</em> and <em>postProcess</em> should be called sequentially to make the code work.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Processor</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">process</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultProcessor</span> <span class="kd">implements</span> <span class="nc">Processor</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">preProcess</span><span class="o">();</span>
-        <span class="c1">//Implementation</span>
-        <span class="n">postProcess</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-    <span class="nc">Processor</span> <span class="n">processor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultProcessor</span><span class="o">();</span>
-    <span class="n">processor</span><span class="o">.</span><span class="na">process</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Sequential Coupling</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>Sequential coupling appears when callers must know an undocumented order of operations: initialize, prepare, process, then finish. Some protocols genuinely require an order. The design question is whether invalid orderings are easy to express and hard to diagnose.</p>
+<h2 id="own-the-sequence">Own the sequence</h2>
+<p>If every caller repeats the same lifecycle, give one component responsibility for it. Distinguish a successful commit from cleanup that must happen even when processing fails.</p>
+<pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>static void withCleanup(Runnable process, Runnable cleanup) {
+        try { process.run(); } finally { cleanup.run(); }
+    }</code></pre>
+<p>This fragment guarantees that cleanup is attempted. It does not guarantee cleanup succeeds, make the operation transactional, or roll back partial external effects. If both operations can throw, preserve the original error or use <code>try</code>-with-resources for an <code>AutoCloseable</code> resource so suppressed exceptions remain inspectable.</p>
+<h2 id="make-states-explicit">Make states explicit</h2>
+<p>For a longer protocol, model states such as <code>new → prepared → committed</code> with a failure path. Reject a second commit or a commit after cancellation. A builder can make required preparation part of construction; a state machine can make allowed transitions visible.</p>
+<p>Test failure between each pair of stages. In particular, “finish” should not mean both “commit successful output” and “release the connection.” Those operations have different preconditions. The same issue appears in <a href="/writing/trustworthy-autonomy/state-requires-ownership/">agent ownership and late writes</a>.</p><p>The <a href="/assets/downloads/oddly-workbench.zip">workbench</a> includes the complete <code>LegacyExamples.java</code> program, imports, assertions, and a run command: <code>java LegacyExamples.java</code> with JDK 17 or later. The fragments below are extracted from that same tested source.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -102,12 +68,13 @@ It can be refactored to:</p>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -115,9 +82,10 @@ It can be refactored to:</p>
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

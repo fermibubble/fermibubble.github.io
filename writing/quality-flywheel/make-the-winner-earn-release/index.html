@@ -27,7 +27,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--quality-flywheel--make-the-winner-earn-release.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Make the Winner Earn Its Release — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Make the Winner Earn Its Release","description":"Selection finds a promising candidate. Independent evidence earns the release.","url":"https://oddly.fyi/writing/quality-flywheel/make-the-winner-earn-release/","image":"https://oddly.fyi/assets/social/writing--quality-flywheel--make-the-winner-earn-release.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-10-04T14:02:02Z","mainEntityOfPage":"https://oddly.fyi/writing/quality-flywheel/make-the-winner-earn-release/"}</script></head>
   <body data-path="/writing/quality-flywheel/make-the-winner-earn-release/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -42,7 +42,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -57,25 +57,25 @@
         <div class="article-type">The Quality Flywheel / Chapter 04 of 05</div>
         <h1>Make the Winner Earn Its Release</h1>
         <p class="article-deck">Selection finds a promising candidate. Independent evidence earns the release.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>4 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-10-04">October 4, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
         <a class="series-home-link" href="/writing/quality-flywheel/">Part of The Quality Flywheel ↗</a>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 6 min read</summary><ol><li><a href="#compare-changes-on-the-same-work">Compare changes on the same work</a></li><li><a href="#give-discovery-and-confirmation-different-jobs">Give discovery and confirmation different jobs</a></li><li><a href="#match-the-test-to-the-responsibility">Match the test to the responsibility</a></li><li><a href="#reproduce-the-paired-release-example">Reproduce the paired release example</a></li></ol></details>
       <div class="series-body" data-article-body>
         <details class="series-directory"><summary>Chapters in this collection <span>04 / 05</span></summary>
     <nav aria-label="Collection chapters"><ol><li><a href="/writing/quality-flywheel/what-the-score-conceals/">What the Score Conceals</a></li><li><a href="/writing/quality-flywheel/turn-failure-into-experiment/">Turn a Failure into an Experiment</a></li><li><a href="/writing/quality-flywheel/search-beyond-the-prompt/">Search Beyond the Prompt</a></li><li><a href="/writing/quality-flywheel/make-the-winner-earn-release/" aria-current="page">Make the Winner Earn Its Release</a></li><li><a href="/writing/quality-flywheel/what-the-next-failure-inherits/">What the Next Failure Inherits</a></li></ol></nav>
   </details>
         <div class="prose"><!--article-prose:start--><p>Giving Atlas a clearer view of CPU use and recent changes looks promising. In our hypothetical evaluation, the team tries several versions of its instructions and chooses the one with the highest development score. It now recognizes the expensive processing behind the original outage. Should it replace the current Atlas?</p>
 <p>Not yet. The team selected this version because it looked good on cases it had already inspected. Some of that advantage may come from learning those particular examples, and some may come from favorable runs. The selection process is part of the evidence.</p>
-<h2>Compare changes on the same work</h2>
+<h2 id="compare-changes-on-the-same-work">Compare changes on the same work</h2>
 <p>Run the current version and the candidate on the same saved incidents, with the same underlying records and comparable limits on time and tool use. Record their disagreements, not just their separate totals. The revealing cases are the ones that improved and the ones that got worse.</p>
 <div class="table-wrap"><table><caption>An illustrative comparison on 100 website outages</caption><thead><tr><th></th><th>Candidate correct</th><th>Candidate incorrect</th></tr></thead><tbody><tr><th>Current version correct</th><td>72</td><td>8</td></tr><tr><th>Current version incorrect</th><td>14</td><td>6</td></tr></tbody></table></div>
 <p>Accuracy rises from 80% to 86%. The candidate fixes fourteen recommendations and breaks eight. “Six points better” is true, but incomplete.</p>
 <p>Look at the eight failures. They involve genuine traffic spikes. The candidate has picked up a shortcut: when CPU use is high, roll back the latest deployment. That helps when a recent change introduced expensive processing, but it can undo a healthy release while leaving a traffic surge unresolved. The average rewards the shortcut because change-related failures are common in this test set.</p>
 <p>The distinction is straightforward once someone reads the disagreements. Similar symptoms can have different causes. High CPU use tells the engineer where to investigate; it does not, by itself, tell them whether to add capacity or reverse a change. A comparison should help the team discover this distinction, not merely produce a number that clears a release gate.</p>
 <p>One hundred incidents also do not settle the size of the gain. Incidents differ in difficulty, repeated attempts can vary, and several cases may come from the same underlying outage. <a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a> explains why uncertainty and experimental design belong in evaluation. Replaying one outage many times should not masquerade as independent evidence from many outages.</p>
-<h2>Give discovery and confirmation different jobs</h2>
+<h2 id="give-discovery-and-confirmation-different-jobs">Give discovery and confirmation different jobs</h2>
 
 <figure class="editorial-diagram diagram-evidence">
   <div class="diagram-board">
@@ -123,7 +123,7 @@
 <p>A famous outage also creates a shortcut: Atlas may remember the published answer. Use unfamiliar variants, change the cause, and provide only evidence available at the decision point. Removing the company name alone does not make a case independent.</p>
 <p>For Atlas, fresh cases should include genuine traffic surges, expensive processing introduced by a change, and outages where the available evidence does not yet settle the cause. Keep them out of the feedback used to revise Atlas. If their failures become the basis for another edit, they have become development material; the next confirmation needs independent evidence.</p>
 <p><a href="https://arxiv.org/abs/1411.2664">Research on adaptive data analysis</a> explains why reusing data to choose the next hypothesis can undermine ordinary statistical guarantees. There is no magic in the word “holdout.” Repeatedly checking a private score and changing the system in response still lets information about that set guide the search. The more candidates a team tries, the more care it owes to how the winner was chosen.</p>
-<h2>Match the test to the responsibility</h2>
+<h2 id="match-the-test-to-the-responsibility">Match the test to the responsibility</h2>
 <p>Atlas currently advises an engineer, who can reject a bad recommendation. Giving Atlas permission to act unattended changes the requirement even if its model and prompt stay identical.</p>
 <p>If each attempt independently succeeds with probability 0.8, five attempts have a 99.97% chance of containing at least one success, but only a 32.77% chance of all succeeding. These are illustrative probabilities, not Atlas's measured performance. The first can help someone who can recognize and select a good answer. The second resembles a system expected to complete a sequence of jobs reliably. Real attempts can be correlated; repeating the investigation may simply repeat the same mistake.</p>
 <p><a href="https://arxiv.org/abs/2406.12045">τ-bench</a> brings consistency across trials into agent evaluation. A more recent preprint, <a href="https://arxiv.org/abs/2609.17930">Locating Hidden Failures Makes Long-Horizon Agents More Reliable</a>, examines errors inside sequences of actions that a final score can miss. Both reinforce a lesson for Atlas: an investigation can contain an unsupported assumption even when its final recommendation happens to help.</p>
@@ -132,9 +132,9 @@
 <p>Offline comparison and live observation complete each other. The comparison helps isolate a change. Real use reveals whether the change mattered where Atlas has to work.</p>
 <!--article-prose:end--></div>
         
-        <div class="prose series-afterword"></div>
+        <div class="prose series-afterword"><section class="practice-note"><h2 id="reproduce-the-paired-release-example">Reproduce the paired release example</h2><p>Download the <a href="/toolkit/">engineering workbench</a> and run <code>python workbench.py</code>. The complete CSV contains the 100 illustrative pairs used here. A 10,000-draw bootstrap with seed 19 yields a 6-point gain and an interval from −3 to +15 points. A higher average alone is insufficient evidence of improvement.</p><p>Inspect the eight regressions before accepting any aggregate gain. Partition by task family only if those slices were defined independently of the result; otherwise label the analysis exploratory. A release also needs acceptable authority, cost, and tail behavior. If the tasks are correlated, resample the independent cluster rather than pretending each row is independent.</p><p>This is a reproducible calculation on constructed data. Replace the CSV with held-out measurements before making a deployment decision.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/quality-flywheel/search-beyond-the-prompt/"><span>Previous chapter</span><strong>Search Beyond the Prompt</strong></a>
       <a class="pagination-next" href="/writing/quality-flywheel/what-the-next-failure-inherits/"><span>Next chapter</span><strong>What the Next Failure Inherits</strong></a>
@@ -151,12 +151,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -164,9 +165,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

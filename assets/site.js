@@ -1,3 +1,4 @@
+import { searchEntries } from "./search.js";
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");
 const nav = document.querySelector("[data-nav]");
@@ -33,97 +34,75 @@ themeToggle?.addEventListener("click", () => {
 });
 
 let index = [];
-let activeResult = -1;
-
+let indexError = false;
+const status = document.querySelector('[data-search-status]');
 async function loadIndex() {
   if (index.length) return index;
   try {
-    const response = await fetch("/search-index.json");
-    index = await response.json();
-  } catch (_) {
-    index = [];
-  }
+    const response = await fetch('/search-index.json');
+    if (!response.ok) throw new Error('Search unavailable');
+    index = await response.json(); indexError = false;
+  } catch (_) { indexError = true; }
   return index;
 }
-
 function renderResults(query) {
-  const normalized = query.trim().toLowerCase();
-  activeResult = -1;
-  if (!normalized) {
-    searchResults.innerHTML = '<p class="search-hint">Start typing to search the writing.</p>';
-    return;
+  if (!searchResults) return;
+  searchResults.replaceChildren();
+  const matches = searchEntries(index, query);
+  const full = Boolean(document.querySelector('[data-search-page]'));
+  const visible = full ? matches : matches.slice(0, 8);
+  if (status) status.textContent = indexError ? 'Search could not load. Please retry or browse Writing.' : !query.trim() ? 'Search titles, article text, and concepts.' : `${matches.length} result${matches.length === 1 ? '' : 's'}${matches.length > visible.length ? `; showing ${visible.length}` : ''}.`;
+  for (const entry of visible) {
+    const link = document.createElement('a'); link.className = 'search-result'; link.href = entry.href;
+    const type = document.createElement('span'); type.textContent = entry.type;
+    const body = document.createElement('div');
+    const title = document.createElement('strong'); title.textContent = entry.title;
+    const snippet = document.createElement('small'); snippet.textContent = `${entry.sectionTitle ? `${entry.sectionTitle} · ` : ''}${entry.snippet}`;
+    body.append(title, snippet); link.append(type, body); searchResults.append(link);
   }
-
-  const words = normalized.split(/\s+/);
-  const matches = index
-    .map((entry) => {
-      const haystack = `${entry.type} ${entry.title} ${entry.description}`.toLowerCase();
-      const score = words.reduce((total, word) => total + (haystack.includes(word) ? 1 : 0), 0);
-      return { entry, score };
-    })
-    .filter(({ score }) => score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 7)
-    .map(({ entry }) => entry);
-
-  if (!matches.length) {
-    searchResults.innerHTML = '<p class="search-empty">No matching writing. Try a broader idea.</p>';
-    return;
+  if (matches.length > visible.length) {
+    const more = document.createElement('a'); more.href = `/search/?q=${encodeURIComponent(query)}`;
+    more.className = 'search-more'; more.textContent = `View all ${matches.length} results`; searchResults.append(more);
   }
-
-  searchResults.innerHTML = matches
-    .map((entry) => `<a class="search-result" href="${entry.url}"><span>${entry.type}</span><div><strong>${entry.title}</strong><small>${entry.description}</small></div></a>`)
-    .join("");
+  if (query.trim() && !matches.length && !indexError) {
+    const help = document.createElement('p'); help.className = 'search-hint'; help.textContent = 'Try fewer words, or explore the glossary on Start here.'; searchResults.append(help);
+  }
 }
-
 async function openSearch() {
-  if (!searchDialog) return;
-  await loadIndex();
-  searchDialog.showModal();
-  searchInput?.focus();
+  if (!searchDialog) { searchInput?.focus(); return; }
+  searchDialog.showModal(); searchInput?.focus();
+  if (status) status.textContent = 'Loading search…';
+  await loadIndex(); renderResults(searchInput?.value || '');
 }
-
-function closeSearch() {
-  searchDialog?.close();
-  if (searchInput) searchInput.value = "";
-  if (searchResults) searchResults.innerHTML = '<p class="search-hint">Start typing to search the writing.</p>';
+function closeSearch() { searchDialog?.close(); }
+document.querySelector('[data-search-open]')?.addEventListener('click', openSearch);
+document.querySelector('[data-search-close]')?.addEventListener('click', closeSearch);
+searchDialog?.addEventListener('click', event => { if (event.target === searchDialog) closeSearch(); });
+searchInput?.addEventListener('input', event => {
+  renderResults(event.target.value);
+  if (document.querySelector('[data-search-page]')) history.replaceState(null, '', `/search/?q=${encodeURIComponent(event.target.value)}`);
+});
+// Move actual focus among ordinary links. Screen readers announce each destination;
+// Tab and Shift+Tab remain native, and Escape remains the native dialog action.
+const searchScope = searchDialog || document.querySelector('[data-search-page]');
+searchScope?.addEventListener('keydown', event => {
+  if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+  const links = [...searchResults.querySelectorAll('a')]; if (!links.length) return;
+  const current = links.indexOf(document.activeElement);
+  event.preventDefault();
+  if (event.key === 'ArrowUp' && current === 0) { searchInput.focus(); return; }
+  links[event.key === 'ArrowDown' ? (current + 1) % links.length : (current < 0 ? links.length - 1 : (current - 1 + links.length) % links.length)].focus();
+});
+document.addEventListener('keydown', event => {
+  const typing = document.activeElement?.matches('input, textarea, select, [contenteditable="true"]');
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k' || event.key === '/' && !typing && !searchDialog?.open) {
+    event.preventDefault(); searchDialog?.open ? closeSearch() : openSearch();
+  }
+});
+if (document.querySelector('[data-search-page]')) {
+  searchInput.value = new URLSearchParams(location.search).get('q') || '';
+  loadIndex().then(() => renderResults(searchInput.value));
 }
-
-document.querySelector("[data-search-open]")?.addEventListener("click", openSearch);
-document.querySelector("[data-search-close]")?.addEventListener("click", closeSearch);
-
-searchDialog?.addEventListener("click", (event) => {
-  if (event.target === searchDialog) closeSearch();
-});
-
-searchInput?.addEventListener("input", (event) => renderResults(event.target.value));
-searchInput?.addEventListener("keydown", (event) => {
-  const results = [...searchResults.querySelectorAll(".search-result")];
-  if (!results.length) return;
-  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-    event.preventDefault();
-    activeResult = event.key === "ArrowDown"
-      ? (activeResult + 1) % results.length
-      : (activeResult - 1 + results.length) % results.length;
-    results.forEach((item, i) => item.classList.toggle("is-active", i === activeResult));
-    results[activeResult].scrollIntoView({ block: "nearest" });
-  }
-  if (event.key === "Enter" && activeResult >= 0) {
-    event.preventDefault();
-    results[activeResult].click();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-    event.preventDefault();
-    searchDialog?.open ? closeSearch() : openSearch();
-  }
-  if (event.key === "/" && !searchDialog?.open && document.activeElement?.tagName !== "INPUT") {
-    event.preventDefault();
-    openSearch();
-  }
-});
 
 const copyButton = document.querySelector("[data-copy-link]");
 copyButton?.addEventListener("click", async () => {
@@ -150,3 +129,18 @@ if (progress && articleBody) {
   window.addEventListener("scroll", updateProgress, { passive: true });
   window.addEventListener("resize", updateProgress);
 }
+
+const prevalence = document.getElementById('prevalence');
+if (prevalence) prevalence.disabled = false;
+prevalence?.addEventListener('input', () => {
+  const p = Number(prevalence.value) / 100, tp = 10000 * p * .9, fp = 10000 * (1-p) * .05;
+  document.getElementById('prevalence-value').textContent = `${prevalence.value}%`;
+  document.getElementById('prevalence-result').textContent = `${tp.toFixed(0)} true positives · ${fp.toFixed(0)} false positives · ${(100*tp/(tp+fp)).toFixed(1)}% precision`;
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && navToggle?.getAttribute('aria-expanded') === 'true') {
+    navToggle.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open');
+    document.body.style.overflow = ''; navToggle.focus();
+  }
+});

@@ -25,7 +25,7 @@
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/principles.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/writing--local-context-for-autonomous-agents.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Local Context for Autonomous Agents — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Local Context for Autonomous Agents","description":"Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.","url":"https://oddly.fyi/writing/local-context-for-autonomous-agents/","image":"https://oddly.fyi/assets/social/writing--local-context-for-autonomous-agents.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","datePublished":"2026-09-03T12:00:00Z","mainEntityOfPage":"https://oddly.fyi/writing/local-context-for-autonomous-agents/"}</script></head>
   <body data-path="/writing/local-context-for-autonomous-agents/" data-typography="essay" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
     
@@ -40,7 +40,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/" aria-current="page">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -55,10 +55,10 @@
         <div class="article-type">Context &amp; data infrastructure</div>
         <h1>Local Context<br><em>for Autonomous Agents</em></h1>
         <p class="article-deck">Put telemetry, logs, and topology beside the agent. Use PromQL and files to keep retrieval reliable and model context focused.</p>
-        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p>
-        <div class="article-meta"><time datetime="2026-09-03">September 3, 2026</time><span>6 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
+        <p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p><p class="revision-note">Updated <time datetime="2026-10-19">October 19, 2026</time> · <a href="/changes/">Revision notes</a></p>
+        <div class="article-meta"><time datetime="2026-09-03">September 3, 2026</time><span>7 min read</span><button type="button" data-copy-link><svg aria-hidden="true" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="9" height="9" rx="1.5"/><path d="M13.5 6.5V5A1.5 1.5 0 0 0 12 3.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg><span>Copy link</span></button></div>
       </header>
-      <div class="article-rule shell"></div>
+      <div class="article-rule shell"></div><details class="article-toc shell-narrow"><summary>On this page · 7 min read</summary><ol><li><a href="#available-to-the-agent-does-not-mean-inside-the-prompt">Available to the agent does not mean inside the prompt </a></li><li><a href="#collect-once-investigate-repeatedly">Collect once, investigate repeatedly </a></li><li><a href="#case-title">From a 5XX spike to a shared dependency</a></li><li><a href="#remove-remote-failure-modes-from-the-inner-loop">Remove remote failure modes from the inner loop </a></li><li><a href="#measure-the-whole-investigation">Measure the whole investigation </a></li><li><a href="#freeze-a-small-local-evidence-package">Freeze a small local evidence package</a></li></ol></details>
       <div class="series-body" data-article-body>
         <div class="prose"><!--article-prose:start--><p>Checkout latency is rising. An agent needs to compare revisions, inspect connection errors, and trace the downstream dependency. Before it can investigate, it has to navigate several observability tools, their schemas, and their failure modes.</p>
 <p>We can design that environment differently: <strong>make the relevant data locally available, behind a small, stable interface.</strong> Telemetry through PromQL. Logs through files. Topology through a versioned snapshot. Let ordinary code prepare the evidence, so the agent can spend its turns interpreting it.</p>
@@ -88,7 +88,7 @@
       <div class="case-snapshot"><span class="case-kicker">Query telemetry</span><dl><div><dt>New revision</dt><dd>8 errors/s</dd></div><div><dt>Control revision</dt><dd>0.1 errors/s</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-0">Locate the failing revision</h3>
         <dl><dt>What happens</dt><dd>A local PromQL query shows that checkout 5XX responses concentrate in the new revision. Its request rate is comparable to the control.</dd><dt>What it means</dt><dd>The deployment is a lead. The error rate alone does not identify the failing dependency.</dd><dt>What the system does</dt><dd>Return a small aggregate, then inspect matching logs in the same window.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;snapshot&quot;: &quot;checkout-window-07&quot;,
   &quot;evaluation_time&quot;: &quot;10:15 UTC&quot;,
   &quot;query&quot;: &quot;sum by (revision) (rate(http_requests_total{service=\&quot;checkout\&quot;,status=~\&quot;5..\&quot;}[5m]))&quot;,
@@ -101,7 +101,7 @@
       <div class="case-snapshot"><span class="case-kicker">Read local logs</span><dl><div><dt>Repeated error</dt><dd>pool_timeout</dd></div><div><dt>Affected dependency</dt><dd>orders-db</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-1">Follow the pool timeouts</h3>
         <dl><dt>What happens</dt><dd>The mounted log file contains connection-pool timeouts for orders-db. The agent reads a bounded excerpt and keeps the path for follow-up queries.</dd><dt>What it means</dt><dd>The bottleneck may be connection acquisition inside checkout. A database-related error does not by itself establish a database outage.</dd><dt>What the system does</dt><dd>Search the existing file, then compare pool occupancy with database health.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;file&quot;: &quot;/context/logs/checkout/10-00.ndjson&quot;,
   &quot;command&quot;: &quot;rg -n -m 20 &#039;pool_timeout&#039; /context/logs/checkout/10-00.ndjson&quot;,
   &quot;output_byte_limit&quot;: 8192,
@@ -112,7 +112,7 @@
       <div class="case-snapshot"><span class="case-kicker">Trace topology</span><dl><div><dt>Database query latency</dt><dd>Stable</dd></div><div><dt>Checkout pool</dt><dd>At capacity</dd></div></dl></div>
       <div class="case-story"><h3 id="case-heading-2">Separate the cause from its upstream impact</h3>
         <dl><dt>What happens</dt><dd>The topology snapshot connects storefront to checkout and checkout to orders-db. Database query latency stays flat, while the new checkout revision exhausts its pool. Storefront sees the resulting timeouts.</dd><dt>What it means</dt><dd>Connection handling in checkout is a stronger hypothesis than a slow database. Upstream errors are part of the impact, not independent proof of another failure.</dd><dt>What the system does</dt><dd>Record the evidence and request a historical baseline only if the local manifest says it is missing.</dd></dl>
-        <details><summary>Inspect the example record</summary><pre>{
+        <details><summary>Inspect the example record</summary><pre tabindex="0" aria-label="Code example; scroll horizontally if needed">{
   &quot;topology&quot;: &quot;/context/topology/services.v42.json&quot;,
   &quot;query&quot;: &quot;max by (revision) (db_pool_in_use{service=\&quot;checkout\&quot;})&quot;,
   &quot;missing_baseline&quot;: &quot;targeted fetch through collector&quot;,
@@ -131,9 +131,10 @@
 <h2 id="measure-the-whole-investigation">Measure the whole investigation<a class="heading-anchor" href="#measure-the-whole-investigation" aria-label="Link to this section">#</a></h2>
 <p>Compare tool-definition tokens, result tokens, failed remote calls, time to first useful evidence, and task success. Include initial hydration and refresh costs. A faster local query is valuable only if the complete investigation improves.</p>
 <p>The architectural payoff is a clean separation: collectors handle data movement, local interfaces handle selection, and the model handles interpretation. Rich context can remain within reach without occupying the entire conversation.</p>
-<p>The same arrangement supports <a href="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/" rel="noreferrer">checkpoint replay for long-horizon evaluation</a>: give the agent a workspace reconstructed for a particular moment, then observe what it decides.</p></div>
+<p>The same arrangement supports <a href="https://oddly.fyi/writing/checkpoint-replay-for-agent-evaluation/" rel="noreferrer">checkpoint replay for long-horizon evaluation</a>: give the agent a workspace reconstructed for a particular moment, then observe what it decides.</p><section class="practice-note"><h2 id="freeze-a-small-local-evidence-package">Freeze a small local evidence package</h2><p>A minimal package needs four files: <code>manifest.json</code>, <code>logs.ndjson</code>, <code>metrics.csv</code>, and <code>topology.json</code>. The manifest names source queries, collection time, covered interval, scope, truncation, and file hashes. Keep event time separate from availability time so later ingestion cannot silently alter an earlier checkpoint.</p><pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>manifest: { snapshot_id, collected_at, interval, scopes, missing_scopes, files: [{path, sha256, rows}] }
+query receipt: { snapshot_id, expression, supported_semantics, rows, complete }</code></pre><p>Specify which PromQL operators, staleness rules, and counter-reset behavior the local evaluator supports. Reject unsupported expressions instead of approximating them silently. Compare local results with source queries on a small known interval. Measure collection, indexing, query execution, and model consumption together; reducing one prompt does not establish a lower total investigation cost.</p></section></div>
       </div>
-    </article>
+    <aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article>
     <nav class="article-pagination shell" aria-label="More writing">
       <a class="pagination-prev" href="/writing/checkpoint-replay-for-agent-evaluation/"><span>Previous</span><strong>Checkpoint Replay for Long-Horizon Agent Evaluation</strong></a>
       <a class="pagination-next" href="/writing/trustworthy-autonomy/"><span>Next</span><strong>Trustworthy Autonomy</strong></a>
@@ -150,12 +151,13 @@
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
     
@@ -163,9 +165,10 @@
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

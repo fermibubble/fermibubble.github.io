@@ -28,6 +28,12 @@ jobs:
         run: npm run publish:prepare
       - name: Validate pages and internal links
         run: npm run check
+      - name: Verify runnable engineering examples
+        run: |
+          python -m unittest discover -s examples/workbench -v
+          java examples/workbench/LegacyExamples.java
+          python examples/workbench/workbench.py > /tmp/oddly-workbench-report.json
+          cmp examples/workbench/report.json /tmp/oddly-workbench-report.json
       - name: Check JavaScript syntax
         run: |
           node --check src/site.js

@@ -1,0 +1,114 @@
+{
+  "environment": "openjdk 17.0.20 2026-07-21",
+  "scope": "Three deliberately constructed Java programs, three repeated trials each. Diagnostic retention experiment, not an LLM or performance benchmark.",
+  "records": [
+    {
+      "case": "clean",
+      "trial": 1,
+      "compiler_exit": 0,
+      "runtime_exit": 0,
+      "raw_diagnostics": "",
+      "runtime_stderr": "",
+      "raw_bytes": 0,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 0,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "clean",
+      "trial": 2,
+      "compiler_exit": 0,
+      "runtime_exit": 0,
+      "raw_diagnostics": "",
+      "runtime_stderr": "",
+      "raw_bytes": 0,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 0,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "clean",
+      "trial": 3,
+      "compiler_exit": 0,
+      "runtime_exit": 0,
+      "raw_diagnostics": "",
+      "runtime_stderr": "",
+      "raw_bytes": 0,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 0,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "compile_error",
+      "trial": 1,
+      "compiler_exit": 1,
+      "runtime_exit": null,
+      "raw_diagnostics": "Case.java:1: error: incompatible types: String cannot be converted to int\npublic class Case { public static void main(String[] args) { int value = \"wrong\"; } }\n                                                                         ^\n1 error\n",
+      "runtime_stderr": null,
+      "raw_bytes": 243,
+      "errors_only_bytes": 243,
+      "diagnostics_bytes": 243,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "compile_error",
+      "trial": 2,
+      "compiler_exit": 1,
+      "runtime_exit": null,
+      "raw_diagnostics": "Case.java:1: error: incompatible types: String cannot be converted to int\npublic class Case { public static void main(String[] args) { int value = \"wrong\"; } }\n                                                                         ^\n1 error\n",
+      "runtime_stderr": null,
+      "raw_bytes": 243,
+      "errors_only_bytes": 243,
+      "diagnostics_bytes": 243,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "compile_error",
+      "trial": 3,
+      "compiler_exit": 1,
+      "runtime_exit": null,
+      "raw_diagnostics": "Case.java:1: error: incompatible types: String cannot be converted to int\npublic class Case { public static void main(String[] args) { int value = \"wrong\"; } }\n                                                                         ^\n1 error\n",
+      "runtime_stderr": null,
+      "raw_bytes": 243,
+      "errors_only_bytes": 243,
+      "diagnostics_bytes": 243,
+      "warning_retained_by_errors_only": null
+    },
+    {
+      "case": "unchecked_runtime_failure",
+      "trial": 1,
+      "compiler_exit": 0,
+      "runtime_exit": 1,
+      "raw_diagnostics": "Case.java:4: warning: [unchecked] unchecked cast\n    List<Integer> values = (List<Integer>)(Object)List.of(\"wrong\");\n                                          ^\n  required: List<Integer>\n  found:    Object\n1 warning\n",
+      "runtime_stderr": "Exception in thread \"main\" java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')\n\tat Case.main(Case.java:5)\n",
+      "raw_bytes": 216,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 216,
+      "warning_retained_by_errors_only": false
+    },
+    {
+      "case": "unchecked_runtime_failure",
+      "trial": 2,
+      "compiler_exit": 0,
+      "runtime_exit": 1,
+      "raw_diagnostics": "Case.java:4: warning: [unchecked] unchecked cast\n    List<Integer> values = (List<Integer>)(Object)List.of(\"wrong\");\n                                          ^\n  required: List<Integer>\n  found:    Object\n1 warning\n",
+      "runtime_stderr": "Exception in thread \"main\" java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')\n\tat Case.main(Case.java:5)\n",
+      "raw_bytes": 216,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 216,
+      "warning_retained_by_errors_only": false
+    },
+    {
+      "case": "unchecked_runtime_failure",
+      "trial": 3,
+      "compiler_exit": 0,
+      "runtime_exit": 1,
+      "raw_diagnostics": "Case.java:4: warning: [unchecked] unchecked cast\n    List<Integer> values = (List<Integer>)(Object)List.of(\"wrong\");\n                                          ^\n  required: List<Integer>\n  found:    Object\n1 warning\n",
+      "runtime_stderr": "Exception in thread \"main\" java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')\n\tat Case.main(Case.java:5)\n",
+      "raw_bytes": 216,
+      "errors_only_bytes": 0,
+      "diagnostics_bytes": 216,
+      "warning_retained_by_errors_only": false
+    }
+  ]
+}

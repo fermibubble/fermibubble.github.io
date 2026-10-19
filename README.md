@@ -6,7 +6,7 @@ Personal writing on autonomous agents, data, developer tools, and evaluation.
 
 Target: https://oddly.fyi/
 
-The publication includes search, dark mode, reading progress, and responsive navigation. The build keeps the 16 earlier pages at their original URLs, preserving their prose and code examples inside the current design. Their original HTML remains in `legacy/` as source.
+The publication includes search, dark mode, reading progress, and responsive navigation. The build keeps the 16 earlier pages at their original URLs, with eight reviewed article revisions supplied by `src/legacy-revisions.mjs`. Original HTML remains in `legacy/` for history; do not edit generated root HTML.
 
 ## Build and check
 
@@ -88,3 +88,21 @@ Index examples use an `index-example` fence followed by the illustrative file pa
 The evaluation guide is a collection of three installments containing nine chapters. `src/eval-writing.mjs` loads the approved HTML manuscripts and manifest from `src/essays/2026-10-evals/`. The collection appears once in the Writing index and feeds; all three parts are searchable and have previous/next navigation.
 
 Part 2 includes a progressive-enhancement scoring example. Its original values are readable without JavaScript; `src/eval-scores.js` enables the controls and updates correctness, completion, and authority independently. It uses no host APIs or external requests. `src/eval-writing.css` follows both existing color themes. `scripts/check-eval-scores.mjs` verifies the interactive states and their rendered controls. The runnable Python companion is `assets/downloads/eval-authoring-companion.zip`; its judgments are illustrative, not measured model results.
+
+
+## Publication review, October 2026
+
+Reading routes and glossary: `src/reading-paths.mjs`. Article-specific practical
+extensions: `src/article-practice.mjs`. Search ranking: `src/search.js`.
+`scripts/enhance-publication.mjs` adds heading IDs, contents, revision metadata,
+Article/CollectionPage JSON-LD, full-text search, and the canonical sitemap after
+rendering. It estimates reading time at 200 words/minute and sums chapter durations
+for collection labels. Redirect aliases are excluded from search and sitemap.
+
+The workbench source and expected report live in `examples/workbench/`. Run its
+Python tests and Java source-file program before changing the downloadable ZIP.
+Fixtures demonstrate contracts; they do not establish model performance.
+Social PNG cards are committed assets. After changing page titles, build, run
+`python scripts/render-social.py` (Pillow/lxml), then build again. Deployment does
+not require Python image dependencies. Run `npm run check` and
+`node scripts/check-publication.mjs` before publishing.

@@ -1,3 +1,4 @@
+import { readingPaths } from "./reading-paths.mjs";
 import { harnessImprovement } from "./harness-improvement.mjs";
 import { evalOverview } from "./eval-writing.mjs";
 import { qualityOverview } from "./quality-writing.mjs";
@@ -74,46 +75,27 @@ Evaluate the model together with its data interfaces, execution loop, and state 
 
 export const notes = [];
 
-export const projects = [
-  {
-    index: "01",
-    title: "Agent systems",
-    label: "Reasoning & execution",
-    status: "Ongoing focus",
-    description:
-      "Execution loops, durable state, tool contracts, and recovery: the infrastructure that lets an agent complete work across many steps.",
-    questions: [
-      "What belongs in the model, and what belongs in ordinary code?",
-      "What helps an agent keep making progress across a long task?"
-    ],
-    reading: { title: "Engineering Autonomous Agents", href: "/writing/engineering-autonomous-agents/" }
-  },
-  {
-    index: "02",
-    title: "Data & context",
-    label: "Local context & observability",
-    status: "Ongoing focus",
-    description:
-      "Deterministic collection and local access to telemetry, logs, and topology. Rich evidence stays available while the model receives focused results.",
-    questions: [
-      "Which data should already be waiting when an investigation begins?",
-      "How can deterministic collection support flexible reasoning?"
-    ],
-    reading: { title: "Local Context for Autonomous Agents", href: "/writing/local-context-for-autonomous-agents/" }
-  },
-  {
-    index: "03",
-    title: "Evaluation & learning",
-    label: "Replay & experimental design",
-    status: "Ongoing focus",
-    description:
-      "Recorded scenarios, checkpoint replay, and outcome-based evaluation. Compare decisions across long tasks without reproducing the entire waiting period.",
-    questions: [
-      "How can we test a slow failure without waiting for it every time?",
-      "What distinguishes an improvement from a lucky run?"
-    ],
-    reading: { title: "Checkpoint Replay for Long-Horizon Agent Evaluation", href: "/writing/checkpoint-replay-for-agent-evaluation/" }
-  }
+export const projects = readingPaths.map((route, i) => ({
+  index: String(i + 1).padStart(2, '0'), title: route.title,
+  label: ['Architecture & execution', 'Evidence & measurement', 'Experiments & learning'][i],
+  status: 'Reading route', description: route.outcome,
+  questions: [
+    ['What belongs in the model, and what belongs in ordinary code?', 'Which boundaries must remain enforceable when the model is wrong?'],
+    ['What outcome does the task require?', 'What evidence would distinguish a real improvement from a lucky run?'],
+    ['Which failure is worth turning into an experiment?', 'Which conditions must travel with the resulting lesson?']
+  ][i],
+  reading: {title: 'Follow this route', href: `/start/#${route.id}`}, links: route.links
+}));
+
+export const ideaExperiments = [
+  'Hold predictions fixed and vary the permitted action. Inspect how false-positive cost changes the acceptance rule.',
+  'Run old and new classifier versions over the same frozen overlap sample before attributing a dashboard change to the world.',
+  'Compare coverage and error among accepted cases as the deferral threshold moves; record review workload too.',
+  'Compare remote retrieval with a frozen local snapshot, including collection and indexing cost in the total.',
+  'Replace one repeated reasoning step with deterministic code and test edge cases that the code must reject.',
+  'Insert a late-arriving record whose event time predates the checkpoint; verify it remains unavailable in historical replay.',
+  'Choose an action that changes the environment and show exactly where a fixed recorded future stops being a valid comparison.',
+  'Retrieve a lesson after changing its parser or policy dependency; require a review instead of unconditional reuse.'
 ];
 
 export const ideas = [

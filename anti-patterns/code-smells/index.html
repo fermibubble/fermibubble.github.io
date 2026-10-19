@@ -23,7 +23,7 @@
     <script>try{const t=localStorage.getItem('cm-theme');if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/analytics.js"></script>
-  </head>
+  <meta property="og:image" content="https://oddly.fyi/assets/social/anti-patterns--code-smells.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Code Smells — Oddly"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Code Smells","description":"Code Smells. Earlier software engineering writing by Chaitanya Meesala.","url":"https://oddly.fyi/anti-patterns/code-smells/","image":"https://oddly.fyi/assets/social/anti-patterns--code-smells.png","inLanguage":"en","author":{"@type":"Person","name":"Chaitanya Meesala","url":"https://oddly.fyi/about/"},"dateModified":"2026-10-19","mainEntityOfPage":"https://oddly.fyi/anti-patterns/code-smells/"}</script></head>
   <body data-path="/anti-patterns/code-smells/" data-typography="archive" class="article-page">
     <div class="reading-progress" data-reading-progress></div>
 
@@ -38,7 +38,7 @@
           <span></span><span></span><span class="sr-only">Open navigation</span>
         </button>
         <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
-          <a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
+          <a href="/start/">Start here</a><a href="/writing/">Writing</a><a href="/projects/">Focus</a><a href="/about/">About</a>
         </nav>
         <div class="header-actions">
           <button class="icon-button search-button" type="button" aria-label="Search" data-search-open><svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
@@ -46,310 +46,23 @@
         </div>
       </div>
     </header>
-    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Code Smells</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><div class="prose legacy-prose" data-article-body>
-      <div class="page">
-  <h5 class="page-title">Code Smells</h5>
-  <p><em>“Code smells are structural characteristics of software that may indicate a code or design problem that makes software hard to evolve and maintain, and may trigger refactoring of code”</em> <sup><a href="#references">[1]</a></sup><br />
-<br /></p>
-<h4 id="code-duplication">Code duplication:</h4>
-<p>Consider following snippet that has functions to return first even number and first odd number in a given a list</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
-
-<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getFirstEven</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">for</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">value</span> <span class="o">:</span> <span class="n">values</span> <span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">value</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getFirstOdd</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">for</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">value</span> <span class="o">:</span> <span class="n">values</span> <span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">value</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>Both the functions are identical except for the modular check.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
-
-<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getFirstEven</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="nf">getFirst</span><span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getFirstOdd</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="nf">getFirst</span><span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">private</span> <span class="nc">Integer</span> <span class="nf">getFirst</span><span class="o">(</span><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">values</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">findFirst</span><span class="o">().</span><span class="na">getAsInt</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>If the above code is meant to be reside in a library, it’s better to expose higher-order method rather than implementing individual functions. It gives better control to the consumer.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
-
-<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getFirst</span><span class="o">(</span><span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">predicate</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">values</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">predicate</span><span class="o">).</span><span class="na">findFirst</span><span class="o">().</span><span class="na">getAsInt</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="long-methods">Long Methods:</h4>
-<p>Every method should have only one level of abstraction.<br />
-Consider following snippet that calculates shipping price based on total weight</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">double</span> <span class="nf">shippingPrice</span><span class="o">()</span> <span class="o">{</span>
-    <span class="kt">double</span> <span class="n">totalWeight</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="k">for</span><span class="o">(</span><span class="nc">LineItem</span> <span class="n">lineItem</span> <span class="o">:</span> <span class="n">lineItems</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">totalWeight</span> <span class="o">+=</span> <span class="n">lineItem</span><span class="o">.</span><span class="na">getWeight</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">totalWeight</span> <span class="o">&lt;</span> <span class="mf">5.0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="mf">12.00</span><span class="o">;</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="mf">20.00</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The above method has more than one level of abstraction.<br />
-It’s calculating total weight and shipping price.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">double</span> <span class="nf">totalWeight</span><span class="o">()</span> <span class="o">{</span>
-    <span class="kt">double</span> <span class="n">totalWeight</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="k">for</span><span class="o">(</span><span class="nc">LineItem</span> <span class="n">lineItem</span> <span class="o">:</span> <span class="n">lineItems</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">totalWeight</span> <span class="o">+=</span> <span class="n">lineItem</span><span class="o">.</span><span class="na">getWeight</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">totalWeight</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kt">double</span> <span class="nf">shippingPrice</span><span class="o">()</span> <span class="o">{</span>
-    <span class="kt">double</span> <span class="n">totalWeight</span> <span class="o">=</span> <span class="n">totalWeight</span><span class="o">();</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">totalWeight</span> <span class="o">&lt;</span> <span class="mf">5.0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="mf">12.00</span><span class="o">;</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="mf">20.00</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><em>Note: Don’t refactor with minimizing the number of lines as ONLY objective.</em></p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">double</span> <span class="nf">shippingPrice</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="o">(</span><span class="n">lineItems</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-        <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="nl">LineItem:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">).</span><span class="na">sum</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mf">5.0</span> <span class="o">)</span> 
-        <span class="o">?</span> <span class="mf">12.00</span> <span class="o">:</span> <span class="mf">20.00</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The above code snippet still has more than one level of abstraction.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">double</span> <span class="nf">totalWeight</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">lineItems</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-                    <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="nl">LineItem:</span><span class="o">:</span><span class="n">getWeight</span><span class="o">)</span>
-                    <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kt">double</span> <span class="nf">shippingPrice</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="nf">totalWeight</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mf">5.0</span>  <span class="o">?</span> <span class="mf">12.00</span> <span class="o">:</span> <span class="mf">20.00</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="conditional-branching-over-type-code">Conditional Branching over Type-Code:</h4>
-<p>Consider following snippet that takes a vehicle and tries to run it</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">runVehicle</span><span class="o">(</span><span class="nc">Vehicle</span> <span class="n">vehicle</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">vehicle</span> <span class="k">instanceof</span> <span class="nc">Car</span><span class="o">)</span>
-        <span class="n">drive</span><span class="o">(</span><span class="n">vehicle</span><span class="o">);</span>
-    <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">vehicle</span> <span class="k">instanceof</span> <span class="nc">Airplane</span><span class="o">)</span>
-        <span class="n">fly</span><span class="o">(</span><span class="n">vehicle</span><span class="o">);</span>
-    <span class="k">else</span>
-        <span class="nf">sail</span><span class="o">(</span><span class="n">vehicle</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>It’s violating <em>Open/Closed</em> principle. Any new vehicle comes we have to modify “runVehicle” method.<br />
-It’s violating Tell-Don’t Ask principle.<br />
-It can lead to duplication of code to perform similar operations like “washVehicle”.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Vehicle</span> <span class="o">{</span>
-    <span class="kt">void</span> <span class="nf">run</span><span class="o">();</span>
-<span class="o">}</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">runVehicle</span><span class="o">(</span><span class="nc">Vehicle</span> <span class="n">vehicle</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">vehicle</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="primitive-obsession">Primitive Obsession:</h4>
-<p>Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Census</span> <span class="o">{</span>
-    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">cityPopulations</span> <span class="o">=</span> <span class="o">{</span> 
-        <span class="o">{</span><span class="s">"Mumbai"</span><span class="o">,</span> <span class="mi">12442373</span><span class="o">},</span> 
-        <span class="o">{</span><span class="s">"Delhi"</span><span class="o">,</span> <span class="mi">11034555</span><span class="o">},</span> 
-        <span class="o">{</span><span class="s">"Bangalore"</span><span class="o">,</span> <span class="mi">8443675</span><span class="o">},</span> 
-        <span class="o">{</span><span class="s">"Hyderabad"</span><span class="o">,</span> <span class="mi">6993262</span><span class="o">}</span> <span class="o">};</span>
-
-    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getCityPopulation</span><span class="o">(</span><span class="nc">String</span> <span class="n">city</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">cityPopulations</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">city</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>Simply, the above code is not <em>Object Oriented</em><br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">City</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kt">long</span> <span class="n">population</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nf">City</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">long</span> <span class="n">population</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">population</span> <span class="o">=</span> <span class="n">population</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getPopulation</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">population</span><span class="o">;</span> <span class="o">}</span>
-    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span> <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Census</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">CityRepository</span> <span class="n">cityRepository</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nf">Census</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
-    <span class="kd">public</span> <span class="nf">getCityPopulation</span><span class="o">(</span><span class="nc">String</span> <span class="n">city</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">cityRepository</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">city</span><span class="o">).</span><span class="na">getPopulation</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<p><br /></p>
-<h4 id="long-parameter-list">Long Parameter List:</h4>
-<p>The more parameters a method has, the more complex it is. Limit the number of parameters you need in a given method, or use an object to combine the parameters. According to Miller’s law, the maximum number of objects that an average human can keep track of ( 7 +/- 2).<br />
-<br />
-Consider following snippet that draws a triangle</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawTriangle</span><span class="o">(</span><span class="kt">int</span> <span class="n">x1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="o">,</span>
-                         <span class="kt">int</span> <span class="n">x2</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y2</span><span class="o">,</span>
-                         <span class="kt">int</span> <span class="n">x3</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y3</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">//Implementation</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Point</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
-    <span class="nc">Point</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="n">getX</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="n">getY</span> <span class="o">{</span> <span class="k">return</span> <span class="n">y</span><span class="o">;</span> <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawTriangle</span><span class="o">(</span><span class="nc">Point</span> <span class="n">vertex1</span><span class="o">,</span> <span class="nc">Point</span> <span class="n">vertex2</span><span class="o">,</span> <span class="nc">Point</span> <span class="n">vertex3</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">//Implementation</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="deodorant-comment">Deodorant Comment:</h4>
-<p>Using comments to explain behavior of bad code.<br />
-Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">newSize</span> <span class="o">=</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">newSize</span> <span class="o">&gt;</span> <span class="n">elements</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// Grow the array</span>
-        <span class="nc">Object</span><span class="o">[]</span> <span class="n">newElements</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="n">elements</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">10</span><span class="o">];</span>
-        <span class="c1">// Copy the elements</span>
-        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">newElements</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">elements</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
-        <span class="o">}</span>
-        <span class="n">elements</span> <span class="o">=</span> <span class="n">newElements</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="n">elements</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The above snippet has more than one responsibility and two unneccesary comments.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">int</span> <span class="n">newSize</span> <span class="o">=</span> <span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
-    <span class="k">if</span><span class="o">(</span><span class="n">newSize</span> <span class="o">&gt;</span> <span class="n">elements</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">grow</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="n">elements</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="refused-bequest">Refused Bequest:</h4>
-<p>Subclasses get to inherit the methods and data of their parents but they don’t want or need the same.<br />
-Consider following snippet</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractCollection</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">element</span><span class="o">);</span>
-<span class="o">}</span> 
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HashMap</span> <span class="kd">extends</span> <span class="nc">AbstractCollection</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedException</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The “HashMap” class inherited “AbstractCollection” but its not implementing its methods. The inheritence hierarchy has to be adjusted.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HashMap</span> <span class="kd">extends</span> <span class="nc">Map</span> <span class="o">{</span>
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Object</span> <span class="n">element</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">//Implementation</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /></p>
-<h4 id="inappropriate-intimacy">Inappropriate Intimacy:</h4>
-<p>Compromising other class’ encapsulation, such as by directly accessing instance variables that are not meant to be directly accessed.<br />
-Consider following code snippet that contains 2 classes - <em>Licence</em> and <em>Motorist</em></p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">License</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">points</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPoints</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">points</span><span class="o">;</span> <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">RiskFactor</span> <span class="o">{</span> <span class="no">HIGH_RISK</span><span class="o">,</span> <span class="no">MODERATE_RISK</span><span class="o">,</span> <span class="no">LOW_RISK</span> <span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Motorist</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">License</span> <span class="n">license</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nc">RiskFactor</span> <span class="nf">getRiskFactor</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">license</span><span class="o">.</span><span class="na">getPoints</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span> 
-            <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">HIGH_RISK</span><span class="o">;</span>
-        <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">license</span><span class="o">.</span><span class="na">getPoints</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> 
-            <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">MODERATE_RISK</span><span class="o">;</span>
-        <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">LOW_RISK</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p>The class Motorist knows too much about License.<br />
-In the Motorist class, the method getRiskFactor() calculating the RiskFactor entirely based on License.<br />
-It can be refactored to:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">License</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">points</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nc">RiskFactor</span> <span class="nf">getRiskFactor</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">points</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span> 
-            <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">HIGH_RISK</span><span class="o">;</span>
-        <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">points</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> 
-            <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">MODERATE_RISK</span><span class="o">;</span>
-        <span class="k">return</span> <span class="nc">RiskFactor</span><span class="o">.</span><span class="na">LOW_RISK</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Motorist</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="nc">License</span> <span class="n">license</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">firstName</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">lastName</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nc">RiskFactor</span> <span class="nf">getRiskFactor</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">license</span><span class="o">.</span><span class="na">getRiskFactor</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-<p><br /><br /></p>
-<h4 id="-references"><a name="references"></a> References:</h4>
-<ol>
-  <li>Francesca FA, Zanoni M, Braione P. <em>Automatic Detection of Bad Smells in Code: An Experimental Assessment</em>. Journal of Object Technology, 2012.</li>
-</ol>
-
-</div>
-
-    </div></article></main>
+    <main id="content"><article class="article"><header class="article-header shell-narrow"><a class="article-back" href="/writing/"><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg><span>Current writing</span></a><div class="article-type">Earlier writing / Software engineering</div><h1>Code Smells</h1><p class="article-byline">By <a href="/about/" rel="author">Chaitanya</a></p></header><nav class="archive-topics shell-narrow" aria-label="Earlier writing topics"><a href="/anti-patterns/">Anti-patterns</a><a href="/design-patterns/">Design patterns</a><a href="/software-architecture/">Architecture</a><a href="/domain-driven-design/">Domain-driven design</a><a href="/event-sourcing/">Event sourcing</a><a href="/testing/">Testing</a><a href="/operations/">Operations</a><a href="/security/">Security</a></nav><details class="article-toc shell-narrow"><summary>On this page · 3 min read</summary><ol><li><a href="#duplication">Extract the decision that actually varies</a></li><li><a href="#size-and-cohesion">Large methods and long parameter lists</a></li><li><a href="#state-and-ownership">State and ownership</a></li><li><a href="#inheritance">Inheritance and public contracts</a></li><li><a href="#refactor-with-evidence">Refactor against observable behavior</a></li></ol></details><div class="prose legacy-prose" data-article-body><p class="revision-note">Revised October 19, 2026. <a href="/changes/">What changed</a></p>
+<p>A code smell is a reason to investigate, not a proof that a design is wrong. Ask what change is becoming difficult, which invariant is obscure, and whether a smaller refactoring makes that behavior easier to verify.</p>
+<h2 id="duplication">Extract the decision that actually varies</h2>
+<p>Two methods that scan the same list for different conditions may share a predicate. Java collections expose streams; a <code>List</code> itself has no <code>filter</code> method. A potentially absent result belongs in <code>Optional&lt;Integer&gt;</code>, not an invented sentinel.</p>
+<pre tabindex="0" aria-label="Code example; scroll horizontally if needed"><code>static Optional&lt;Integer&gt; first(List&lt;Integer&gt; values, Predicate&lt;Integer&gt; test) {
+        return values.stream().filter(test).findFirst();
+    }</code></pre>
+<p>Call <code>first(List.of(1, 4, 6), x -&gt; x % 2 == 0)</code>. The result contains 4. For an all-odd list it is empty. A caller can choose an explicit fallback or handle absence; calling <code>get()</code> without checking merely moves the failure.</p>
+<h2 id="size-and-cohesion">Large methods and long parameter lists</h2>
+<p>Length is a clue, not a universal threshold. A long table of independent rules may be easier to inspect than a maze of tiny wrappers. Split a method when separate responsibilities have separate reasons to change. Group parameters when they form a meaningful value with shared validation, not merely to reduce the visible argument count.</p>
+<p>For an address, a value object can enforce required fields and avoid swapping two same-typed arguments. A bag of unrelated options that bypasses those checks is not an improvement. There is no useful universal API limit derived from a memory-span experiment.</p>
+<h2 id="state-and-ownership">State and ownership</h2>
+<p>Global mutable state makes dependencies and test order harder to see. Prefer explicit ownership and pass the dependency that a calculation actually needs. A pure utility function or an immutable constant does not have the same problem as a process-wide mutable registry.</p>
+<h2 id="inheritance">Inheritance and public contracts</h2>
+<p>Extending a collection merely to reuse storage can expose operations your domain cannot support. Composition lets a domain object expose only its valid operations. Inheritance can still be appropriate when the subtype preserves the parent contract. Judge substitutability, not whether a class happens to contain getters or static methods.</p>
+<h2 id="refactor-with-evidence">Refactor against observable behavior</h2>
+<p>Before changing a suspected smell, name a concrete failure: duplicate rules drift, invalid states can be constructed, or a feature touches unrelated modules. Write a behavior check for that failure, make one refactoring, and retain the public contract. Abstraction has a cost too.</p><p>The <a href="/assets/downloads/oddly-workbench.zip">workbench</a> includes the complete <code>LegacyExamples.java</code> program, imports, assertions, and a run command: <code>java LegacyExamples.java</code> with JDK 17 or later. The fragments below are extracted from that same tested source.</p></div><aside class="follow-strip shell-narrow" aria-label="Continue reading">Find your next question in <a href="/start/">the reading paths</a>, try <a href="/toolkit/">the runnable examples</a>, or <a href="/follow/">follow new writing via RSS</a>.</aside></article></main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -361,12 +74,13 @@ It can be refactored to:</p>
         <div class="footer-links">
           <a href="/anti-patterns/">Earlier writing</a>
           <a href="/ideas/">Ideas</a>
-          <a href="/rss.xml">RSS</a>
+          <a href="/follow/">Follow via RSS</a>
+          <a href="/changes/">Revisions</a>
           <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
           <button type="button" data-analytics-settings hidden>Analytics preferences</button>
         </div>
-        <p class="footer-edition">Edition 0.1<br>© 2026</p>
+        <p class="footer-edition">Independent writing<br>© 2026</p>
       </div>
     </footer>
 
@@ -374,9 +88,10 @@ It can be refactored to:</p>
       <div class="search-shell">
         <div class="search-field">
           <svg aria-hidden="true" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.75"/><path d="m13.5 13.5 4 4"/></svg>
-          <input type="search" autocomplete="off" placeholder="Search writing, notes, and ideas…" aria-label="Search" data-search-input>
+          <input type="search" autocomplete="off" placeholder="Search articles, concepts, and examples…" aria-describedby="search-status" aria-label="Search" data-search-input>
           <button type="button" data-search-close aria-label="Close search">Esc</button>
         </div>
+        <p id="search-status" class="search-status" role="status" aria-live="polite" data-search-status>Search titles, article text, and concepts.</p>
         <div class="search-results" data-search-results>
           <p class="search-hint">Start typing to search the writing.</p>
         </div>

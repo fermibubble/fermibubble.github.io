@@ -45,6 +45,10 @@ change("fix-remedy", "checked", false);
 change("preserve-source", "checked", false);
 assert.equal(node("correctness").textContent, "66.7%");
 assert.equal(node("completion").textContent, "33.3%");
+node('reset').handlers.click();
+assert.equal(node('correctness').textContent, '72.2%');
+assert.equal(node('authority').textContent, '66.7%');
+assert(node('permalink').href.includes('remedy=0&preserve=0&weighting=tasks'));
 delete globalThis.document;
 
 assert(page.includes('id="eval-controls" hidden'), "Controls should remain hidden without JavaScript");

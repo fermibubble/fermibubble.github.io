@@ -14,9 +14,11 @@ const root = typeof document === "undefined" ? null : document.getElementById("e
 if (root) {
   const get = id => root.querySelector(`#${id}`);
   const percentage = value => `${(value * 100).toFixed(1)}%`;
-  const state = { fixRemedy: false, preserveSource: false, weighting: "tasks" };
+  const params = new URLSearchParams(typeof location === 'undefined' ? '' : location.search);
+  const state = { fixRemedy: params.get('remedy') === '1', preserveSource: params.get('preserve') === '1', weighting: params.get('weighting') === 'checks' ? 'checks' : 'tasks' };
   function render() {
     const result = calculateEvalScores(state);
+    get('eval-permalink').href = `?remedy=${Number(state.fixRemedy)}&preserve=${Number(state.preserveSource)}&weighting=${state.weighting}#eval-score-explorer`;
     get("eval-fix-remedy").checked = state.fixRemedy;
     get("eval-preserve-source").checked = state.preserveSource;
     get("eval-weighting").value = state.weighting;
@@ -39,6 +41,9 @@ if (root) {
   ]) get(id).addEventListener("change", event => {
     state[key] = event.target[property];
     render();
+  });
+  get('eval-reset').addEventListener('click', () => {
+    Object.assign(state, {fixRemedy:false, preserveSource:false, weighting:'tasks'}); render();
   });
   render();
   get("eval-controls").hidden = false;

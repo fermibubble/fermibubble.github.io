@@ -6,3 +6,6 @@ _site/
 dist/
 dist-drafts/
 drafts/**/reader.html
+
+__pycache__/
+*.class

@@ -113,7 +113,7 @@ Follow the claim below. The numbers are invented; the loss of meaning is the poi
             "statement": "Handwritten pages fail more often in this evaluation",
             "qualification": "scan quality and language mix need further comparison",
             "retrieved_at": "14:11 UTC",
-            "fresh_until": "until the parser or evaluation dataset changes decision"
+            "invalidated_by": ["parser version changes", "evaluation dataset changes"]
           }
         }
       ]
@@ -787,7 +787,7 @@ No helper intended to overload anything. Each saw a local task and a modest retr
 
 This is a collective-action problem: individually sensible choices can produce a shared result nobody would choose. Coordinating the whole matters as much as improving each participant.
 
-Agent systems need both local boundaries and aggregate limits. A child should receive a narrower task, data scope, tool set, deadline, and budget. The system also needs to account for the parent's entire tree and the fleet using the same dependencies.
+Agent systems need both local boundaries and aggregate limits. A child should receive a narrower task, data scope, tool set, deadline, and budget. The system also needs to account for every delegated task and the fleet using the same dependencies. A depth-one policy is the default here: children cannot delegate again. The aggregate accounting principle still applies to systems that explicitly permit deeper trees; that is a broader mechanism, not a recommendation to add recursive delegation.
 
 A parent with one hundred queries remaining cannot create ten children and give each a fresh allowance of one hundred.
 
