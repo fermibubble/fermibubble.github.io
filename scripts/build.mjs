@@ -2,6 +2,7 @@ import { readingPaths, glossary } from "../src/reading-paths.mjs";
 import { revisions } from "../src/legacy-revisions.mjs";
 import { articlePractice } from "../src/article-practice.mjs";
 import { enhancePublication } from "./enhance-publication.mjs";
+import { versionAssets } from "./version-assets.mjs";
 import { evalOverview, evalWriting } from "../src/eval-writing.mjs";
 import { qualityOverview, qualityWriting } from "../src/quality-writing.mjs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -775,6 +776,7 @@ await Promise.all([
 ]);
 
 await enhancePublication(out, allWriting, collections);
+await versionAssets(out);
 
 console.log(`Built ${writing.length} writing entries, ${allChapters.length} collection chapters, and ${notes.length} notes; preserved earlier URLs and site pages in ${out}`);
 

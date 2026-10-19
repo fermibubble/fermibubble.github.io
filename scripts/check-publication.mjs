@@ -29,6 +29,8 @@ async function walk(path){
   assert.equal((html.match(/<h1\b/g)||[]).length,1,`${file}: H1`);
   if(html.includes('http-equiv="refresh"')||e.name==='404.html')continue;
   canonicalCount++;
+  assert(!html.includes('class="eval-chapter-nav"'),`${file}: redundant contents navigation`);
+  for(const match of html.matchAll(/(?:src|href)="(\/assets\/[^"?]+\.(?:css|m?js))([^"']*)"/g)) assert(/^\?v=[a-f0-9]{16}$/.test(match[2]),`${file}: unversioned asset ${match[1]}`);
   const schema=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1]);
   await access(join(dir,schema.image.replace('https://oddly.fyi/','')));
   assert(schema.url===html.match(/<link rel="canonical" href="([^"]+)"/)[1]);
@@ -39,6 +41,9 @@ async function walk(path){
 await walk(dir);
 assert.equal(canonicalCount,70);assert.equal(articleCount,46);
 const sitemap=await readFile(join(dir,'sitemap.xml'),'utf8');assert.equal((sitemap.match(/<loc>/g)||[]).length,70);
+const script=await readFile(join(dir,'assets/site.js'),'utf8');
+const version=script.match(/search-index\.json\?v=([a-f0-9]{16})/)[1];
+assert(script.includes(`./search.js?v=${version}`),'Search module and data must share a release version');
 assert(!sitemap.includes('/404.html'));assert((await readFile(join(dir,'robots.txt'),'utf8')).includes('Sitemap: https://oddly.fyi/sitemap.xml'));
 for(const entry of index){
  const html=await readFile(join(dir,entry.url,'index.html'),'utf8');

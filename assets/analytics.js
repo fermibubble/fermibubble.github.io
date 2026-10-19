@@ -1,5 +1,5 @@
-import { analyticsConfig } from "./analytics-config.mjs";
-import { analyticsReady, trackingAllowed, cleanUrl, safePageQuery, scrubEvent } from "./analytics-policy.js";
+import { analyticsConfig } from "./analytics-config.mjs?v=ed1872af207ee669";
+import { analyticsReady, trackingAllowed, cleanUrl, safePageQuery, scrubEvent } from "./analytics-policy.js?v=ed1872af207ee669";
 
 const consentKey = "oddly-analytics-consent-v1";
 const consentLifetime = 180 * 24 * 60 * 60 * 1000;
