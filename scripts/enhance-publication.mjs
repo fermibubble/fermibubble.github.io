@@ -36,7 +36,9 @@ export async function enhancePublication(out, articles, collections) {
       let id=base, suffix=2; while(used.has(id)) id=`${base}-${suffix++}`; used.add(id);
       return `<h${level}${attrs} id="${id}">${body}</h${level}>`;
     });
-    const body=html.match(/data-article-body[^>]*>([\s\S]*?)<\/article>/)?.[1] || html.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] || '';
+    const body=(html.match(/data-article-body[^>]*>([\s\S]*?)<\/article>/)?.[1] || html.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] || '')
+      .replace(/<details class="series-directory"[\s\S]*?<\/details>/g,'')
+      .replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/g,'');
     const text=plain(body.replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/g,''));
     const readTime=Math.max(1,Math.ceil(text.split(/\s+/).length/200)); minutes.set(path,readTime);
     const headings=[...body.matchAll(/<h([23])[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g)];

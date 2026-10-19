@@ -19,6 +19,7 @@ assert.equal(searchEntries(index,'').length,0);
 assert.equal(searchEntries(index,'<img onerror=alert(1)>').length,0);
 assert(searchEntries(index,'CAS').some(e=>e.url.includes('state-requires-ownership')));
 assert(searchEntries(index,'agent').length>8,'Full results must not be truncated by ranking');
+for(const entry of index.filter(e=>e.type==='Chapter')) assert(!entry.text.includes('Chapters in this collection'),'Collection navigation must not pollute article search');
 let canonicalCount=0, articleCount=0;
 async function walk(path){
  for(const e of await readdir(path,{withFileTypes:true})){
