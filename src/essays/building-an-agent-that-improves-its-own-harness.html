@@ -1,0 +1,290 @@
+<p>Imagine a coding agent encountering the same failure for the third time. A build produces thousands of lines of output. The useful diagnostic disappears from the model’s working context. The agent edits the wrong file, retries the build, and runs out of time.</p>
+<p>A developer adds another instruction: “Pay attention to compiler errors.” The next run still fails.</p>
+<p>The instruction asks the model to compensate for an information problem. The harness could preserve the complete log, surface the relevant diagnostics, and make the rest easy to inspect. That would change what the agent can actually work with.</p>
+<p>Now suppose the agent can propose that change, test it, and preserve it for future runs. Suppose it also remembers which experiments were useful and which apparently promising fixes caused regressions. We have the beginnings of a system that learns how to improve its own operation.</p>
+<p><strong>The useful question is what an execution has earned the right to change.</strong> A single success might justify another experiment. A shared default needs evidence from other tasks. And an improvement to the search process needs its own test: does it make later improvements easier to find?</p>
+<h2 id="decide-what-should-persist">Decide what should persist<a class="heading-anchor" href="#decide-what-should-persist" aria-label="Link to this section">#</a></h2>
+<p>The harness is the software around a model: context construction, tool interfaces, state, recovery, and execution control. Harness learning can change those components while keeping the model’s weights fixed. The <a href="https://arxiv.org/abs/2610.18813" rel="noreferrer">Self-Evolving Agent Harness paper</a> makes persistence central to the definition: accepted revisions affect later runs, and an update mechanism remains available for further revisions. Its theoretical guarantees are conditional on assumptions such as independent validation; they do not make an arbitrary editing loop reliable.</p>
+<p>For implementation, distinguish three kinds of state. They have different purposes and need different evidence.</p>
+<div class="classifier-table-scroll" role="region" aria-label="Three kinds of retained state" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">State</th>
+<th scope="col">Compiler example</th>
+<th scope="col">Evidence needed</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Current task</th>
+<td>The build failed in a particular file</td>
+<td>The current execution record</td>
+</tr>
+<tr><th scope="row">Reusable procedure</th>
+<td>A log reader preserves diagnostic spans and links to the full output</td>
+<td>Improvement on relevant fresh tasks, with regression checks</td>
+</tr>
+<tr><th scope="row">Improvement experience</th>
+<td>Output filters should be tested on warning-dependent repairs</td>
+<td>Comparisons showing what the earlier filter preserved and lost</td>
+</tr>
+</tbody></table></div>
+<p>A retry can repair the current task without changing future behavior. A procedure can help future tasks without teaching the optimizer anything. Improvement experience changes which patches and tests the optimizer considers next.</p>
+<p>This extends the question in <a href="https://oddly.fyi/writing/quality-flywheel/" rel="noreferrer">The Quality Flywheel</a>: what useful knowledge survives the experiment? Here, some of that knowledge concerns how to run the next experiment.</p>
+<h2 id="locate-the-change">Locate the change<a class="heading-anchor" href="#locate-the-change" aria-label="Link to this section">#</a></h2>
+<p>Several approaches can improve an agent while keeping model weights fixed. The distinction is what they retain and where that retained material acts.</p>
+<div class="classifier-table-scroll" role="region" aria-label="Approaches to improving agents" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">Approach</th>
+<th scope="col">What persists</th>
+<th scope="col">What it changes next</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Prompt optimization, as in <a href="https://arxiv.org/abs/2507.19457" rel="noreferrer">GEPA’s original paper</a></th>
+<td>Selected prompt variants informed by execution feedback</td>
+<td>Instructions used by the application</td>
+</tr>
+<tr><th scope="row">Reflection memory, as in <a href="https://arxiv.org/abs/2303.11366" rel="noreferrer">Reflexion</a></th>
+<td>Verbal lessons from earlier attempts</td>
+<td>Decisions in subsequent trials</td>
+</tr>
+<tr><th scope="row">Code evolution, as in the <a href="https://arxiv.org/abs/2505.22954" rel="noreferrer">Darwin Gödel Machine</a></th>
+<td>An archive of modified agent implementations</td>
+<td>Tools and execution logic, including code used for further modification</td>
+</tr>
+<tr><th scope="row">Improvement experience, as in <a href="https://arxiv.org/html/2610.14224v1" rel="noreferrer">Harness²</a></th>
+<td>Reusable harnesses and lessons about their refinement</td>
+<td>Which adaptations the improver proposes and composes</td>
+</tr>
+</tbody></table></div>
+<p>These categories overlap: prompts belong to harnesses, and lessons can guide code edits. <a href="https://github.com/gepa-ai/gepa" rel="noreferrer">GEPA’s current implementation</a> also supports code and configuration; the table refers to its original prompt study. Better task results support a better agent. Better subsequent search under a matched budget supports a better improver.</p>
+<p>Harness² connects task-local adaptation with an accumulating improvement library. Each new task starts from a common base harness; earlier components and lessons guide its adaptation. Model weights, stage instructions, and the decision rule remain fixed. On WorkBuddy-Bench, Gemini 3.5 Flash under OpenCode improves from 72.4 to 77.5 with one improvement step; removing the library reduces that result to 74.4. This supports a contribution from accumulated experience, without establishing indefinite acceleration.</p>
+<p><a href="https://arxiv.org/html/2610.15150v1" rel="noreferrer">Harmony Harness</a> tackles competing objectives through functionality and security evaluation, modular changes, and scope-aware composition. Its results motivate checking what an average conceals. Its small evaluation splits—30 tasks each for SecRepoBench and 28 for BaxBench—and narrow observed trade-off frontier also limit the conclusions.</p>
+<h2 id="choose-where-improvement-happens">Choose where improvement happens<a class="heading-anchor" href="#choose-where-improvement-happens" aria-label="Link to this section">#</a></h2>
+<p>Harness² adapts around the task currently being solved, using execution contrasts when a reliable verifier is unavailable. The design below instead searches offline and uses trusted tests to admit shared versions. This is a deployment choice, not a reproduction of that paper.</p>
+<div class="classifier-table-scroll" role="region" aria-label="Online adaptation and offline improvement" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">Decision</th>
+<th scope="col">Adapt during a task</th>
+<th scope="col">Search offline for a shared version</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Feedback</th>
+<td>Current task traces and output comparisons</td>
+<td>A development workload with outcome checks</td>
+</tr>
+<tr><th scope="row">Latency</th>
+<td>Proposals and probes add to that task’s wait</td>
+<td>Search runs separately from requests</td>
+</tr>
+<tr><th scope="row">Side effects</th>
+<td>Probes need isolated copies or reversible actions</td>
+<td>Resettable environments support repeated comparisons</td>
+</tr>
+<tr><th scope="row">Cost</th>
+<td>Adaptation must justify its cost on that request</td>
+<td>Search cost can be spread over later uses</td>
+</tr>
+<tr><th scope="row">Persistence</th>
+<td>Keep local facts and provisional adaptations local</td>
+<td>Promote a scoped change only after fresh validation</td>
+</tr>
+</tbody></table></div>
+<p>For the compiler example, start offline: build output is reproducible, functional tests exist, and the failure recurs. A successful adaptation for one repository can enter the candidate pool, but it needs broader evidence before becoming a default.</p>
+<figure class="editorial-diagram">
+<div class="diagram-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 710" role="img" aria-labelledby="harness-loop-title harness-loop-desc">
+<title id="harness-loop-title">Development learns; promotion and audit check the frozen choice</title>
+<desc id="harness-loop-desc">A versioned harness produces development runs. The improver diagnoses failures, proposes a patch, and validates and compares it. Development results enter an experience library that guides later proposals. A selected candidate goes through fresh promotion checks and a limited rollout before updating the deployed harness. A separate audit assesses the frozen process and does not feed the improver.</desc>
+<defs><marker id="harness-loop-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="diagram-arrowhead" d="M 1 1 L 9 5 L 1 9 Z"/></marker></defs>
+<g class="diagram-flow" marker-end="url(#harness-loop-arrow)">
+<path d="M162 91 V128"/><path d="M162 196 V233"/><path d="M162 301 V338"/>
+<path d="M280 373 H395 V323"/><path d="M320 268 H282"/>
+<path d="M162 406 V468"/><path d="M162 536 V598"/>
+<path d="M45 633 H15 V58 H43"/><path d="M280 503 H318"/>
+</g>
+<g class="diagram-node "><rect x="45" y="25" width="235" height="66" rx="8"/><text x="162.5" y="58" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Versioned harness</tspan></text></g>
+<g class="diagram-node "><rect x="45" y="130" width="235" height="66" rx="8"/><text x="162.5" y="163" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Development runs</tspan></text></g>
+<g class="diagram-node "><rect x="45" y="235" width="235" height="66" rx="8"/><text x="162.5" y="255" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Diagnose and</tspan><tspan x="162.5" dy="26">propose</tspan></text></g>
+<g class="diagram-node "><rect x="45" y="340" width="235" height="66" rx="8"/><text x="162.5" y="360" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Validate and</tspan><tspan x="162.5" dy="26">compare</tspan></text></g>
+<g class="diagram-node diagram-memory"><rect x="320" y="235" width="150" height="86" rx="8"/><text x="395" y="265" dominant-baseline="middle" text-anchor="middle"><tspan x="395" dy="0">Development</tspan><tspan x="395" dy="26">experience</tspan></text></g>
+<g class="diagram-node diagram-check"><rect x="45" y="470" width="235" height="66" rx="8"/><text x="162.5" y="490" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Fresh promotion</tspan><tspan x="162.5" dy="26">checks</tspan></text></g>
+<g class="diagram-node "><rect x="45" y="600" width="235" height="66" rx="8"/><text x="162.5" y="633" dominant-baseline="middle" text-anchor="middle"><tspan x="162.5" dy="0">Limited rollout</tspan></text></g>
+<g class="diagram-node diagram-check"><rect x="320" y="470" width="150" height="86" rx="8"/><text x="395" y="500" dominant-baseline="middle" text-anchor="middle"><tspan x="395" dy="0">Protected</tspan><tspan x="395" dy="26">audit</tspan></text></g>
+<text class="diagram-small" x="162" y="445" text-anchor="middle">Selected candidate</text>
+<text class="diagram-small" x="162" y="575" text-anchor="middle">Pass</text>
+<text class="diagram-small" x="369" y="399" text-anchor="middle">Results</text>
+<text class="diagram-small" x="301" y="224" text-anchor="middle">Lessons</text>
+<text class="diagram-small" x="366" y="588" text-anchor="middle">Frozen process</text>
+</svg></div>
+<figcaption>Development evidence changes the next proposal. Fresh promotion checks and a limited rollout decide what ships; the protected audit assesses the frozen process.</figcaption>
+</figure>
+<p>Development results feed the improver. The audit stays outside that feedback loop. If a promotion failure is later opened for diagnosis, mark those cases as exposed and validate the revision on fresh cases.</p>
+<h2 id="turn-the-failure-into-a-patch-hypothesis">Turn the failure into a patch hypothesis<a class="heading-anchor" href="#turn-the-failure-into-a-patch-hypothesis" aria-label="Link to this section">#</a></h2>
+<p>Start with the trace. Did the tool return the diagnostic? Did an output limit remove it? Did compaction discard it later? Did the model see it and misunderstand it? Each explanation points to a different component. A prompt cannot recover evidence that never reaches the model.</p>
+<p>Write a hypothesis that can fail: “On long build outputs, preserving structured diagnostic spans will increase repair success because the agent can inspect the first relevant failure without losing access to the complete log.”</p>
+<p>The candidate might modify a tool wrapper. It saves the original output in a task-scoped artifact, extracts diagnostics with locations, and returns a compact receipt. The complete log remains accessible under the same task permissions. An illustrative interface could return:</p>
+<pre class="source-example"><code class="language-json">{
+  &quot;exit_code&quot;: 1,
+  &quot;full_output&quot;: &quot;artifacts/build-17.log&quot;,
+  &quot;diagnostics&quot;: &quot;artifacts/build-17.diagnostics.json&quot;,
+  &quot;preview&quot;: &quot;src/parser.cc:148: incompatible return type&quot;,
+  &quot;preview_complete&quot;: false,
+  &quot;extraction_status&quot;: &quot;partial&quot;
+}
+</code></pre>
+<p>These fields describe different facts. A complete raw log does not imply complete extraction. A short preview does not imply there is only one error. If extraction fails, the receipt must expose that failure and point to the raw output.</p>
+<p>This builds on <a href="https://oddly.fyi/writing/implementing-progressive-disclosure-for-agent-tools/" rel="noreferrer">progressive disclosure for agent tools</a>: keep large evidence available, and make the next useful read easy to discover.</p>
+<p>Keep the first patch small enough to diagnose. For this experiment, change only the output adapter. Hold prompts, model, and retrieval policy fixed. Coordinated edits can come later, with comparisons that establish why the combination helps.</p>
+<h2 id="give-the-improver-a-search-procedure">Give the improver a search procedure<a class="heading-anchor" href="#give-the-improver-a-search-procedure" aria-label="Link to this section">#</a></h2>
+<p>The improver can be the same generalist model, running in an isolated workspace. It needs a bounded editing task, relevant evidence, and an explicit selection rule.</p>
+<p>Freeze the current production version, the <strong>incumbent</strong>, for one search cycle. Choose a recurring failure family by frequency and impact. Retrieve lessons that match its symptoms, component, and toolchain, including failed attempts. Require the proposer to return a hypothesis, applicability conditions, a patch, and a predicted regression to check.</p>
+<p>Here is pseudocode for a deliberately small search. All candidates branch from the same incumbent; a rejected patch can inform a later proposal without entering production.</p>
+<pre class="source-example"><code class="language-text">base, library = snapshot(incumbent, experience)
+budget = search_budget_after_reserving_final_checks()
+journal, candidates = [], []
+
+while budget.can_start_attempt() and not stop_rule(journal):
+    failure = choose_failure(development_traces, journal)
+    lessons = retrieve(library, journal, failure)
+    proposal = propose(base, failure, lessons, editable_files)
+
+    candidate = apply_in_isolated_workspace(base, proposal.patch)
+    checks = validate(candidate, allowed_diff, schemas, smoke_tests)
+    if not checks.pass:
+        journal.append(proposal, checks)
+        continue
+
+    report = compare_on_reset_tasks(
+        base, candidate, development_tasks, protocol
+    )
+    journal.append(proposal, report)
+    if protocol.development_eligible(report):
+        candidates.append(candidate, report)
+
+freeze(journal)
+candidate = select_by_declared_rule(candidates)
+return candidate, journal  # No candidate means keep the incumbent.
+</code></pre>
+<p>For example, allow at most eight proposals and stop after three attempts without improving the best eligible development score. A separate time and token cap covers every attempt, including invalid patches and retrieval; reserve budget for the final checks. These are starting settings, not research-derived constants.</p>
+<p>Validate the actual diff against the allowed files, check that the receipt schema still parses, and run focused contract and smoke tests. The proposer’s description of what it changed is insufficient. Keep evaluator code, hidden tasks, permissions, and release controls outside the candidate workspace.</p>
+<p>Declare selection before searching: require the minimum development gain and all regression and cost limits, then rank eligible candidates by task score. Break ties by lower execution cost, then smaller patch size. This simple policy may miss useful combinations. It makes the first implementation inspectable; an archive or broader search can be added when that limitation becomes measurable.</p>
+<p>Comparisons need identical starting repositories, inputs, tool versions, and resource limits. Reset between attempts and randomize run order to reduce time-dependent bias. Recorded responses cannot substitute for a resettable environment when a new policy takes different actions. Use trusted outcome tests; candidate-generated tests can diagnose a defect but cannot independently validate the candidate.</p>
+<p>Each journal entry records the parent version, patch, library snapshot, model, environment, task IDs, traces, outcomes, and total cost. Failed attempts remain available to the next proposal. The selected candidate goes to a separate promotion evaluator.</p>
+<h2 id="let-the-first-candidate-fail">Let the first candidate fail<a class="heading-anchor" href="#let-the-first-candidate-fail" aria-label="Link to this section">#</a></h2>
+<p>Suppose generation one produces an error-only output filter. Evaluate it on 120 development tasks, with five runs per task. <strong>The following numbers are invented to illustrate the decision; no implementation was measured.</strong> Each family contains 40 tasks, giving 200 runs per family for each harness. A family is a task slice: a subset with a shared property worth checking.</p>
+<div class="classifier-table-scroll" role="region" aria-label="Illustrative first-generation results" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">Task family</th>
+<th scope="col">Incumbent passes</th>
+<th scope="col">First candidate passes</th>
+<th scope="col">Change in pass rate</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Large error logs</th>
+<td>100 / 200</td>
+<td>160 / 200</td>
+<td>+30 percentage points</td>
+</tr>
+<tr><th scope="row">Small error logs</th>
+<td>150 / 200</td>
+<td>160 / 200</td>
+<td>+5 percentage points</td>
+</tr>
+<tr><th scope="row">Repairs requiring warnings</th>
+<td>140 / 200</td>
+<td>118 / 200</td>
+<td>−11 percentage points</td>
+</tr>
+<tr><th scope="row">All tasks</th>
+<td>390 / 600</td>
+<td>438 / 600</td>
+<td>+8 percentage points</td>
+</tr>
+</tbody></table></div>
+<p>The aggregate improves from 65% to 73%, but warning-dependent repairs get worse. If the declared limit permits at most a two-point decline in an important slice, this candidate is ineligible. A useful idea has produced an unacceptable default.</p>
+<p>Inspect the failing traces before assigning a cause. The filter may have removed a useful warning, but run variability or another adapter bug could also explain failures. The measurement is evidence of a regression; warning loss is a hypothesis to test.</p>
+<p>Calculate each task’s average score across repetitions, subtract its incumbent average, and average those differences:</p>
+<pre class="source-example"><code class="language-text">task gain = mean(candidate runs) − mean(incumbent runs)
+overall gain = mean(task gains)
+</code></pre>
+<p>Repetitions expose execution variability. They do not turn 120 distinct tasks into 600 independent task examples. Estimate uncertainty with a method that preserves task grouping, such as resampling tasks with all their runs together. If repositories or task templates introduce further dependence, preserve that grouping too.</p>
+<p>Set the primary outcome, slices, acceptable regressions, and comparison budget in advance. Use declared workload weights if the task mix differs from deployment traffic. Development scores guide search; fresh promotion evidence must resolve uncertainty before release.</p>
+<h2 id="make-the-second-proposal-remember-the-first">Make the second proposal remember the first<a class="heading-anchor" href="#make-the-second-proposal-remember-the-first" aria-label="Link to this section">#</a></h2>
+<p>The useful lesson is more specific than “shorter output is better.” Store the measured regression separately from its suspected cause.</p>
+<pre class="source-example"><code class="language-yaml"># Hypothetical development record, not a framework schema.
+trigger: long compiler output obscures actionable diagnostics
+change: error-only diagnostic preview with raw-log access
+observation: warning-dependent pass rate fell by 11 points
+hypothesis: required warnings were omitted from the preview
+next_check: trace whether omitted warnings explain failed repairs
+scope: tested compiler versions and output formats
+status: rejected_for_release
+provenance: [parent_version, patch_id, task_ids, trace_ids, results]
+</code></pre>
+<p>Generation two starts from the unchanged incumbent. Its retrieval step finds this record before proposing another filter. The improver examines a failing trace and checks whether the relevant warning existed in the raw log, disappeared from the preview, and was never fetched. A controlled comparison that restores that warning can test the proposed mechanism.</p>
+<p>It now proposes an adapter that preserves errors, warnings, and attached diagnostic notes with their locations. The preview has a size limit; a structured index makes omitted diagnostics discoverable. The receipt distinguishes a truncated preview from incomplete extraction, and raw-log access remains available when parsing fails.</p>
+<p>The earlier failure also changes the tests chosen <em>before</em> the expensive task runs:</p>
+<div class="classifier-table-scroll" role="region" aria-label="Second-generation development checks" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">Case added to development checks</th>
+<th scope="col">Contract to verify</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Warning appears before the first error</th>
+<td>Warning remains in the index and can be retrieved</td>
+</tr>
+<tr><th scope="row">Diagnostic spans several lines</th>
+<td>Location, message, and attached notes stay together</td>
+</tr>
+<tr><th scope="row">Toolchain output is unrecognized</th>
+<td>Extraction reports uncertainty and exposes the raw log</td>
+</tr>
+<tr><th scope="row">Preview exceeds its limit</th>
+<td>Receipt marks truncation and points to remaining diagnostics</td>
+</tr>
+</tbody></table></div>
+<p>These checks test the adapter’s behavior. The next paired task comparison tests whether the agent actually uses that behavior to repair programs. Keeping a warning available does not ensure the model reads it.</p>
+<p>This completes the second proposal, not a fictional success story: the new candidate still needs measurements. It can improve, tie, or regress again. The recursive step is already visible—the first experiment changed both the next patch and the next test plan.</p>
+<p>Version the experience library separately from the execution harness. Freeze the historical library for each search cycle and retain that cycle’s development journal. Consolidate duplicate lessons, preserve counterevidence, and revalidate stale entries after model or tool changes. Keep task artifacts and retrieved lessons within their original access boundaries.</p>
+<h2 id="promote-the-version-that-survives-new-evidence">Promote the version that survives new evidence<a class="heading-anchor" href="#promote-the-version-that-survives-new-evidence" aria-label="Link to this section">#</a></h2>
+<p>Freeze the selected patch and its applicability rule. Run it against the incumbent on fresh promotion tasks, using the outcome, uncertainty method, slice limits, and resource budgets declared before search. For example, require the lower confidence bound on overall gain to exceed a chosen minimum, while the uncertainty bounds for important slices rule out a loss larger than the allowed decline. Choose the error rate and comparison budget together; repeatedly testing candidates until one passes defeats the check.</p>
+<p>Use historical failures as a regression suite alongside fresh tasks. Separate related repositories and near-duplicate tasks across partitions where possible. Route a specialized adapter using information available before execution, such as compiler identity and supported output format. A rule that depends on knowing whether a task will pass is unusable.</p>
+<p>A passing candidate enters a <strong>canary</strong>, a limited rollout with predefined success and rollback criteria. Record the harness version on every run. If the rollout passes, update the production version pointer; otherwise restore the incumbent. Rollback affects future runs and cannot undo external writes, so action-taking workflows need isolated probes before live exposure.</p>
+<p>An audit evaluates the frozen selection process on a further untouched set. If its outcomes change the design, that set has become development evidence and a later claim needs fresh audit data. Record rejected searches as well as releases; reporting only successful searches conceals the cost and failure rate.</p>
+<p>For our example, the release record would connect the second adapter to its development report, fresh promotion report, applicability rule, canary decision, and rollback target. Until those reports exist, it remains a candidate.</p>
+<h2 id="test-whether-the-improver-improved">Test whether the improver improved<a class="heading-anchor" href="#test-whether-the-improver-improved" aria-label="Link to this section">#</a></h2>
+<p>A better deployed harness establishes one result. A better improver requires another experiment.</p>
+<p>Start each condition from the same base harness, proposer model, development tasks, and total search budget. Use only experience from earlier, separate tasks:</p>
+<div class="classifier-table-scroll" role="region" aria-label="Testing accumulated improvement experience" tabindex="0"><table class="classifier-table">
+<thead>
+<tr>
+<th scope="col">Condition</th>
+<th scope="col">Available history</th>
+<th scope="col">What the comparison tests</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">A</th>
+<td>No accumulated library</td>
+<td>Search without prior components or lessons</td>
+</tr>
+<tr><th scope="row">B</th>
+<td>Earlier components and their applicability metadata</td>
+<td>Value of reusable implementations</td>
+</tr>
+<tr><th scope="row">C</th>
+<td>The same components plus experiment lessons and counterevidence</td>
+<td>Additional value of learning how to improve</td>
+</tr>
+</tbody></table></div>
+<p>Keep retrieval limits and accounting consistent. Run multiple search trials, then evaluate frozen selections on unseen tasks with the same protocol. Compare C with B to estimate the added value of experiment lessons, rather than attributing inherited code to a better search process. Compare B with A to estimate component reuse. These are controlled comparisons, not guarantees of transfer.</p>
+<p>Measure final task quality, regressions, total search cost, and the number of proposals needed to reach a predefined target. Include searches that never reach it; report their spent budget and failure to qualify. Additional attempts with the original harness and a static curated skill are useful simpler baselines under the same total budget.</p>
+<p>Count proposal, probe, judging, retrieval, and memory-maintenance costs. An offline search costing 60 units and saving 0.2 units per later task breaks even after 300 tasks, assuming equal quality and no additional maintenance cost. That illustrative calculation fails if the change expires before 300 uses, or its quality loss outweighs the savings.</p>
+<p>Repeat across fresh batches and after distribution changes. Task-order seeds do not necessarily control model sampling; <a href="https://github.com/google-research/harness2/blob/main/docs/EXPERIMENTS.md" rel="noreferrer">Harness²’s experiment guide</a> makes that distinction explicit. Record both. When gains flatten, revisit the search space, retrieval, and workload. Another recursive round may not help.</p>
+<h2 id="build-the-smallest-loop-that-can-earn-a-release">Build the smallest loop that can earn a release<a class="heading-anchor" href="#build-the-smallest-loop-that-can-earn-a-release" aria-label="Link to this section">#</a></h2>
+<p>Build one loop around one recurring failure family. The first useful milestone is a complete, inspectable chain: a trace, a proposed patch, a failed comparison, a lesson that changes the next proposal, and a candidate that survives fresh evaluation.</p>
+<p>The implementation can consist of a trace store, a versioned candidate workspace, a runner that resets task environments, an evaluator, an experience index, and a release pointer. It does not require permanent specialist agents. As argued in <a href="https://oddly.fyi/writing/before-you-build-another-agent/" rel="noreferrer">Before You Build Another Agent</a>, keep expertise reusable and delegate bounded work when separate execution earns its cost.</p>
+<p>Choose components you actually control. If an underlying SDK owns compaction and its internal execution loop, begin with exposed context files, tool wrappers, skills, or supported hooks. A proposal to edit inaccessible internals is not an executable improvement.</p>
+<p>Expand the editable surface only when the existing loop finds useful gains and catches meaningful regressions. If the improver later proposes changing its own retrieval or proposal policy, evaluate that policy against the previous one from a common base with matched search budgets. Keep the external promotion standard fixed.</p>
+<p>The next time the compiler failure appears, the agent should inherit a better way to inspect the evidence. The next time the optimizer proposes an output filter, it should inherit the warning regression and the test that caught it. That is a concrete form of progress: both the work and the method for improving the work have learned from the failure.</p>

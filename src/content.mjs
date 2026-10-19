@@ -1,3 +1,4 @@
+import { harnessImprovement } from "./harness-improvement.mjs";
 import { evalOverview } from "./eval-writing.mjs";
 import { qualityOverview } from "./quality-writing.mjs";
 import { agentArchitecture } from "./agent-architecture.mjs";
@@ -21,6 +22,7 @@ export const site = {
 };
 
 export const writing = [
+  harnessImprovement,
   evalOverview,
   progressiveDisclosure,
   agentArchitecture,

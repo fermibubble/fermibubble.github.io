@@ -22,7 +22,7 @@ The complete static website is written to `dist/`. Edit current articles and sit
 
 Reading text uses 19px on desktop and 18px on narrow screens, with generous line spacing. The same sans-serif system applies to all categories and both color themes; no serif font is loaded by publication pages.
 
-The Writing index contains five standalone essays and five collections in date order: How to Write and Score an Agent Eval, The Quality Flywheel, Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
+The Writing index contains six standalone essays and five collections in date order: How to Write and Score an Agent Eval, The Quality Flywheel, Classifiers: When Labels Become Decisions, How Intelligence Finds Its Way, and Trustworthy Autonomy. The homepage shows Recent writing from the same list. The five former short notes have been removed from source, publication dates, search, feeds, and navigation; their individual URLs return 404. The old `/notes/` index continues to redirect to `/writing/`.
 
 The Trustworthy Autonomy collection and its nine chapters are defined in `src/principle-series.mjs`. The overview appears once in the writing index and feeds; chapters live beneath `/writing/trustworthy-autonomy/`. `src/paths.mjs` owns their canonical paths. Earlier chapter URLs and `/principles/` redirect into the collection.
 
@@ -31,6 +31,8 @@ The local-context and checkpoint-replay essays live in `src/systems-writing.mjs`
 “Before You Build Another Agent” is a standalone essay in `src/essays/before-you-build-another-agent.html`. `src/agent-architecture.mjs` registers it and renders its accessible SVG diagrams; `src/agent-architecture.css` uses the shared visual system. `src/agent-delegation.js` adds the scenario selector. Without JavaScript, all four delegation outcomes remain readable inside the optional contract disclosure.
 
 “Implementing Progressive Disclosure for Agent Tools” lives in `src/essays/implementing-progressive-disclosure-for-agent-tools.html` and is registered by `src/progressive-disclosure.mjs`. Its downloadable SQL/MCP fixture is `assets/downloads/progressive-disclosure-fixture.zip`. It uses the shared article, code, and table styles.
+
+“Building an Agent That Improves Its Own Harness” lives in `src/essays/building-an-agent-that-improves-its-own-harness.html` and is registered by `src/harness-improvement.mjs`. Its development and promotion diagram is accessible inline SVG, readable without JavaScript. The essay uses the shared article, table, code, and diagram styles; its experimental numbers are explicitly illustrative.
 
 The five chapters of How Intelligence Finds Its Way live as Markdown in `src/essays/2026-10-agency/`. Their `manifest.json` contains titles, descriptions, and reading order; `src/agency-writing.mjs` defines their collection overview and loads the chapters. The overview appears once on the homepage, in Writing, and in feeds. Each chapter has its own search entry and navigation within the collection. Original essay URLs redirect to their new addresses.
 
