@@ -1,4 +1,4 @@
-import { searchEntries } from "./search.js?v=ed1872af207ee669";
+import { searchEntries } from "./search.js?v=83bd011521be9b3f";
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");
 const nav = document.querySelector("[data-nav]");
@@ -39,7 +39,7 @@ const status = document.querySelector('[data-search-status]');
 async function loadIndex() {
   if (index.length) return index;
   try {
-    const response = await fetch('/search-index.json?v=ed1872af207ee669');
+    const response = await fetch('/search-index.json?v=83bd011521be9b3f');
     if (!response.ok) throw new Error('Search unavailable');
     index = await response.json(); indexError = false;
   } catch (_) { indexError = true; }
